@@ -4,6 +4,3 @@
 rssguard: embedded-library usr/lib/rssguard/librssguard.so: pcre3
 # For now I don't see how this should be fixed
 rssguard: icon-size-and-directory-name-mismatch usr/share/icons/hicolor/512x512/apps/rssguard.png 256x246
-# No idea why this happens
-rssguard-dbgsym: debug-file-with-no-debug-symbols usr/lib/debug/.build-id/a6/c9e433018077fb117d9301a0eabf0e701242f7.debug
-rssguard-dbgsym: debug-file-with-no-debug-symbols usr/lib/debug/.build-id/f8/89f716c7b5b3b37480058d1fa6948df4f4708e.debug

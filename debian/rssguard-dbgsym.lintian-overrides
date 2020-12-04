@@ -1,0 +1,3 @@
+# No idea why this happens
+rssguard-dbgsym: debug-file-with-no-debug-symbols usr/lib/debug/.build-id/a6/c9e433018077fb117d9301a0eabf0e701242f7.debug
+rssguard-dbgsym: debug-file-with-no-debug-symbols usr/lib/debug/.build-id/f8/89f716c7b5b3b37480058d1fa6948df4f4708e.debug
