@@ -1,0 +1,27 @@
+Source: rssguard
+Maintainer: Norbert Preining <norbert@preining.info>
+Section: kde
+Priority: optional
+Build-Depends: qt5-qmake,
+               debhelper-compat (= 13),
+               qtdeclarative5-dev,
+               qtbase5-dev,
+               qttools5-dev-tools,
+               qtwebengine5-dev,
+Standards-Version: 4.5.1
+Vcs-Git: https://github.com/norbusan/rssguard-debian.git
+Vcs-Browser: https://github.com/norbusan/rssguard-debian
+
+Package: rssguard
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         libqt5sql5-sqlite,
+Description: simple, light and easy-to-use RSS/ATOM feed aggregator 
+ RSS Guard is simple, light and easy-to-use RSS/ATOM feed aggregator
+ developed using Qt framework which supports online feed synchronization
+ with these services:
+  - [Tiny Tiny RSS](https://tt-rss.org),
+  - [Inoreader](https://www.inoreader.com),
+  - [Nextcloud News](https://apps.nextcloud.com/apps/news),
+  - [Gmail API](https://developers.google.com/gmail/api).

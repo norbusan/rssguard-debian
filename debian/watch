@@ -1,0 +1,10 @@
+# -*- mode: conf -*-
+# watch control file for uscan
+# see uscan(1) for format
+
+# Compulsory line, this is a version 4 file
+version=4
+
+opts="dversionmangle=s!\+dfsg!!, \
+      oversionmangle=s!(.+)!$1+dfsg!" \
+  https://github.com/martinrotter/rssguard/tags (?:.*?/)?v?(\d[\d.]*)\.tar\.gz

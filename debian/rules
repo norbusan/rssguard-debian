@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+PRIVATE_LIB_DIR = /usr/lib/rssguard
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	qmake -makefile QMAKE_STRIP=: PREFIX=/usr QMAKE_RPATHDIR=$(PRIVATE_LIB_DIR)
+
+execute_before_dh_install:
+	mkdir -p debian/rssguard$(PRIVATE_LIB_DIR)
+	mv debian/rssguard/usr/lib/librssguard.so debian/rssguard$(PRIVATE_LIB_DIR)
+
