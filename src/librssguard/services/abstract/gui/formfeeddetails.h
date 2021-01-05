@@ -28,6 +28,7 @@ class FormFeedDetails : public QDialog {
 
   protected slots:
     void activateTab(int index);
+    void clearTabs();
     void insertCustomTab(QWidget* custom_tab, const QString& title, int index);
 
     // Applies changes.
@@ -35,9 +36,6 @@ class FormFeedDetails : public QDialog {
     // base implementation must be called first.
     virtual void apply();
 
-    void onUsernameChanged(const QString& new_username);
-    void onPasswordChanged(const QString& new_password);
-    void onAuthenticationSwitched();
     void onAutoUpdateTypeChanged(int new_index);
 
   protected:

@@ -3,6 +3,7 @@
 #include "core/feeddownloader.h"
 
 #include "3rd-party/boolinq/boolinq.h"
+#include "core/feedsmodel.h"
 #include "core/messagefilter.h"
 #include "definitions/definitions.h"
 #include "exceptions/filteringexception.h"
@@ -20,7 +21,7 @@
 #include <QUrl>
 
 FeedDownloader::FeedDownloader()
-  : QObject(), m_mutex(new QMutex()), m_feedsUpdated(0), m_feedsOriginalCount(0) {
+  : QObject(), m_isCacheSynchronizationRunning(false), m_stopCacheSynchronization(false), m_mutex(new QMutex()), m_feedsUpdated(0), m_feedsOriginalCount(0) {
   qRegisterMetaType<FeedDownloadResults>("FeedDownloadResults");
 }
 
@@ -43,13 +44,41 @@ void FeedDownloader::updateAvailableFeeds() {
       qDebugNN << LOGSEC_FEEDDOWNLOADER
                << "Saving cache for feed with DB ID '" << feed->id()
                << "' and title '" << feed->title() << "'.";
-      cache->saveAllCachedData(false);
+      cache->saveAllCachedData();
+    }
+
+    if (m_stopCacheSynchronization) {
+      qWarningNN << LOGSEC_FEEDDOWNLOADER << "Aborting cache synchronization.";
+
+      m_stopCacheSynchronization = false;
+      break;
     }
   }
 
   while (!m_feeds.isEmpty()) {
     updateOneFeed(m_feeds.takeFirst());
   }
+}
+
+void FeedDownloader::synchronizeAccountCaches(const QList<CacheForServiceRoot*>& caches) {
+  m_isCacheSynchronizationRunning = true;
+
+  for (CacheForServiceRoot* cache : caches) {
+    qDebugNN << LOGSEC_FEEDDOWNLOADER
+             << "Synchronizing cache back to server on thread" << QUOTE_W_SPACE_DOT(QThread::currentThreadId());
+    cache->saveAllCachedData();
+
+    if (m_stopCacheSynchronization) {
+      qWarningNN << LOGSEC_FEEDDOWNLOADER << "Aborting cache synchronization.";
+
+      m_stopCacheSynchronization = false;
+      break;
+    }
+  }
+
+  m_isCacheSynchronizationRunning = false;
+  qDebugNN << LOGSEC_FEEDDOWNLOADER << "All caches synchronized.";
+  emit cachesSynchronized();
 }
 
 void FeedDownloader::updateFeeds(const QList<Feed*>& feeds) {
@@ -77,6 +106,7 @@ void FeedDownloader::updateFeeds(const QList<Feed*>& feeds) {
 }
 
 void FeedDownloader::stopRunningUpdate() {
+  m_stopCacheSynchronization = true;
   m_feeds.clear();
   m_feedsOriginalCount = m_feedsUpdated = 0;
 }
@@ -159,12 +189,12 @@ void FeedDownloader::updateOneFeed(Feed* feed) {
 
           switch (decision) {
             case MessageObject::FilteringAction::Accept:
-
               // Message is normally accepted, it could be tweaked by the filter.
               continue;
 
             case MessageObject::FilteringAction::Ignore:
-
+            case MessageObject::FilteringAction::Purge:
+            default:
               // Remove the message, we do not want it.
               remove_msg = true;
               break;
@@ -201,7 +231,8 @@ void FeedDownloader::updateOneFeed(Feed* feed) {
           // Label is not there anymore, it was deassigned.
           lbl->deassignFromMessage(*msg_orig);
 
-          qDebugNN << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
+          qDebugNN << LOGSEC_FEEDDOWNLOADER
+                   << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
                    << "was DEASSIGNED from message" << QUOTE_W_SPACE(msg_orig->m_customId)
                    << "by message filter(s).";
         }
@@ -213,7 +244,8 @@ void FeedDownloader::updateOneFeed(Feed* feed) {
           // was newly assigned.
           lbl->assignToMessage(*msg_orig);
 
-          qDebugNN << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
+          qDebugNN << LOGSEC_FEEDDOWNLOADER
+                   << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
                    << "was ASSIGNED to message" << QUOTE_W_SPACE(msg_orig->m_customId)
                    << "by message filter(s).";
         }
@@ -287,6 +319,11 @@ void FeedDownloader::finalizeUpdate() {
   // and feeds can be added/edited/deleted and application
   // can eventually quit.
   emit updateFinished(m_results);
+}
+
+bool FeedDownloader::isCacheSynchronizationRunning() const
+{
+  return m_isCacheSynchronizationRunning;
 }
 
 QString FeedDownloadResults::overview(int how_many_feeds) const {

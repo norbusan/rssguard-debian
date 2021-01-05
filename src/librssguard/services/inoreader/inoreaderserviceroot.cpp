@@ -14,6 +14,8 @@
 #include "services/inoreader/inoreaderfeed.h"
 #include "services/inoreader/network/inoreadernetworkfactory.h"
 
+#include <QThread>
+
 InoreaderServiceRoot::InoreaderServiceRoot(InoreaderNetworkFactory* network, RootItem* parent)
   : ServiceRoot(parent), m_network(network) {
   if (network == nullptr) {
@@ -108,7 +110,7 @@ void InoreaderServiceRoot::start(bool freshly_activated) {
   Q_UNUSED(freshly_activated)
 
   loadFromDatabase();
-  loadCacheFromFile(accountId());
+  loadCacheFromFile();
 
   if (childCount() <= 3) {
     syncIn();
@@ -116,10 +118,6 @@ void InoreaderServiceRoot::start(bool freshly_activated) {
   else {
     m_network->oauth()->login();
   }
-}
-
-void InoreaderServiceRoot::stop() {
-  saveCacheToFile(accountId());
 }
 
 QString InoreaderServiceRoot::code() const {
@@ -150,7 +148,7 @@ RootItem* InoreaderServiceRoot::obtainNewTreeForSyncIn() const {
   }
 }
 
-void InoreaderServiceRoot::saveAllCachedData(bool async) {
+void InoreaderServiceRoot::saveAllCachedData() {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -161,7 +159,9 @@ void InoreaderServiceRoot::saveAllCachedData(bool async) {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      network()->markMessagesRead(key, ids, async);
+      if (network()->markMessagesRead(key, ids) != QNetworkReply::NetworkError::NoError) {
+        addMessageStatesToCache(ids, key);
+      }
     }
   }
 
@@ -180,7 +180,9 @@ void InoreaderServiceRoot::saveAllCachedData(bool async) {
         custom_ids.append(msg.m_customId);
       }
 
-      network()->markMessagesStarred(key, custom_ids, async);
+      if (network()->markMessagesStarred(key, custom_ids) != QNetworkReply::NetworkError::NoError) {
+        addMessageStatesToCache(messages, key);
+      }
     }
   }
 
@@ -193,7 +195,9 @@ void InoreaderServiceRoot::saveAllCachedData(bool async) {
     QStringList messages = k.value();
 
     if (!messages.isEmpty()) {
-      network()->editLabels(label_custom_id, true, messages, async);
+      if (network()->editLabels(label_custom_id, true, messages) != QNetworkReply::NetworkError::NoError) {
+        addLabelsAssignmentsToCache(messages, label_custom_id, true);
+      }
     }
   }
 
@@ -206,7 +210,9 @@ void InoreaderServiceRoot::saveAllCachedData(bool async) {
     QStringList messages = l.value();
 
     if (!messages.isEmpty()) {
-      network()->editLabels(label_custom_id, false, messages, async);
+      if (network()->editLabels(label_custom_id, false, messages) != QNetworkReply::NetworkError::NoError) {
+        addLabelsAssignmentsToCache(messages, label_custom_id, false);
+      }
     }
   }
 }

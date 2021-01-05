@@ -1,26 +1,36 @@
+// For license of this file, see <project-root-folder>/LICENSE.md.
+
 #include <QDateTime>
 #include <QJSEngine>
 #include <QProcess>
 
-// For license of this file, see <project-root-folder>/LICENSE.md.
-
 #include "gui/dialogs/formmessagefiltersmanager.h"
 
+#include "3rd-party/boolinq/boolinq.h"
 #include "core/messagefilter.h"
+#include "core/messagesforfiltersmodel.h"
 #include "exceptions/filteringexception.h"
 #include "gui/guiutilities.h"
 #include "gui/messagebox.h"
 #include "miscellaneous/application.h"
+#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/feedreader.h"
 #include "miscellaneous/iconfactory.h"
 #include "network-web/webfactory.h"
 #include "services/abstract/accountcheckmodel.h"
 #include "services/abstract/feed.h"
+#include "services/abstract/labelsnode.h"
 
 FormMessageFiltersManager::FormMessageFiltersManager(FeedReader* reader, const QList<ServiceRoot*>& accounts, QWidget* parent)
   : QDialog(parent), m_feedsModel(new AccountCheckSortedModel(this)), m_rootItem(new RootItem()),
-  m_accounts(accounts), m_reader(reader), m_loadingFilter(false) {
+  m_accounts(accounts), m_reader(reader), m_loadingFilter(false), m_msgModel(new MessagesForFiltersModel(this)) {
   m_ui.setupUi(this);
+
+  std::sort(m_accounts.begin(), m_accounts.end(), [](const ServiceRoot* lhs, const ServiceRoot* rhs) {
+    return lhs->title().compare(rhs->title(), Qt::CaseSensitivity::CaseInsensitive) < 0;
+  });
+
+  m_ui.m_treeExistingMessages->setModel(m_msgModel);
 
   GuiUtilities::applyDialogProperties(*this, qApp->icons()->fromTheme(QSL("view-list-details")));
 
@@ -32,16 +42,27 @@ FormMessageFiltersManager::FormMessageFiltersManager(FeedReader* reader, const Q
   m_ui.m_btnRemoveSelected->setIcon(qApp->icons()->fromTheme(QSL("list-remove")));
   m_ui.m_btnBeautify->setIcon(qApp->icons()->fromTheme(QSL("format-justify-fill")));
   m_ui.m_btnTest->setIcon(qApp->icons()->fromTheme(QSL("media-playback-start")));
+  m_ui.m_btnRunOnMessages->setIcon(qApp->icons()->fromTheme(QSL("media-playback-start")));
   m_ui.m_btnDetailedHelp->setIcon(qApp->icons()->fromTheme(QSL("help-contents")));
   m_ui.m_txtScript->setFont(QFontDatabase::systemFont(QFontDatabase::SystemFont::FixedFont));
+  m_ui.m_treeExistingMessages->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_ISREAD, QHeaderView::ResizeMode::ResizeToContents);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_ISIMPORTANT, QHeaderView::ResizeMode::ResizeToContents);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_ISDELETED, QHeaderView::ResizeMode::ResizeToContents);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_AUTHOR, QHeaderView::ResizeMode::ResizeToContents);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_CREATED, QHeaderView::ResizeMode::ResizeToContents);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_TITLE, QHeaderView::ResizeMode::Interactive);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_URL, QHeaderView::ResizeMode::Interactive);
 
   connect(m_ui.m_btnDetailedHelp, &QPushButton::clicked, this, []() {
     qApp->web()->openUrlInExternalBrowser(MSG_FILTERING_HELP);
   });
   connect(m_ui.m_listFilters, &QListWidget::currentRowChanged,
           this, &FormMessageFiltersManager::loadFilter);
-  connect(m_ui.m_btnAddNew, &QPushButton::clicked,
-          this, &FormMessageFiltersManager::addNewFilter);
+  connect(m_ui.m_btnAddNew, &QPushButton::clicked, this, [this]() {
+    addNewFilter();
+  });
   connect(m_ui.m_btnRemoveSelected, &QPushButton::clicked,
           this, &FormMessageFiltersManager::removeSelectedFilter);
   connect(m_ui.m_txtTitle, &QLineEdit::textChanged, this, &FormMessageFiltersManager::saveSelectedFilter);
@@ -55,6 +76,12 @@ FormMessageFiltersManager::FormMessageFiltersManager(FeedReader* reader, const Q
   connect(m_ui.m_btnUncheckAll, &QPushButton::clicked, m_feedsModel->sourceModel(), &AccountCheckModel::uncheckAllItems);
   connect(m_feedsModel->sourceModel(), &AccountCheckModel::checkStateChanged,
           this, &FormMessageFiltersManager::onFeedChecked);
+  connect(m_ui.m_treeFeeds->selectionModel(), &QItemSelectionModel::selectionChanged,
+          this, &FormMessageFiltersManager::displayMessagesOfFeed);
+  connect(m_ui.m_btnRunOnMessages, &QPushButton::clicked,
+          this, &FormMessageFiltersManager::processCheckedFeeds);
+  connect(m_ui.m_treeExistingMessages, &QTreeView::customContextMenuRequested,
+          this, &FormMessageFiltersManager::showMessageContextMenu);
 
   initializeTestingMessage();
   loadFilters();
@@ -81,6 +108,42 @@ ServiceRoot* FormMessageFiltersManager::selectedAccount() const {
   return dat.isNull() ? nullptr : dat.value<ServiceRoot*>();
 }
 
+void FormMessageFiltersManager::filterMessagesLikeThis(const Message& msg) {
+  QString filter_script = QSL("function filterMessage() {\n"
+                              "  // Adjust the condition to suit your needs.\n"
+                              "  var is_message_same =\n"
+                              "    msg.isRead == %1 &&\n"
+                              "    msg.isImportant == %2 &&\n"
+                              "    msg.title == '%3' &&\n"
+                              "    msg.url == '%4';\n"
+                              "\n"
+                              "  if (is_message_same) {\n"
+                              "    return MessageObject.Accept;\n"
+                              "  }\n"
+                              "  else {\n"
+                              "    return MessageObject.Ignore;\n"
+                              "  }\n"
+                              "}").arg(QString::number(int(msg.m_isRead)),
+                                       QString::number(int(msg.m_isImportant)),
+                                       msg.m_title,
+                                       msg.m_url);
+
+  addNewFilter(filter_script);
+}
+
+void FormMessageFiltersManager::showMessageContextMenu(const QPoint& pos) {
+  Message* msg = m_msgModel->messageForRow(m_ui.m_treeExistingMessages->indexAt(pos).row());
+
+  if (msg != nullptr) {
+    QMenu menu(tr("Context menu"), m_ui.m_treeExistingMessages);
+
+    menu.addAction(tr("Filter messages like this"), this, [=]() {
+      filterMessagesLikeThis(*msg);
+    });
+    menu.exec(m_ui.m_treeExistingMessages->mapToGlobal(pos));
+  }
+}
+
 void FormMessageFiltersManager::removeSelectedFilter() {
   auto* fltr = selectedFilter();
 
@@ -100,11 +163,13 @@ void FormMessageFiltersManager::loadFilters() {
   }
 }
 
-void FormMessageFiltersManager::addNewFilter() {
+void FormMessageFiltersManager::addNewFilter(const QString& filter_script) {
   try {
     auto* fltr = m_reader->addMessageFilter(
       tr("New message filter"),
-      QSL("function filterMessage() { return 1; }"));
+      filter_script.isEmpty()
+                   ? QSL("function filterMessage() { return MessageObject.Accept; }")
+                   : filter_script);
     auto* it = new QListWidgetItem(fltr->name(), m_ui.m_listFilters);
 
     it->setData(Qt::ItemDataRole::UserRole, QVariant::fromValue<MessageFilter*>(fltr));
@@ -145,19 +210,38 @@ void FormMessageFiltersManager::loadFilter() {
 }
 
 void FormMessageFiltersManager::testFilter() {
+  m_ui.m_txtErrors->clear();
+
   // Perform per-message filtering.
+  auto* selected_fd_cat = selectedCategoryFeed();
   QJSEngine filter_engine;
   QSqlDatabase database = qApp->database()->connection(metaObject()->className());
   MessageObject msg_obj(&database,
-                        QString::number(NO_PARENT_CATEGORY),
+                        selected_fd_cat->kind() == RootItem::Kind::Feed
+                        ? selected_fd_cat->customId()
+                        : QString::number(NO_PARENT_CATEGORY),
                         selectedAccount() != nullptr
                                              ? selectedAccount()->accountId()
                                              : NO_PARENT_CATEGORY,
-                        {});
+                        selected_fd_cat->getParentServiceRoot()->labelsNode()->labels());
   auto* fltr = selectedFilter();
-  Message msg = testingMessage();
 
   MessageFilter::initializeFilteringEngine(filter_engine, &msg_obj);
+
+  // Test real messages.
+  try {
+    m_msgModel->testFilter(fltr, &filter_engine, &msg_obj);
+  }
+  catch (const FilteringException& ex) {
+    m_ui.m_txtErrors->setTextColor(Qt::GlobalColor::red);
+    m_ui.m_txtErrors->insertPlainText(tr("EXISTING messages filtering error: '%1'.\n").arg(ex.message()));
+
+    // See output.
+    m_ui.m_twMessages->setCurrentIndex(2);
+  }
+
+  // Test sample message.
+  Message msg = testingMessage();
 
   msg_obj.setMessage(&msg);
 
@@ -182,19 +266,159 @@ void FormMessageFiltersManager::testFilter() {
                                           QString::number(msg.m_created.toMSecsSinceEpoch()),
                                           msg.m_contents);
 
-    m_ui.m_txtErrors->setPlainText(answer);
+    m_ui.m_txtErrors->insertPlainText(answer);
   }
   catch (const FilteringException& ex) {
     m_ui.m_txtErrors->setTextColor(Qt::GlobalColor::red);
-    m_ui.m_txtErrors->setPlainText(tr("JavaScript-based filter contains errors: '%1'.").arg(ex.message()));
-  }
+    m_ui.m_txtErrors->insertPlainText(tr("SAMPLE message filtering error: '%1'.\n").arg(ex.message()));
 
-  // See output.
-  m_ui.m_tcMessage->setCurrentIndex(1);
+    // See output.
+    m_ui.m_twMessages->setCurrentIndex(2);
+  }
+}
+
+void FormMessageFiltersManager::displayMessagesOfFeed() {
+  auto* item = selectedCategoryFeed();
+
+  if (item != nullptr) {
+    m_msgModel->setMessages(item->undeletedMessages());
+  }
+  else {
+    m_msgModel->setMessages({});
+  }
+}
+
+void FormMessageFiltersManager::processCheckedFeeds() {
+  QList<RootItem*> checked = m_feedsModel->sourceModel()->checkedItems();
+  auto* fltr = selectedFilter();
+  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+
+  for (RootItem* it : checked) {
+    if (it->kind() == RootItem::Kind::Feed) {
+      QJSEngine filter_engine;
+      MessageObject msg_obj(&database,
+                            it->customId(),
+                            selectedAccount()->accountId(),
+                            it->getParentServiceRoot()->labelsNode()->labels());
+
+      MessageFilter::initializeFilteringEngine(filter_engine, &msg_obj);
+
+      // We process messages of the feed.
+      QList<Message> msgs = it->undeletedMessages();
+      QList<Message> read_msgs, important_msgs;
+
+      for (int i = 0; i < msgs.size(); i++) {
+        auto labels_in_message = DatabaseQueries::getLabelsForMessage(database, msgs[i], msg_obj.availableLabels());
+
+        // Create backup of message.
+        Message* msg = &msgs[i]; msg->m_assignedLabels = labels_in_message;
+        Message msg_backup(*msg);
+
+        msg_obj.setMessage(msg);
+
+        MessageObject::FilteringAction result = fltr->filterMessage(&filter_engine);
+        bool remove_from_list = false;
+
+        if (result == MessageObject::FilteringAction::Purge) {
+          remove_from_list = true;
+
+          // Purge the message completely and remove leftovers.
+          DatabaseQueries::purgeMessage(database, msg->m_id);
+          DatabaseQueries::purgeLeftoverLabelAssignments(database, msg->m_accountId);
+        }
+        else if (result == MessageObject::FilteringAction::Ignore) {
+          remove_from_list = true;
+        }
+
+        if (!msg_backup.m_isRead && msg->m_isRead) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER << "Message with custom ID: '" << msg_backup.m_customId << "' was marked as read by message scripts.";
+
+          read_msgs << *msg;
+        }
+
+        if (!msg_backup.m_isImportant && msg->m_isImportant) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER << "Message with custom ID: '" << msg_backup.m_customId << "' was marked as important by message scripts.";
+
+          important_msgs << *msg;
+        }
+
+        // Process changed labels.
+        for (Label* lbl : msg_backup.m_assignedLabels) {
+          if (!msg->m_assignedLabels.contains(lbl)) {
+            // Label is not there anymore, it was deassigned.
+            lbl->deassignFromMessage(*msg);
+
+            qDebugNN << LOGSEC_FEEDDOWNLOADER
+                     << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
+                     << "was DEASSIGNED from message" << QUOTE_W_SPACE(msg->m_customId)
+                     << "by message filter(s).";
+          }
+        }
+
+        for (Label* lbl : msg->m_assignedLabels) {
+          if (!msg_backup.m_assignedLabels.contains(lbl)) {
+            // Label is in new message, but is not in old message, it
+            // was newly assigned.
+            lbl->assignToMessage(*msg);
+
+            qDebugNN << LOGSEC_FEEDDOWNLOADER
+                     << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
+                     << "was ASSIGNED to message" << QUOTE_W_SPACE(msg->m_customId)
+                     << "by message filter(s).";
+          }
+        }
+
+        if (remove_from_list) {
+          // Do not update message.
+          msgs.removeAt(i--);
+        }
+      }
+
+      if (!read_msgs.isEmpty()) {
+        // Now we push new read states to the service.
+        if (it->getParentServiceRoot()->onBeforeSetMessagesRead(it, read_msgs, RootItem::ReadStatus::Read)) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER
+                   << "Notified services about messages marked as read by message filters.";
+        }
+        else {
+          qCriticalNN << LOGSEC_FEEDDOWNLOADER
+                      << "Notification of services about messages marked as read by message filters FAILED.";
+        }
+      }
+
+      if (!important_msgs.isEmpty()) {
+        // Now we push new read states to the service.
+        auto list = boolinq::from(important_msgs).select([](const Message& msg) {
+          return ImportanceChange(msg, RootItem::Importance::Important);
+        }).toStdList();
+        QList<ImportanceChange> chngs = FROM_STD_LIST(QList<ImportanceChange>, list);
+
+        if (it->getParentServiceRoot()->onBeforeSwitchMessageImportance(it, chngs)) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER
+                   << "Notified services about messages marked as important by message filters.";
+        }
+        else {
+          qCriticalNN << LOGSEC_FEEDDOWNLOADER
+                      << "Notification of services about messages marked as important by message filters FAILED.";
+        }
+      }
+
+      // Update messages in DB and reload selection.
+      it->toFeed()->updateMessages(msgs, false, true);
+      displayMessagesOfFeed();
+    }
+  }
 }
 
 void FormMessageFiltersManager::loadAccount(ServiceRoot* account) {
   m_feedsModel->setRootItem(account, false, true);
+
+  if (account != nullptr) {
+    m_msgModel->setMessages(account->undeletedMessages());
+  }
+  else {
+    m_msgModel->setMessages({});
+  }
 }
 
 void FormMessageFiltersManager::loadFilterFeedAssignments(MessageFilter* filter, ServiceRoot* account) {
@@ -233,6 +457,7 @@ void FormMessageFiltersManager::onFeedChecked(RootItem* item, Qt::CheckState sta
     return;
   }
 
+  // Update feed/filter assignemnts.
   switch (state) {
     case Qt::CheckState::Checked:
       m_reader->assignMessageFilterToFeed(feed, selectedFilter());
@@ -272,7 +497,7 @@ void FormMessageFiltersManager::showFilter(MessageFilter* filter) {
   }
 
   // See message.
-  m_ui.m_tcMessage->setCurrentIndex(0);
+  m_ui.m_twMessages->setCurrentIndex(0);
   m_loadingFilter = false;
 }
 
@@ -298,7 +523,7 @@ void FormMessageFiltersManager::beautifyScript() {
   proc_clang_format.setProgram(QSL("clang-format"));
 #endif
 
-  if (!proc_clang_format.open()) {
+  if (!proc_clang_format.open() || proc_clang_format.error() == QProcess::ProcessError::FailedToStart) {
     MessageBox::show(this, QMessageBox::Icon::Critical,
                      tr("Cannot find 'clang-format'"),
                      tr("Script was not beautified, because 'clang-format' tool was not found."));
@@ -341,6 +566,10 @@ void FormMessageFiltersManager::initializeTestingMessage() {
                                              "<p>WWF's goal is to: <q>Build a future where people live in harmony "
                                              "with nature.</q></p>"));
   m_ui.m_txtSampleCreatedOn->setText(QString::number(QDateTime::currentDateTimeUtc().toMSecsSinceEpoch()));
+}
+
+RootItem* FormMessageFiltersManager::selectedCategoryFeed() const {
+  return m_feedsModel->sourceModel()->itemForIndex(m_feedsModel->mapToSource(m_ui.m_treeFeeds->currentIndex()));
 }
 
 Message FormMessageFiltersManager::testingMessage() const {

@@ -65,15 +65,11 @@ bool OwnCloudServiceRoot::supportsCategoryAdding() const {
 void OwnCloudServiceRoot::start(bool freshly_activated) {
   Q_UNUSED(freshly_activated)
   loadFromDatabase();
-  loadCacheFromFile(accountId());
+  loadCacheFromFile();
 
   if (childCount() <= 3) {
     syncIn();
   }
-}
-
-void OwnCloudServiceRoot::stop() {
-  saveCacheToFile(accountId());
 }
 
 QString OwnCloudServiceRoot::code() const {
@@ -84,7 +80,7 @@ OwnCloudNetworkFactory* OwnCloudServiceRoot::network() const {
   return m_network;
 }
 
-void OwnCloudServiceRoot::saveAllCachedData(bool async) {
+void OwnCloudServiceRoot::saveAllCachedData() {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -95,7 +91,11 @@ void OwnCloudServiceRoot::saveAllCachedData(bool async) {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      network()->markMessagesRead(key, ids, async);
+      auto res = network()->markMessagesRead(key, ids);
+
+      if (res.first != QNetworkReply::NetworkError::NoError) {
+        addMessageStatesToCache(ids, key);
+      }
     }
   }
 
@@ -115,7 +115,11 @@ void OwnCloudServiceRoot::saveAllCachedData(bool async) {
         guid_hashes.append(msg.m_customHash);
       }
 
-      network()->markMessagesStarred(key, feed_ids, guid_hashes, async);
+      auto res = network()->markMessagesStarred(key, feed_ids, guid_hashes);
+
+      if (res.first != QNetworkReply::NetworkError::NoError) {
+        addMessageStatesToCache(messages, key);
+      }
     }
   }
 }
@@ -157,7 +161,7 @@ void OwnCloudServiceRoot::saveAccountDataToDatabase() {
 RootItem* OwnCloudServiceRoot::obtainNewTreeForSyncIn() const {
   OwnCloudGetFeedsCategoriesResponse feed_cats_response = m_network->feedsCategories();
 
-  if (m_network->lastError() == QNetworkReply::NoError) {
+  if (feed_cats_response.networkError() == QNetworkReply::NetworkError::NoError) {
     return feed_cats_response.feedsCategories(true);
   }
   else {

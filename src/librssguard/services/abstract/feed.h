@@ -17,7 +17,7 @@ class Feed : public RootItem {
 
   public:
 
-    // Specifies the auto-update strategy for the feed.
+    // Specifies the auto-download strategy for the feed.
     enum class AutoUpdateType {
       DontAutoUpdate = 0,
       DefaultAutoUpdate = 1,
@@ -89,7 +89,7 @@ class Feed : public RootItem {
     void setMessageFilters(const QList<QPointer<MessageFilter>>& messageFilters);
     void removeMessageFilter(MessageFilter* filter);
 
-    int updateMessages(const QList<Message>& messages, bool error_during_obtaining);
+    int updateMessages(const QList<Message>& messages, bool error_during_obtaining, bool force_update = false);
 
   public slots:
     virtual void updateCounts(bool including_total_count);

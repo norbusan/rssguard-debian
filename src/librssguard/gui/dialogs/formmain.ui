@@ -81,6 +81,7 @@
      <addaction name="m_actionSwitchToolBars"/>
      <addaction name="m_actionSwitchListHeaders"/>
      <addaction name="m_actionSwitchStatusBar"/>
+     <addaction name="m_actionSwitchMessageViewerToolbars"/>
     </widget>
     <addaction name="m_menuShowHide"/>
     <addaction name="m_actionFullscreen"/>
@@ -246,7 +247,7 @@
   </action>
   <action name="m_actionUpdateAllItems">
    <property name="text">
-    <string>Update &amp;all items</string>
+    <string>&amp;Download all new messages</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Shift+U</string>
@@ -254,7 +255,7 @@
   </action>
   <action name="m_actionUpdateSelectedItems">
    <property name="text">
-    <string>Update &amp;selected items</string>
+    <string>Download messages for &amp;selected items</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+U</string>
@@ -704,7 +705,7 @@
   </action>
   <action name="m_actionStopRunningItemsUpdate">
    <property name="text">
-    <string>Stop running update</string>
+    <string>Stop ongoing downloading of messages</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -774,7 +775,7 @@
   </action>
   <action name="m_actionUpdateSelectedItemsWithCustomTimers">
    <property name="text">
-    <string>Update items with custom &amp;timers</string>
+    <string>Download messages for items with &amp;custom auto-download policy</string>
    </property>
   </action>
   <action name="m_actionAlternateColorsInLists">
@@ -791,6 +792,17 @@
    </property>
    <property name="text">
     <string>Automatically &amp;expand items when selected</string>
+   </property>
+  </action>
+  <action name="m_actionSwitchMessageViewerToolbars">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Message viewer toolbars</string>
    </property>
   </action>
  </widget>

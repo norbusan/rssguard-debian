@@ -14,6 +14,7 @@
 #include "services/abstract/recyclebin.h"
 #include "services/tt-rss/definitions.h"
 #include "services/tt-rss/gui/formeditttrssaccount.h"
+#include "services/tt-rss/gui/formttrssfeeddetails.h"
 #include "services/tt-rss/network/ttrssnetworkfactory.h"
 #include "services/tt-rss/ttrssfeed.h"
 #include "services/tt-rss/ttrssserviceentrypoint.h"
@@ -38,7 +39,7 @@ ServiceRoot::LabelOperation TtRssServiceRoot::supportedLabelOperations() const {
 void TtRssServiceRoot::start(bool freshly_activated) {
   Q_UNUSED(freshly_activated)
   loadFromDatabase();
-  loadCacheFromFile(accountId());
+  loadCacheFromFile();
 
   if (childCount() <= 3) {
     syncIn();
@@ -46,8 +47,6 @@ void TtRssServiceRoot::start(bool freshly_activated) {
 }
 
 void TtRssServiceRoot::stop() {
-  saveCacheToFile(accountId());
-
   m_network->logout();
   qDebugNN << LOGSEC_TTRSS
            << "Stopping Tiny Tiny RSS account, logging out with result"
@@ -83,11 +82,31 @@ bool TtRssServiceRoot::deleteViaGui() {
 }
 
 bool TtRssServiceRoot::supportsFeedAdding() const {
-  return false;
+  return true;
 }
 
 bool TtRssServiceRoot::supportsCategoryAdding() const {
   return false;
+}
+
+void TtRssServiceRoot::addNewFeed(RootItem* selected_item, const QString& url) {
+  if (!qApp->feedUpdateLock()->tryLock()) {
+    // Lock was not obtained because
+    // it is used probably by feed updater or application
+    // is quitting.
+    qApp->showGuiMessage(tr("Cannot add item"),
+                         tr("Cannot add feed because another critical operation is ongoing."),
+                         QSystemTrayIcon::MessageIcon::Warning,
+                         qApp->mainFormWidget(),
+                         true);
+
+    return;
+  }
+
+  QScopedPointer<FormTtRssFeedDetails> form_pointer(new FormTtRssFeedDetails(this, qApp->mainFormWidget()));
+
+  form_pointer->addFeed(selected_item, url);
+  qApp->feedUpdateLock()->unlock();
 }
 
 bool TtRssServiceRoot::canBeEdited() const {
@@ -98,7 +117,7 @@ bool TtRssServiceRoot::canBeDeleted() const {
   return true;
 }
 
-void TtRssServiceRoot::saveAllCachedData(bool async) {
+void TtRssServiceRoot::saveAllCachedData() {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -109,12 +128,15 @@ void TtRssServiceRoot::saveAllCachedData(bool async) {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      network()->updateArticles(ids,
-                                UpdateArticle::OperatingField::Unread,
-                                key == RootItem::ReadStatus::Unread
-                                ? UpdateArticle::Mode::SetToTrue
-                                : UpdateArticle::Mode::SetToFalse,
-                                async);
+      auto res = network()->updateArticles(ids,
+                                           UpdateArticle::OperatingField::Unread,
+                                           key == RootItem::ReadStatus::Unread
+                                           ? UpdateArticle::Mode::SetToTrue
+                                           : UpdateArticle::Mode::SetToFalse);
+
+      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+        addMessageStatesToCache(ids, key);
+      }
     }
   }
 
@@ -128,13 +150,15 @@ void TtRssServiceRoot::saveAllCachedData(bool async) {
 
     if (!messages.isEmpty()) {
       QStringList ids = customIDsOfMessages(messages);
+      auto res = network()->updateArticles(ids,
+                                           UpdateArticle::OperatingField::Starred,
+                                           key == RootItem::Importance::Important
+                                           ? UpdateArticle::Mode::SetToTrue
+                                           : UpdateArticle::Mode::SetToFalse);
 
-      network()->updateArticles(ids,
-                                UpdateArticle::OperatingField::Starred,
-                                key == RootItem::Importance::Important
-                                ? UpdateArticle::Mode::SetToTrue
-                                : UpdateArticle::Mode::SetToFalse,
-                                async);
+      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+        addMessageStatesToCache(messages, key);
+      }
     }
   }
 
@@ -147,7 +171,11 @@ void TtRssServiceRoot::saveAllCachedData(bool async) {
     QStringList messages = k.value();
 
     if (!messages.isEmpty()) {
-      network()->setArticleLabel(messages, label_custom_id, true);
+      auto res = network()->setArticleLabel(messages, label_custom_id, true);
+
+      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+        addLabelsAssignmentsToCache(messages, label_custom_id, true);
+      }
     }
   }
 
@@ -160,7 +188,11 @@ void TtRssServiceRoot::saveAllCachedData(bool async) {
     QStringList messages = l.value();
 
     if (!messages.isEmpty()) {
-      network()->setArticleLabel(messages, label_custom_id, false);
+      auto res = network()->setArticleLabel(messages, label_custom_id, false);
+
+      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+        addLabelsAssignmentsToCache(messages, label_custom_id, false);
+      }
     }
   }
 }

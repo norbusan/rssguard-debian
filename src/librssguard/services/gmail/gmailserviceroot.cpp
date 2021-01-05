@@ -184,17 +184,14 @@ void GmailServiceRoot::start(bool freshly_activated) {
   Q_UNUSED(freshly_activated)
 
   loadFromDatabase();
-  loadCacheFromFile(accountId());
+  loadCacheFromFile();
 
   if (childCount() <= 3) {
     syncIn();
   }
-
-  m_network->oauth()->login();
-}
-
-void GmailServiceRoot::stop() {
-  saveCacheToFile(accountId());
+  else {
+    m_network->oauth()->login();
+  }
 }
 
 QString GmailServiceRoot::code() const {
@@ -208,7 +205,7 @@ QString GmailServiceRoot::additionalTooltip() const {
                                                network()->oauth()->tokensExpireIn().toString() : QSL("-"));
 }
 
-void GmailServiceRoot::saveAllCachedData(bool async) {
+void GmailServiceRoot::saveAllCachedData() {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -219,7 +216,9 @@ void GmailServiceRoot::saveAllCachedData(bool async) {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      network()->markMessagesRead(key, ids, async);
+      if (network()->markMessagesRead(key, ids) != QNetworkReply::NetworkError::NoError) {
+        addMessageStatesToCache(ids, key);
+      }
     }
   }
 
@@ -238,7 +237,9 @@ void GmailServiceRoot::saveAllCachedData(bool async) {
         custom_ids.append(msg.m_customId);
       }
 
-      network()->markMessagesStarred(key, custom_ids, async);
+      if (network()->markMessagesStarred(key, custom_ids) != QNetworkReply::NetworkError::NoError) {
+        addMessageStatesToCache(messages, key);
+      }
     }
   }
 }

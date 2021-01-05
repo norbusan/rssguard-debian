@@ -1,3 +1,10 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: '[BUG]: '
+labels: Type-Defect
+assignees: martinrotter
+---
 <!---
 Dear RSS Guard contributor, please RESPECT this template. Also, you might be
 interested in reading this: http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
@@ -21,6 +28,10 @@ interested in reading this: http://www.chiark.greenend.org.uk/~sgtatham/bugs.htm
 
 <!--- Write the actual result here. Remove this line, pls. -->
 
-#### Other information (logs, see Wiki)
+#### Other information
+
+* OS:
+* Desktop Environment:
+* RSS Guard version:
 
 <!--- Write any other supplementary information here. Remove this line, pls. -->

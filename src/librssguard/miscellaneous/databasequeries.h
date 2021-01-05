@@ -24,6 +24,7 @@ class DatabaseQueries {
     static bool assignLabelToMessage(const QSqlDatabase& db, Label* label, const Message& msg);
     static bool setLabelsForMessage(const QSqlDatabase& db, const QList<Label*>& labels, const Message& msg);
     static QList<Label*> getLabels(const QSqlDatabase& db, int account_id);
+    static QList<Label*> getLabelsForMessage(const QSqlDatabase& db, const Message& msg, const QList<Label*> installed_labels);
     static bool updateLabel(const QSqlDatabase& db, Label* label);
     static bool deleteLabel(const QSqlDatabase& db, Label* label);
     static bool createLabel(const QSqlDatabase& db, Label* label, int account_id);
@@ -42,6 +43,7 @@ class DatabaseQueries {
     static bool restoreBin(const QSqlDatabase& db, int account_id);
 
     // Purge database.
+    static bool purgeMessage(const QSqlDatabase& db, int message_id);
     static bool purgeImportantMessages(const QSqlDatabase& db);
     static bool purgeReadMessages(const QSqlDatabase& db);
     static bool purgeOldMessages(const QSqlDatabase& db, int older_than_days);
@@ -88,7 +90,7 @@ class DatabaseQueries {
     // Common account methods.
     static int createAccount(const QSqlDatabase& db, const QString& code, bool* ok = nullptr);
     static int updateMessages(QSqlDatabase db, const QList<Message>& messages, const QString& feed_custom_id,
-                              int account_id, const QString& url, bool* any_message_changed, bool* ok = nullptr);
+                              int account_id, const QString& url, bool force_update, bool* any_message_changed, bool* ok = nullptr);
     static bool deleteAccount(const QSqlDatabase& db, int account_id);
     static bool deleteAccountData(const QSqlDatabase& db, int account_id, bool delete_messages_too);
     static bool cleanLabelledMessages(const QSqlDatabase& db, bool clean_read_only, Label* label);

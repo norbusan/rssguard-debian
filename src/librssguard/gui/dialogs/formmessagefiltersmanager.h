@@ -12,6 +12,7 @@
 class AccountCheckSortedModel;
 class MessageFilter;
 class FeedReader;
+class MessagesForFiltersModel;
 
 class FormMessageFiltersManager : public QDialog {
   Q_OBJECT
@@ -24,12 +25,16 @@ class FormMessageFiltersManager : public QDialog {
     ServiceRoot* selectedAccount() const;
 
   private slots:
+    void filterMessagesLikeThis(const Message& msg);
+    void showMessageContextMenu(const QPoint& pos);
     void removeSelectedFilter();
-    void addNewFilter();
+    void addNewFilter(const QString& filter_script = QString());
     void saveSelectedFilter();
     void loadFilter();
     void loadFilters();
     void testFilter();
+    void displayMessagesOfFeed();
+    void processCheckedFeeds();
 
     // Load feeds/categories tree.
     void loadAccount(ServiceRoot* account);
@@ -47,6 +52,8 @@ class FormMessageFiltersManager : public QDialog {
     void loadAccounts();
     void beautifyScript();
     void initializeTestingMessage();
+
+    RootItem* selectedCategoryFeed() const;
     Message testingMessage() const;
 
   private:
@@ -56,6 +63,7 @@ class FormMessageFiltersManager : public QDialog {
     QList<ServiceRoot*> m_accounts;
     FeedReader* m_reader;
     bool m_loadingFilter;
+    MessagesForFiltersModel* m_msgModel;
 };
 
 #endif // FORMMESSAGEFILTERSMANAGER_H

@@ -195,6 +195,53 @@
     </message>
 </context>
 <context>
+    <name>AuthenticationDetails</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Деякі потоки потребують аутентифікації, включаючи потоки GMail. Підтримуються BASIC, NTLM-2 та DIGEST-MD5 схеми аутентифікації.</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Потребує HTTP аутентифікації</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Ім’я користувача</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Пароль</translation>
+    </message>
+    <message>
+        <source>Set username to access the feed.</source>
+        <translation>Вкажіть ім&apos;я користувача для доступу до потоку.</translation>
+    </message>
+    <message>
+        <source>Set password to access the feed.</source>
+        <translation>Встановити пароль для доступу до потоку.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Ім&apos;я користувача вірне, або воно не потрібне.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Пусте ім&apos;я користувача</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Пароль вірний, або він не потрібен.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Пустий пароль</translation>
+    </message>
+</context>
+<context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
@@ -313,10 +360,6 @@ This website contains %n feed(s).</source>
 </context>
 <context>
     <name>DownloadItem</name>
-    <message>
-        <source>Ico</source>
-        <translation>Значок</translation>
-    </message>
     <message>
         <source>Filename</source>
         <translation>Ім&apos;я файлу</translation>
@@ -465,21 +508,6 @@ Click here to open parent directory.</source>
 <context>
     <name>Feed</name>
     <message>
-        <source>does not use auto-update</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation>Не використовувати автоматичне оновлення</translation>
-    </message>
-    <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message>
         <source>no errors</source>
         <translation>успішно</translation>
     </message>
@@ -500,14 +528,29 @@ Click here to open parent directory.</source>
         <translation>невизначена помилка</translation>
     </message>
     <message>
-        <source>uses global settings (global feed auto-updating is disabled)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Auto-update status: %1
 Active message filters: %2
 Status: %3</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>does not use auto-downloading of messages</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -528,15 +571,15 @@ Status: %3</source>
         <translation>Неможливо оновити всі елементи</translation>
     </message>
     <message>
-        <source>You cannot update all items because another critical operation is ongoing.</source>
-        <translation>Неможливо оновити всі елементи, тому що триває інша важлива операція.</translation>
+        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Starting auto-update of some feeds</source>
-        <translation>Почати автоматичне оновлення деяких елементів</translation>
+        <source>Starting auto-download of some feeds&apos; messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-update %n feed(s).</source>
+        <source>I will auto-download new messages for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
@@ -756,6 +799,10 @@ or this functionality is not implemented yet.</source>
         <source>GNU GPL License (applies to RSS Guard; mimesis; Numix source codes)</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>CUSTOM</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FormAddAccount</name>
@@ -805,10 +852,6 @@ or this functionality is not implemented yet.</source>
 </context>
 <context>
     <name>FormAddEditLabel</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Діалогове вікно</translation>
-    </message>
     <message>
         <source>...</source>
         <translation type="unfinished"/>
@@ -991,10 +1034,6 @@ or this functionality is not implemented yet.</source>
 <context>
     <name>FormDownloadAttachment</name>
     <message>
-        <source>Dialog</source>
-        <translation>Діалогове вікно</translation>
-    </message>
-    <message>
         <source>Downloading attachment...</source>
         <translation>Завантаження прикріплень</translation>
     </message>
@@ -1100,6 +1139,10 @@ or this functionality is not implemented yet.</source>
     <message>
         <source>Some username entered.</source>
         <translation>Введено ім&apos;я користувача.</translation>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1524,265 +1567,36 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Parent category</source>
-        <translation>Батьківська категорія</translation>
+        <source>Cannot edit feed</source>
+        <translation>Неможливо редагувати потік</translation>
     </message>
     <message>
-        <source>Select parent item for your feed.</source>
-        <translation>Оберіть батьківський елемент для потоку</translation>
+        <source>Feed was not edited due to error.</source>
+        <translation>Потік не було додано через помилку</translation>
     </message>
     <message>
-        <source>Type</source>
-        <translation>Тип</translation>
-    </message>
-    <message>
-        <source>Select type of the standard feed.</source>
-        <translation>Оберіть тип звичайного потоку.</translation>
-    </message>
-    <message>
-        <source>Encoding</source>
-        <translation>Кодова сторінка</translation>
-    </message>
-    <message>
-        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
-        <translation>Оберіть кодову сторінку звичайного потоку. Якщо ви невпевнені, то оберіть кодову сторінку &quot;UTF-8&quot;.</translation>
-    </message>
-    <message>
-        <source>Auto-update</source>
-        <translation>Автоматичне оновлення</translation>
-    </message>
-    <message>
-        <source>Select the auto-update strategy for this feed. Default auto-update strategy means that the feed will be update in time intervals set in application settings.</source>
-        <translation>Оберіть стратегію автоматичного оновлення для потоку. СТратегія за замовченням означає, що потік буде автоматично оновлюватись через проміжок часу, що встановлено в налаштуваннях програми.</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Назва</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Опис</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Fetch it now</source>
-        <translation>Завантажити зараз</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Значок</translation>
-    </message>
-    <message>
-        <source>Select icon for your feed.</source>
-        <translation>Обрати значок для потоку.</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Деякі потоки потребують аутентифікації, включаючи потоки GMail. Підтримуються BASIC, NTLM-2 та DIGEST-MD5 схеми аутентифікації.</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Потребує HTTP аутентифікації</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Ім’я користувача</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>Fetch metadata</source>
-        <translation>Завантажити метадані</translation>
-    </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Додати новий потік</translation>
-    </message>
-    <message>
-        <source>Edit feed &apos;%1&apos;</source>
-        <translation>Редагувати потік &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Feed name is ok.</source>
-        <translation>З ім&apos;ям потоку все гаразд.</translation>
-    </message>
-    <message>
-        <source>Feed name is too short.</source>
-        <translation>Ім&apos;я потоку занадто коротке.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Опис пустий.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>З описом все гаразд.</translation>
-    </message>
-    <message>
-        <source>The URL is ok.</source>
-        <translation>З URL все гаразд.</translation>
-    </message>
-    <message>
-        <source>The URL is empty.</source>
-        <translation>URL пустий.</translation>
-    </message>
-    <message>
-        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
-        <translation>URL не відповідає стандартному вигляду. Чи починається URL з &quot;http://&quot; або &quot;https://&quot;.</translation>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Ім&apos;я користувача вірне, або воно не потрібне.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Пусте ім&apos;я користувача</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Пароль вірний, або він не потрібен.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Пустий пароль</translation>
-    </message>
-    <message>
-        <source>Select icon file for the feed</source>
-        <translation>Обрати значок для потоку.</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Зображення (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Оберіть значок</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
-        <translation>Шукати в:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Ім&apos;я значку:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Тип значку:</translation>
-    </message>
-    <message>
-        <source>All metadata fetched successfully.</source>
-        <translation>Всі метадані було успішно завантажено.</translation>
-    </message>
-    <message>
-        <source>Feed and icon metadata fetched.</source>
-        <translation>Потік та метадані завантажено.</translation>
-    </message>
-    <message>
-        <source>Result: %1.</source>
-        <translation>Результат: %1.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Потік або метадані значку не завантажено.</translation>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Помилка: %1</translation>
-    </message>
-    <message>
-        <source>No metadata fetched.</source>
-        <translation>Не завантажено метадані.</translation>
-    </message>
-    <message>
-        <source>Icon fetched successfully.</source>
-        <translation>Значок успішно завантажено.</translation>
-    </message>
-    <message>
-        <source>Icon metadata fetched.</source>
-        <translation>Метадані значку завантажено.</translation>
-    </message>
-    <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Метадані значку не завантажено.</translation>
-    </message>
-    <message>
-        <source>No icon fetched.</source>
-        <translation>Значок не завантажено.</translation>
-    </message>
-    <message>
-        <source>Feed title</source>
-        <translation>Назва потоку</translation>
-    </message>
-    <message>
-        <source>Set title for your feed.</source>
-        <translation>Вкажіть назву потоку.</translation>
-    </message>
-    <message>
-        <source>Feed description</source>
-        <translation>Опис потоку</translation>
-    </message>
-    <message>
-        <source>Set description for your feed.</source>
-        <translation>Опишіть потік.</translation>
-    </message>
-    <message>
-        <source>Full feed url including scheme</source>
-        <translation>Повний url потоку, включаючт схему</translation>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation>Вкажіть url для потоку</translation>
-    </message>
-    <message>
-        <source>Set username to access the feed.</source>
-        <translation>Вкажіть ім&apos;я користувача для доступу до потоку.</translation>
-    </message>
-    <message>
-        <source>Set password to access the feed.</source>
-        <translation>Встановити пароль для доступу до потоку.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Обрати значок</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Завантажити значок з файлу...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
+        <source>Edit &apos;%1&apos;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Fetch icon from feed</source>
-        <translation>Завантажувати значок з потоку</translation>
+        <source>Auto-downloading of messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>No metadata fetched so far.</source>
-        <translation>Метадані ще не завантажено</translation>
+        <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-update using global interval</source>
-        <translation>Автоматично оновлювати з використанням глобального проміжку часу</translation>
+        <source>Download messages using global interval</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-update every</source>
-        <translation>Автоматично оновлювати кожні</translation>
+        <source>Download messages every</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Do not auto-update at all</source>
-        <translation>Взагалі не оновлювати автоматично</translation>
+        <source>Do not download messages at all</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1952,14 +1766,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Додати новий елемент</translation>
     </message>
     <message>
-        <source>Update &amp;all items</source>
-        <translation>Оновити усі елементи</translation>
-    </message>
-    <message>
-        <source>Update &amp;selected items</source>
-        <translation>Оновити обрані елементи</translation>
-    </message>
-    <message>
         <source>&amp;Edit selected item</source>
         <translation>Редагувати елемент</translation>
     </message>
@@ -2088,10 +1894,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Додати новий потік</translation>
     </message>
     <message>
-        <source>Stop running update</source>
-        <translation>Зупинити оновлення</translation>
-    </message>
-    <message>
         <source>No actions possible</source>
         <translation>Дії недоступні</translation>
     </message>
@@ -2189,15 +1991,31 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Update items with custom &amp;timers</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Alternate row colors in lists</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Display &amp;documentation</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Automatically &amp;expand items when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Download all new messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download messages for &amp;selected items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing downloading of messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download messages for items with &amp;custom auto-download policy</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2209,14 +2027,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Account</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2280,14 +2090,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>&amp;Test!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Beautify!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Detailed &amp;help</source>
         <translation type="unfinished"/>
     </message>
@@ -2328,10 +2130,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>JavaScript-based filter contains errors: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cannot find &apos;clang-format&apos;</source>
         <translation type="unfinished"/>
     </message>
@@ -2356,27 +2154,46 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot save new filter, error: &apos;&apos;.</source>
+        <source>&amp;New filter</source>
         <translation type="unfinished"/>
     </message>
-</context>
-<context>
-    <name>FormOwnCloudFeedDetails</name>
     <message>
-        <source>Feed added</source>
-        <translation>Потік додано</translation>
+        <source>&amp;Test</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation>Потік додано, виконується сінхронізація</translation>
+        <source>Process checked feeds</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot add feed</source>
-        <translation>Неможливо додати підписку</translation>
+        <source>&amp;Beautify</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Потік не було додано через помилку</translation>
+        <source>Existing messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot save new filter, error: &apos;%1&apos;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING messages filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>SAMPLE message filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Context menu</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Filter messages like this</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2617,6 +2434,18 @@ You have to restart manually.</source>
         <source>Feed was not edited due to error.</source>
         <translation>Потік не було додано через помилку</translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation>Загальні</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Додати новий потік</translation>
+    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
@@ -2756,16 +2585,28 @@ You have to restart manually.</source>
         <translation>Потік додано</translation>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation>Потік додано, виконується сінхронізація</translation>
-    </message>
-    <message>
         <source>Cannot add feed</source>
         <translation>Неможливо додати підписку</translation>
     </message>
     <message>
         <source>Feed was not added due to error.</source>
         <translation>Потік не було додано через помилку</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Загальні</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Додати новий потік</translation>
+    </message>
+    <message>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3144,6 +2985,37 @@ Login tokens expiration: %2</translation>
     </message>
 </context>
 <context>
+    <name>MessagesForFiltersModel</name>
+    <message>
+        <source>Read</source>
+        <translation>Прочитане</translation>
+    </message>
+    <message>
+        <source>Important</source>
+        <translation>Важливе</translation>
+    </message>
+    <message>
+        <source>In recycle bin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Автор</translation>
+    </message>
+    <message>
+        <source>Created on</source>
+        <translation>Дата створення</translation>
+    </message>
+</context>
+<context>
     <name>MessagesModel</name>
     <message>
         <source>Id</source>
@@ -3496,17 +3368,6 @@ Login tokens expiration: %2</translation>
     </message>
 </context>
 <context>
-    <name>OwnCloudServiceRoot</name>
-    <message>
-        <source>Cannot add item</source>
-        <translation>Неможливо додати елемент</translation>
-    </message>
-    <message>
-        <source>Cannot add feed because another critical operation is ongoing.</source>
-        <translation>Неможливо додати потік, тому що триває інша важлива операція.</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>LANG_ABBREV</source>
@@ -3637,8 +3498,12 @@ version by clicking this popup notification.</source>
 <context>
     <name>ServiceRoot</name>
     <message>
-        <source>Sync in</source>
-        <translation>Синхронізувати в</translation>
+        <source>Synchronize folders &amp;&amp; other items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Synchronize message cache</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4015,14 +3880,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation>Потоки та категорії</translation>
     </message>
     <message>
-        <source>Auto-update all feeds every</source>
-        <translation>Оновлювати усі потоки кожні</translation>
-    </message>
-    <message>
-        <source>Only auto-update when application is unfocused</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
         <translation type="unfinished"/>
     </message>
@@ -4075,10 +3932,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enable &quot;auto-update started&quot; notification</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Height or rows in feed list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
@@ -4107,7 +3960,19 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Update all feeds on application startup with initial delay of</source>
+        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enable &quot;auto-download started&quot; notification</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-download messages when application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-download messages for all feeds every</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4345,6 +4210,206 @@ Type: %3</source>
     </message>
 </context>
 <context>
+    <name>StandardFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Батьківська категорія</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation>Оберіть батьковський елемент для потоку.</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source>Select type of the standard feed.</source>
+        <translation>Оберіть тип звичайного потоку.</translation>
+    </message>
+    <message>
+        <source>Encoding</source>
+        <translation>Кодова сторінка</translation>
+    </message>
+    <message>
+        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
+        <translation>Оберіть кодову сторінку звичайного потоку. Якщо ви невпевнені, то оберіть кодову сторінку &quot;UTF-8&quot;.</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Опис</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Fetch metadata</source>
+        <translation>Завантажити метадані</translation>
+    </message>
+    <message>
+        <source>Fetch it now</source>
+        <translation>Завантажити зараз</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Значок</translation>
+    </message>
+    <message>
+        <source>Select icon for your feed.</source>
+        <translation>Обрати значок для потоку.</translation>
+    </message>
+    <message>
+        <source>Feed title</source>
+        <translation>Назва потоку</translation>
+    </message>
+    <message>
+        <source>Set title for your feed.</source>
+        <translation>Вкажіть назву потоку.</translation>
+    </message>
+    <message>
+        <source>Feed description</source>
+        <translation>Опис потоку</translation>
+    </message>
+    <message>
+        <source>Set description for your feed.</source>
+        <translation>Опишіть потік.</translation>
+    </message>
+    <message>
+        <source>Full feed url including scheme</source>
+        <translation>Повний url потоку, включаючт схему</translation>
+    </message>
+    <message>
+        <source>Set url for your feed.</source>
+        <translation>Вкажіть url для потоку</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Обрати значок</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Завантажити значок з файлу...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch icon from feed</source>
+        <translation>Завантажувати значок з потоку</translation>
+    </message>
+    <message>
+        <source>No metadata fetched so far.</source>
+        <translation>Метадані ще не завантажено</translation>
+    </message>
+    <message>
+        <source>Icon fetched successfully.</source>
+        <translation>Значок успішно завантажено.</translation>
+    </message>
+    <message>
+        <source>Icon metadata fetched.</source>
+        <translation>Метадані значку завантажено.</translation>
+    </message>
+    <message>
+        <source>Result: %1.</source>
+        <translation>Результат: %1.</translation>
+    </message>
+    <message>
+        <source>Icon metadata not fetched.</source>
+        <translation>Метадані значку не завантажено.</translation>
+    </message>
+    <message>
+        <source>Error: %1.</source>
+        <translation>Помилка: %1</translation>
+    </message>
+    <message>
+        <source>No icon fetched.</source>
+        <translation>Значок не завантажено.</translation>
+    </message>
+    <message>
+        <source>All metadata fetched successfully.</source>
+        <translation>Всі метадані було успішно завантажено.</translation>
+    </message>
+    <message>
+        <source>Feed and icon metadata fetched.</source>
+        <translation>Потік та метадані завантажено.</translation>
+    </message>
+    <message>
+        <source>Feed or icon metadata not fetched.</source>
+        <translation>Потік або метадані значку не завантажено.</translation>
+    </message>
+    <message>
+        <source>No metadata fetched.</source>
+        <translation>Не завантажено метадані.</translation>
+    </message>
+    <message>
+        <source>Feed name is ok.</source>
+        <translation>З ім&apos;ям потоку все гаразд.</translation>
+    </message>
+    <message>
+        <source>Feed name is too short.</source>
+        <translation>Ім&apos;я потоку занадто коротке.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Опис пустий.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>З описом все гаразд.</translation>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>З URL все гаразд.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation>URL не відповідає стандартному вигляду. Чи починається URL з &quot;http://&quot; або &quot;https://&quot;.</translation>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>URL пустий.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the feed</source>
+        <translation>Обрати значок для потоку.</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Зображення (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Оберіть значок</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Скасувати</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
+        <translation>Шукати в:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Ім&apos;я значку:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Тип значку:</translation>
+    </message>
+</context>
+<context>
     <name>StandardServiceRoot</name>
     <message>
         <source>This is obligatory service account for standard RSS/RDF/ATOM feeds.</source>
@@ -4562,6 +4627,45 @@ Unread news: %2</source>
     </message>
 </context>
 <context>
+    <name>TtRssFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Батьківська категорія</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation>Оберіть батьковський елемент для потоку.</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Full feed URL including scheme</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Provide URL for your feed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>З URL все гаразд.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation>URL не відповідає стандартному вигляду. Чи починається URL з &quot;http://&quot; або &quot;https://&quot;.</translation>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>URL пустий.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssServiceRoot</name>
     <message>
         <source>Cannot add item</source>
@@ -4719,10 +4823,6 @@ Last login on: %4</source>
 </context>
 <context>
     <name>WebViewer</name>
-    <message>
-        <source>Attachment</source>
-        <translation>Прикріплення</translation>
-    </message>
     <message>
         <source>Written by </source>
         <translation>Автор</translation>

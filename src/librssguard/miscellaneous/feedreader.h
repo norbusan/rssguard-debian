@@ -7,6 +7,7 @@
 
 #include "core/feeddownloader.h"
 #include "core/messagefilter.h"
+#include "services/abstract/cacheforserviceroot.h"
 #include "services/abstract/feed.h"
 
 #include <QFutureWatcher>
@@ -36,15 +37,18 @@ class RSSGUARD_DLLSPEC FeedReader : public QObject {
     FeedsProxyModel* feedsProxyModel() const;
     MessagesProxyModel* messagesProxyModel() const;
 
-    // Schedules given feeds for update.
+    // Update feeds in extra thread.
     void updateFeeds(const QList<Feed*>& feeds);
+
+    // Push back cached message states back to servers in extra thread.
+    void synchronizeMessageData(const QList<CacheForServiceRoot*>& caches);
 
     void showMessageFiltersManager();
 
     // True if feed update is running right now.
     bool isFeedUpdateRunning() const;
 
-    // Resets global auto-update intervals according to settings
+    // Resets global auto-download intervals according to settings
     // and starts/stop the timer as needed.
     void updateAutoUpdateStatus();
 
@@ -68,13 +72,14 @@ class RSSGUARD_DLLSPEC FeedReader : public QObject {
 
   private slots:
     void executeNextAutoUpdate();
-    void checkServicesForAsyncOperations();
-    void asyncCacheSaveFinished();
 
   signals:
     void feedUpdatesStarted();
     void feedUpdatesFinished(FeedDownloadResults updated_feeds);
     void feedUpdatesProgress(const Feed* feed, int current, int total);
+
+  private:
+    void initializeFeedDownloader();
 
   private:
     QList<ServiceEntryPoint*> m_feedServices;

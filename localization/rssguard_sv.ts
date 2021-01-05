@@ -195,6 +195,53 @@
     </message>
 </context>
 <context>
+    <name>AuthenticationDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Kräver HTTP-autentisering</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Lösenord</translation>
+    </message>
+    <message>
+        <source>Set username to access the feed.</source>
+        <translation>Ange användarnamn för att få åtkomst till flödet.</translation>
+    </message>
+    <message>
+        <source>Set password to access the feed.</source>
+        <translation>Ange lösenord för att få åtkomst till flödet.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Användarnamnet är OK, eller behövs inte.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Användarnamn saknas.</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Lösenordet är ok, eller behövs inte.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Lösenord saknas.</translation>
+    </message>
+</context>
+<context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
@@ -315,10 +362,6 @@ Denna webbsida innehåller %n flöden.</numerusform></translation>
 </context>
 <context>
     <name>DownloadItem</name>
-    <message>
-        <source>Ico</source>
-        <translation>Ikon</translation>
-    </message>
     <message>
         <source>Filename</source>
         <translation>Filnamn</translation>
@@ -467,21 +510,6 @@ Klicka här för att öppna målmappen.</translation>
 <context>
     <name>Feed</name>
     <message>
-        <source>does not use auto-update</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation>uppdateras inte automatiskt</translation>
-    </message>
-    <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation><numerusform>använder global inställning (%n minut till nästa automatiska uppdatering)</numerusform><numerusform>använder globala inställningar (%n minuter till nästa automatiska uppdatering)</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation><numerusform>använder specifik inställning (%n minut till nästa automatiska uppdatering)</numerusform><numerusform>använder specifika inställningar (%n minuter till nästa automatiska uppdatering)</numerusform></translation>
-    </message>
-    <message>
         <source>no errors</source>
         <translation>Inga fel</translation>
     </message>
@@ -502,16 +530,31 @@ Klicka här för att öppna målmappen.</translation>
         <translation>ospecificerat fel</translation>
     </message>
     <message>
-        <source>uses global settings (global feed auto-updating is disabled)</source>
-        <translation>använder globala inställningar (automatisk global flödesuppdatering inaktiverad)</translation>
-    </message>
-    <message>
         <source>Auto-update status: %1
 Active message filters: %2
 Status: %3</source>
         <translation>Status för automatisk uppdatering: %1
 Aktiva meddelandefilter: %2
 Status: %3</translation>
+    </message>
+    <message>
+        <source>does not use auto-downloading of messages</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation>använder inte automatisk nerladdning av meddelanden</translation>
+    </message>
+    <message numerus="yes">
+        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation><numerusform>använder övergripande inställningar (%n minut till nästa automatiska nerladdning av meddelanden)</numerusform><numerusform>använder övergripande inställningar (%n minuter till nästa automatiska nerladdning av meddelanden)</numerusform></translation>
+    </message>
+    <message>
+        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <translation>använder övergripande inställningar (övergripande automatisk nerladdning av meddelanden avaktiverat)</translation>
+    </message>
+    <message numerus="yes">
+        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation><numerusform>använder specifika inställningar (%n minut till nästa automatiska nerladdning av nya meddelanden)</numerusform><numerusform>använder specifika inställningar (%n minuter till nästa automatiska nerladdning av nya meddelanden)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -532,16 +575,16 @@ Status: %3</translation>
         <translation>Kan inte uppdatera alla objekt</translation>
     </message>
     <message>
-        <source>You cannot update all items because another critical operation is ongoing.</source>
-        <translation>Du kan inte uppdatera alla poster eftersom en annan kritisk operation pågår.</translation>
+        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
+        <translation>Du kan inte ladda ner nya meddelanden för dina objekt, eftersom en annan kritisk åtgärd pågår.</translation>
     </message>
     <message>
-        <source>Starting auto-update of some feeds</source>
-        <translation>Uppdaterar flöden automatiskt</translation>
+        <source>Starting auto-download of some feeds&apos; messages</source>
+        <translation>Startar automatisk nerladdning av några flödes meddelanden</translation>
     </message>
     <message numerus="yes">
-        <source>I will auto-update %n feed(s).</source>
-        <translation><numerusform>Jag uppdaterar %n flöde automatiskt</numerusform><numerusform>Jag uppdaterar %n flöden automatiskt</numerusform></translation>
+        <source>I will auto-download new messages for %n feed(s).</source>
+        <translation><numerusform>Jag kommer att automatiskt ladda ner nya meddelanden för %n flöde.</numerusform><numerusform>Jag kommer att automatiskt ladda ner nya meddelanden för %n flöden.</numerusform></translation>
     </message>
 </context>
 <context>
@@ -760,6 +803,10 @@ att funktionen inte är implementerad än.</translation>
         <source>GNU GPL License (applies to RSS Guard; mimesis; Numix source codes)</source>
         <translation>GNU GPL Licens (gäller RSS Guard, Numix och mimesis källkod)</translation>
     </message>
+    <message>
+        <source>CUSTOM</source>
+        <translation>ANPASSAT</translation>
+    </message>
 </context>
 <context>
     <name>FormAddAccount</name>
@@ -809,10 +856,6 @@ att funktionen inte är implementerad än.</translation>
 </context>
 <context>
     <name>FormAddEditLabel</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
     <message>
         <source>...</source>
         <translation>...</translation>
@@ -995,10 +1038,6 @@ att funktionen inte är implementerad än.</translation>
 <context>
     <name>FormDownloadAttachment</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
         <source>Downloading attachment...</source>
         <translation>Laddar ner bilaga...</translation>
     </message>
@@ -1104,6 +1143,10 @@ att funktionen inte är implementerad än.</translation>
     <message>
         <source>Some username entered.</source>
         <translation>Användarnamn angivet.</translation>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation>Hämta mina inloggningsuppgifter</translation>
     </message>
 </context>
 <context>
@@ -1317,43 +1360,43 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
     </message>
     <message>
         <source>Password for your Nextcloud account</source>
-        <translation>Lösenord för ditt NextCloud-konto</translation>
+        <translation>Lösenord för ditt Nextcloud-konto</translation>
     </message>
     <message>
         <source>Username for your Nextcloud account</source>
-        <translation>Användarnamn för ditt NextCloud-konto</translation>
+        <translation>Användarnamn för ditt Nextcloud-konto</translation>
     </message>
     <message>
         <source>URL of your Nextcloud server, without any API path</source>
-        <translation>URL för din NextCloud-server, utan API-sökväg</translation>
+        <translation>URL för din Nextcloud-server, utan API-sökväg</translation>
     </message>
     <message>
         <source>Add new Nextcloud News account</source>
-        <translation>Lägg till nytt NextCloud News-konto</translation>
+        <translation>Lägg till nytt Nextcloud News-konto</translation>
     </message>
     <message>
         <source>Edit existing Nextcloud News account</source>
-        <translation>Redigera befintligt NextCloud News-konto</translation>
+        <translation>Redigera befintligt Nextcloud News-konto</translation>
     </message>
     <message>
         <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation>Den valda NextCloud News-servern kör en version som inte stöds.</translation>
+        <translation>Den valda Nextcloud News-servern kör en version som inte stöds.</translation>
     </message>
     <message>
         <source>Nextcloud News server is okay, running with version %1, while at least version %2 is required.</source>
-        <translation>NextClouds nyhetsserver fungerar med version %1, då minst version %2 krävs.</translation>
+        <translation>Nextclouds nyhetsserver fungerar med version %1, då minst version %2 krävs.</translation>
     </message>
     <message>
         <source>Nextcloud News server is okay.</source>
-        <translation>NextClouds nyhetsserver är okay.</translation>
+        <translation>Nextclouds nyhetsserver är okay.</translation>
     </message>
     <message>
         <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation>Nätverksfel! Har du angett korrekt NextCloud-slutpunkt och lösenord?</translation>
+        <translation>Nätverksfel! Har du angett korrekt Nextcloud-slutpunkt och lösenord?</translation>
     </message>
     <message>
         <source>Selected Nextcloud News server is running unsupported version %1. At least version %2 is required.</source>
-        <translation>Den valda NextCloud News-servern kör version %1 som inte stöds. Lägst version %2 krävs.</translation>
+        <translation>Den valda Nextcloud News-servern kör version %1 som inte stöds. Lägst version %2 krävs.</translation>
     </message>
 </context>
 <context>
@@ -1364,7 +1407,7 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
     </message>
     <message>
         <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Vissa flöden kräver autentisering. Inklusive Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
+        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
     </message>
     <message>
         <source>Authentication</source>
@@ -1530,265 +1573,36 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Parent category</source>
-        <translation>Överordnad kategori</translation>
+        <source>Cannot edit feed</source>
+        <translation>Kan inte redigera flödet</translation>
     </message>
     <message>
-        <source>Select parent item for your feed.</source>
-        <translation>Välj övergripande objekt för ditt flöde.</translation>
+        <source>Feed was not edited due to error.</source>
+        <translation>Flödet redigerades inte, på grund av något fel.</translation>
     </message>
     <message>
-        <source>Type</source>
-        <translation>Typ</translation>
+        <source>Edit &apos;%1&apos;</source>
+        <translation>Redigera &quot;%1&quot;</translation>
     </message>
     <message>
-        <source>Select type of the standard feed.</source>
-        <translation>Välj flödestyp.</translation>
+        <source>Auto-downloading of messages</source>
+        <translation>Automatisk nerladdning av meddelanden</translation>
     </message>
     <message>
-        <source>Encoding</source>
-        <translation>Kodning</translation>
+        <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
+        <translation>Välj strategi för automatisk nerladdning av meddelanden i det här flödet. Standardstrategi för automatisk nerladdning, innebär att nya meddelanden i det här flödet kommer att laddas ner med tidsintervall angivna i programinställningarna.</translation>
     </message>
     <message>
-        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
-        <translation>Välj flödeskodning. Välj &quot;UTF-8&quot; om du är osäker på kodningen.</translation>
+        <source>Download messages using global interval</source>
+        <translation>Ladda ner meddelanden med övergripande intervallinställning</translation>
     </message>
     <message>
-        <source>Auto-update</source>
-        <translation>Autouppdatering</translation>
+        <source>Download messages every</source>
+        <translation>Ladda ner meddelanden varje</translation>
     </message>
     <message>
-        <source>Select the auto-update strategy for this feed. Default auto-update strategy means that the feed will be update in time intervals set in application settings.</source>
-        <translation>Välj uppdateringsstrategi för flödet. Standard autouppdatering, innebär att flödet kommer att uppdateras med tidsintervall angivna i programinställningarna.</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Titel</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Beskrivning</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Fetch it now</source>
-        <translation>Hämta nu</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Ikon</translation>
-    </message>
-    <message>
-        <source>Select icon for your feed.</source>
-        <translation>Välj ikon för flödet.</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Vissa flöden kräver autentisering. Inklusive Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Kräver HTTP-autentisering</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Användarnamn</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Lösenord</translation>
-    </message>
-    <message>
-        <source>Fetch metadata</source>
-        <translation>Hämta metadata</translation>
-    </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Lägg till nytt flöde</translation>
-    </message>
-    <message>
-        <source>Edit feed &apos;%1&apos;</source>
-        <translation>Redigera flödet &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Feed name is ok.</source>
-        <translation>Flödesnamnet är ok.</translation>
-    </message>
-    <message>
-        <source>Feed name is too short.</source>
-        <translation>Flödesnamnet är för kort.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Beskrivning saknas.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>Beskrivningen är ok.</translation>
-    </message>
-    <message>
-        <source>The URL is ok.</source>
-        <translation>URL:en är OK.</translation>
-    </message>
-    <message>
-        <source>The URL is empty.</source>
-        <translation>URL saknas.</translation>
-    </message>
-    <message>
-        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
-        <translation>URL:en stämmer inte med standardmönstret. Börjar din URL med prefixet &quot;http://&quot; eller &quot;https://&quot;?</translation>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Användarnamnet är OK, eller behövs inte.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Användarnamn saknas.</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Lösenordet är ok, eller behövs inte.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Lösenord saknas.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the feed</source>
-        <translation>Välj ikonfil för flödet</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>bilder (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Välj ikon</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
-        <translation>Sök i:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Ikonnamn:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Ikontyp:</translation>
-    </message>
-    <message>
-        <source>All metadata fetched successfully.</source>
-        <translation>All metadata hämtades korrekt.</translation>
-    </message>
-    <message>
-        <source>Feed and icon metadata fetched.</source>
-        <translation>Flödes- och ikonmetadata hämtad.</translation>
-    </message>
-    <message>
-        <source>Result: %1.</source>
-        <translation>Resultat: %1.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Flödes- eller ikonmetadata inte hämtad.</translation>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Fel: %1.</translation>
-    </message>
-    <message>
-        <source>No metadata fetched.</source>
-        <translation>Ingen metadata hämtades.</translation>
-    </message>
-    <message>
-        <source>Icon fetched successfully.</source>
-        <translation>Ikon hämtades.</translation>
-    </message>
-    <message>
-        <source>Icon metadata fetched.</source>
-        <translation>Ikonmetadata hämtad.</translation>
-    </message>
-    <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Ikonmetadata inte hämtad.</translation>
-    </message>
-    <message>
-        <source>No icon fetched.</source>
-        <translation>Ikon hämtades inte.</translation>
-    </message>
-    <message>
-        <source>Feed title</source>
-        <translation>Flödesnamn</translation>
-    </message>
-    <message>
-        <source>Set title for your feed.</source>
-        <translation>Ange flödets namn.</translation>
-    </message>
-    <message>
-        <source>Feed description</source>
-        <translation>Flödesbeskrivning</translation>
-    </message>
-    <message>
-        <source>Set description for your feed.</source>
-        <translation>Beskriv flödet.</translation>
-    </message>
-    <message>
-        <source>Full feed url including scheme</source>
-        <translation>Flödets fullständiga URL inklusive schema</translation>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation>Ange flödets URL.</translation>
-    </message>
-    <message>
-        <source>Set username to access the feed.</source>
-        <translation>Ange användarnamn för att få åtkomst till flödet.</translation>
-    </message>
-    <message>
-        <source>Set password to access the feed.</source>
-        <translation>Ange lösenord för att få åtkomst till flödet.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Ikonval</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Hämta ikon från fil...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation>Använd standardikon från ikontemat</translation>
-    </message>
-    <message>
-        <source>Fetch icon from feed</source>
-        <translation>Hämta ikon från flödet</translation>
-    </message>
-    <message>
-        <source>No metadata fetched so far.</source>
-        <translation>Ingen metadata hämtad.</translation>
-    </message>
-    <message>
-        <source>Auto-update using global interval</source>
-        <translation>Autouppdatering med globala intervall</translation>
-    </message>
-    <message>
-        <source>Auto-update every</source>
-        <translation>Uppdatera automatiskt varje</translation>
-    </message>
-    <message>
-        <source>Do not auto-update at all</source>
-        <translation>Uppdatera inte automatiskt</translation>
+        <source>Do not download messages at all</source>
+        <translation>Ladda inte ner meddelanden över huvud taget</translation>
     </message>
 </context>
 <context>
@@ -1958,14 +1772,6 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
         <translation>Lägg till &amp;nytt objekt</translation>
     </message>
     <message>
-        <source>Update &amp;all items</source>
-        <translation>Uppdatera &amp;alla objekt</translation>
-    </message>
-    <message>
-        <source>Update &amp;selected items</source>
-        <translation>Uppdatera &amp;markerade objekt</translation>
-    </message>
-    <message>
         <source>&amp;Edit selected item</source>
         <translation>&amp;Redigera markerade objekt</translation>
     </message>
@@ -2094,10 +1900,6 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
         <translation>Lägg till nytt flöde</translation>
     </message>
     <message>
-        <source>Stop running update</source>
-        <translation>Avbryt uppdatering</translation>
-    </message>
-    <message>
         <source>No actions possible</source>
         <translation>Inga åtgärder möjliga</translation>
     </message>
@@ -2195,16 +1997,32 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
         <translation>&amp;Visa trädgrenar</translation>
     </message>
     <message>
-        <source>Update items with custom &amp;timers</source>
-        <translation>Uppdatera objekt med anpassade &amp;tidur</translation>
-    </message>
-    <message>
         <source>Alternate row colors in lists</source>
         <translation>Växla radfärger i listan</translation>
     </message>
     <message>
         <source>Display &amp;documentation</source>
         <translation>Visa &amp;dokumentation</translation>
+    </message>
+    <message>
+        <source>Automatically &amp;expand items when selected</source>
+        <translation>Expandera automatiskt objekt vid markering</translation>
+    </message>
+    <message>
+        <source>&amp;Download all new messages</source>
+        <translation>&amp;Ladda ner alla nya meddelanden</translation>
+    </message>
+    <message>
+        <source>Download messages for &amp;selected items</source>
+        <translation>Ladda ner meddelanden för &amp;markerade objekt</translation>
+    </message>
+    <message>
+        <source>Stop ongoing downloading of messages</source>
+        <translation>Stoppa pågående nerladdning av meddelanden</translation>
+    </message>
+    <message>
+        <source>Download messages for items with &amp;custom auto-download policy</source>
+        <translation>Ladda ner meddelanden från objekt med &amp;anpassad policy för automatisk nerladdning</translation>
     </message>
 </context>
 <context>
@@ -2216,14 +2034,6 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
     <message>
         <source>Remove selected</source>
         <translation>Ta bort markerat</translation>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation>Lägg till nytt</translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation>Konto</translation>
     </message>
     <message>
         <source>&amp;Check all</source>
@@ -2286,14 +2096,6 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
         <translation>Skriptutdata</translation>
     </message>
     <message>
-        <source>&amp;Test!</source>
-        <translation>&amp;Testa!</translation>
-    </message>
-    <message>
-        <source>&amp;Beautify!</source>
-        <translation>&amp;Försköna!</translation>
-    </message>
-    <message>
         <source>Detailed &amp;help</source>
         <translation>Detaljerad &amp;hjälp</translation>
     </message>
@@ -2342,10 +2144,6 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
         <translation>nej</translation>
     </message>
     <message>
-        <source>JavaScript-based filter contains errors: &apos;%1&apos;.</source>
-        <translation>JavaScript-baserat filter innehåller fel: &apos;%1&apos;.</translation>
-    </message>
-    <message>
         <source>Cannot find &apos;clang-format&apos;</source>
         <translation>Kan inte hitta &quot;clang-format&quot;</translation>
     </message>
@@ -2370,27 +2168,48 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
         <translation>Skriptet har inte förskönats, är &quot;clang-format&quot; installerat?</translation>
     </message>
     <message>
-        <source>Cannot save new filter, error: &apos;&apos;.</source>
-        <translation>Kan inte spara nytt filter, fel: &quot;.</translation>
-    </message>
-</context>
-<context>
-    <name>FormOwnCloudFeedDetails</name>
-    <message>
-        <source>Feed added</source>
-        <translation>Flöde tillagt</translation>
+        <source>&amp;New filter</source>
+        <translation>&amp;Nytt filter</translation>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation>Flöde tillagt. Synkroniseras nu.</translation>
+        <source>&amp;Test</source>
+        <translation>&amp;Testa</translation>
     </message>
     <message>
-        <source>Cannot add feed</source>
-        <translation>Kan inte lägga till flöde</translation>
+        <source>Process checked feeds</source>
+        <translation>Bearbeta markerade flöden</translation>
     </message>
     <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Flödet lades inte till, på grund av ett fel.</translation>
+        <source>&amp;Beautify</source>
+        <translation>&amp;Försköna</translation>
+    </message>
+    <message>
+        <source>Existing messages</source>
+        <translation>Befintliga meddelanden</translation>
+    </message>
+    <message>
+        <source>Cannot save new filter, error: &apos;%1&apos;.</source>
+        <translation>Kan inte spara nytt filter, fel: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>EXISTING messages filtering error: '%1'.
+</source>
+        <translation>Filtreringsfel för BEFINTLIGA meddelande: &quot;%1&quot;
+</translation>
+    </message>
+    <message>
+        <source>SAMPLE message filtering error: '%1'.
+</source>
+        <translation>Filtreringsfel för EXEMPEL-meddelande: &quot;%1&quot;
+</translation>
+    </message>
+    <message>
+        <source>Context menu</source>
+        <translation>Kontextmeny</translation>
+    </message>
+    <message>
+        <source>Filter messages like this</source>
+        <translation>Filtrera meddelanden som detta</translation>
     </message>
 </context>
 <context>
@@ -2631,6 +2450,18 @@ Du måste starta om manuellt.</translation>
         <source>Feed was not edited due to error.</source>
         <translation>Flödet redigerades inte, på grund av något fel.</translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation>Allmänt</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Nätverk</translation>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Lägg till nytt flöde</translation>
+    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
@@ -2770,16 +2601,28 @@ Du måste starta om manuellt.</translation>
         <translation>Flöde tillagt</translation>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation>Flöde tillagt. Synkroniseras nu.</translation>
-    </message>
-    <message>
         <source>Cannot add feed</source>
         <translation>Kan inte lägga till flöde</translation>
     </message>
     <message>
         <source>Feed was not added due to error.</source>
         <translation>Flödet lades inte till, på grund av ett fel.</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Allmänt</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Nätverk</translation>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Lägg till nytt flöde</translation>
+    </message>
+    <message>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation>Flöde lades till, erhåller nytt flödesträd nu.</translation>
     </message>
 </context>
 <context>
@@ -3158,6 +3001,37 @@ Inloggningstoken upphör: %2</translation>
     </message>
 </context>
 <context>
+    <name>MessagesForFiltersModel</name>
+    <message>
+        <source>Read</source>
+        <translation>Läst</translation>
+    </message>
+    <message>
+        <source>Important</source>
+        <translation>Viktigt</translation>
+    </message>
+    <message>
+        <source>In recycle bin</source>
+        <translation>I papperskorgen</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Författare</translation>
+    </message>
+    <message>
+        <source>Created on</source>
+        <translation>Skapad</translation>
+    </message>
+</context>
+<context>
     <name>MessagesModel</name>
     <message>
         <source>Id</source>
@@ -3510,17 +3384,6 @@ Inloggningstoken upphör: %2</translation>
     </message>
 </context>
 <context>
-    <name>OwnCloudServiceRoot</name>
-    <message>
-        <source>Cannot add item</source>
-        <translation>Kan inte lägga till objekt</translation>
-    </message>
-    <message>
-        <source>Cannot add feed because another critical operation is ongoing.</source>
-        <translation>Kan inte lägga till flöde, eftersom en annan kritisk åtgärd pågår.</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>LANG_ABBREV</source>
@@ -3662,8 +3525,12 @@ genom att klicka på denna popup-avisering.</translation>
 <context>
     <name>ServiceRoot</name>
     <message>
-        <source>Sync in</source>
-        <translation>Synka i</translation>
+        <source>Synchronize folders &amp;&amp; other items</source>
+        <translation>Synkronisera mappar &amp;&amp; andra objekt</translation>
+    </message>
+    <message>
+        <source>Synchronize message cache</source>
+        <translation>Synkronisera meddelande-cache</translation>
     </message>
 </context>
 <context>
@@ -4053,14 +3920,6 @@ Utvecklaren av detta program, är INTE ansvarig för förlorad data.</translatio
         <translation>Flöden &amp;&amp; kategorier</translation>
     </message>
     <message>
-        <source>Auto-update all feeds every</source>
-        <translation>Auto-uppdatera alla flöden varje</translation>
-    </message>
-    <message>
-        <source>Only auto-update when application is unfocused</source>
-        <translation>Uppdatera bara när programmet inte är i fokus</translation>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
         <translation>Anslutnings-timeout för flöden</translation>
     </message>
@@ -4113,10 +3972,6 @@ Utvecklaren av detta program, är INTE ansvarig för förlorad data.</translatio
         <translation>Höjd på bildbilagor</translation>
     </message>
     <message>
-        <source>Enable &quot;auto-update started&quot; notification</source>
-        <translation>Aktivera avisering för &quot;Automatisk uppdatering startad&quot;</translation>
-    </message>
-    <message>
         <source>Height or rows in feed list (-1 = default height)</source>
         <translation>Höjd eller rader i flödeslistan (-1 = standardhöjd)</translation>
     </message>
@@ -4145,8 +4000,20 @@ Utvecklaren av detta program, är INTE ansvarig för förlorad data.</translatio
         <translation>Välj nytt teckensnitt</translation>
     </message>
     <message>
-        <source>Update all feeds on application startup with initial delay of</source>
-        <translation>Uppdatera alla flöden vid programstart, med en inledande fördröjning på</translation>
+        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <translation>Ladda ner meddelande från alla flöden vid programstart, med en inledande fördröjning på</translation>
+    </message>
+    <message>
+        <source>Enable &quot;auto-download started&quot; notification</source>
+        <translation>Aktivera avisering för &quot;Automatisk nerladdning startad&quot;</translation>
+    </message>
+    <message>
+        <source>Only auto-download messages when application is unfocused</source>
+        <translation>Ladda bara ner automatiskt när programmet inte är i fokus</translation>
+    </message>
+    <message>
+        <source>Auto-download messages for all feeds every</source>
+        <translation>Ladda ner meddelanden automatiskt för alla flöden varje</translation>
     </message>
 </context>
 <context>
@@ -4386,6 +4253,206 @@ Typ: %3</translation>
     </message>
 </context>
 <context>
+    <name>StandardFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Överordnad kategori</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation>Välj övergripande objekt för ditt flöde.</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Select type of the standard feed.</source>
+        <translation>Välj flödestyp.</translation>
+    </message>
+    <message>
+        <source>Encoding</source>
+        <translation>Kodning</translation>
+    </message>
+    <message>
+        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
+        <translation>Välj flödeskodning. Välj &quot;UTF-8&quot; om du är osäker på kodningen.</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivning</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Fetch metadata</source>
+        <translation>Hämta metadata</translation>
+    </message>
+    <message>
+        <source>Fetch it now</source>
+        <translation>Hämta nu</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Ikon</translation>
+    </message>
+    <message>
+        <source>Select icon for your feed.</source>
+        <translation>Välj ikon för flödet.</translation>
+    </message>
+    <message>
+        <source>Feed title</source>
+        <translation>Flödesnamn</translation>
+    </message>
+    <message>
+        <source>Set title for your feed.</source>
+        <translation>Ange flödets namn.</translation>
+    </message>
+    <message>
+        <source>Feed description</source>
+        <translation>Flödesbeskrivning</translation>
+    </message>
+    <message>
+        <source>Set description for your feed.</source>
+        <translation>Beskriv flödet.</translation>
+    </message>
+    <message>
+        <source>Full feed url including scheme</source>
+        <translation>Flödets fullständiga URL inklusive schema</translation>
+    </message>
+    <message>
+        <source>Set url for your feed.</source>
+        <translation>Ange flödets URL.</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Ikonval</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Hämta ikon från fil...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation>Använd standardikon från ikontemat</translation>
+    </message>
+    <message>
+        <source>Fetch icon from feed</source>
+        <translation>Hämta ikon från flödet</translation>
+    </message>
+    <message>
+        <source>No metadata fetched so far.</source>
+        <translation>Ingen metadata hämtad.</translation>
+    </message>
+    <message>
+        <source>Icon fetched successfully.</source>
+        <translation>Ikon hämtades.</translation>
+    </message>
+    <message>
+        <source>Icon metadata fetched.</source>
+        <translation>Ikonmetadata hämtad.</translation>
+    </message>
+    <message>
+        <source>Result: %1.</source>
+        <translation>Resultat: %1.</translation>
+    </message>
+    <message>
+        <source>Icon metadata not fetched.</source>
+        <translation>Ikonmetadata inte hämtad.</translation>
+    </message>
+    <message>
+        <source>Error: %1.</source>
+        <translation>Fel: %1.</translation>
+    </message>
+    <message>
+        <source>No icon fetched.</source>
+        <translation>Ikon hämtades inte.</translation>
+    </message>
+    <message>
+        <source>All metadata fetched successfully.</source>
+        <translation>All metadata hämtades korrekt.</translation>
+    </message>
+    <message>
+        <source>Feed and icon metadata fetched.</source>
+        <translation>Flödes- och ikonmetadata hämtad.</translation>
+    </message>
+    <message>
+        <source>Feed or icon metadata not fetched.</source>
+        <translation>Flödes- eller ikonmetadata inte hämtad.</translation>
+    </message>
+    <message>
+        <source>No metadata fetched.</source>
+        <translation>Ingen metadata hämtades.</translation>
+    </message>
+    <message>
+        <source>Feed name is ok.</source>
+        <translation>Flödesnamnet är ok.</translation>
+    </message>
+    <message>
+        <source>Feed name is too short.</source>
+        <translation>Flödesnamnet är för kort.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Beskrivning saknas.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>Beskrivningen är ok.</translation>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>URL:en är OK.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation>URL:en stämmer inte med standardmönstret. Börjar din URL med prefixet &quot;http://&quot; eller &quot;https://&quot;?</translation>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>URL saknas.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the feed</source>
+        <translation>Välj ikonfil för flödet</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>bilder (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Välj ikon</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
+        <translation>Sök i:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Ikonnamn:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Ikontyp:</translation>
+    </message>
+</context>
+<context>
     <name>StandardServiceRoot</name>
     <message>
         <source>This is obligatory service account for standard RSS/RDF/ATOM feeds.</source>
@@ -4603,6 +4670,45 @@ Olästa nyheter: %2</translation>
     </message>
 </context>
 <context>
+    <name>TtRssFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Överordnad kategori</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation>Välj övergripande objekt för ditt flöde.</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Full feed URL including scheme</source>
+        <translation>Fullständig flödes-URL inkluderingsscema</translation>
+    </message>
+    <message>
+        <source>Provide URL for your feed.</source>
+        <translation>Ange URL för ditt flöde.</translation>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>URL:en är OK.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation>URL:en stämmer inte med standardmönstret. Börjar din URL med prefixet &quot;http://&quot; eller &quot;https://&quot;?</translation>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>URL saknas.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssServiceRoot</name>
     <message>
         <source>Cannot add item</source>
@@ -4760,10 +4866,6 @@ Senaste inloggning: %4</translation>
 </context>
 <context>
     <name>WebViewer</name>
-    <message>
-        <source>Attachment</source>
-        <translation>Bilaga</translation>
-    </message>
     <message>
         <source>Written by </source>
         <translation>Skriven av </translation>

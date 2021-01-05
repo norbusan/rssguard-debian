@@ -14,6 +14,7 @@
 #include "gui/feedstoolbar.h"
 #include "gui/feedsview.h"
 #include "gui/messagebox.h"
+#include "gui/messagepreviewer.h"
 #include "gui/messagestoolbar.h"
 #include "gui/messagesview.h"
 #include "gui/plaintoolbutton.h"
@@ -58,6 +59,7 @@ FormMain::FormMain(QWidget* parent, Qt::WindowFlags f)
   m_ui->setupUi(this);
   qApp->setMainForm(this);
 
+  setWindowIcon(qApp->desktopAwareIcon());
   setWindowTitle(APP_LONG_NAME);
 
 #if defined (USE_WEBENGINE)
@@ -145,10 +147,12 @@ QList<QAction*> FormMain::allActions() const {
 
   actions << m_ui->m_actionSwitchToolBars;
   actions << m_ui->m_actionSwitchListHeaders;
+  actions << m_ui->m_actionSwitchMessageViewerToolbars;
   actions << m_ui->m_actionSwitchStatusBar;
   actions << m_ui->m_actionSwitchMessageListOrientation;
   actions << m_ui->m_actionTabsNext;
   actions << m_ui->m_actionTabsPrevious;
+  actions << m_ui->m_actionSendMessageViaEmail;
   actions << m_ui->m_actionOpenSelectedSourceArticlesExternally;
   actions << m_ui->m_actionOpenSelectedMessagesInternally;
   actions << m_ui->m_actionAlternateColorsInLists;
@@ -378,6 +382,7 @@ void FormMain::updateAccountsMenu() {
 
 void FormMain::onFeedUpdatesFinished(const FeedDownloadResults& results) {
   Q_UNUSED(results)
+
   statusBar()->clearProgressFeeds();
   tabWidget()->feedMessageViewer()->messagesView()->reloadSelections();
 }
@@ -475,7 +480,7 @@ void FormMain::setupIcons() {
 
   // Setup icons of this main window.
   m_ui->m_actionDownloadManager->setIcon(icon_theme_factory->fromTheme(QSL("emblem-downloads")));
-  m_ui->m_actionSettings->setIcon(icon_theme_factory->fromTheme(QSL("document-properties")));
+  m_ui->m_actionSettings->setIcon(icon_theme_factory->fromTheme(QSL("emblem-system")));
   m_ui->m_actionQuit->setIcon(icon_theme_factory->fromTheme(QSL("application-exit")));
   m_ui->m_actionRestart->setIcon(icon_theme_factory->fromTheme(QSL("view-refresh")));
   m_ui->m_actionAboutGuard->setIcon(icon_theme_factory->fromTheme(QSL("help-about")));
@@ -494,6 +499,7 @@ void FormMain::setupIcons() {
   m_ui->m_actionSwitchMainMenu->setIcon(icon_theme_factory->fromTheme(QSL("view-restore")));
   m_ui->m_actionSwitchToolBars->setIcon(icon_theme_factory->fromTheme(QSL("view-restore")));
   m_ui->m_actionSwitchListHeaders->setIcon(icon_theme_factory->fromTheme(QSL("view-restore")));
+  m_ui->m_actionSwitchMessageViewerToolbars->setIcon(icon_theme_factory->fromTheme(QSL("view-restore")));
   m_ui->m_actionSwitchStatusBar->setIcon(icon_theme_factory->fromTheme(QSL("dialog-information")));
   m_ui->m_actionSwitchMessageListOrientation->setIcon(icon_theme_factory->fromTheme(QSL("view-restore")));
   m_ui->m_menuShowHide->setIcon(icon_theme_factory->fromTheme(QSL("view-restore")));
@@ -501,9 +507,9 @@ void FormMain::setupIcons() {
   // Feeds/messages.
   m_ui->m_menuAddItem->setIcon(icon_theme_factory->fromTheme(QSL("list-add")));
   m_ui->m_actionStopRunningItemsUpdate->setIcon(icon_theme_factory->fromTheme(QSL("process-stop")));
-  m_ui->m_actionUpdateAllItems->setIcon(icon_theme_factory->fromTheme(QSL("view-refresh")));
-  m_ui->m_actionUpdateSelectedItems->setIcon(icon_theme_factory->fromTheme(QSL("view-refresh")));
-  m_ui->m_actionUpdateSelectedItemsWithCustomTimers->setIcon(icon_theme_factory->fromTheme(QSL("view-refresh")));
+  m_ui->m_actionUpdateAllItems->setIcon(icon_theme_factory->fromTheme(QSL("download")));
+  m_ui->m_actionUpdateSelectedItems->setIcon(icon_theme_factory->fromTheme(QSL("download")));
+  m_ui->m_actionUpdateSelectedItemsWithCustomTimers->setIcon(icon_theme_factory->fromTheme(QSL("download")));
   m_ui->m_actionClearSelectedItems->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-junk")));
   m_ui->m_actionClearAllItems->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-junk")));
   m_ui->m_actionDeleteSelectedItem->setIcon(icon_theme_factory->fromTheme(QSL("list-remove")));
@@ -591,6 +597,7 @@ void FormMain::loadSize() {
   m_ui->m_tabWidget->feedMessageViewer()->loadSize();
   m_ui->m_actionSwitchToolBars->setChecked(settings->value(GROUP(GUI), SETTING(GUI::ToolbarsVisible)).toBool());
   m_ui->m_actionSwitchListHeaders->setChecked(settings->value(GROUP(GUI), SETTING(GUI::ListHeadersVisible)).toBool());
+  m_ui->m_actionSwitchMessageViewerToolbars->setChecked(settings->value(GROUP(GUI), SETTING(GUI::MessageViewerToolbarsVisible)).toBool());
   m_ui->m_actionSwitchStatusBar->setChecked(settings->value(GROUP(GUI), SETTING(GUI::StatusBarVisible)).toBool());
 
   // Other startup GUI-related settings.
@@ -752,6 +759,8 @@ void FormMain::createConnections() {
           tabWidget()->feedMessageViewer(), &FeedMessageViewer::setToolBarsEnabled);
   connect(m_ui->m_actionSwitchListHeaders, &QAction::toggled,
           tabWidget()->feedMessageViewer(), &FeedMessageViewer::setListHeadersEnabled);
+  connect(m_ui->m_actionSwitchMessageViewerToolbars, &QAction::toggled,
+          tabWidget()->feedMessageViewer()->messagesBrowser(), &MessagePreviewer::setToolbarsVisible);
   connect(m_ui->m_actionSelectPreviousItem,
           &QAction::triggered, tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::selectPreviousItem);
   connect(m_ui->m_actionSelectNextMessage,
@@ -778,8 +787,10 @@ void FormMain::createConnections() {
           tabWidget()->feedMessageViewer()->feedsView()->sourceModel(), &FeedsModel::restoreAllBins);
   connect(m_ui->m_actionEmptyAllRecycleBins, &QAction::triggered,
           tabWidget()->feedMessageViewer()->feedsView()->sourceModel(), &FeedsModel::emptyAllBins);
-  connect(m_ui->m_actionMessageFilters, &QAction::triggered,
-          qApp->feedReader(), &FeedReader::showMessageFiltersManager);
+  connect(m_ui->m_actionMessageFilters, &QAction::triggered, this, [this]() {
+    qApp->feedReader()->showMessageFiltersManager();
+    tabWidget()->feedMessageViewer()->messagesView()->reloadSelections();
+  });
 }
 
 void FormMain::backupDatabaseSettings() {
@@ -818,6 +829,18 @@ void FormMain::changeEvent(QEvent* event) {
   }
 
   QMainWindow::changeEvent(event);
+}
+
+void FormMain::closeEvent(QCloseEvent* event) {
+  QMainWindow::closeEvent(event);
+
+  qDebugNN << LOGSEC_GUI << "Main window's close event";
+}
+
+void FormMain::hideEvent(QHideEvent* event) {
+  QMainWindow::hideEvent(event);
+
+  qDebugNN << LOGSEC_GUI << "Main window's hide event";
 }
 
 void FormMain::showDocs() {
