@@ -2,6 +2,7 @@
 
 #include "services/abstract/accountcheckmodel.h"
 
+#include "3rd-party/boolinq/boolinq.h"
 #include "definitions/definitions.h"
 #include "miscellaneous/application.h"
 #include "miscellaneous/iconfactory.h"
@@ -273,7 +274,16 @@ Qt::ItemFlags AccountCheckModel::flags(const QModelIndex& index) const {
   return flags;
 }
 
-bool AccountCheckModel::isItemChecked(RootItem* item) {
+QList<RootItem*> AccountCheckModel::checkedItems() const {
+  auto keys = m_checkStates.keys();
+  auto res = boolinq::from(keys).where([&](const auto& key) {
+    return m_checkStates.value(key) == Qt::CheckState::Checked;
+  }).toStdList();
+
+  return FROM_STD_LIST(QList<RootItem*>, res);
+}
+
+bool AccountCheckModel::isItemChecked(RootItem* item) const {
   return m_checkStates.value(item, Qt::CheckState::Unchecked) == Qt::CheckState::Checked;
 }
 

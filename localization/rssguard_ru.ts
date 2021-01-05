@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation>URL </translation>
     </message>
     <message>
         <source>Absolute URL to online subscription file</source>
@@ -195,6 +195,53 @@
     </message>
 </context>
 <context>
+    <name>AuthenticationDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Некоторые каналы требуют аутентификации, включая каналы GMail. Поддерживаются схемы проверки подлинности BASIC, NTLM-2 и DIGEST-MD5.</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Требуется аутентификация HTTP</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Логин</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Пароль</translation>
+    </message>
+    <message>
+        <source>Set username to access the feed.</source>
+        <translation>Установите имя пользователя для доступа к каналу.</translation>
+    </message>
+    <message>
+        <source>Set password to access the feed.</source>
+        <translation>Установите пароль для доступа к каналу.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Имя пользователя в порядке или не требуется.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Логин пуст.</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Пароль в порядке или не требуется.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Пароль пуст.</translation>
+    </message>
+</context>
+<context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
@@ -317,10 +364,6 @@ This website contains %n feed(s).</source>
 </context>
 <context>
     <name>DownloadItem</name>
-    <message>
-        <source>Ico</source>
-        <translation>Ico</translation>
-    </message>
     <message>
         <source>Filename</source>
         <translation>Имя файла</translation>
@@ -469,21 +512,6 @@ Click here to open parent directory.</source>
 <context>
     <name>Feed</name>
     <message>
-        <source>does not use auto-update</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation>не использовать автообновление</translation>
-    </message>
-    <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation><numerusform>использует глобальные настройки (%n минут(а) до следующего автоматического обновления)</numerusform><numerusform>использует глобальные настройки (%n минут(а) до следующего автоматического обновления)</numerusform><numerusform>использует глобальные настройки (%n минут(а) до следующего автоматического обновления)</numerusform><numerusform>использует глобальные настройки (%n минут(а) до следующего автоматического обновления)</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation><numerusform>использует определенные настройки (%n минут(а) до следующего автоматического обновления)</numerusform><numerusform>использует определенные настройки (%n минут(а) до следующего автоматического обновления)</numerusform><numerusform>использует определенные настройки (%n минут(а) до следующего автоматического обновления)</numerusform><numerusform>использует определенные настройки (%n минут(а) до следующего автоматического обновления)</numerusform></translation>
-    </message>
-    <message>
         <source>no errors</source>
         <translation>нет ошибок</translation>
     </message>
@@ -504,16 +532,31 @@ Click here to open parent directory.</source>
         <translation>неопределенная ошибка</translation>
     </message>
     <message>
-        <source>uses global settings (global feed auto-updating is disabled)</source>
-        <translation>использует глобальные настройки (автоматическое обновление отключено)</translation>
-    </message>
-    <message>
         <source>Auto-update status: %1
 Active message filters: %2
 Status: %3</source>
         <translation>Статус автообновления: %1
 Активные фильтры сообщений: %2
 Статус: %3</translation>
+    </message>
+    <message>
+        <source>does not use auto-downloading of messages</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -534,16 +577,16 @@ Status: %3</source>
         <translation>Невозможно обновить все элементы</translation>
     </message>
     <message>
-        <source>You cannot update all items because another critical operation is ongoing.</source>
-        <translation>Нельзя обновить все пункты, потому что выполняется другая важная операция.</translation>
+        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Starting auto-update of some feeds</source>
-        <translation>Запущено автообновление некоторых каналов</translation>
+        <source>Starting auto-download of some feeds&apos; messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-update %n feed(s).</source>
-        <translation><numerusform>Будет автоматически обновляться %n канал(ов).</numerusform><numerusform>Будет автоматически обновляться %n канал(ов).</numerusform><numerusform>Будет автоматически обновляться %n канал(ов).</numerusform><numerusform>Будет автоматически обновляться %n канал(ов).</numerusform></translation>
+        <source>I will auto-download new messages for %n feed(s).</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -761,6 +804,10 @@ or this functionality is not implemented yet.</source>
         <source>GNU GPL License (applies to RSS Guard; mimesis; Numix source codes)</source>
         <translation>GNU GPL License (применяется к исходному коду RSS Guard, mimesis и Numix)</translation>
     </message>
+    <message>
+        <source>CUSTOM</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FormAddAccount</name>
@@ -810,10 +857,6 @@ or this functionality is not implemented yet.</source>
 </context>
 <context>
     <name>FormAddEditLabel</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Диалог</translation>
-    </message>
     <message>
         <source>...</source>
         <translation>...</translation>
@@ -996,10 +1039,6 @@ or this functionality is not implemented yet.</source>
 <context>
     <name>FormDownloadAttachment</name>
     <message>
-        <source>Dialog</source>
-        <translation>Диалог</translation>
-    </message>
-    <message>
         <source>Downloading attachment...</source>
         <translation>Загрузка вложения...</translation>
     </message>
@@ -1105,6 +1144,10 @@ or this functionality is not implemented yet.</source>
     <message>
         <source>Some username entered.</source>
         <translation>Введен некоторый логин.</translation>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1361,7 +1404,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     <name>FormEditTtRssAccount</name>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation>URL </translation>
     </message>
     <message>
         <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
@@ -1531,265 +1574,36 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Parent category</source>
-        <translation>Родительская категория</translation>
+        <source>Cannot edit feed</source>
+        <translation>Невозможно изменить канал</translation>
     </message>
     <message>
-        <source>Select parent item for your feed.</source>
-        <translation>Выберите родительский элемент для вашего канала.</translation>
+        <source>Feed was not edited due to error.</source>
+        <translation>Канал не был изменен из-за ошибки.</translation>
     </message>
     <message>
-        <source>Type</source>
-        <translation>Тип</translation>
+        <source>Edit &apos;%1&apos;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Select type of the standard feed.</source>
-        <translation>Выберите тип стандартного канала.</translation>
+        <source>Auto-downloading of messages</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Encoding</source>
-        <translation>Кодировка</translation>
+        <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
-        <translation>Выберите кодировку стандартного канала. Если вы не уверены в кодировке, выберите кодировку &quot;UTF-8&quot;.</translation>
+        <source>Download messages using global interval</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-update</source>
-        <translation>Автоматическое обновление</translation>
+        <source>Download messages every</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Select the auto-update strategy for this feed. Default auto-update strategy means that the feed will be update in time intervals set in application settings.</source>
-        <translation>Выберите стратегию автоматического обновления для этого канала. Стратегия автоматического обновления по умолчанию означает, что канал будет обновляться через интервалы времени, установленные в настройках приложения.</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Заголовок</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Описание</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Fetch it now</source>
-        <translation>Получить сейчас</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Иконка</translation>
-    </message>
-    <message>
-        <source>Select icon for your feed.</source>
-        <translation>Выберите иконку для вашего канала.</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Некоторые каналы требуют аутентификации, включая каналы GMail. Поддерживаются схемы проверки подлинности BASIC, NTLM-2 и DIGEST-MD5.</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Требуется аутентификация HTTP</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Логин</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>Fetch metadata</source>
-        <translation>Получить метаданные</translation>
-    </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Добавить новый канал</translation>
-    </message>
-    <message>
-        <source>Edit feed &apos;%1&apos;</source>
-        <translation>Редактировать канал &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Feed name is ok.</source>
-        <translation>Имя канала подходит.</translation>
-    </message>
-    <message>
-        <source>Feed name is too short.</source>
-        <translation>Имя канала слишком короткое.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Описание пустое.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>Описание подходит.</translation>
-    </message>
-    <message>
-        <source>The URL is ok.</source>
-        <translation>URL подходит.</translation>
-    </message>
-    <message>
-        <source>The URL is empty.</source>
-        <translation>Нет URL.</translation>
-    </message>
-    <message>
-        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
-        <translation>URL не соответствует стандартному шаблону. Ваш URL должен начинается с префикса &quot;http://&quot; или &quot;https://&quot;.</translation>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Имя пользователя в порядке или не требуется.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Логин пуст.</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Пароль в порядке или не требуется.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Пароль пуст.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the feed</source>
-        <translation>Выбрать файл иконки для канала</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Изображения (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Выберите иконку</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Отмена</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
-        <translation>Искать в:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Имя иконки:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Тип иконки:</translation>
-    </message>
-    <message>
-        <source>All metadata fetched successfully.</source>
-        <translation>Все метаданные получены успешно.</translation>
-    </message>
-    <message>
-        <source>Feed and icon metadata fetched.</source>
-        <translation>Получены метаданные канала и значка.</translation>
-    </message>
-    <message>
-        <source>Result: %1.</source>
-        <translation>Результат: %1.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Метаданные канала и значка не получены.</translation>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Ошибка: %1.</translation>
-    </message>
-    <message>
-        <source>No metadata fetched.</source>
-        <translation>Метаданные не получены.</translation>
-    </message>
-    <message>
-        <source>Icon fetched successfully.</source>
-        <translation>Иконка получена успешно.</translation>
-    </message>
-    <message>
-        <source>Icon metadata fetched.</source>
-        <translation>Получены метаданные иконки.</translation>
-    </message>
-    <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Метаданные иконки не получены.</translation>
-    </message>
-    <message>
-        <source>No icon fetched.</source>
-        <translation>Иконка не получена.</translation>
-    </message>
-    <message>
-        <source>Feed title</source>
-        <translation>Заголовок канала</translation>
-    </message>
-    <message>
-        <source>Set title for your feed.</source>
-        <translation>Установите заголовок для вашего канала.</translation>
-    </message>
-    <message>
-        <source>Feed description</source>
-        <translation>Описание канала</translation>
-    </message>
-    <message>
-        <source>Set description for your feed.</source>
-        <translation>Задайте описание для вашего канала.</translation>
-    </message>
-    <message>
-        <source>Full feed url including scheme</source>
-        <translation>Полный URL канала, включая схему</translation>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation>Установите URL для вашего канала.</translation>
-    </message>
-    <message>
-        <source>Set username to access the feed.</source>
-        <translation>Установите имя пользователя для доступа к каналу.</translation>
-    </message>
-    <message>
-        <source>Set password to access the feed.</source>
-        <translation>Установите пароль для доступа к каналу.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Выбор иконки</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Загрузить иконку из файла...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation>Использовать иконку по умолчанию из иконок темы.</translation>
-    </message>
-    <message>
-        <source>Fetch icon from feed</source>
-        <translation>Получить иконку из канала</translation>
-    </message>
-    <message>
-        <source>No metadata fetched so far.</source>
-        <translation>Метаданные пока не получены.</translation>
-    </message>
-    <message>
-        <source>Auto-update using global interval</source>
-        <translation>Автообновление с использованием глобального интервала</translation>
-    </message>
-    <message>
-        <source>Auto-update every</source>
-        <translation>Автообновление каждые</translation>
-    </message>
-    <message>
-        <source>Do not auto-update at all</source>
-        <translation>Не обновлять автоматически</translation>
+        <source>Do not download messages at all</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1959,14 +1773,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Добавить новый элемент (&amp;N)</translation>
     </message>
     <message>
-        <source>Update &amp;all items</source>
-        <translation>Обновить все элементы (&amp;A)</translation>
-    </message>
-    <message>
-        <source>Update &amp;selected items</source>
-        <translation>Обновить выбранные элементы (&amp;S)</translation>
-    </message>
-    <message>
         <source>&amp;Edit selected item</source>
         <translation>Изменить выбранный элемент (&amp;E)</translation>
     </message>
@@ -2095,10 +1901,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Добавить новый канал</translation>
     </message>
     <message>
-        <source>Stop running update</source>
-        <translation>Остановить запущенное обновление</translation>
-    </message>
-    <message>
         <source>No actions possible</source>
         <translation>Нет возможных действий</translation>
     </message>
@@ -2196,16 +1998,32 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Отображать иерархию дерева (&amp;S)</translation>
     </message>
     <message>
-        <source>Update items with custom &amp;timers</source>
-        <translation>Обновить элементы с помощью настраиваемых таймеров (&amp;T)</translation>
-    </message>
-    <message>
         <source>Alternate row colors in lists</source>
         <translation>Чередовать цвет фона строк в списках</translation>
     </message>
     <message>
         <source>Display &amp;documentation</source>
         <translation>Показать документацию (&amp;D)</translation>
+    </message>
+    <message>
+        <source>Automatically &amp;expand items when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Download all new messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download messages for &amp;selected items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing downloading of messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download messages for items with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2217,14 +2035,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     <message>
         <source>Remove selected</source>
         <translation>Удалить выбранное</translation>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation>Добавить новый</translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation>Аккаунт</translation>
     </message>
     <message>
         <source>&amp;Check all</source>
@@ -2268,7 +2078,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation>URL </translation>
     </message>
     <message>
         <source>Author</source>
@@ -2285,14 +2095,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     <message>
         <source>Script output</source>
         <translation>Вывод скрипта</translation>
-    </message>
-    <message>
-        <source>&amp;Test!</source>
-        <translation>Тест! (&amp;T)</translation>
-    </message>
-    <message>
-        <source>&amp;Beautify!</source>
-        <translation>Улучшить! (&amp;B)</translation>
     </message>
     <message>
         <source>Detailed &amp;help</source>
@@ -2343,10 +2145,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>нет</translation>
     </message>
     <message>
-        <source>JavaScript-based filter contains errors: &apos;%1&apos;.</source>
-        <translation>Фильтр на основе JavaScript содержит ошибки: &apos;%1&apos;.</translation>
-    </message>
-    <message>
         <source>Cannot find &apos;clang-format&apos;</source>
         <translation>Не удается найти &apos;clang-format&apos;</translation>
     </message>
@@ -2371,27 +2169,46 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Скрипт не был улучшен, установлен &apos;clang-format&apos;?</translation>
     </message>
     <message>
-        <source>Cannot save new filter, error: &apos;&apos;.</source>
-        <translation>Невозможно сохранить новый фильтр, ошибка: &apos;&apos;.</translation>
-    </message>
-</context>
-<context>
-    <name>FormOwnCloudFeedDetails</name>
-    <message>
-        <source>Feed added</source>
-        <translation>Канал добавлен</translation>
+        <source>&amp;New filter</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation>Канал был добавлен, вызвав синхронизацию, которая происходит сейчас.</translation>
+        <source>&amp;Test</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot add feed</source>
-        <translation>Невозможно добавить канал</translation>
+        <source>Process checked feeds</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Канал не был добавлен из-за ошибки.</translation>
+        <source>&amp;Beautify</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Existing messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot save new filter, error: &apos;%1&apos;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING messages filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>SAMPLE message filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Context menu</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Filter messages like this</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2632,6 +2449,18 @@ You have to restart manually.</source>
         <source>Feed was not edited due to error.</source>
         <translation>Канал не был изменен из-за ошибки.</translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation>Основные</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Добавить новый канал</translation>
+    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
@@ -2771,16 +2600,28 @@ You have to restart manually.</source>
         <translation>Канал добавлен</translation>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation>Канал был добавлен, вызвав синхронизацию, которая происходит сейчас.</translation>
-    </message>
-    <message>
         <source>Cannot add feed</source>
         <translation>Невозможно добавить канал</translation>
     </message>
     <message>
         <source>Feed was not added due to error.</source>
         <translation>Канал не был добавлен из-за ошибки.</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Основные</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Добавить новый канал</translation>
+    </message>
+    <message>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3160,6 +3001,37 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
+    <name>MessagesForFiltersModel</name>
+    <message>
+        <source>Read</source>
+        <translation>Чтение</translation>
+    </message>
+    <message>
+        <source>Important</source>
+        <translation>Важное</translation>
+    </message>
+    <message>
+        <source>In recycle bin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Заголовок</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL </translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Автор</translation>
+    </message>
+    <message>
+        <source>Created on</source>
+        <translation>Дата создания</translation>
+    </message>
+</context>
+<context>
     <name>MessagesModel</name>
     <message>
         <source>Id</source>
@@ -3513,17 +3385,6 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
-    <name>OwnCloudServiceRoot</name>
-    <message>
-        <source>Cannot add item</source>
-        <translation>Невозможно добавить пункт</translation>
-    </message>
-    <message>
-        <source>Cannot add feed because another critical operation is ongoing.</source>
-        <translation>Невозможно добавить канал, потому что выполняется другая важная операция.</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>LANG_ABBREV</source>
@@ -3669,8 +3530,12 @@ version by clicking this popup notification.</source>
 <context>
     <name>ServiceRoot</name>
     <message>
-        <source>Sync in</source>
-        <translation>Синхронизация</translation>
+        <source>Synchronize folders &amp;&amp; other items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Synchronize message cache</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4059,14 +3924,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation>Каналы и категории (&amp;C)</translation>
     </message>
     <message>
-        <source>Auto-update all feeds every</source>
-        <translation>Обновление всех каналов каждые</translation>
-    </message>
-    <message>
-        <source>Only auto-update when application is unfocused</source>
-        <translation>Автообновление только когда не в фокусе</translation>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
         <translation>Таймаут соединения канала</translation>
     </message>
@@ -4119,10 +3976,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation>Высота вложений изображений</translation>
     </message>
     <message>
-        <source>Enable &quot;auto-update started&quot; notification</source>
-        <translation>Включить уведомление &quot;автообновление запущено&quot;</translation>
-    </message>
-    <message>
         <source>Height or rows in feed list (-1 = default height)</source>
         <translation>Высота строк в списке каналов (-1 = высота по умолчанию)</translation>
     </message>
@@ -4151,8 +4004,20 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation>Выберите новый шрифт</translation>
     </message>
     <message>
-        <source>Update all feeds on application startup with initial delay of</source>
-        <translation>Обновить все каналы при запуске приложения с начальной задержкой</translation>
+        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enable &quot;auto-download started&quot; notification</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-download messages when application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-download messages for all feeds every</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4392,6 +4257,206 @@ Type: %3</source>
     </message>
 </context>
 <context>
+    <name>StandardFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Родительская категория</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation>Выберите родительский элемент для вашего канала.</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source>Select type of the standard feed.</source>
+        <translation>Выберите тип стандартного канала.</translation>
+    </message>
+    <message>
+        <source>Encoding</source>
+        <translation>Кодировка</translation>
+    </message>
+    <message>
+        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
+        <translation>Выберите кодировку стандартного канала. Если вы не уверены в кодировке, выберите кодировку &quot;UTF-8&quot;.</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Заголовок</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Описание</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL </translation>
+    </message>
+    <message>
+        <source>Fetch metadata</source>
+        <translation>Получить метаданные</translation>
+    </message>
+    <message>
+        <source>Fetch it now</source>
+        <translation>Получить сейчас</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Иконка</translation>
+    </message>
+    <message>
+        <source>Select icon for your feed.</source>
+        <translation>Выберите иконку для вашего канала.</translation>
+    </message>
+    <message>
+        <source>Feed title</source>
+        <translation>Заголовок канала</translation>
+    </message>
+    <message>
+        <source>Set title for your feed.</source>
+        <translation>Установите заголовок для вашего канала.</translation>
+    </message>
+    <message>
+        <source>Feed description</source>
+        <translation>Описание канала</translation>
+    </message>
+    <message>
+        <source>Set description for your feed.</source>
+        <translation>Задайте описание для вашего канала.</translation>
+    </message>
+    <message>
+        <source>Full feed url including scheme</source>
+        <translation>Полный URL канала, включая схему</translation>
+    </message>
+    <message>
+        <source>Set url for your feed.</source>
+        <translation>Установите URL для вашего канала.</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Выбор иконки</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Загрузить иконку из файла...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation>Использовать иконку по умолчанию из иконок темы.</translation>
+    </message>
+    <message>
+        <source>Fetch icon from feed</source>
+        <translation>Получить иконку из канала</translation>
+    </message>
+    <message>
+        <source>No metadata fetched so far.</source>
+        <translation>Метаданные пока не получены.</translation>
+    </message>
+    <message>
+        <source>Icon fetched successfully.</source>
+        <translation>Иконка получена успешно.</translation>
+    </message>
+    <message>
+        <source>Icon metadata fetched.</source>
+        <translation>Получены метаданные иконки.</translation>
+    </message>
+    <message>
+        <source>Result: %1.</source>
+        <translation>Результат: %1.</translation>
+    </message>
+    <message>
+        <source>Icon metadata not fetched.</source>
+        <translation>Метаданные иконки не получены.</translation>
+    </message>
+    <message>
+        <source>Error: %1.</source>
+        <translation>Ошибка: %1.</translation>
+    </message>
+    <message>
+        <source>No icon fetched.</source>
+        <translation>Иконка не получена.</translation>
+    </message>
+    <message>
+        <source>All metadata fetched successfully.</source>
+        <translation>Все метаданные получены успешно.</translation>
+    </message>
+    <message>
+        <source>Feed and icon metadata fetched.</source>
+        <translation>Получены метаданные канала и значка.</translation>
+    </message>
+    <message>
+        <source>Feed or icon metadata not fetched.</source>
+        <translation>Метаданные канала и значка не получены.</translation>
+    </message>
+    <message>
+        <source>No metadata fetched.</source>
+        <translation>Метаданные не получены.</translation>
+    </message>
+    <message>
+        <source>Feed name is ok.</source>
+        <translation>Имя канала подходит.</translation>
+    </message>
+    <message>
+        <source>Feed name is too short.</source>
+        <translation>Имя канала слишком короткое.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Описание пустое.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>Описание подходит.</translation>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>URL подходит.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation>URL не соответствует стандартному шаблону. Ваш URL должен начинается с префикса &quot;http://&quot; или &quot;https://&quot;.</translation>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>Нет URL.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the feed</source>
+        <translation>Выбрать файл иконки для канала</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Изображения (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Выберите иконку</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
+        <translation>Искать в:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Имя иконки:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Тип иконки:</translation>
+    </message>
+</context>
+<context>
     <name>StandardServiceRoot</name>
     <message>
         <source>This is obligatory service account for standard RSS/RDF/ATOM feeds.</source>
@@ -4609,6 +4674,45 @@ Unread news: %2</source>
     </message>
 </context>
 <context>
+    <name>TtRssFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Родительская категория</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation>Выберите родительский элемент для вашего канала.</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL </translation>
+    </message>
+    <message>
+        <source>Full feed URL including scheme</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Provide URL for your feed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>URL подходит.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation>URL не соответствует стандартному шаблону. Ваш URL должен начинается с префикса &quot;http://&quot; или &quot;https://&quot;.</translation>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>Нет URL.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssServiceRoot</name>
     <message>
         <source>Cannot add item</source>
@@ -4766,10 +4870,6 @@ Last login on: %4</source>
 </context>
 <context>
     <name>WebViewer</name>
-    <message>
-        <source>Attachment</source>
-        <translation>Вложение</translation>
-    </message>
     <message>
         <source>Written by </source>
         <translation>Написано </translation>

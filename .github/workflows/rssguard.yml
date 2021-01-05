@@ -1,0 +1,73 @@
+---
+name: rssguard
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build-rssguard:
+    name: "${{ matrix.os }}; webengine = ${{ matrix.use_webengine }}"
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os: [windows-2019, ubuntu-16.04, macos-10.15]
+        use_webengine: ["true", "false"]
+        include:
+          - os: windows-2019
+            script_name: .\resources\scripts\github-actions\build-windows.ps1
+          - os: ubuntu-16.04
+            script_name: ./resources/scripts/github-actions/build-linux-mac.sh
+          - os: macos-10.15
+            script_name: ./resources/scripts/github-actions/build-linux-mac.sh
+    steps:
+      - name: Delete old development binaries
+        uses: mknejp/delete-release-assets@v1
+        if: strategy.job-index == 0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: devbuild
+          fail-if-no-assets: false
+          fail-if-no-release: false
+          assets: | 
+            *.AppImage
+            *.dmg
+            *.exe
+            *.7z
+          
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: true
+          
+      - name: Prepare environment and compile application
+        run: ${{ matrix.script_name }} "${{ matrix.os }}" "${{ matrix.use_webengine }}"
+        
+      - name: Release development binaries
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          name: "Development builds"
+          tag_name: "devbuild"
+          files: |
+            .\rssguard-build\src\rssguard\rssguard-*win64.exe
+            .\rssguard-build\src\rssguard\rssguard-*win64.7z
+            ./rssguard-build/src/rssguard/rssguard-*mac64.dmg
+            ./rssguard-build/src/rssguard/rssguard-*linux64.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Release stable binaries
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          prerelease: false
+          files: |
+            .\rssguard-build\src\rssguard\rssguard-*win64.exe
+            .\rssguard-build\src\rssguard\rssguard-*win64.7z
+            ./rssguard-build/src/rssguard/rssguard-*mac64.dmg
+            ./rssguard-build/src/rssguard/rssguard-*linux64.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -38,6 +38,7 @@ HEADERS += core/feeddownloader.h \
            core/message.h \
            core/messagefilter.h \
            core/messageobject.h \
+           core/messagesforfiltersmodel.h \
            core/messagesmodel.h \
            core/messagesmodelcache.h \
            core/messagesmodelsqllayer.h \
@@ -160,6 +161,7 @@ HEADERS += core/feeddownloader.h \
            services/owncloud/owncloudserviceroot.h \
            services/standard/atomparser.h \
            services/standard/feedparser.h \
+           services/abstract/gui/authenticationdetails.h \
            services/standard/gui/formstandardcategorydetails.h \
            services/standard/gui/formstandardfeeddetails.h \
            services/standard/gui/formstandardimportexport.h \
@@ -174,6 +176,8 @@ HEADERS += core/feeddownloader.h \
            services/standard/standardserviceroot.h \
            services/tt-rss/definitions.h \
            services/tt-rss/gui/formeditttrssaccount.h \
+           services/tt-rss/gui/formttrssfeeddetails.h \
+           services/tt-rss/gui/ttrssfeeddetails.h \
            services/tt-rss/network/ttrssnetworkfactory.h \
            services/tt-rss/ttrssfeed.h \
            services/tt-rss/ttrssserviceentrypoint.h \
@@ -192,6 +196,7 @@ SOURCES += core/feeddownloader.cpp \
            core/message.cpp \
            core/messagefilter.cpp \
            core/messageobject.cpp \
+           core/messagesforfiltersmodel.cpp \
            core/messagesmodel.cpp \
            core/messagesmodelcache.cpp \
            core/messagesmodelsqllayer.cpp \
@@ -307,6 +312,7 @@ SOURCES += core/feeddownloader.cpp \
            services/owncloud/owncloudserviceroot.cpp \
            services/standard/atomparser.cpp \
            services/standard/feedparser.cpp \
+           services/abstract/gui/authenticationdetails.cpp \
            services/standard/gui/formstandardcategorydetails.cpp \
            services/standard/gui/formstandardfeeddetails.cpp \
            services/standard/gui/formstandardimportexport.cpp \
@@ -320,6 +326,8 @@ SOURCES += core/feeddownloader.cpp \
            services/standard/standardserviceentrypoint.cpp \
            services/standard/standardserviceroot.cpp \
            services/tt-rss/gui/formeditttrssaccount.cpp \
+           services/tt-rss/gui/formttrssfeeddetails.cpp \
+           services/tt-rss/gui/ttrssfeeddetails.cpp \
            services/tt-rss/network/ttrssnetworkfactory.cpp \
            services/tt-rss/ttrssfeed.cpp \
            services/tt-rss/ttrssserviceentrypoint.cpp \
@@ -361,6 +369,7 @@ FORMS += gui/dialogs/formabout.ui \
          services/gmail/gui/formeditgmailaccount.ui \
          services/inoreader/gui/formeditinoreaderaccount.ui \
          services/owncloud/gui/formeditowncloudaccount.ui \
+         services/abstract/gui/authenticationdetails.ui \
          services/standard/gui/formstandardcategorydetails.ui \
          services/standard/gui/formstandardimportexport.ui \
          services/standard/gui/standardfeeddetails.ui \
@@ -368,7 +377,8 @@ FORMS += gui/dialogs/formabout.ui \
          services/gmail/gui/formdownloadattachment.ui \
          services/gmail/gui/formaddeditemail.ui \
          gui/searchtextwidget.ui \
-         gui/newspaperpreviewer.ui
+         gui/newspaperpreviewer.ui \
+         services/tt-rss/gui/ttrssfeeddetails.ui
 
 equals(USE_WEBENGINE, true) {
   HEADERS += gui/locationlineedit.h \

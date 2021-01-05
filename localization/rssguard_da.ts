@@ -30,7 +30,7 @@
     </message>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation>Webadresse</translation>
     </message>
     <message>
         <source>Absolute URL to online subscription file</source>
@@ -195,14 +195,61 @@
     </message>
 </context>
 <context>
-    <name>ColorToolButton</name>
+    <name>AuthenticationDetails</name>
     <message>
-        <source>Click me to change color!</source>
+        <source>Form</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Select new color</source>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Kræver HTTP-godkendelse</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Brugernavn</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Adgangskode</translation>
+    </message>
+    <message>
+        <source>Set username to access the feed.</source>
+        <translation>Indstil brugernavn for at få adgang til feedet.</translation>
+    </message>
+    <message>
+        <source>Set password to access the feed.</source>
+        <translation>Indstil adgangskode for at få adgang til feedet.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Brugernavn er OK eller ikke nødvendigt.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Brugernavn ikke angivet.</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Kodeord er OK eller ikke nødvendigt.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Kodeordet er tomt.</translation>
+    </message>
+</context>
+<context>
+    <name>ColorToolButton</name>
+    <message>
+        <source>Click me to change color!</source>
+        <translation>Klik på mig for at ændre farve!</translation>
+    </message>
+    <message>
+        <source>Select new color</source>
+        <translation>Vælg ny farve</translation>
     </message>
 </context>
 <context>
@@ -284,7 +331,7 @@
     </message>
     <message>
         <source>Unknown error: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
+        <translation>Ukendt farve: &apos;%1&apos;.</translation>
     </message>
 </context>
 <context>
@@ -313,10 +360,6 @@ This website contains %n feed(s).</source>
 </context>
 <context>
     <name>DownloadItem</name>
-    <message>
-        <source>Ico</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Filename</source>
         <translation>Filnavn</translation>
@@ -459,26 +502,11 @@ Klik her for at åbne forældrebibliotek.</translation>
     </message>
     <message>
         <source>E-mail address</source>
-        <translation type="unfinished"/>
+        <translation>E-postadresse</translation>
     </message>
 </context>
 <context>
     <name>Feed</name>
-    <message>
-        <source>does not use auto-update</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation>bruger ikke automatisk ajourføring</translation>
-    </message>
-    <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-update)</source>
-        <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
     <message>
         <source>no errors</source>
         <translation>ingen fejl</translation>
@@ -500,14 +528,29 @@ Klik her for at åbne forældrebibliotek.</translation>
         <translation>uspecificeret fejl</translation>
     </message>
     <message>
-        <source>uses global settings (global feed auto-updating is disabled)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Auto-update status: %1
 Active message filters: %2
 Status: %3</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>does not use auto-downloading of messages</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <extracomment>Describes feed auto-update status.</extracomment>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -528,15 +571,15 @@ Status: %3</source>
         <translation>Kan ikke ajourføre alle emner</translation>
     </message>
     <message>
-        <source>You cannot update all items because another critical operation is ongoing.</source>
-        <translation>Du kan ikke ajourføre alle emner fordi en anden kritisk operation er i gang.</translation>
+        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Starting auto-update of some feeds</source>
+        <source>Starting auto-download of some feeds&apos; messages</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-update %n feed(s).</source>
+        <source>I will auto-download new messages for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
@@ -567,7 +610,7 @@ Status: %3</source>
     </message>
     <message>
         <source>Cannot perform drag &amp; drop operation</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke udføre træk&amp;slip operation</translation>
     </message>
     <message>
         <source>Counts of unread/all mesages.</source>
@@ -593,7 +636,7 @@ Status: %3</source>
     </message>
     <message>
         <source>Context menu for empty space</source>
-        <translation type="unfinished"/>
+        <translation>Genvejsmenu for fri plads</translation>
     </message>
     <message>
         <source>Selected item cannot be edited because another critical operation is ongoing.</source>
@@ -662,11 +705,11 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>Context menu for important messages</source>
-        <translation type="unfinished"/>
+        <translation>Genvejsmenu for vigtige meddelelser</translation>
     </message>
     <message>
         <source>Context menu for label</source>
-        <translation type="unfinished"/>
+        <translation>Genvejsmenu for etiketter</translation>
     </message>
 </context>
 <context>
@@ -755,6 +798,10 @@ or this functionality is not implemented yet.</source>
         <source>GNU GPL License (applies to RSS Guard; mimesis; Numix source codes)</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>CUSTOM</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FormAddAccount</name>
@@ -787,42 +834,38 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>Subject</source>
-        <translation type="unfinished"/>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Title of your message</source>
-        <translation type="unfinished"/>
+        <translation>Titel på din meddelelse</translation>
     </message>
     <message>
         <source>E-mail NOT sent</source>
-        <translation type="unfinished"/>
+        <translation>E-brevet blev IKKE sendt</translation>
     </message>
     <message>
         <source>Your e-mail message wasn&apos;t sent.</source>
-        <translation type="unfinished"/>
+        <translation>Dit e-brev blev ikke sendt.</translation>
     </message>
 </context>
 <context>
     <name>FormAddEditLabel</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
     <message>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <source>Name for your label</source>
-        <translation type="unfinished"/>
+        <translation>Navn til mærkat</translation>
     </message>
     <message>
         <source>Label&apos;s name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Mærkatnavn kan ikke være tomt.</translation>
     </message>
     <message>
         <source>Perfect!</source>
-        <translation type="unfinished"/>
+        <translation>Perfekt!</translation>
     </message>
     <message>
         <source>Hot stuff</source>
@@ -830,11 +873,11 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>Create new label</source>
-        <translation type="unfinished"/>
+        <translation>Opret ny mærkat</translation>
     </message>
     <message>
         <source>Edit label &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Rediger mærkat &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -990,10 +1033,6 @@ or this functionality is not implemented yet.</source>
 <context>
     <name>FormDownloadAttachment</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
         <source>Downloading attachment...</source>
         <translation>Henter vedhæftning...</translation>
     </message>
@@ -1022,7 +1061,7 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>Redirect URL</source>
-        <translation type="unfinished"/>
+        <translation>Omdiriger webadresse</translation>
     </message>
     <message>
         <source>Only download newest X messages per feed</source>
@@ -1042,7 +1081,7 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>User-visible username</source>
-        <translation type="unfinished"/>
+        <translation>Brugersynligt brugernavn</translation>
     </message>
     <message>
         <source>You are already logged in.</source>
@@ -1100,6 +1139,10 @@ or this functionality is not implemented yet.</source>
         <source>Some username entered.</source>
         <translation>Et brugernavn er indtastet.</translation>
     </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation>Få mine legitimationsoplysninger</translation>
+    </message>
 </context>
 <context>
     <name>FormEditInoreaderAccount</name>
@@ -1121,7 +1164,7 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>Redirect URL</source>
-        <translation type="unfinished"/>
+        <translation>Omdiriger webadresse</translation>
     </message>
     <message>
         <source>Only download newest X messages per feed</source>
@@ -1141,7 +1184,7 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>User-visible username</source>
-        <translation type="unfinished"/>
+        <translation>Brugersynligt brugernavn </translation>
     </message>
     <message>
         <source>You are already logged in.</source>
@@ -1197,7 +1240,7 @@ or this functionality is not implemented yet.</source>
     </message>
     <message>
         <source>Get my own Application ID</source>
-        <translation type="unfinished"/>
+        <translation>Få mit eget ProgramID</translation>
     </message>
     <message>
         <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
@@ -1210,7 +1253,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     <name>FormEditOwnCloudAccount</name>
     <message>
         <source>URL</source>
-        <translation type="unfinished"/>
+        <translation>Webadresse</translation>
     </message>
     <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
@@ -1278,7 +1321,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>URL cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Webadresse kan ikke være tom.</translation>
     </message>
     <message>
         <source>URL is okay.</source>
@@ -1286,7 +1329,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Limit number of downloaded messages per feed</source>
-        <translation type="unfinished"/>
+        <translation>Begræns antal af hentede meddelelser per feed</translation>
     </message>
     <message>
         <source> = unlimited</source>
@@ -1306,31 +1349,31 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Download only unread messages</source>
-        <translation type="unfinished"/>
+        <translation>Hent kun ulæste meddelelser</translation>
     </message>
     <message>
         <source>Password for your Nextcloud account</source>
-        <translation type="unfinished"/>
+        <translation>Kodeord til din Nextcloudkonto</translation>
     </message>
     <message>
         <source>Username for your Nextcloud account</source>
-        <translation type="unfinished"/>
+        <translation>Brugernavn til din Nextcloudkonto</translation>
     </message>
     <message>
         <source>URL of your Nextcloud server, without any API path</source>
-        <translation type="unfinished"/>
+        <translation>Webadressen på din Nextcloudserver, uden API-sti</translation>
     </message>
     <message>
         <source>Add new Nextcloud News account</source>
-        <translation type="unfinished"/>
+        <translation>Tilføj ny Nextclout Nyhedskonto</translation>
     </message>
     <message>
         <source>Edit existing Nextcloud News account</source>
-        <translation type="unfinished"/>
+        <translation>Rediger eksisterende Nextcloud Nyhedskonto</translation>
     </message>
     <message>
         <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation type="unfinished"/>
+        <translation>Valgte Nextcloud Nyhedsserver kører en ikke supporteret version.</translation>
     </message>
     <message>
         <source>Nextcloud News server is okay, running with version %1, while at least version %2 is required.</source>
@@ -1338,11 +1381,11 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Nextcloud News server is okay.</source>
-        <translation type="unfinished"/>
+        <translation>Nextcloud Nyhedsserver er okay.</translation>
     </message>
     <message>
         <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation type="unfinished"/>
+        <translation>Netværksfejl, har du indført den rigtige slutsti og kodeord til Nextcloud?</translation>
     </message>
     <message>
         <source>Selected Nextcloud News server is running unsupported version %1. At least version %2 is required.</source>
@@ -1353,11 +1396,11 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     <name>FormEditTtRssAccount</name>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation>Webadresse</translation>
     </message>
     <message>
         <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Nogle feeds kræver godkendelse, inklusiv GMail feeds. BASIC, NTLM-2 og DIGEST-MD5 godkendelse er understøttet.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Authentication</source>
@@ -1369,7 +1412,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Password</source>
-        <translation>Kodeord</translation>
+        <translation>Adgangskode</translation>
     </message>
     <message>
         <source>Show password</source>
@@ -1505,7 +1548,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>URL cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Webadresse kan ikke være tom.</translation>
     </message>
     <message>
         <source>URL should NOT end with &quot;/api/&quot;.</source>
@@ -1517,270 +1560,41 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Download only unread messages</source>
-        <translation type="unfinished"/>
+        <translation>Hent kun ulæste meddelelser</translation>
     </message>
 </context>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Parent category</source>
-        <translation>Forældrekategori</translation>
+        <source>Cannot edit feed</source>
+        <translation>Kan ikke redigere feed</translation>
     </message>
     <message>
-        <source>Select parent item for your feed.</source>
+        <source>Feed was not edited due to error.</source>
+        <translation>Feed blev ikke redigeret på grund af en fejl.</translation>
+    </message>
+    <message>
+        <source>Edit &apos;%1&apos;</source>
+        <translation>Rediger &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Auto-downloading of messages</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Type</source>
-        <translation>Type</translation>
-    </message>
-    <message>
-        <source>Select type of the standard feed.</source>
+        <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Encoding</source>
-        <translation>Kodning</translation>
-    </message>
-    <message>
-        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
+        <source>Download messages using global interval</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-update</source>
-        <translation>Auto-ajourføring</translation>
-    </message>
-    <message>
-        <source>Select the auto-update strategy for this feed. Default auto-update strategy means that the feed will be update in time intervals set in application settings.</source>
+        <source>Download messages every</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Title</source>
-        <translation>Titel</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Beskrivelse</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Fetch it now</source>
-        <translation>Hent nu</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Ikon</translation>
-    </message>
-    <message>
-        <source>Select icon for your feed.</source>
-        <translation>Vælg ikon til feed.</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Nogle feeds kræver godkendelse, inklusiv GMail feeds. BASIC, NTLM-2 og DIGEST-MD5 godkendelse er understøttet.</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Kræver HTTP-godkendelse</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Brugernavn</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Kodeord</translation>
-    </message>
-    <message>
-        <source>Fetch metadata</source>
-        <translation>Hent metadata</translation>
-    </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Tilføj nyt feed</translation>
-    </message>
-    <message>
-        <source>Edit feed &apos;%1&apos;</source>
-        <translation>Rediger feed &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Feed name is ok.</source>
-        <translation>Feed navn er i orden.</translation>
-    </message>
-    <message>
-        <source>Feed name is too short.</source>
-        <translation>Feednavn er for kort.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Ingen beskrivelse.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>Beskrivelsen er OK.</translation>
-    </message>
-    <message>
-        <source>The URL is ok.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>The URL is empty.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Brugernavn er OK eller ikke nødvendigt.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Brugernavn ikke angivet.</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Kodeord er OK eller ikke nødvendigt.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Kodeordet er tomt.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the feed</source>
-        <translation>Vælg ikonfil for dette feed</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Billeder (*. Bmp *. Jpg *. Jpeg *. Png *. SVG *. TGA)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Vælg ikon</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Annuller</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
-        <translation>Kig i:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Ikonnavn:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Ikontype:</translation>
-    </message>
-    <message>
-        <source>All metadata fetched successfully.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Feed and icon metadata fetched.</source>
-        <translation>Feed og ikon metadata hentet.</translation>
-    </message>
-    <message>
-        <source>Result: %1.</source>
-        <translation>Resultat: %1.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Fejl: %1.</translation>
-    </message>
-    <message>
-        <source>No metadata fetched.</source>
-        <translation>Ingen metadata hentet.</translation>
-    </message>
-    <message>
-        <source>Icon fetched successfully.</source>
-        <translation>Ikon hentet succesfuldt.</translation>
-    </message>
-    <message>
-        <source>Icon metadata fetched.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Icon metadata not fetched.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No icon fetched.</source>
-        <translation>Ingen ikoner hentet</translation>
-    </message>
-    <message>
-        <source>Feed title</source>
-        <translation>Feedtitel</translation>
-    </message>
-    <message>
-        <source>Set title for your feed.</source>
-        <translation>Sæt feedtitel</translation>
-    </message>
-    <message>
-        <source>Feed description</source>
-        <translation>Feedbeskrivelse</translation>
-    </message>
-    <message>
-        <source>Set description for your feed.</source>
-        <translation>Angiv  beskrivelse for dit feed.</translation>
-    </message>
-    <message>
-        <source>Full feed url including scheme</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Set username to access the feed.</source>
-        <translation>Indstil brugernavn for at få adgang til feedet.</translation>
-    </message>
-    <message>
-        <source>Set password to access the feed.</source>
-        <translation>Indstil adgangskode for at få adgang til feedet.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Indlæs et ikon fra en fil...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation>Brug standardikonet fra ikontemaet</translation>
-    </message>
-    <message>
-        <source>Fetch icon from feed</source>
-        <translation>Hent ikon fra feed</translation>
-    </message>
-    <message>
-        <source>No metadata fetched so far.</source>
-        <translation>Indtil videre er der ikke hentet noget metadata.</translation>
-    </message>
-    <message>
-        <source>Auto-update using global interval</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Auto-update every</source>
-        <translation>Ajourfør hver</translation>
-    </message>
-    <message>
-        <source>Do not auto-update at all</source>
+        <source>Do not download messages at all</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1951,14 +1765,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Tilføj &amp;nyt emne</translation>
     </message>
     <message>
-        <source>Update &amp;all items</source>
-        <translation>Ajourfør &amp;alle emner</translation>
-    </message>
-    <message>
-        <source>Update &amp;selected items</source>
-        <translation>Ajourfør valgte emnepo&amp;ster</translation>
-    </message>
-    <message>
         <source>&amp;Edit selected item</source>
         <translation>R&amp;ediger valgte emner</translation>
     </message>
@@ -2032,7 +1838,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>No possible actions</source>
-        <translation type="unfinished"/>
+        <translation>Ingen mulige handlinger</translation>
     </message>
     <message>
         <source>&amp;Recycle bin(s)</source>
@@ -2087,12 +1893,8 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation>Tilføj nyt feed</translation>
     </message>
     <message>
-        <source>Stop running update</source>
-        <translation>Stop igangværende ajourføre</translation>
-    </message>
-    <message>
         <source>No actions possible</source>
-        <translation type="unfinished"/>
+        <translation>Ingen mulige handlinger</translation>
     </message>
     <message>
         <source>Web browser &amp;&amp; tabs</source>
@@ -2188,15 +1990,31 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Update items with custom &amp;timers</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Alternate row colors in lists</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Display &amp;documentation</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Automatically &amp;expand items when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Download all new messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download messages for &amp;selected items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing downloading of messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download messages for items with &amp;custom auto-download policy</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2208,15 +2026,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation type="unfinished"/>
+        <translation>Fjern valgte</translation>
     </message>
     <message>
         <source>&amp;Check all</source>
@@ -2260,7 +2070,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation>Webadresse</translation>
     </message>
     <message>
         <source>Author</source>
@@ -2276,14 +2086,6 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Script output</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Test!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Beautify!</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2320,15 +2122,11 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>yes</source>
-        <translation type="unfinished"/>
+        <translation>ja</translation>
     </message>
     <message>
         <source>no</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>JavaScript-based filter contains errors: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
+        <translation>nej</translation>
     </message>
     <message>
         <source>Cannot find &apos;clang-format&apos;</source>
@@ -2340,7 +2138,7 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Fejl</translation>
     </message>
     <message>
         <source>Script was not beautified, because &apos;clang-format&apos; tool thrown error.</source>
@@ -2355,27 +2153,46 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot save new filter, error: &apos;&apos;.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FormOwnCloudFeedDetails</name>
-    <message>
-        <source>Feed added</source>
-        <translation>Feed tilføjet</translation>
+        <source>&amp;New filter</source>
+        <translation>&amp;Nyt filter</translation>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
+        <source>&amp;Test</source>
+        <translation>&amp;Test</translation>
+    </message>
+    <message>
+        <source>Process checked feeds</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot add feed</source>
-        <translation>Kan ikke tilføje feed</translation>
+        <source>&amp;Beautify</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Feed blev ikke tilføjet på grund af fejl.</translation>
+        <source>Existing messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot save new filter, error: &apos;%1&apos;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING messages filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>SAMPLE message filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Context menu</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Filter messages like this</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2615,6 +2432,18 @@ Du skal genstarte programmet manuelt.</translation>
         <source>Feed was not edited due to error.</source>
         <translation>Feed blev ikke redigeret på grund af en fejl.</translation>
     </message>
+    <message>
+        <source>General</source>
+        <translation>Generelt</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Netværk</translation>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Tilføj nyt feed</translation>
+    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
@@ -2754,16 +2583,28 @@ Du skal genstarte programmet manuelt.</translation>
         <translation>Feed tilføjet</translation>
     </message>
     <message>
-        <source>Feed was added, triggering sync in now.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cannot add feed</source>
         <translation>Kan ikke tilføje feed</translation>
     </message>
     <message>
         <source>Feed was not added due to error.</source>
         <translation>Feed blev ikke tilføjet på grund af fejl.</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Generelt</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Netværk</translation>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Tilføj nyt feed</translation>
+    </message>
+    <message>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2866,7 +2707,7 @@ downloaded.</source>
     </message>
     <message>
         <source>Download selected update</source>
-        <translation type="unfinished"/>
+        <translation>Hent valgte opdatering</translation>
     </message>
     <message>
         <source>Go to application website to get update packages manually.</source>
@@ -2878,7 +2719,7 @@ downloaded.</source>
     </message>
     <message>
         <source>Available update files</source>
-        <translation type="unfinished"/>
+        <translation>Tilgængelige opdateringsfiler</translation>
     </message>
     <message>
         <source>Package was downloaded successfully.
@@ -2970,7 +2811,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Reply to this message</source>
-        <translation type="unfinished"/>
+        <translation>Svar på denne meddelelse</translation>
     </message>
 </context>
 <context>
@@ -2988,7 +2829,7 @@ Login tokens expiration: %2</source>
     <name>ImportantNode</name>
     <message>
         <source>Important messages</source>
-        <translation type="unfinished"/>
+        <translation>Vigtige meddelelser</translation>
     </message>
     <message>
         <source>You can find all important messages here.</source>
@@ -3042,14 +2883,14 @@ Login tokens expiration: %2</source>
     <name>LabelsMenu</name>
     <message>
         <source>Labels</source>
-        <translation type="unfinished"/>
+        <translation>Etiketter</translation>
     </message>
 </context>
 <context>
     <name>LabelsNode</name>
     <message>
         <source>Labels</source>
-        <translation type="unfinished"/>
+        <translation>Etiketter</translation>
     </message>
     <message>
         <source>You can see all your labels (tags) here.</source>
@@ -3057,7 +2898,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>New label</source>
-        <translation type="unfinished"/>
+        <translation>Ny etiket</translation>
     </message>
     <message>
         <source>This account does not allow you to create labels.</source>
@@ -3065,7 +2906,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Not allowed</source>
-        <translation type="unfinished"/>
+        <translation>Ikke tilladt</translation>
     </message>
 </context>
 <context>
@@ -3134,6 +2975,37 @@ Login tokens expiration: %2</source>
     <message>
         <source>Switch message importance</source>
         <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MessagesForFiltersModel</name>
+    <message>
+        <source>Read</source>
+        <translation>Læst</translation>
+    </message>
+    <message>
+        <source>Important</source>
+        <translation>Vigtigt</translation>
+    </message>
+    <message>
+        <source>In recycle bin</source>
+        <translation>I skraldespand</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>Webadresse</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Udvikler</translation>
+    </message>
+    <message>
+        <source>Created on</source>
+        <translation>Oprettet den</translation>
     </message>
 </context>
 <context>
@@ -3489,17 +3361,6 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
-    <name>OwnCloudServiceRoot</name>
-    <message>
-        <source>Cannot add item</source>
-        <translation>Kam ikke tilføje emne</translation>
-    </message>
-    <message>
-        <source>Cannot add feed because another critical operation is ongoing.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>LANG_ABBREV</source>
@@ -3634,7 +3495,11 @@ version by clicking this popup notification.</source>
 <context>
     <name>ServiceRoot</name>
     <message>
-        <source>Sync in</source>
+        <source>Synchronize folders &amp;&amp; other items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Synchronize message cache</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3733,7 +3598,7 @@ version by clicking this popup notification.</source>
     </message>
     <message>
         <source>Password</source>
-        <translation>Kodeord</translation>
+        <translation>Adgangskode</translation>
     </message>
     <message>
         <source>Your password for proxy server authentication</source>
@@ -3883,7 +3748,7 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
     <message>
         <source>Password</source>
-        <translation>Kodeord</translation>
+        <translation>Adgangskode</translation>
     </message>
     <message>
         <source>Test setup</source>
@@ -3998,7 +3863,7 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
     <message>
         <source>Select downloads target directory</source>
-        <translation type="unfinished"/>
+        <translation>Vælg bibliotek til hentede filer</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -4010,14 +3875,6 @@ Authors of this application are NOT responsible for lost data.</source>
     <message>
         <source>Feeds &amp;&amp; categories</source>
         <translation>Feeds</translation>
-    </message>
-    <message>
-        <source>Auto-update all feeds every</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Only auto-update when application is unfocused</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Feed connection timeout</source>
@@ -4072,10 +3929,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enable &quot;auto-update started&quot; notification</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Height or rows in feed list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
@@ -4104,7 +3957,19 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation>Vælg ny skrifttype</translation>
     </message>
     <message>
-        <source>Update all feeds on application startup with initial delay of</source>
+        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enable &quot;auto-download started&quot; notification</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-download messages when application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-download messages for all feeds every</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4259,7 +4124,7 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
     <message>
         <source>Use monochrome icon</source>
-        <translation type="unfinished"/>
+        <translation>Brug et sort/hvidt ikon</translation>
     </message>
     <message>
         <source>system icon theme</source>
@@ -4268,7 +4133,7 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
     <message>
         <source>no icon theme</source>
-        <translation type="unfinished"/>
+        <translation>intet ikon-tema</translation>
     </message>
     <message>
         <source>Left mouse button double-click</source>
@@ -4339,6 +4204,206 @@ Network status: %1
 Encoding: %2
 Type: %3</source>
         <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>StandardFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Forældrekategori</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Select type of the standard feed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Encoding</source>
+        <translation>Kodning</translation>
+    </message>
+    <message>
+        <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivelse</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>Webadresse</translation>
+    </message>
+    <message>
+        <source>Fetch metadata</source>
+        <translation>Hent metadata</translation>
+    </message>
+    <message>
+        <source>Fetch it now</source>
+        <translation>Hent nu</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Ikon</translation>
+    </message>
+    <message>
+        <source>Select icon for your feed.</source>
+        <translation>Vælg ikon til feed.</translation>
+    </message>
+    <message>
+        <source>Feed title</source>
+        <translation>Feedtitel</translation>
+    </message>
+    <message>
+        <source>Set title for your feed.</source>
+        <translation>Sæt feedtitel</translation>
+    </message>
+    <message>
+        <source>Feed description</source>
+        <translation>Feedbeskrivelse</translation>
+    </message>
+    <message>
+        <source>Set description for your feed.</source>
+        <translation>Angiv  beskrivelse for dit feed.</translation>
+    </message>
+    <message>
+        <source>Full feed url including scheme</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Set url for your feed.</source>
+        <translation>Angiv webadressen på dit feed.</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Indlæs et ikon fra en fil...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation>Brug standardikonet fra ikontemaet</translation>
+    </message>
+    <message>
+        <source>Fetch icon from feed</source>
+        <translation>Hent ikon fra feed</translation>
+    </message>
+    <message>
+        <source>No metadata fetched so far.</source>
+        <translation>Indtil videre er der ikke hentet noget metadata.</translation>
+    </message>
+    <message>
+        <source>Icon fetched successfully.</source>
+        <translation>Ikon hentet succesfuldt.</translation>
+    </message>
+    <message>
+        <source>Icon metadata fetched.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Result: %1.</source>
+        <translation>Resultat: %1.</translation>
+    </message>
+    <message>
+        <source>Icon metadata not fetched.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Error: %1.</source>
+        <translation>Fejl: %1.</translation>
+    </message>
+    <message>
+        <source>No icon fetched.</source>
+        <translation>Ingen ikoner hentet</translation>
+    </message>
+    <message>
+        <source>All metadata fetched successfully.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feed and icon metadata fetched.</source>
+        <translation>Feed og ikon metadata hentet.</translation>
+    </message>
+    <message>
+        <source>Feed or icon metadata not fetched.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No metadata fetched.</source>
+        <translation>Ingen metadata hentet.</translation>
+    </message>
+    <message>
+        <source>Feed name is ok.</source>
+        <translation>Feed navn er i orden.</translation>
+    </message>
+    <message>
+        <source>Feed name is too short.</source>
+        <translation>Feednavn er for kort.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Ingen beskrivelse.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>Beskrivelsen er OK.</translation>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>Webadressen er OK.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>Webadresse er tom.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the feed</source>
+        <translation>Vælg ikonfil for dette feed</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Billeder (*. Bmp *. Jpg *. Jpeg *. Png *. SVG *. TGA)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Vælg ikon</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuller</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label for field with icon file name textbox for selection dialog.</extracomment>
+        <translation>Kig i:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Ikonnavn:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Ikontype:</translation>
     </message>
 </context>
 <context>
@@ -4559,6 +4624,45 @@ Ulæste nyheder: %2</translation>
     </message>
 </context>
 <context>
+    <name>TtRssFeedDetails</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Parent category</source>
+        <translation>Forældrekategori</translation>
+    </message>
+    <message>
+        <source>Select parent item for your feed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>Webadresse</translation>
+    </message>
+    <message>
+        <source>Full feed URL including scheme</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Provide URL for your feed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The URL is ok.</source>
+        <translation>Webadressen er OK.</translation>
+    </message>
+    <message>
+        <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The URL is empty.</source>
+        <translation>Webadressen er tom.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssServiceRoot</name>
     <message>
         <source>Cannot add item</source>
@@ -4716,10 +4820,6 @@ Sidst logget på: %4</translation>
 </context>
 <context>
     <name>WebViewer</name>
-    <message>
-        <source>Attachment</source>
-        <translation>Vedhæftning</translation>
-    </message>
     <message>
         <source>Written by </source>
         <translation>Skrevet af</translation>

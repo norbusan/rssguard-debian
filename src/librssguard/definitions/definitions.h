@@ -218,6 +218,15 @@
 #define FDS_MODEL_TITLE_INDEX           0
 #define FDS_MODEL_COUNTS_INDEX          1
 
+// Indexes of columns for message filter manager models.
+#define MFM_MODEL_ISREAD        0
+#define MFM_MODEL_ISIMPORTANT   1
+#define MFM_MODEL_ISDELETED     2
+#define MFM_MODEL_TITLE         3
+#define MFM_MODEL_URL           4
+#define MFM_MODEL_AUTHOR        5
+#define MFM_MODEL_CREATED       6
+
 #if defined(Q_OS_LINUX)
 #define OS_ID   "Linux"
 #elif defined(Q_OS_OSX)

@@ -87,15 +87,18 @@
              <property name="text">
               <string>Style</string>
              </property>
+             <property name="buddy">
+              <cstring>m_cmbStyles</cstring>
+             </property>
             </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QListWidget" name="m_listStyles"/>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="m_lblSkin">
              <property name="text">
               <string>Skin</string>
+             </property>
+             <property name="buddy">
+              <cstring>m_treeSkins</cstring>
              </property>
             </widget>
            </item>
@@ -129,6 +132,22 @@
              </column>
             </widget>
            </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="m_cmbStyles"/>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -152,21 +171,21 @@
           <property name="fieldGrowthPolicy">
            <enum>QFormLayout::ExpandingFieldsGrow</enum>
           </property>
-          <item row="2" column="0">
+          <item row="3" column="0">
            <widget class="QCheckBox" name="m_checkHideWhenMinimized">
             <property name="text">
              <string>Hide main window when it is minimized</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
+          <item row="4" column="0" colspan="2">
            <widget class="QCheckBox" name="m_checkHidden">
             <property name="text">
              <string>Start application hidden</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QCheckBox" name="m_checkEnableNotifications">
             <property name="text">
              <string>Enable popup balloon tooltips</string>
@@ -177,6 +196,13 @@
            <widget class="QCheckBox" name="m_checkMonochromeIcons">
             <property name="text">
              <string>Use monochrome icon</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="m_checkCountUnreadMessages">
+            <property name="text">
+             <string>Display count of unread messages</string>
             </property>
            </widget>
           </item>
@@ -337,12 +363,18 @@
          <property name="text">
           <string>Toolbar button style</string>
          </property>
+         <property name="buddy">
+          <cstring>m_cmbToolbarButtonStyle</cstring>
+         </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>Select toolbar to edit</string>
+         </property>
+         <property name="buddy">
+          <cstring>m_cmbSelectToolBar</cstring>
          </property>
         </widget>
        </item>
@@ -364,10 +396,11 @@
   <tabstop>m_tabUi</tabstop>
   <tabstop>m_scrollIconSkins</tabstop>
   <tabstop>m_cmbIconTheme</tabstop>
-  <tabstop>m_listStyles</tabstop>
+  <tabstop>m_cmbStyles</tabstop>
   <tabstop>m_treeSkins</tabstop>
   <tabstop>m_grpTray</tabstop>
   <tabstop>m_checkMonochromeIcons</tabstop>
+  <tabstop>m_checkCountUnreadMessages</tabstop>
   <tabstop>m_checkEnableNotifications</tabstop>
   <tabstop>m_checkHideWhenMinimized</tabstop>
   <tabstop>m_checkHidden</tabstop>

@@ -170,6 +170,9 @@ namespace GUI {
   KEY ListHeadersVisible;
   VALUE(bool) ListHeadersVisibleDef;
 
+  KEY MessageViewerToolbarsVisible;
+  VALUE(bool) MessageViewerToolbarsVisibleDef;
+
   KEY StatusBarVisible;
   VALUE(bool) StatusBarVisibleDef;
 
@@ -184,6 +187,9 @@ namespace GUI {
 
   KEY MonochromeTrayIcon;
   VALUE(bool) MonochromeTrayIconDef;
+
+  KEY UnreadNumbersInTrayIcon;
+  VALUE(bool) UnreadNumbersInTrayIconDef;
 
   KEY EnableNotifications;
   VALUE(bool) EnableNotificationsDef;

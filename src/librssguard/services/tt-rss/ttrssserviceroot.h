@@ -30,8 +30,9 @@ class TtRssServiceRoot : public ServiceRoot, public CacheForServiceRoot {
     virtual bool deleteViaGui();
     virtual bool supportsFeedAdding() const;
     virtual bool supportsCategoryAdding() const;
+    virtual void addNewFeed(RootItem* selected_item, const QString& url = QString());
     virtual QString additionalTooltip() const;
-    virtual void saveAllCachedData(bool async = true);
+    virtual void saveAllCachedData();
 
     // Access to network.
     TtRssNetworkFactory* network() const;

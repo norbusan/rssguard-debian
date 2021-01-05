@@ -81,10 +81,25 @@ QList<QAction*> ServiceRoot::contextMenuMessagesList(const QList<Message>& messa
 }
 
 QList<QAction*> ServiceRoot::serviceMenu() {
-  if (m_serviceMenu.isEmpty() && isSyncable()) {
-    m_actionSyncIn = new QAction(qApp->icons()->fromTheme(QSL("view-refresh")), tr("Sync in"), this);
-    connect(m_actionSyncIn, &QAction::triggered, this, &ServiceRoot::syncIn);
-    m_serviceMenu.append(m_actionSyncIn);
+  if (m_serviceMenu.isEmpty()) {
+    if (isSyncable()) {
+      auto* act_sync_tree = new QAction(qApp->icons()->fromTheme(QSL("view-refresh")), tr("Synchronize folders && other items"), this);
+
+      connect(act_sync_tree, &QAction::triggered, this, &ServiceRoot::syncIn);
+      m_serviceMenu.append(act_sync_tree);
+
+      auto* cache = toCache();
+
+      if (cache != nullptr) {
+        auto* act_sync_cache = new QAction(qApp->icons()->fromTheme(QSL("view-refresh")), tr("Synchronize message cache"), this);
+
+        connect(act_sync_cache, &QAction::triggered, this, [cache]() {
+          cache->saveAllCachedData();
+        });
+
+        m_serviceMenu.append(act_sync_cache);
+      }
+    }
   }
 
   return m_serviceMenu;
@@ -499,6 +514,12 @@ int ServiceRoot::accountId() const {
 
 void ServiceRoot::setAccountId(int account_id) {
   m_accountId = account_id;
+
+  auto* cache = dynamic_cast<CacheForServiceRoot*>(this);
+
+  if (cache != nullptr) {
+    cache->setUniqueId(account_id);
+  }
 }
 
 bool ServiceRoot::loadMessagesForItem(RootItem* item, MessagesModel* model) {
@@ -664,6 +685,10 @@ bool ServiceRoot::onAfterMessagesRestoredFromBin(RootItem* selected_item, const 
   updateCounts(true);
   itemChanged(getSubTree());
   return true;
+}
+
+CacheForServiceRoot* ServiceRoot::toCache() const {
+  return dynamic_cast<CacheForServiceRoot*>(const_cast<ServiceRoot*>(this));
 }
 
 void ServiceRoot::assembleFeeds(Assignment feeds) {

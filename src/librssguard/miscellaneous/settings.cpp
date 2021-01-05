@@ -157,6 +157,9 @@ DVALUE(bool) GUI::ToolbarsVisibleDef = true;
 DKEY GUI::ListHeadersVisible = "enable_list_headers";
 DVALUE(bool) GUI::ListHeadersVisibleDef = true;
 
+DKEY GUI::MessageViewerToolbarsVisible = "message_viewer_toolbars";
+DVALUE(bool) GUI::MessageViewerToolbarsVisibleDef = true;
+
 DKEY GUI::StatusBarVisible = "enable_status_bar";
 DVALUE(bool) GUI::StatusBarVisibleDef = true;
 
@@ -165,6 +168,9 @@ DVALUE(bool) GUI::HideMainWindowWhenMinimizedDef = false;
 
 DKEY GUI::MonochromeTrayIcon = "monochrome_tray_icon";
 DVALUE(bool) GUI::MonochromeTrayIconDef = false;
+
+DKEY GUI::UnreadNumbersInTrayIcon = "show_unread_numbers_in_tray_icon";
+DVALUE(bool) GUI::UnreadNumbersInTrayIconDef = true;
 
 DKEY GUI::UseTrayIcon = "use_tray_icon";
 DVALUE(bool) GUI::UseTrayIconDef = true;

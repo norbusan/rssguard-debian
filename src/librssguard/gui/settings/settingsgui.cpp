@@ -2,6 +2,7 @@
 
 #include "gui/settings/settingsgui.h"
 
+#include "core/feedsmodel.h"
 #include "gui/dialogs/formmain.h"
 #include "gui/feedmessageviewer.h"
 #include "gui/feedstoolbar.h"
@@ -43,6 +44,7 @@ SettingsGui::SettingsGui(Settings* settings, QWidget* parent) : SettingsPanel(se
   connect(m_ui->m_checkEnableNotifications, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkHidden, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkMonochromeIcons, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
+  connect(m_ui->m_checkCountUnreadMessages, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkHideWhenMinimized, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkHideTabBarIfOneTabVisible, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_checkCloseTabsDoubleClick, &QCheckBox::toggled, this, &SettingsGui::dirtifySettings);
@@ -55,7 +57,7 @@ SettingsGui::SettingsGui(Settings* settings, QWidget* parent) : SettingsPanel(se
   connect(m_ui->m_editorMessagesToolbar, &ToolBarEditor::setupChanged, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_editorStatusbar, &ToolBarEditor::setupChanged, this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_editorStatusbar, &ToolBarEditor::setupChanged, this, &SettingsGui::requireRestart);
-  connect(m_ui->m_listStyles, &QListWidget::currentItemChanged, this, &SettingsGui::dirtifySettings);
+  connect(m_ui->m_cmbStyles, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &SettingsGui::dirtifySettings);
   connect(m_ui->m_cmbSelectToolBar, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), m_ui->m_stackedToolbars,
           &QStackedWidget::setCurrentIndex);
 }
@@ -117,6 +119,7 @@ void SettingsGui::loadSettings() {
   }
 
   m_ui->m_checkMonochromeIcons->setChecked(settings()->value(GROUP(GUI), SETTING(GUI::MonochromeTrayIcon)).toBool());
+  m_ui->m_checkCountUnreadMessages->setChecked(settings()->value(GROUP(GUI), SETTING(GUI::UnreadNumbersInTrayIcon)).toBool());
 
   // Mark active theme.
   if (current_theme == QL1S(APP_NO_THEME)) {
@@ -156,14 +159,14 @@ void SettingsGui::loadSettings() {
 
   // Load styles.
   for (const QString& style_name : QStyleFactory::keys()) {
-    m_ui->m_listStyles->addItem(style_name);
+    m_ui->m_cmbStyles->addItem(style_name);
   }
 
-  QList<QListWidgetItem*> items = m_ui->m_listStyles->findItems(settings()->value(GROUP(GUI), SETTING(GUI::Style)).toString(),
-                                                                Qt::MatchFixedString);
+  int item_style = m_ui->m_cmbStyles->findText(settings()->value(GROUP(GUI), SETTING(GUI::Style)).toString(),
+                                               Qt::MatchFlag::MatchFixedString);
 
-  if (!items.isEmpty()) {
-    m_ui->m_listStyles->setCurrentItem(items.at(0));
+  if (item_style >= 0) {
+    m_ui->m_cmbStyles->setCurrentIndex(item_style);
   }
 
   // Load tab settings.
@@ -215,8 +218,12 @@ void SettingsGui::saveSettings() {
     settings()->setValue(GROUP(GUI), GUI::MonochromeTrayIcon, m_ui->m_checkMonochromeIcons->isChecked());
   }
 
+  settings()->setValue(GROUP(GUI), GUI::UnreadNumbersInTrayIcon, m_ui->m_checkCountUnreadMessages->isChecked());
   settings()->setValue(GROUP(GUI), GUI::MainWindowStartsHidden, m_ui->m_checkHidden->isChecked());
   settings()->setValue(GROUP(GUI), GUI::HideMainWindowWhenMinimized, m_ui->m_checkHideWhenMinimized->isChecked());
+
+  // Make sure that number of unread messages is shown in tray icon as requested.
+  qApp->feedReader()->feedsModel()->notifyWithCounts();
 
   // Save notifications.
   settings()->setValue(GROUP(GUI), GUI::EnableNotifications, m_ui->m_checkEnableNotifications->isChecked());
@@ -243,8 +250,8 @@ void SettingsGui::saveSettings() {
   }
 
   // Set new style.
-  if (!m_ui->m_listStyles->selectedItems().isEmpty()) {
-    const QString new_style = m_ui->m_listStyles->currentItem()->text();
+  if (m_ui->m_cmbStyles->currentIndex() >= 0) {
+    const QString new_style = m_ui->m_cmbStyles->currentText();
     const QString old_style = qApp->settings()->value(GROUP(GUI), SETTING(GUI::Style)).toString();
 
     if (old_style != new_style) {
