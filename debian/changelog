@@ -1,3 +1,9 @@
+rssguard (3.8.4+dfsg-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 06 Jan 2021 07:47:45 +0900
+
 rssguard (3.8.3+dfsg-1) unstable; urgency=medium
 
   * First upload to Debian (Closes: #976362)
