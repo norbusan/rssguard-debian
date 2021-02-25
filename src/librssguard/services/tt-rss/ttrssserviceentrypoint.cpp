@@ -9,10 +9,6 @@
 #include "services/tt-rss/gui/formeditttrssaccount.h"
 #include "services/tt-rss/ttrssserviceroot.h"
 
-bool TtRssServiceEntryPoint::isSingleInstanceService() const {
-  return false;
-}
-
 QString TtRssServiceEntryPoint::name() const {
   return QSL("Tiny Tiny RSS");
 }
@@ -39,7 +35,7 @@ QString TtRssServiceEntryPoint::code() const {
 ServiceRoot* TtRssServiceEntryPoint::createNewRoot() const {
   FormEditTtRssAccount form_acc(qApp->mainFormWidget());
 
-  return form_acc.execForCreate();
+  return form_acc.addEditAccount<TtRssServiceRoot>();
 }
 
 QList<ServiceRoot*> TtRssServiceEntryPoint::initializeSubtree() const {

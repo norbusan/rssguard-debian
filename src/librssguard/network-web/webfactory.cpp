@@ -2,6 +2,7 @@
 
 #include "network-web/webfactory.h"
 
+#include "gui/messagebox.h"
 #include "miscellaneous/application.h"
 #include "miscellaneous/iconfactory.h"
 
@@ -9,14 +10,33 @@
 #include <QProcess>
 #include <QUrl>
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
+#include "network-web/adblock/adblockicon.h"
+#include "network-web/adblock/adblockmanager.h"
+#include "network-web/networkurlinterceptor.h"
+#include "network-web/urlinterceptor.h"
+
+#include <QWebEngineDownloadItem>
 #include <QWebEngineProfile>
+#include <QWebEngineScript>
+#include <QWebEngineScriptCollection>
+#include <QWebEngineUrlScheme>
 #endif
 
 WebFactory::WebFactory(QObject* parent)
   : QObject(parent) {
 #if defined (USE_WEBENGINE)
   m_engineSettings = nullptr;
+  m_adBlock = new AdBlockManager(this);
+  m_urlInterceptor = new NetworkUrlInterceptor(this);
+#endif
+
+#if defined(USE_WEBENGINE)
+#if QT_VERSION >= 0x050D00 // Qt >= 5.13.0
+  QWebEngineProfile::defaultProfile()->setUrlRequestInterceptor(m_urlInterceptor);
+#else
+  QWebEngineProfile::defaultProfile()->setRequestInterceptor(m_urlInterceptor);
+#endif
 #endif
 }
 
@@ -45,6 +65,10 @@ bool WebFactory::sendMessageViaEmail(const Message& message) {
 }
 
 bool WebFactory::openUrlInExternalBrowser(const QString& url) const {
+  qDebugNN << LOGSEC_NETWORK << "We are trying to open URL" << QUOTE_W_SPACE_DOT(url);
+
+  bool result = false;
+
   if (qApp->settings()->value(GROUP(Browser), SETTING(Browser::CustomExternalBrowserEnabled)).toBool()) {
     const QString browser = qApp->settings()->value(GROUP(Browser), SETTING(Browser::CustomExternalBrowserExecutable)).toString();
     const QString arguments = qApp->settings()->value(GROUP(Browser), SETTING(Browser::CustomExternalBrowserArguments)).toString();
@@ -52,17 +76,29 @@ bool WebFactory::openUrlInExternalBrowser(const QString& url) const {
 
     qDebugNN << LOGSEC_NETWORK << "Arguments for external browser:" << QUOTE_W_SPACE_DOT(nice_args);
 
-    const bool result = IOFactory::startProcessDetached(browser, {}, nice_args);
+    result = IOFactory::startProcessDetached(browser, {}, nice_args);
 
     if (!result) {
       qDebugNN << LOGSEC_NETWORK << "External web browser call failed.";
     }
-
-    return result;
   }
   else {
-    return QDesktopServices::openUrl(url);
+    result = QDesktopServices::openUrl(url);
   }
+
+  if (!result) {
+    // We display GUI information that browser was not probably opened.
+    MessageBox::show(qApp->mainFormWidget(),
+                     QMessageBox::Icon::Critical,
+                     tr("Navigate to website manually"),
+                     tr("%1 was unable to launch your web browser with the given URL, you need to open the "
+                        "below website URL in your web browser manually.").arg(APP_NAME),
+                     {},
+                     url,
+                     QMessageBox::StandardButton::Ok);
+  }
+
+  return result;
 }
 
 QString WebFactory::stripTags(QString text) {
@@ -187,6 +223,14 @@ void WebFactory::updateProxy() {
 }
 
 #if defined (USE_WEBENGINE)
+AdBlockManager* WebFactory::adBlock() {
+  return m_adBlock;
+}
+
+NetworkUrlInterceptor* WebFactory::urlIinterceptor() {
+  return m_urlInterceptor;
+}
+
 QAction* WebFactory::engineSettingsAction() {
   if (m_engineSettings == nullptr) {
     m_engineSettings = new QAction(qApp->icons()->fromTheme(QSL("applications-internet")), tr("Web engine settings"), this);

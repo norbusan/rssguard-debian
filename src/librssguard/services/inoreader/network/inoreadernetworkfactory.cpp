@@ -28,7 +28,7 @@
 InoreaderNetworkFactory::InoreaderNetworkFactory(QObject* parent) : QObject(parent),
   m_service(nullptr), m_username(QString()), m_batchSize(INOREADER_DEFAULT_BATCH_SIZE),
   m_oauth2(new OAuth2Service(INOREADER_OAUTH_AUTH_URL, INOREADER_OAUTH_TOKEN_URL,
-                             INOREADER_OAUTH_CLI_ID, INOREADER_OAUTH_CLI_KEY, INOREADER_OAUTH_SCOPE, this)) {
+                             {}, {}, INOREADER_OAUTH_SCOPE, this)) {
   initializeOauth();
 }
 
@@ -40,7 +40,7 @@ OAuth2Service* InoreaderNetworkFactory::oauth() const {
   return m_oauth2;
 }
 
-QString InoreaderNetworkFactory::userName() const {
+QString InoreaderNetworkFactory::username() const {
   return m_username;
 }
 
@@ -55,17 +55,14 @@ void InoreaderNetworkFactory::setBatchSize(int batch_size) {
 void InoreaderNetworkFactory::initializeOauth() {
   connect(m_oauth2, &OAuth2Service::tokensRetrieveError, this, &InoreaderNetworkFactory::onTokensError);
   connect(m_oauth2, &OAuth2Service::authFailed, this, &InoreaderNetworkFactory::onAuthFailed);
-  connect(m_oauth2, &OAuth2Service::tokensReceived, this, [this](QString access_token, QString refresh_token, int expires_in) {
+  connect(m_oauth2, &OAuth2Service::tokensRetrieved, this, [this](QString access_token, QString refresh_token, int expires_in) {
     Q_UNUSED(expires_in)
     Q_UNUSED(access_token)
 
     if (m_service != nullptr && !refresh_token.isEmpty()) {
       QSqlDatabase database = qApp->database()->connection(metaObject()->className());
-      DatabaseQueries::storeNewInoreaderTokens(database, refresh_token, m_service->accountId());
 
-      qApp->showGuiMessage(tr("Logged in successfully"),
-                           tr("Your login to Inoreader was authorized."),
-                           QSystemTrayIcon::MessageIcon::Information);
+      DatabaseQueries::storeNewOauthTokens(database, QSL("InoreaderAccounts"), refresh_token, m_service->accountId());
     }
   });
 }
@@ -75,76 +72,78 @@ void InoreaderNetworkFactory::setUsername(const QString& username) {
 }
 
 RootItem* InoreaderNetworkFactory::feedsCategories(bool obtain_icons) {
-  Downloader downloader;
-  QEventLoop loop;
   QString bearer = m_oauth2->bearer().toLocal8Bit();
 
   if (bearer.isEmpty()) {
     return nullptr;
   }
 
-  downloader.appendRawHeader(QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(), bearer.toLocal8Bit());
+  QByteArray output_labels;
+  auto result_labels = NetworkFactory::performNetworkOperation(INOREADER_API_LIST_LABELS,
+                                                               qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt(),
+                                                               {},
+                                                               output_labels,
+                                                               QNetworkAccessManager::Operation::GetOperation,
+                                                               { { QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(),
+                                                                 bearer.toLocal8Bit() } },
+                                                               false,
+                                                               {},
+                                                               {},
+                                                               m_service->networkProxy());
 
-  // We need to quit event loop when the download finishes.
-  connect(&downloader, &Downloader::completed, &loop, &QEventLoop::quit);
-  downloader.downloadFile(INOREADER_API_LIST_LABELS, qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt());
-  loop.exec();
-
-  if (downloader.lastOutputError() != QNetworkReply::NetworkError::NoError) {
+  if (result_labels.first != QNetworkReply::NetworkError::NoError) {
     return nullptr;
   }
 
-  QString category_data = downloader.lastOutputData();
+  QByteArray output_feeds;
+  auto result_feeds = NetworkFactory::performNetworkOperation(INOREADER_API_LIST_FEEDS,
+                                                              qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt(),
+                                                              {},
+                                                              output_feeds,
+                                                              QNetworkAccessManager::Operation::GetOperation,
+                                                              { { QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(),
+                                                                bearer.toLocal8Bit() } },
+                                                              false,
+                                                              {},
+                                                              {},
+                                                              m_service->networkProxy());
 
-  downloader.manipulateData(INOREADER_API_LIST_FEEDS, QNetworkAccessManager::Operation::GetOperation);
-  loop.exec();
-
-  if (downloader.lastOutputError() != QNetworkReply::NetworkError::NoError) {
+  if (result_feeds.first != QNetworkReply::NetworkError::NoError) {
     return nullptr;
   }
 
-  QString feed_data = downloader.lastOutputData();
-
-  return decodeFeedCategoriesData(category_data, feed_data, obtain_icons);
+  return decodeFeedCategoriesData(output_labels, output_feeds, obtain_icons);
 }
 
 QList<RootItem*> InoreaderNetworkFactory::getLabels() {
   QList<RootItem*> lbls;
-  Downloader downloader;
-  QEventLoop loop;
   QString bearer = m_oauth2->bearer().toLocal8Bit();
 
   if (bearer.isEmpty()) {
     return lbls;
   }
 
-  downloader.appendRawHeader(QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(), bearer.toLocal8Bit());
-
-  // We need to quit event loop when the download finishes.
-  connect(&downloader, &Downloader::completed, &loop, &QEventLoop::quit);
-  downloader.downloadFile(INOREADER_API_LIST_LABELS, qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt());
-  loop.exec();
-
-  QString lbls_data = downloader.lastOutputData();
-  QJsonDocument json_lbls = QJsonDocument::fromJson(lbls_data.toUtf8());
+  QByteArray output;
+  auto result = NetworkFactory::performNetworkOperation(INOREADER_API_LIST_LABELS,
+                                                        qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt(),
+                                                        {},
+                                                        output,
+                                                        QNetworkAccessManager::Operation::GetOperation,
+                                                        { { QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(),
+                                                          bearer.toLocal8Bit() } },
+                                                        false,
+                                                        {},
+                                                        {},
+                                                        m_service->networkProxy());
+  QJsonDocument json_lbls = QJsonDocument::fromJson(output);
 
   for (const QJsonValue& lbl_val : json_lbls.object()["tags"].toArray()) {
     QJsonObject lbl_obj = lbl_val.toObject();
 
     if (lbl_obj["type"] == QL1S("tag")) {
       QString name_id = lbl_obj["id"].toString();
-      QString id = QRegularExpression("user\\/(\\d+)\\/").match(name_id).captured(1);
       QString plain_name = QRegularExpression(".+\\/([^\\/]+)").match(name_id).captured(1);
-      quint32 color = 0;
-
-      for (const QChar chr : name_id) {
-        color += chr.unicode();
-      }
-
-      color = QRandomGenerator(color).bounded(double(0xFFFFFF)) - 1;
-
-      auto color_name = QSL("#%1").arg(color, 6, 16);
-      auto* new_lbl = new Label(plain_name, QColor(color_name));
+      auto* new_lbl = new Label(plain_name, TextFactory::generateColorFromText(name_id));
 
       new_lbl->setCustomId(name_id);
       lbls.append(new_lbl);
@@ -155,8 +154,6 @@ QList<RootItem*> InoreaderNetworkFactory::getLabels() {
 }
 
 QList<Message> InoreaderNetworkFactory::messages(ServiceRoot* root, const QString& stream_id, Feed::Status& error) {
-  Downloader downloader;
-  QEventLoop loop;
   QString target_url = INOREADER_API_FEED_CONTENTS;
   QString bearer = m_oauth2->bearer().toLocal8Bit();
 
@@ -170,27 +167,32 @@ QList<Message> InoreaderNetworkFactory::messages(ServiceRoot* root, const QStrin
   }
 
   target_url += QSL("/") + QUrl::toPercentEncoding(stream_id) + QString("?n=%1").arg(batchSize());
-  downloader.appendRawHeader(QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(), bearer.toLocal8Bit());
 
-  // We need to quit event loop when the download finishes.
-  connect(&downloader, &Downloader::completed, &loop, &QEventLoop::quit);
-  downloader.downloadFile(target_url, qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt());
-  loop.exec();
+  QByteArray output_msgs;
+  auto result = NetworkFactory::performNetworkOperation(target_url,
+                                                        qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt(),
+                                                        {},
+                                                        output_msgs,
+                                                        QNetworkAccessManager::Operation::GetOperation,
+                                                        { { QString(HTTP_HEADERS_AUTHORIZATION).toLocal8Bit(),
+                                                          bearer.toLocal8Bit() } },
+                                                        false,
+                                                        {},
+                                                        {},
+                                                        m_service->networkProxy());
 
-  if (downloader.lastOutputError() != QNetworkReply::NetworkError::NoError) {
+  if (result.first != QNetworkReply::NetworkError::NoError) {
     qCriticalNN << LOGSEC_INOREADER
                 << "Cannot download messages for "
                 << QUOTE_NO_SPACE(stream_id)
                 << ", network error:"
-                << QUOTE_W_SPACE_DOT(downloader.lastOutputError());
+                << QUOTE_W_SPACE_DOT(result.first);
     error = Feed::Status::NetworkError;
     return QList<Message>();
   }
   else {
-    QString messages_data = downloader.lastOutputData();
-
     error = Feed::Status::Normal;
-    return decodeMessages(root, messages_data, stream_id);
+    return decodeMessages(root, output_msgs, stream_id);
   }
 }
 
@@ -217,19 +219,18 @@ QNetworkReply::NetworkError InoreaderNetworkFactory::editLabels(const QString& s
                                                m_oauth2->bearer().toLocal8Bit()));
 
   QStringList trimmed_ids;
-  QRegularExpression regex_short_id(QSL("[0-9a-zA-Z]+$"));
 
   for (const QString& id : msg_custom_ids) {
     trimmed_ids.append(QString("i=") + id);
   }
 
-  QStringList working_subset; working_subset.reserve(std::min(50, trimmed_ids.size()));
+  QStringList working_subset; working_subset.reserve(std::min(INOREADER_API_EDIT_TAG_BATCH, trimmed_ids.size()));
   int timeout = qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt();
 
-  // Now, we perform messages update in batches (max 200 messages per batch).
+  // Now, we perform messages update in batches (max XX messages per batch).
   while (!trimmed_ids.isEmpty()) {
-    // We take 50 IDs.
-    for (int i = 0; i < 50 && !trimmed_ids.isEmpty(); i++) {
+    // We take XX IDs.
+    for (int i = 0; i < INOREADER_API_EDIT_TAG_BATCH && !trimmed_ids.isEmpty(); i++) {
       working_subset.append(trimmed_ids.takeFirst());
     }
 
@@ -239,10 +240,14 @@ QNetworkReply::NetworkError InoreaderNetworkFactory::editLabels(const QString& s
     QByteArray output;
     auto result = NetworkFactory::performNetworkOperation(batch_final_url,
                                                           timeout,
-                                                          QByteArray(),
+                                                          {},
                                                           output,
                                                           QNetworkAccessManager::Operation::GetOperation,
-                                                          headers);
+                                                          headers,
+                                                          false,
+                                                          {},
+                                                          {},
+                                                          m_service->networkProxy());
 
     if (result.first != QNetworkReply::NetworkError::NoError) {
       return result.first;
@@ -268,7 +273,7 @@ void InoreaderNetworkFactory::onTokensError(const QString& error, const QString&
 
   qApp->showGuiMessage(tr("Inoreader: authentication error"),
                        tr("Click this to login again. Error is: '%1'").arg(error_description),
-                       QSystemTrayIcon::Critical,
+                       QSystemTrayIcon::MessageIcon::Critical,
                        nullptr, false,
                        [this]() {
     m_oauth2->setAccessToken(QString());
@@ -280,7 +285,7 @@ void InoreaderNetworkFactory::onTokensError(const QString& error, const QString&
 void InoreaderNetworkFactory::onAuthFailed() {
   qApp->showGuiMessage(tr("Inoreader: authorization denied"),
                        tr("Click this to login again."),
-                       QSystemTrayIcon::Critical,
+                       QSystemTrayIcon::MessageIcon::Critical,
                        nullptr, false,
                        [this]() {
     m_oauth2->login();
@@ -435,4 +440,8 @@ RootItem* InoreaderNetworkFactory::decodeFeedCategoriesData(const QString& categ
   }
 
   return parent;
+}
+
+void InoreaderNetworkFactory::setOauth(OAuth2Service* oauth) {
+  m_oauth2 = oauth;
 }

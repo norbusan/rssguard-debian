@@ -12,11 +12,16 @@ CREATE TABLE IF NOT EXISTS Information (
   inf_value       TEXT        NOT NULL
 );
 -- !
-INSERT INTO Information VALUES (1, 'schema_version', '17');
+INSERT INTO Information VALUES (1, 'schema_version', '21');
 -- !
 CREATE TABLE IF NOT EXISTS Accounts (
-  id              INTEGER     PRIMARY KEY,
-  type            TEXT        NOT NULL
+  id              INTEGER     AUTO_INCREMENT PRIMARY KEY,
+  type            TEXT        NOT NULL CHECK (type != ''),
+  proxy_type      INTEGER     NOT NULL DEFAULT 0 CHECK (proxy_type >= 0),
+  proxy_host      TEXT,
+  proxy_port      INTEGER,
+  proxy_username  TEXT,
+  proxy_password  TEXT
 );
 -- !
 CREATE TABLE IF NOT EXISTS TtRssAccounts (
@@ -69,6 +74,28 @@ CREATE TABLE IF NOT EXISTS GmailAccounts (
   FOREIGN KEY (id) REFERENCES Accounts (id)
 );
 -- !
+CREATE TABLE IF NOT EXISTS GoogleReaderApiAccounts (
+  id                  INTEGER,
+  type                INTEGER     NOT NULL CHECK (type >= 1),
+  username            TEXT        NOT NULL,
+  password            TEXT,
+  url                 TEXT        NOT NULL,
+  msg_limit           INTEGER     NOT NULL DEFAULT -1 CHECK (msg_limit >= -1),
+  
+  FOREIGN KEY (id) REFERENCES Accounts (id)
+);
+-- !
+CREATE TABLE IF NOT EXISTS FeedlyAccounts (
+  id                        INTEGER,
+  username                  TEXT        NOT NULL,
+  developer_access_token    TEXT,
+  refresh_token             TEXT,
+  msg_limit                 INTEGER     NOT NULL DEFAULT -1 CHECK (msg_limit >= -1),
+  update_only_unread        INTEGER(1)  NOT NULL DEFAULT 0 CHECK (update_only_unread >= 0 AND update_only_unread <= 1),
+  
+  FOREIGN KEY (id) REFERENCES Accounts (id)
+);
+-- !
 DROP TABLE IF EXISTS Categories;
 -- !
 CREATE TABLE IF NOT EXISTS Categories (
@@ -94,12 +121,14 @@ CREATE TABLE IF NOT EXISTS Feeds (
   icon            BLOB,
   category        INTEGER       NOT NULL CHECK (category >= -1),
   encoding        TEXT,
+  source_type     INTEGER,
   url             VARCHAR(1000),
+  post_process    TEXT,
   protected       INTEGER(1)    NOT NULL CHECK (protected >= 0 AND protected <= 1),
   username        TEXT,
   password        TEXT,
   update_type     INTEGER(1)    NOT NULL CHECK (update_type >= 0),
-  update_interval INTEGER       NOT NULL DEFAULT 15 CHECK (update_interval >= 3),
+  update_interval INTEGER       NOT NULL DEFAULT 15 CHECK (update_interval >= 1),
   type            INTEGER,
   account_id      INTEGER       NOT NULL,
   custom_id       TEXT,

@@ -12,20 +12,21 @@
 #define SERVICE_CODE_STD_RSS    "std-rss"
 #define SERVICE_CODE_TT_RSS     "tt-rss"
 #define SERVICE_CODE_OWNCLOUD   "owncloud"
+#define SERVICE_CODE_GREADER    "greader"
+#define SERVICE_CODE_FEEDLY     "feedly"
 #define SERVICE_CODE_INOREADER  "inoreader"
 #define SERVICE_CODE_GMAIL      "gmail"
 
 #define ARGUMENTS_LIST_SEPARATOR  "\n"
 
-#define ADBLOCK_ADBLOCKED_PAGE                "adblockedpage"
 #define ADBLOCK_HOWTO_FILTERS                 "https://help.eyeo.com/en/adblockplus/how-to-write-filters"
-#define ADBLOCK_UPDATE_DAYS_INTERVAL          5
+#define ADBLOCK_UPDATE_DAYS_INTERVAL          14
 #define ADBLOCK_ICON_ACTIVE                   "adblock"
 #define ADBLOCK_ICON_DISABLED                 "adblock-disabled"
 #define IS_IN_ARRAY(offset, array)            ((offset >= 0) && (offset < array.count()))
 #define ADBLOCK_CUSTOMLIST_NAME               "customlist.txt"
 #define ADBLOCK_LISTS_SUBDIRECTORY            "adblock"
-#define ADBLOCK_EASYLIST_URL                  "https://easylist-downloads.adblockplus.org/easylist.txt"
+#define ADBLOCK_EASYLIST_URL                  "https://easylist.to/easylist/easylist.txt"
 #define DEFAULT_SQL_MESSAGES_FILTER           "0 > 1"
 #define MAX_MULTICOLUMN_SORT_STATES           3
 #define ENCLOSURES_OUTER_SEPARATOR            '#'
@@ -39,6 +40,7 @@
 #define MSG_FILTERING_HELP                    "https://github.com/martinrotter/rssguard/blob/master/resources/docs/Message-filters.md#message-filtering"
 #define DEFAULT_FEED_TYPE                     "RSS"
 #define URL_REGEXP "^(http|https|feed|ftp):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?$"
+#define SCRIPT_SOURCE_TYPE_REGEXP             "^.+#.*$"
 #define TEXT_TITLE_LIMIT                      30
 #define RESELECT_MESSAGE_THRESSHOLD           500
 #define ICON_SIZE_SETTINGS                    16
@@ -57,7 +59,7 @@
 #define ELLIPSIS_LENGTH                       3
 #define MIN_CATEGORY_NAME_LENGTH              1
 #define DEFAULT_AUTO_UPDATE_INTERVAL          15
-#define OAUTH_REDIRECT_URI_PORT               13377
+#define OAUTH_REDIRECT_URI_PORT               14488
 #define OAUTH_REDIRECT_URI                    "http://localhost"
 #define AUTO_UPDATE_INTERVAL                  60000
 #define STARTUP_UPDATE_DELAY                  15.0 // In seconds.
@@ -80,6 +82,7 @@
 #define RELOAD_MODEL_BORDER_NUM               10
 #define EXTERNAL_TOOL_SEPARATOR               "###"
 #define EXTERNAL_TOOL_PARAM_SEPARATOR         "|||"
+#define EXECUTION_LINE_USER_DATA_PLACEHOLDER  "%data%"
 
 #define CLI_LOG_SHORT     "l"
 #define CLI_LOG_LONG      "log"
@@ -87,6 +90,8 @@
 #define CLI_DAT_LONG      "data"
 #define CLI_SIN_SHORT     "s"
 #define CLI_SIN_LONG      "no-single-instance"
+#define CLI_NDEBUG_SHORT  "n"
+#define CLI_NDEBUG_LONG   "no-debug-output"
 
 #define HTTP_HEADERS_ACCEPT         "Accept"
 #define HTTP_HEADERS_CONTENT_TYPE   "Content-Type"
@@ -99,11 +104,14 @@
 #define LOGSEC_FEEDMODEL            "feed-model: "
 #define LOGSEC_FEEDDOWNLOADER       "feed-downloader: "
 #define LOGSEC_MESSAGEMODEL         "message-model: "
+#define LOGSEC_JS                   "javascript: "
 #define LOGSEC_GUI                  "gui: "
 #define LOGSEC_CORE                 "core: "
 #define LOGSEC_DB                   "database: "
 #define LOGSEC_NEXTCLOUD            "nextcloud: "
+#define LOGSEC_GREADER              "greader: "
 #define LOGSEC_INOREADER            "inoreader: "
+#define LOGSEC_FEEDLY               "feedly: "
 #define LOGSEC_TTRSS                "tt-rss: "
 #define LOGSEC_GMAIL                "gmail: "
 #define LOGSEC_OAUTH                "oauth: "
@@ -115,6 +123,7 @@
 
 #define INTERNAL_URL_MESSAGE                  "http://rssguard.message"
 #define INTERNAL_URL_BLANK                    "http://rssguard.blank"
+#define INTERNAL_URL_ADBLOCKED                "http://rssguard.adblocked"
 #define INTERNAL_URL_MESSAGE_HOST             "rssguard.message"
 #define INTERNAL_URL_BLANK_HOST               "rssguard.blank"
 #define INTERNAL_URL_PASSATTACHMENT           "http://rssguard.passattachment"
@@ -143,7 +152,7 @@
 #define APP_DB_SQLITE_FILE            "database.db"
 
 // Keep this in sync with schema versions declared in SQL initialization code.
-#define APP_DB_SCHEMA_VERSION         "17"
+#define APP_DB_SCHEMA_VERSION         "21"
 #define APP_DB_UPDATE_FILE_PATTERN    "db_update_%1_%2_%3.sql"
 #define APP_DB_COMMENT_SPLIT          "-- !\n"
 #define APP_DB_NAME_PLACEHOLDER       "##"
@@ -204,15 +213,17 @@
 #define FDS_DB_ICON_INDEX             4
 #define FDS_DB_CATEGORY_INDEX         5
 #define FDS_DB_ENCODING_INDEX         6
-#define FDS_DB_URL_INDEX              7
-#define FDS_DB_PROTECTED_INDEX        8
-#define FDS_DB_USERNAME_INDEX         9
-#define FDS_DB_PASSWORD_INDEX         10
-#define FDS_DB_UPDATE_TYPE_INDEX      11
-#define FDS_DB_UPDATE_INTERVAL_INDEX  12
-#define FDS_DB_TYPE_INDEX             13
-#define FDS_DB_ACCOUNT_ID_INDEX       14
-#define FDS_DB_CUSTOM_ID_INDEX        15
+#define FDS_DB_SOURCE_TYPE_INDEX      7
+#define FDS_DB_URL_INDEX              8
+#define FDS_DB_POST_PROCESS           9
+#define FDS_DB_PROTECTED_INDEX        10
+#define FDS_DB_USERNAME_INDEX         11
+#define FDS_DB_PASSWORD_INDEX         12
+#define FDS_DB_UPDATE_TYPE_INDEX      13
+#define FDS_DB_UPDATE_INTERVAL_INDEX  14
+#define FDS_DB_TYPE_INDEX             15
+#define FDS_DB_ACCOUNT_ID_INDEX       16
+#define FDS_DB_CUSTOM_ID_INDEX        17
 
 // Indexes of columns for feed models.
 #define FDS_MODEL_TITLE_INDEX           0

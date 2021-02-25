@@ -25,8 +25,9 @@ class InoreaderNetworkFactory : public QObject {
     void setService(InoreaderServiceRoot* service);
 
     OAuth2Service* oauth() const;
+    void setOauth(OAuth2Service* oauth);
 
-    QString userName() const;
+    QString username() const;
     void setUsername(const QString& username);
 
     // Gets/sets the amount of messages to obtain during single feed update.
@@ -39,11 +40,8 @@ class InoreaderNetworkFactory : public QObject {
     RootItem* feedsCategories(bool obtain_icons);
 
     QList<RootItem*> getLabels();
-
     QList<Message> messages(ServiceRoot* root, const QString& stream_id, Feed::Status& error);
-
     QNetworkReply::NetworkError editLabels(const QString& state, bool assign, const QStringList& msg_custom_ids);
-
     QNetworkReply::NetworkError markMessagesRead(RootItem::ReadStatus status, const QStringList& msg_custom_ids);
     QNetworkReply::NetworkError markMessagesStarred(RootItem::Importance importance, const QStringList& msg_custom_ids);
 

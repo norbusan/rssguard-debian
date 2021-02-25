@@ -17,12 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with RSS Guard. If not, see <http://www.gnu.org/licenses/>.
 
-#include "network-web/adblock/adblockmanager.h"
 #include "network-web/adblock/adblockmatcher.h"
-#include "network-web/adblock/adblockrule.h"
-#include "network-web/adblock/adblocksubscription.h"
 
 #include "definitions/definitions.h"
+#include "network-web/adblock/adblockmanager.h"
+#include "network-web/adblock/adblockrule.h"
+#include "network-web/adblock/adblocksubscription.h"
 
 AdBlockMatcher::AdBlockMatcher(AdBlockManager* manager)
   : QObject(manager), m_manager(manager) {}
@@ -31,7 +31,7 @@ AdBlockMatcher::~AdBlockMatcher() {
   clear();
 }
 
-const AdBlockRule* AdBlockMatcher::match(const QWebEngineUrlRequestInfo& request, const QString& urlDomain,
+const AdBlockRule* AdBlockMatcher::match(const AdblockRequestInfo& request, const QString& urlDomain,
                                          const QString& urlString) const {
   // Exception rules.
   if (m_networkExceptionTree.find(request, urlDomain, urlString) != nullptr) {
@@ -184,7 +184,7 @@ void AdBlockMatcher::update() {
 
     AdBlockRule* copiedRule = originalRule->copy();
 
-    copiedRule->m_options |= AdBlockRule::DomainRestrictedOption;
+    copiedRule->m_options |= AdBlockRule::RuleOption::DomainRestrictedOption;
     copiedRule->m_blockedDomains.append(rule->m_allowedDomains);
     cssRulesHash[rule->cssSelector()] = copiedRule;
     m_createdRules.append(copiedRule);
@@ -194,7 +194,6 @@ void AdBlockMatcher::update() {
   // (In my testings, 4931 is the number that makes it crash).
   // So let's split it by 1000 selectors.
   int hidingRulesCount = 0;
-
   QHashIterator<QString, const AdBlockRule*> it(cssRulesHash);
 
   while (it.hasNext()) {

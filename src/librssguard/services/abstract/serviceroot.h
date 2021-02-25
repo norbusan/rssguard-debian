@@ -7,6 +7,7 @@
 
 #include "core/message.h"
 
+#include <QNetworkProxy>
 #include <QPair>
 
 class FeedsModel;
@@ -18,7 +19,7 @@ class QAction;
 class MessagesModel;
 class CacheForServiceRoot;
 
-// Car here represents ID (int, primary key) of the item.
+// First item here represents ID (int, primary key) of the item.
 typedef QList<QPair<int, RootItem*>> Assignment;
 typedef QPair<int, RootItem*> AssignmentItem;
 typedef QPair<Message, RootItem::Importance> ImportanceChange;
@@ -152,18 +153,21 @@ class ServiceRoot : public RootItem {
     // NOTE: Keep in sync with ServiceEntryRoot::code().
     virtual QString code() const = 0;
 
-    // These are not part of "interface".
-    CacheForServiceRoot* toCache() const;
-
   public:
+    CacheForServiceRoot* toCache() const;
 
     // Account ID corresponds with DB attribute Accounts (id).
     int accountId() const;
     void setAccountId(int account_id);
 
+    QNetworkProxy networkProxy() const;
+    void setNetworkProxy(const QNetworkProxy& network_proxy);
+
     // Removes all data associated with this account from DB
     // and from model.
     void completelyRemoveAllData();
+
+    QIcon feedIconForMessage(const QString& feed_custom_id) const;
 
     // Removes all/read only messages from given underlying feeds.
     bool cleanFeeds(QList<Feed*> items, bool clean_read_only);
@@ -227,6 +231,7 @@ class ServiceRoot : public RootItem {
     void assembleFeeds(Assignment feeds);
 
   signals:
+    void proxyChanged(QNetworkProxy proxy);
     void dataChanged(QList<RootItem*> items);
     void reloadMessageListRequested(bool mark_selected_messages_read);
     void itemExpandRequested(QList<RootItem*> items, bool expand);
@@ -245,6 +250,7 @@ class ServiceRoot : public RootItem {
     LabelsNode* m_labelsNode;
     int m_accountId;
     QList<QAction*> m_serviceMenu;
+    QNetworkProxy m_networkProxy;
 };
 
 ServiceRoot::LabelOperation operator|(ServiceRoot::LabelOperation lhs, ServiceRoot::LabelOperation rhs);

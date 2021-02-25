@@ -14,6 +14,7 @@
 #include "services/abstract/importantnode.h"
 #include "services/abstract/labelsnode.h"
 #include "services/abstract/recyclebin.h"
+#include "services/standard/gui/formeditstandardaccount.h"
 #include "services/standard/gui/formstandardcategorydetails.h"
 #include "services/standard/gui/formstandardfeeddetails.h"
 #include "services/standard/gui/formstandardimportexport.h"
@@ -29,7 +30,7 @@
 
 StandardServiceRoot::StandardServiceRoot(RootItem* parent)
   : ServiceRoot(parent) {
-  setTitle(qApp->system()->loggedInUser() + QSL(" (RSS/RDF/ATOM)"));
+  setTitle(qApp->system()->loggedInUser() + QSL(" (RSS/ATOM/JSON)"));
   setIcon(StandardServiceEntryPoint().icon());
   setDescription(tr("This is obligatory service account for standard RSS/RDF/ATOM feeds."));
 }
@@ -87,10 +88,17 @@ QString StandardServiceRoot::code() const {
 }
 
 bool StandardServiceRoot::canBeEdited() const {
-  return false;
+  return true;
 }
 
 bool StandardServiceRoot::canBeDeleted() const {
+  return true;
+}
+
+bool StandardServiceRoot::editViaGui() {
+  FormEditStandardAccount form_pointer(qApp->mainFormWidget());
+
+  form_pointer.addEditAccount(this);
   return true;
 }
 
@@ -126,7 +134,7 @@ void StandardServiceRoot::addNewFeed(RootItem* selected_item, const QString& url
 }
 
 Qt::ItemFlags StandardServiceRoot::additionalFlags() const {
-  return Qt::ItemIsDropEnabled;
+  return Qt::ItemFlag::ItemIsDropEnabled;
 }
 
 void StandardServiceRoot::loadFromDatabase() {
@@ -146,7 +154,7 @@ void StandardServiceRoot::checkArgumentsForFeedAdding() {
 
 QString StandardServiceRoot::processFeedUrl(const QString& feed_url) {
   if (feed_url.startsWith(QL1S(URI_SCHEME_FEED_SHORT))) {
-    QString without_feed_prefix = feed_url.mid(5);
+    QString without_feed_prefix = feed_url.mid(QSL(URI_SCHEME_FEED_SHORT).size());
 
     if (without_feed_prefix.startsWith(QL1S("https:")) || without_feed_prefix.startsWith(QL1S("http:"))) {
       return without_feed_prefix;

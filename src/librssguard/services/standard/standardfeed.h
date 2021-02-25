@@ -8,6 +8,7 @@
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QMetaType>
+#include <QNetworkProxy>
 #include <QNetworkReply>
 #include <QPair>
 #include <QSqlRecord>
@@ -20,6 +21,12 @@ class StandardFeed : public Feed {
   Q_OBJECT
 
   public:
+    enum class SourceType {
+      Url = 0,
+      Script = 1,
+      LocalFile = 2
+    };
+
     enum class Type {
       Rss0X = 0,
       Rss2X = 1,
@@ -58,35 +65,57 @@ class StandardFeed : public Feed {
     Type type() const;
     void setType(Type type);
 
+    SourceType sourceType() const;
+    void setSourceType(const SourceType& source_type);
+
     QString encoding() const;
     void setEncoding(const QString& encoding);
+
+    QString postProcessScript() const;
+    void setPostProcessScript(const QString& post_process_script);
 
     QNetworkReply::NetworkError networkError() const;
 
     QList<Message> obtainNewMessages(bool* error_during_obtaining);
+
+    static QStringList prepareExecutionLine(const QString& execution_line);
+    static QString generateFeedFileWithScript(const QString& execution_line, int run_timeout);
+    static QString postProcessFeedFileWithScript(const QString& execution_line, const QString raw_feed_data, int run_timeout);
 
     // Tries to guess feed hidden under given URL
     // and uses given credentials.
     // Returns pointer to guessed feed (if at least partially
     // guessed) and retrieved error/status code from network layer
     // or NULL feed.
-    static QPair<StandardFeed*, QNetworkReply::NetworkError> guessFeed(const QString& url,
-                                                                       const QString& username = QString(),
-                                                                       const QString& password = QString());
+    static StandardFeed* guessFeed(SourceType source_type,
+                                   const QString& url,
+                                   const QString& post_process_script,
+                                   bool* result,
+                                   const QString& username = QString(),
+                                   const QString& password = QString(),
+                                   const QNetworkProxy& custom_proxy = QNetworkProxy::ProxyType::DefaultProxy);
 
     // Converts particular feed type to string.
     static QString typeToString(Type type);
+    static QString sourceTypeToString(SourceType type);
 
   public slots:
     void fetchMetadataForItself();
 
   private:
+    static QString runScriptProcess(const QStringList& cmd_args, const QString& working_directory,
+                                    int run_timeout, bool provide_input, const QString& input = {});
+
+  private:
+    SourceType m_sourceType;
     Type m_type;
+    QString m_postProcessScript;
 
     QNetworkReply::NetworkError m_networkError;
     QString m_encoding;
 };
 
+Q_DECLARE_METATYPE(StandardFeed::SourceType)
 Q_DECLARE_METATYPE(StandardFeed::Type)
 
 #endif // FEEDSMODELFEED_H

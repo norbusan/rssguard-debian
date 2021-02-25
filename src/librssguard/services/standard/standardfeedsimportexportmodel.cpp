@@ -152,6 +152,12 @@ void FeedsImportExportModel::importAsOPML20(const QByteArray& data, bool fetch_m
   int completed = 0, total = 0, succeded = 0, failed = 0;
   auto* root_item = new StandardServiceRoot();
   QStack<RootItem*> model_items;
+  QNetworkProxy custom_proxy;
+
+  if (sourceModel()->rootItem() != nullptr &&
+      sourceModel()->rootItem()->getParentServiceRoot() != nullptr) {
+    custom_proxy = sourceModel()->rootItem()->getParentServiceRoot()->networkProxy();
+  }
 
   model_items.push(root_item);
   QStack<QDomElement> elements_to_process;
@@ -179,13 +185,18 @@ void FeedsImportExportModel::importAsOPML20(const QByteArray& data, bool fetch_m
           QString feed_url = child_element.attribute(QSL("xmlUrl"));
 
           if (!feed_url.isEmpty()) {
-            QPair<StandardFeed*, QNetworkReply::NetworkError> guessed;
+            StandardFeed* guessed;
+            bool result;
 
             if (fetch_metadata_online &&
-                (guessed = StandardFeed::guessFeed(feed_url)).second == QNetworkReply::NoError) {
+                (guessed = StandardFeed::guessFeed(StandardFeed::SourceType::Url,
+                                                   feed_url,
+                                                   {}, &result, {}, {},
+                                                   custom_proxy)) != nullptr &&
+                result) {
               // We should obtain fresh metadata from online feed source.
-              guessed.first->setUrl(feed_url);
-              active_model_item->appendChild(guessed.first);
+              guessed->setUrl(feed_url);
+              active_model_item->appendChild(guessed);
               succeded++;
             }
             else {
@@ -218,7 +229,7 @@ void FeedsImportExportModel::importAsOPML20(const QByteArray& data, bool fetch_m
 
               active_model_item->appendChild(new_feed);
 
-              if (fetch_metadata_online && guessed.second != QNetworkReply::NoError) {
+              if (fetch_metadata_online && result) {
                 failed++;
               }
               else {
@@ -287,16 +298,27 @@ void FeedsImportExportModel::importAsTxtURLPerLine(const QByteArray& data, bool 
   emit layoutChanged();
   int completed = 0, succeded = 0, failed = 0;
   auto* root_item = new StandardServiceRoot();
+  QNetworkProxy custom_proxy;
+
+  if (sourceModel()->rootItem() != nullptr &&
+      sourceModel()->rootItem()->getParentServiceRoot() != nullptr) {
+    custom_proxy = sourceModel()->rootItem()->getParentServiceRoot()->networkProxy();
+  }
+
   QList<QByteArray> urls = data.split('\n');
 
   for (const QByteArray& url : urls) {
     if (!url.isEmpty()) {
-      QPair<StandardFeed*, QNetworkReply::NetworkError> guessed;
+      StandardFeed* guessed;
+      bool result;
 
       if (fetch_metadata_online &&
-          (guessed = StandardFeed::guessFeed(url)).second == QNetworkReply::NoError) {
-        guessed.first->setUrl(url);
-        root_item->appendChild(guessed.first);
+          (guessed = StandardFeed::guessFeed(StandardFeed::SourceType::Url,
+                                             url, {}, &result, {}, {},
+                                             custom_proxy)) != nullptr &&
+          result) {
+        guessed->setUrl(url);
+        root_item->appendChild(guessed);
         succeded++;
       }
       else {
@@ -309,7 +331,7 @@ void FeedsImportExportModel::importAsTxtURLPerLine(const QByteArray& data, bool 
         feed->setEncoding(DEFAULT_FEED_ENCODING);
         root_item->appendChild(feed);
 
-        if (fetch_metadata_online && guessed.second != QNetworkReply::NoError) {
+        if (fetch_metadata_online && result) {
           failed++;
         }
         else {

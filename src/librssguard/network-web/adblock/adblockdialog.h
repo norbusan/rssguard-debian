@@ -33,7 +33,7 @@ class AdBlockDialog : public QDialog {
   Q_OBJECT
 
   public:
-    explicit AdBlockDialog(QWidget* parent = 0);
+    explicit AdBlockDialog(QWidget* parent = nullptr);
 
     void showRule(const AdBlockRule* rule) const;
 
@@ -51,6 +51,8 @@ class AdBlockDialog : public QDialog {
     void learnAboutRules();
 
     void loadSubscriptions();
+
+  private:
     void load();
 
   private:

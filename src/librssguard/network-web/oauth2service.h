@@ -38,6 +38,7 @@ class OAuth2Service : public QObject {
     explicit OAuth2Service(const QString& auth_url, const QString& token_url,
                            const QString& client_id, const QString& client_secret,
                            const QString& scope, QObject* parent = nullptr);
+    virtual ~OAuth2Service();
 
     // Returns bearer HTTP header value.
     // NOTE: If on working thread, then call this only if isFullyLoggedIn()
@@ -71,7 +72,7 @@ class OAuth2Service : public QObject {
     void setId(const QString& id);
 
   signals:
-    void tokensReceived(QString access_token, QString refresh_token, int expires_in);
+    void tokensRetrieved(QString access_token, QString refresh_token, int expires_in);
     void tokensRetrieveError(QString error, QString error_description);
 
     // User failed to authenticate or rejected it.
@@ -80,7 +81,7 @@ class OAuth2Service : public QObject {
   public slots:
     void retrieveAuthCode();
     void retrieveAccessToken(const QString& auth_code);
-    void refreshAccessToken(QString refresh_token = QString());
+    void refreshAccessToken(const QString& refresh_token = QString());
 
     // Performs login if needed. If some refresh token is set, then
     // the initial "auth" step is skipped and attempt to refresh
@@ -92,7 +93,9 @@ class OAuth2Service : public QObject {
     // NOTE: This can be called ONLY on main GUI thread,
     // because widgets may be displayed.
     bool login();
-    void logout();
+
+    // Removes all state data and stops redirection handler.
+    void logout(bool stop_redirection_handler = true);
 
   private slots:
     void startRefreshTimer();

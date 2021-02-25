@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>(feed)</source>
-        <translation>(zdroj)</translation>
+        <translation>(kanál)</translation>
     </message>
 </context>
 <context>
@@ -90,14 +90,6 @@
         <translation>AdBlock vám umožňuje blokovat nevyžádaný obsah na webových stránkách.</translation>
     </message>
     <message>
-        <source>Blocked popup window</source>
-        <translation>Zablokováno vyskakovací okno</translation>
-    </message>
-    <message>
-        <source>AdBlock blocked unwanted popup window.</source>
-        <translation>AdBlock zablokoval vyskakovací okno.</translation>
-    </message>
-    <message>
         <source>Show AdBlock &amp;settings</source>
         <translation>Zobrazit nastavení &amp;AdBlocku</translation>
     </message>
@@ -108,17 +100,6 @@
     <message>
         <source>Disable only on this page</source>
         <translation>Zakázat pouze na této stránce</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockManager</name>
-    <message>
-        <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation>Chcete přidat seznam &lt;b&gt;%1&lt;/b&gt;?</translation>
-    </message>
-    <message>
-        <source>Add AdBlock subscription</source>
-        <translation>Přidat seznam AdBlocku</translation>
     </message>
 </context>
 <context>
@@ -337,19 +318,6 @@
 <context>
     <name>DiscoverFeedsButton</name>
     <message>
-        <source>This website does not contain any feeds.</source>
-        <translation>Tato stránka bohužel neobsahuje žádné kanály.</translation>
-    </message>
-    <message numerus="yes">
-        <source>Click me to add feeds from this website.
-This website contains %n feed(s).</source>
-        <translation><numerusform>Pro přidání kanálů z této stránky na mě klikni.
-Tato stránka obsahuje %n kanál.</numerusform><numerusform>Pro přidání kanálů z této stránky na mě klikni.
-Tato stránka obsahuje %n kanály.</numerusform><numerusform>Pro přidání kanálů z této stránky na mě klikni.
-Tato stránka obsahuje %n kanálů.</numerusform><numerusform>Pro přidání kanálů z této stránky na mě klikni.
-Tato stránka obsahuje %n kanálů.</numerusform></translation>
-    </message>
-    <message>
         <source>Not supported</source>
         <translation>Nepodporováno</translation>
     </message>
@@ -360,6 +328,14 @@ Tato stránka obsahuje %n kanálů.</numerusform></translation>
     <message>
         <source>Feeds were detected, but no suitable accounts are configured.</source>
         <translation>Byly detekovány kanály, ale není aktivován žádný účet.</translation>
+    </message>
+    <message>
+        <source>This website does not contain any feeds</source>
+        <translation>Tento web neobsahuje kanály</translation>
+    </message>
+    <message numerus="yes">
+        <source>Add one of %n feed(s)</source>
+        <translation><numerusform>Přidat %n kanál</numerusform><numerusform>Přidat %n kanály</numerusform><numerusform>Přidat %n kanálů</numerusform><numerusform>Přidat %n kanálů</numerusform></translation>
     </message>
 </context>
 <context>
@@ -547,16 +523,16 @@ Stav: %3</translation>
     <message numerus="yes">
         <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>dle globálního nastavení (%n minuta do dalšího automatického stažení zpráv)</numerusform><numerusform>dle globálního nastavení (%n minuty do dalšího automatického stažení zpráv)</numerusform><numerusform>dle globálního nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform><numerusform>dle globálního nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform></translation>
     </message>
     <message>
         <source>uses global settings (global auto-downloading of messages is disabled)</source>
-        <translation type="unfinished"/>
+        <translation>dle globálního nastavení (globální automatické stahování zpráv je zakázáno)</translation>
     </message>
     <message numerus="yes">
         <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>specifické nastavení (%n minuta do dalšího automatického stažení zpráv)</numerusform><numerusform>specifické nastavení (%n minuty do dalšího automatického stažení zpráv)</numerusform><numerusform>specifické nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform><numerusform>specifické nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -578,15 +554,153 @@ Stav: %3</translation>
     </message>
     <message>
         <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
-        <translation type="unfinished"/>
+        <translation>Nelze stáhnout nové zprávy, protože právě běží jiná kritická operace.</translation>
     </message>
     <message>
         <source>Starting auto-download of some feeds&apos; messages</source>
-        <translation type="unfinished"/>
+        <translation>Spouštím stahování zpráv pro některé kanály.</translation>
     </message>
     <message numerus="yes">
         <source>I will auto-download new messages for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>FeedlyAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Developer access token</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Get token</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation> zpráv</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Přihlásit se</translation>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Žádný test zatím neproveden.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
+    </message>
+    <message>
+        <source>Your %1 build has official Feedly support. You do not have to use &quot;developer acess token&quot;. You can therefore leave corresponding field empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your %1 does not offer official Feedly support, thus you must authorize via special authorization code called &quot;developer access token&quot;. These tokens are usually valid only for 1 month and allow only 250 API calls each day.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= neomezeno</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>zpráv</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Přístup NEpovolen.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Byla chyba během testování.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Máme chybu: %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Otestováno úspěšně.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Přístup byl povolen.</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Již jste přihlášen.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Přístup povolen.</translation>
+    </message>
+    <message>
+        <source>Login was successful.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some problems.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Login nemůže být prázdný.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Login je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Access token is empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access token is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>FeedlyNetwork</name>
+    <message>
+        <source>Feedly: authentication error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Click this to login again. Error is: &apos;%1&apos;</source>
+        <translation>Pro opětovné přihlášení klikněte zde.</translation>
+    </message>
+    <message>
+        <source>Feedly: authorization denied</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Click this to login again.</source>
+        <translation>Klikně sem pro opětovné přihlášení.</translation>
+    </message>
+    <message>
+        <source>Logged in successfully</source>
+        <translation>Přihlášeno úspěšně.</translation>
+    </message>
+    <message>
+        <source>Your login to Feedly was authorized.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -811,14 +925,21 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormAccountDetails</name>
+    <message>
+        <source>Edit account &apos;%1&apos;</source>
+        <translation>Updavit účet &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Network proxy</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormAddAccount</name>
     <message>
         <source>Add new account</source>
         <translation>Přidat nový účet</translation>
-    </message>
-    <message>
-        <source>This account can be added only once.</source>
-        <translation>Tento účet může být přidán pouze jednou.</translation>
     </message>
 </context>
 <context>
@@ -1049,527 +1170,45 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormEditFeedlyAccount</name>
+    <message>
+        <source>Service setup</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormEditGmailAccount</name>
     <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
+        <source>Server setup</source>
+        <translation type="unfinished"/>
     </message>
+</context>
+<context>
+    <name>FormEditGreaderAccount</name>
     <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>Nastaveni OAuth 2.0</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation>ID aplikace</translation>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation>Klíč aplikace</translation>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>Přesměrovací URL</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation> zpráv</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Přihlásit se</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Neotestováno.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Již jste přihlášen.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Přístup povolen.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation>Přístup NEpovolen.</translation>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Byla chyba během testování.</translation>
-    </message>
-    <message>
-        <source>There is error. %1 </source>
-        <translation>Chyba. %1</translation>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation>Přístup byl povolen.</translation>
-    </message>
-    <message>
-        <source>Add new Gmail account</source>
-        <translation>Přidat nový účet Gmail</translation>
-    </message>
-    <message>
-        <source>Edit existing Gmail account</source>
-        <translation>Upravit existující účet Gmail</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Zadána prázdná hodnota.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Zadána nějaká hodnota.</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation>Otestováno úspěšně.</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation>Přesměrovávací URL musí být nastaveno na řetězec začínající na &quot;http://localhost&quot;.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Nezadáno uživ. jméno.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Nějaké uživ. jméno zadáno.</translation>
-    </message>
-    <message>
-        <source>Get my credentials</source>
-        <translation>Získat přihlašovací údaje</translation>
+        <source>Server setup</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditInoreaderAccount</name>
     <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>Nastaveni OAuth 2.0</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation>ID aplikace</translation>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation>Klíč aplikace</translation>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>Přesměrovací URL</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation> zpráv</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Přihlásit se</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Neotestováno.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Již jste přihlášen.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Přístup povolen.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Nezadáno uživ. jméno.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Nějaké uživ. jméno zadáno.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation>Přístup NEpovolen.</translation>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Byla chyba během testování.</translation>
-    </message>
-    <message>
-        <source>There is error. %1</source>
-        <translation>Máme chybu: %1</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation>Otestováno úspěšně.</translation>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation>Přístup byl povolen.</translation>
-    </message>
-    <message>
-        <source>Add new Inoreader account</source>
-        <translation>Přidat nový účet Inoreader</translation>
-    </message>
-    <message>
-        <source>Edit existing Inoreader account</source>
-        <translation>Upravit existující účet Inoreader</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Zadána prázdná hodnota.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Zadána nějaká hodnota.</translation>
-    </message>
-    <message>
-        <source>Get my own Application ID</source>
-        <translation>Získat vlastní Application ID</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;Application ID&quot;.</source>
-        <translation>Dané přesměrovávací URL musí začínat na &quot;http://localhost&quot; a mělo by odpovídat nastavení vaší OAuth &quot;aplikace&quot;.
-
-Založení vlastního &quot;Application ID&quot; se vysoce doporučuje.</translation>
+        <source>Server setup</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditOwnCloudAccount</name>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation>Vynutit aktualizace kanálů na straně serveru</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Některé kanály vyžadují autentizaci, a to včetně kanálů pro GMail. Je podporována autentizace BASIC, NTLM-2 a DIGEST-MD5.</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>Autentizace</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Heslo</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Zobrazit heslo</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>&amp;Otestovat nastavení</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation>Zapnutí této položky může výrazně zpomalit aktualizaci kanálů.</translation>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>Žádný test zatím neproveden.</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>Síťová chyba: &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation>Podivná chyba, zadali jste URL?</translation>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>Login nemůže být prázdný.</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation>Login je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>Heslo nemůže být prázdné.</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation>Heslo je v pořádku.</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URL nemůže být prázdné.</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation>URL je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Limit number of downloaded messages per feed</source>
-        <translation>Limitovat počet stahovaných zpráv na kanál</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation>= neomezeno</translation>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation>Omezení počtu stahovaných zpráv na kanál udělá aktualizaci kanálů rychleší, ale pokud váš kanál obsahuje více zpráv než je limit, tak se může stát, že některé zprávy se z kanálu nebudou stahovat.</translation>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= neomezeno</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>zpráv</translation>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
-        <translation>Stahovat pouze nepřečtené zprávy</translation>
-    </message>
-    <message>
-        <source>Password for your Nextcloud account</source>
-        <translation>Heslo pro váš Nextcloud účet</translation>
-    </message>
-    <message>
-        <source>Username for your Nextcloud account</source>
-        <translation>Uživatelské jméno pro váš Nextcloud účet</translation>
-    </message>
-    <message>
-        <source>URL of your Nextcloud server, without any API path</source>
-        <translation>URL vaší Nextcloud instance, bez API cest</translation>
-    </message>
-    <message>
-        <source>Add new Nextcloud News account</source>
-        <translation>Přidat nový účet pro Nextcloud News</translation>
-    </message>
-    <message>
-        <source>Edit existing Nextcloud News account</source>
-        <translation>Upravit stávající účet Nextcloud News</translation>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation>Tento server pro Nextcloud News běží na nepodporované verzi Nextcloudu.</translation>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay, running with version %1, while at least version %2 is required.</source>
-        <translation>Server Nextcloud News je v pořádku, běží na verzi %1, přičemž minimální vyžadovaná verze je %2.</translation>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay.</source>
-        <translation>Server je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation>Síťová chyba, máte zadáno správné uživatelské jméno a heslo. Je URL k vašemu serveru správně?</translation>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version %1. At least version %2 is required.</source>
-        <translation>Server Nextcloud News běží na nepodporované verzi %1, přičemž minimální vyžadovaná verze je %2.</translation>
+        <source>Server setup</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditTtRssAccount</name>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Některé kanály vyžadují autentizaci, a to včetně kanálů pro GMail. Je podporována autentizace BASIC, NTLM-2 a DIGEST-MD5.</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>Autentizace</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Heslo</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Zobrazit heslo</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Vyžaduje HTTP autentizaci</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>&amp;Otestovat nastavení</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation>Vynutit aktualizace kanálů na straně serveru</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation>Zapnutí této položky může výrazně zpomalit aktualizaci kanálů.</translation>
-    </message>
-    <message>
-        <source>Note that at least API level %1 is required.</source>
-        <translation>Je vyžadována verze API %1 nebo vyšší.</translation>
-    </message>
-    <message>
-        <source>HTTP authentication username</source>
-        <translation>Uživatelské jméno pro HTTP autentizaci</translation>
-    </message>
-    <message>
-        <source>HTTP authentication password</source>
-        <translation>Heslo pro HTTP autentizaci</translation>
-    </message>
-    <message>
-        <source>Password for your TT-RSS account</source>
-        <translation>Heslo pro TT-RSS účet</translation>
-    </message>
-    <message>
-        <source>Username for your TT-RSS account</source>
-        <translation>Uživatelské jméno pro TT-RSS účet</translation>
-    </message>
-    <message>
-        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
-        <translation>URL Vaší TT-RSS instance BEZ koncového &quot;/api/&quot; řetězce</translation>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>Žádný test zatím neproveden.</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
-    </message>
-    <message>
-        <source>Add new Tiny Tiny RSS account</source>
-        <translation>Přidat nový Tiny Tiny RSS účet</translation>
-    </message>
-    <message>
-        <source>Edit existing Tiny Tiny RSS account</source>
-        <translation>Upravit Tiny Tiny RSS účet</translation>
-    </message>
-    <message>
-        <source>API access on selected server is not enabled.</source>
-        <translation>Přístup přes API na tomto serveru není povolen.</translation>
-    </message>
-    <message>
-        <source>Entered credentials are incorrect.</source>
-        <translation>Zadané údaje jsou nekorektní.</translation>
-    </message>
-    <message>
-        <source>Other error occurred, contact developers.</source>
-        <translation>Došlo k jiné chybě, kontaktujte vývojáře.</translation>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API (%1). At least API level %2 is required.</source>
-        <translation>Zvolený Tiny Tiny RSS server běží na nepodporované verzi API (%1). Je vyžadováno minimálně API verze %2.</translation>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
-        <translation>Zvolený Tiny Tiny RSS server běží na nepodporované verzi API.</translation>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay, running with API level %1, while at least API level %2 is required.</source>
-        <translation>Tiny Tiny RSS server je v pořádku, běží na API verze %1, přičemž minimální vyžadovaná verze API je %2.</translation>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay.</source>
-        <translation>Tiny Tiny RSS server je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>Síťová chyba: &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
-        <translation>Síťová chyba, zadali jste správnou cestu k Tiny Tiny RSS API a heslo?</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation>Podivná chyba, zadali jste URL?</translation>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>Login nemůže být prázdný.</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation>Login je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>Heslo nemůže být prázdné.</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation>Heslo je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Uživatelské jméno je v pořádku nebo není třeba.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Uživatelské jméno je prázdné.</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Heslo je v pořádku nebo není třeba.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Heslo je prázdné.</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URL nemůže být prázdné.</translation>
-    </message>
-    <message>
-        <source>URL should NOT end with &quot;/api/&quot;.</source>
-        <translation>URL by NEMĚLO končit na &quot;/api/&quot;.</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation>URL je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
-        <translation>Stahovat pouze nepřečtené zprávy</translation>
+        <source>Server setup</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2024,6 +1663,10 @@ Založení vlastního &quot;Application ID&quot; se vysoce doporučuje.</transla
     </message>
     <message>
         <source>Download messages for items with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Message viewer toolbars</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2752,6 +2395,101 @@ Nyní ho můžete nainstalovat.</translation>
     </message>
 </context>
 <context>
+    <name>GmailAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>Nastaveni OAuth 2.0</translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>Přesměrovací URL</translation>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation>Získat přihlašovací údaje</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation> zpráv</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Přihlásit se</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
+        <translation>Přesměrovávací URL musí být nastaveno na řetězec začínající na &quot;http://localhost&quot;.</translation>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>Neotestováno.</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Již jste přihlášen.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Přístup povolen.</translation>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation>Nezadáno uživ. jméno.</translation>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation>Nějaké uživ. jméno zadáno.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Přístup NEpovolen.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Byla chyba během testování.</translation>
+    </message>
+    <message>
+        <source>There is error. %1 </source>
+        <translation>Chyba. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Otestováno úspěšně.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Přístup byl povolen.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Zadána prázdná hodnota.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Zadána nějaká hodnota.</translation>
+    </message>
+</context>
+<context>
     <name>GmailNetworkFactory</name>
     <message>
         <source>Logged in successfully</source>
@@ -2836,6 +2574,128 @@ Tokeny vyprší: %2</translation>
     </message>
 </context>
 <context>
+    <name>GreaderAccountDetails</name>
+    <message>
+        <source>Service</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation>= neomezeno</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Některé kanály vyžadují autentizaci, a to včetně kanálů pro GMail. Je podporována autentizace BASIC, NTLM-2 a DIGEST-MD5.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentizace</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Heslo</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Zobrazit heslo</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>&amp;Otestovat nastavení</translation>
+    </message>
+    <message>
+        <source>Password for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL of your server, without any service-specific path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Žádný test zatím neproveden.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= neomezeno</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>zpráv</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Síťová chyba: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation>Síťová chyba, máte zadáno správné uživatelské jméno a heslo. Je URL k vašemu serveru správně?</translation>
+    </message>
+    <message>
+        <source>You are good to go!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Yeah.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Login nemůže být prázdný.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Login je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Heslo nemůže být prázdné.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Heslo je v pořádku.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL nemůže být prázdné.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL je v pořádku.</translation>
+    </message>
+</context>
+<context>
+    <name>GreaderNetwork</name>
+    <message>
+        <source>Other services</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>IOFactory</name>
     <message>
         <source>Cannot open file &apos;%1&apos; for reading.</source>
@@ -2855,6 +2715,103 @@ Tokeny vyprší: %2</translation>
     <message>
         <source>You can find all important messages here.</source>
         <translation>Zde najdete všechny zprávy označené jako důležité.</translation>
+    </message>
+</context>
+<context>
+    <name>InoreaderAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>Nastaveni OAuth 2.0</translation>
+    </message>
+    <message>
+        <source>App ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>App key</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>Přesměrovací URL</translation>
+    </message>
+    <message>
+        <source>Get my own App ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation> zpráv</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Přihlásit se</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
+
+It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>Neotestováno.</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Již jste přihlášen.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Přístup povolen.</translation>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation>Nezadáno uživ. jméno.</translation>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation>Nějaké uživ. jméno zadáno.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Přístup NEpovolen.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Byla chyba během testování.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Máme chybu: %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Otestováno úspěšně.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Přístup byl povolen.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Zadána prázdná hodnota.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Zadána nějaká hodnota.</translation>
     </message>
 </context>
 <context>
@@ -3333,6 +3290,70 @@ Tokeny vyprší: %2</translation>
     </message>
 </context>
 <context>
+    <name>NetworkProxyDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulář</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <extracomment>Proxy server type.</extracomment>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>Server</translation>
+    </message>
+    <message>
+        <source>Hostname or IP of your proxy server</source>
+        <translation>Webový název IP adresa proxy serveru</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Your username for proxy server authentication</source>
+        <translation>Vaše uživatelské jméno pro autentifikaci</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Heslo</translation>
+    </message>
+    <message>
+        <source>Your password for proxy server authentication</source>
+        <translation>Vaše heslo pro autentifikaci</translation>
+    </message>
+    <message>
+        <source>Display password</source>
+        <translation>Zobrazit heslo</translation>
+    </message>
+    <message>
+        <source>Note that these settings are applied only on newly established connections.</source>
+        <translation>Tato nastavení se projeví pouze na nově vytvořených spojeních.</translation>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>Bez proxy</translation>
+    </message>
+    <message>
+        <source>System proxy</source>
+        <translation>Systémová proxy</translation>
+    </message>
+    <message>
+        <source>Socks5</source>
+        <translation>Socks5</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>Http</translation>
+    </message>
+</context>
+<context>
     <name>NewspaperPreviewer</name>
     <message>
         <source>Form</source>
@@ -3378,8 +3399,143 @@ Tokeny vyprší: %2</translation>
         <translation>Pro přihlášení přejděte na tento web:</translation>
     </message>
     <message>
-        <source>You can close this window now. Go back to %1</source>
-        <translation>Toto okno můžete nyní zavřít a přejděte do aplikace %1</translation>
+        <source>You can close this window now. Go back to %1.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to start OAuth redirection listener. Maybe your rights are not high enough.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>OwnCloudAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation>Stahovat pouze nepřečtené zprávy</translation>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation>Vynutit aktualizace kanálů na straně serveru</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation>= neomezeno</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Některé kanály vyžadují autentizaci, a to včetně kanálů pro GMail. Je podporována autentizace BASIC, NTLM-2 a DIGEST-MD5.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentizace</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Heslo</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Zobrazit heslo</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>&amp;Otestovat nastavení</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation>Zapnutí této položky může výrazně zpomalit aktualizaci kanálů.</translation>
+    </message>
+    <message>
+        <source>Password for your Nextcloud account</source>
+        <translation>Heslo pro váš Nextcloud účet</translation>
+    </message>
+    <message>
+        <source>Username for your Nextcloud account</source>
+        <translation>Uživatelské jméno pro váš Nextcloud účet</translation>
+    </message>
+    <message>
+        <source>URL of your Nextcloud server, without any API path</source>
+        <translation>URL vaší Nextcloud instance, bez API cest</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Žádný test zatím neproveden.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
+        <translation>Omezení počtu stahovaných zpráv na kanál udělá aktualizaci kanálů rychleší, ale pokud váš kanál obsahuje více zpráv než je limit, tak se může stát, že některé zprávy se z kanálu nebudou stahovat.</translation>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= neomezeno</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>zpráv</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Síťová chyba: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation>Síťová chyba, máte zadáno správné uživatelské jméno a heslo. Je URL k vašemu serveru správně?</translation>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Selected Nextcloud News server is running unsupported version.</source>
+        <translation>Tento server pro Nextcloud News běží na nepodporované verzi Nextcloudu.</translation>
+    </message>
+    <message>
+        <source>Nextcloud News server is okay.</source>
+        <translation>Server je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation>Podivná chyba, zadali jste URL?</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Login nemůže být prázdný.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Login je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Heslo nemůže být prázdné.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Heslo je v pořádku.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL nemůže být prázdné.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL je v pořádku.</translation>
     </message>
 </context>
 <context>
@@ -3474,6 +3630,14 @@ na tuto bublinu.</translation>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation>Standardní kanály (RSS/ATOM/JSON)</translation>
     </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>RecycleBin</name>
@@ -3504,6 +3668,29 @@ na tuto bublinu.</translation>
         <source>%n unread message(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
         <translation><numerusform>%n nepřečtená zpráva.</numerusform><numerusform>%n nepřečtené zprávy.</numerusform><numerusform>%n nepřečtených zpráv.</numerusform><numerusform>%n nepřečtených zpráv.</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptException</name>
+    <message>
+        <source>script line is not well-formed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script threw an error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script&apos;s interpreter was not found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script execution took too long</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>unknown error</source>
+        <translation>neznámá chyba</translation>
     </message>
 </context>
 <context>
@@ -3603,51 +3790,6 @@ na tuto bublinu.</translation>
  • %2 - tělo vybrané zprávy.</translation>
     </message>
     <message>
-        <source>Proxy</source>
-        <translation>Proxy</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <extracomment>Proxy server type.</extracomment>
-        <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Host</source>
-        <translation>Server</translation>
-    </message>
-    <message>
-        <source>Hostname or IP of your proxy server</source>
-        <translation>Webový název IP adresa proxy serveru</translation>
-    </message>
-    <message>
-        <source>Port</source>
-        <translation>Port</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>Your username for proxy server authentication</source>
-        <translation>Vaše uživatelské jméno pro autentifikaci</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Heslo</translation>
-    </message>
-    <message>
-        <source>Your password for proxy server authentication</source>
-        <translation>Vaše heslo pro autentifikaci</translation>
-    </message>
-    <message>
-        <source>Display password</source>
-        <translation>Zobrazit heslo</translation>
-    </message>
-    <message>
-        <source>Note that these settings are applied only on newly established connections.</source>
-        <translation>Tato nastavení se projeví pouze na nově vytvořených spojeních.</translation>
-    </message>
-    <message>
         <source>Select web browser executable</source>
         <translation>Zvolit spouštěč webového externího prohlížeče</translation>
     </message>
@@ -3675,22 +3817,6 @@ File filter for external tool selection dialog.</extracomment>
     <message>
         <source>Mozilla Thunderbird</source>
         <translation>Mozilla Thunderbird</translation>
-    </message>
-    <message>
-        <source>No proxy</source>
-        <translation>Bez proxy</translation>
-    </message>
-    <message>
-        <source>System proxy</source>
-        <translation>Systémová proxy</translation>
-    </message>
-    <message>
-        <source>Socks5</source>
-        <translation>Socks5</translation>
-    </message>
-    <message>
-        <source>Http</source>
-        <translation>Http</translation>
     </message>
     <message>
         <source>Web browser &amp; e-mail &amp; proxy</source>
@@ -3739,6 +3865,10 @@ File filter for external tool selection dialog.</extracomment>
     <message>
         <source>Parameters passed to executable</source>
         <translation>Parametry předávané programu</translation>
+    </message>
+    <message>
+        <source>Network proxy</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4017,6 +4147,14 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <source>Auto-download messages for all feeds every</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Bring application window to front once message is opened in external web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsGeneral</name>
@@ -4184,6 +4322,10 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <source>Left mouse button double-click</source>
         <translation>Dvojitý klik levého tlačítka myši</translation>
     </message>
+    <message>
+        <source>Display count of unread messages</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4240,10 +4382,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <translation>Metadata nezískána</translation>
     </message>
     <message>
-        <source>Metadata was not fetched because: %1.</source>
-        <translation>Metadata nestažena, protože: %1.</translation>
-    </message>
-    <message>
         <source>
 Network status: %1
 Encoding: %2
@@ -4252,6 +4390,22 @@ Type: %3</source>
 Síťový stav: %1
 Kódování: %2
 Typ: %3</translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Local file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Metadata was not fetched.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4293,10 +4447,6 @@ Typ: %3</translation>
         <translation>Popis</translation>
     </message>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
         <source>Fetch metadata</source>
         <translation>Načíst metadata</translation>
     </message>
@@ -4329,14 +4479,6 @@ Typ: %3</translation>
         <translation>Zvolte popis Vašeho kanálu.</translation>
     </message>
     <message>
-        <source>Full feed url including scheme</source>
-        <translation>Plné url kanálu včetně schématu</translation>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation>Zvolte url Vašeho kanálu.</translation>
-    </message>
-    <message>
         <source>Icon selection</source>
         <translation>Vybrat ikonu</translation>
     </message>
@@ -4365,16 +4507,8 @@ Typ: %3</translation>
         <translation>Metadata ikony načtena.</translation>
     </message>
     <message>
-        <source>Result: %1.</source>
-        <translation>Výsledek: %1.</translation>
-    </message>
-    <message>
         <source>Icon metadata not fetched.</source>
         <translation>Metadata ikony nebyla načtena.</translation>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Chyba: %1.</translation>
     </message>
     <message>
         <source>No icon fetched.</source>
@@ -4452,6 +4586,62 @@ Typ: %3</translation>
     <message>
         <source>Icon type:</source>
         <translation>Typ ikony:</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Post-process script</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can use URL as a source of your feed or you can produce your feed with custom script. Also, you can post-process generated feed data with yet another script if you wish. These are advanced features and make sure to read the documentation before your use them.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full feed source identifier</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full feed source identifier which can be URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full command to execute</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can enter full command including interpreter here.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Here you can enter script executaion line, including interpreter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source is ok.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source is empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source does not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command is ok.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command is empty.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4550,6 +4740,13 @@ Typ: %3</translation>
 Unread news: %2</source>
         <translation>%1
 Nepřečtené zprávy: %2</translation>
+    </message>
+</context>
+<context>
+    <name>T</name>
+    <message>
+        <source>Add new account</source>
+        <translation>Přidat nový účet</translation>
     </message>
 </context>
 <context>
@@ -4672,6 +4869,161 @@ Nepřečtené zprávy: %2</translation>
     </message>
 </context>
 <context>
+    <name>TtRssAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation>Stahovat pouze nepřečtené zprávy</translation>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation>Vynutit aktualizace kanálů na straně serveru</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Některé kanály vyžadují autentizaci, a to včetně kanálů pro GMail. Je podporována autentizace BASIC, NTLM-2 a DIGEST-MD5.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentizace</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Heslo</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Zobrazit heslo</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Vyžaduje HTTP autentizaci</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>&amp;Otestovat nastavení</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation>Zapnutí této položky může výrazně zpomalit aktualizaci kanálů.</translation>
+    </message>
+    <message>
+        <source>HTTP authentication username</source>
+        <translation>Uživatelské jméno pro HTTP autentizaci</translation>
+    </message>
+    <message>
+        <source>HTTP authentication password</source>
+        <translation>Heslo pro HTTP autentizaci</translation>
+    </message>
+    <message>
+        <source>Password for your TT-RSS account</source>
+        <translation>Heslo pro TT-RSS účet</translation>
+    </message>
+    <message>
+        <source>Username for your TT-RSS account</source>
+        <translation>Uživatelské jméno pro TT-RSS účet</translation>
+    </message>
+    <message>
+        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
+        <translation>URL Vaší TT-RSS instance BEZ koncového &quot;/api/&quot; řetězce</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Žádný test zatím neproveden.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
+    </message>
+    <message>
+        <source>API access on selected server is not enabled.</source>
+        <translation>Přístup přes API na tomto serveru není povolen.</translation>
+    </message>
+    <message>
+        <source>Entered credentials are incorrect.</source>
+        <translation>Zadané údaje jsou nekorektní.</translation>
+    </message>
+    <message>
+        <source>Other error occurred, contact developers.</source>
+        <translation>Došlo k jiné chybě, kontaktujte vývojáře.</translation>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
+        <translation>Zvolený Tiny Tiny RSS server běží na nepodporované verzi API.</translation>
+    </message>
+    <message>
+        <source>Tiny Tiny RSS server is okay.</source>
+        <translation>Tiny Tiny RSS server je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Síťová chyba: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
+        <translation>Síťová chyba, zadali jste správnou cestu k Tiny Tiny RSS API a heslo?</translation>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation>Podivná chyba, zadali jste URL?</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Login nemůže být prázdný.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Login je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Heslo nemůže být prázdné.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Heslo je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Uživatelské jméno je v pořádku nebo není třeba.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Uživatelské jméno je prázdné.</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Heslo je v pořádku nebo není třeba.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Heslo je prázdné.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL nemůže být prázdné.</translation>
+    </message>
+    <message>
+        <source>URL should NOT end with &quot;/api/&quot;.</source>
+        <translation>URL by NEMĚLO končit na &quot;/api/&quot;.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL je v pořádku.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
@@ -4747,32 +5099,28 @@ Poslední čas přihlášení: %4</translation>
         <translation>Zpět</translation>
     </message>
     <message>
-        <source>Go back.</source>
-        <translation>Jít zpět.</translation>
-    </message>
-    <message>
         <source>Forward</source>
         <translation>Vpřed</translation>
-    </message>
-    <message>
-        <source>Go forward.</source>
-        <translation>Jít vpřed.</translation>
     </message>
     <message>
         <source>Reload</source>
         <translation>Obnovit</translation>
     </message>
     <message>
-        <source>Reload current web page.</source>
-        <translation>Obnovit aktuální webovou stránku</translation>
-    </message>
-    <message>
         <source>Stop</source>
         <translation>Zastavit</translation>
     </message>
     <message>
-        <source>Stop web page loading.</source>
-        <translation>Zastavit načítání aktuální webové stránky.</translation>
+        <source>Open this website in system web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to open URL in web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

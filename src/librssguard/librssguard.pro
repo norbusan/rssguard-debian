@@ -1,6 +1,6 @@
 TEMPLATE = lib
 
-unix|mac {
+unix|mac|os2 {
   TARGET = rssguard
 }
 else {
@@ -28,7 +28,7 @@ CONFIG += unversioned_libname unversioned_soname skip_target_version_ext
 RESOURCES += ../../resources/sql.qrc \
              ../../resources/rssguard.qrc
 
-mac|win32 {
+mac|os2|win32 {
   RESOURCES += ../../resources/icons.qrc
 }
 
@@ -50,6 +50,8 @@ HEADERS += core/feeddownloader.h \
            exceptions/applicationexception.h \
            exceptions/filteringexception.h \
            exceptions/ioexception.h \
+           exceptions/networkexception.h \
+           exceptions/scriptexception.h \
            gui/baselineedit.h \
            gui/basetoolbar.h \
            gui/colortoolbutton.h \
@@ -98,6 +100,7 @@ HEADERS += core/feeddownloader.h \
            gui/toolbareditor.h \
            gui/treeviewcolumnsmenu.h \
            gui/widgetwithstatus.h \
+           gui/networkproxydetails.h \
            miscellaneous/application.h \
            miscellaneous/autosaver.h \
            miscellaneous/databasecleaner.h \
@@ -132,6 +135,7 @@ HEADERS += core/feeddownloader.h \
            services/abstract/cacheforserviceroot.h \
            services/abstract/category.h \
            services/abstract/feed.h \
+           services/abstract/gui/formaccountdetails.h \
            services/abstract/gui/formfeeddetails.h \
            services/abstract/importantnode.h \
            services/abstract/label.h \
@@ -140,21 +144,38 @@ HEADERS += core/feeddownloader.h \
            services/abstract/rootitem.h \
            services/abstract/serviceentrypoint.h \
            services/abstract/serviceroot.h \
+           services/feedly/definitions.h \
+           services/feedly/feedlyentrypoint.h \
+           services/feedly/feedlyfeed.h \
+           services/feedly/feedlynetwork.h \
+           services/feedly/feedlyserviceroot.h \
+           services/feedly/gui/feedlyaccountdetails.h \
+           services/feedly/gui/formeditfeedlyaccount.h \
            services/gmail/definitions.h \
            services/gmail/gmailentrypoint.h \
            services/gmail/gmailfeed.h \
            services/gmail/gmailserviceroot.h \
            services/gmail/gui/emailrecipientcontrol.h \
            services/gmail/gui/formeditgmailaccount.h \
+           services/gmail/gui/gmailaccountdetails.h \
            services/gmail/network/gmailnetworkfactory.h \
+           services/greader/definitions.h \
+           services/greader/greaderentrypoint.h \
+           services/greader/greaderfeed.h \
+           services/greader/greadernetwork.h \
+           services/greader/greaderserviceroot.h \
+           services/greader/gui/formeditgreaderaccount.h \
+           services/greader/gui/greaderaccountdetails.h \
            services/inoreader/definitions.h \
            services/inoreader/gui/formeditinoreaderaccount.h \
+           services/inoreader/gui/inoreaderaccountdetails.h \
            services/inoreader/inoreaderentrypoint.h \
            services/inoreader/inoreaderfeed.h \
            services/inoreader/inoreaderserviceroot.h \
            services/inoreader/network/inoreadernetworkfactory.h \
            services/owncloud/definitions.h \
            services/owncloud/gui/formeditowncloudaccount.h \
+           services/owncloud/gui/owncloudaccountdetails.h \
            services/owncloud/network/owncloudnetworkfactory.h \
            services/owncloud/owncloudfeed.h \
            services/owncloud/owncloudserviceentrypoint.h \
@@ -162,6 +183,7 @@ HEADERS += core/feeddownloader.h \
            services/standard/atomparser.h \
            services/standard/feedparser.h \
            services/abstract/gui/authenticationdetails.h \
+           services/standard/gui/formeditstandardaccount.h \
            services/standard/gui/formstandardcategorydetails.h \
            services/standard/gui/formstandardfeeddetails.h \
            services/standard/gui/formstandardimportexport.h \
@@ -177,6 +199,7 @@ HEADERS += core/feeddownloader.h \
            services/tt-rss/definitions.h \
            services/tt-rss/gui/formeditttrssaccount.h \
            services/tt-rss/gui/formttrssfeeddetails.h \
+           services/tt-rss/gui/ttrssaccountdetails.h \
            services/tt-rss/gui/ttrssfeeddetails.h \
            services/tt-rss/network/ttrssnetworkfactory.h \
            services/tt-rss/ttrssfeed.h \
@@ -207,6 +230,8 @@ SOURCES += core/feeddownloader.cpp \
            exceptions/applicationexception.cpp \
            exceptions/filteringexception.cpp \
            exceptions/ioexception.cpp \
+           exceptions/networkexception.cpp \
+           exceptions/scriptexception.cpp \
            gui/baselineedit.cpp \
            gui/basetoolbar.cpp \
            gui/colortoolbutton.cpp \
@@ -255,6 +280,7 @@ SOURCES += core/feeddownloader.cpp \
            gui/toolbareditor.cpp \
            gui/treeviewcolumnsmenu.cpp \
            gui/widgetwithstatus.cpp \
+           gui/networkproxydetails.cpp \
            miscellaneous/application.cpp \
            miscellaneous/autosaver.cpp \
            miscellaneous/databasecleaner.cpp \
@@ -287,6 +313,7 @@ SOURCES += core/feeddownloader.cpp \
            services/abstract/cacheforserviceroot.cpp \
            services/abstract/category.cpp \
            services/abstract/feed.cpp \
+           services/abstract/gui/formaccountdetails.cpp \
            services/abstract/gui/formfeeddetails.cpp \
            services/abstract/importantnode.cpp \
            services/abstract/label.cpp \
@@ -294,18 +321,33 @@ SOURCES += core/feeddownloader.cpp \
            services/abstract/recyclebin.cpp \
            services/abstract/rootitem.cpp \
            services/abstract/serviceroot.cpp \
+           services/feedly/feedlyentrypoint.cpp \
+           services/feedly/feedlyfeed.cpp \
+           services/feedly/feedlynetwork.cpp \
+           services/feedly/feedlyserviceroot.cpp \
+           services/feedly/gui/feedlyaccountdetails.cpp \
+           services/feedly/gui/formeditfeedlyaccount.cpp \
            services/gmail/gmailentrypoint.cpp \
            services/gmail/gmailfeed.cpp \
            services/gmail/gmailserviceroot.cpp \
            services/gmail/gui/emailrecipientcontrol.cpp \
            services/gmail/gui/formeditgmailaccount.cpp \
+           services/gmail/gui/gmailaccountdetails.cpp \
            services/gmail/network/gmailnetworkfactory.cpp \
+           services/greader/greaderentrypoint.cpp \
+           services/greader/greaderfeed.cpp \
+           services/greader/greadernetwork.cpp \
+           services/greader/greaderserviceroot.cpp \
+           services/greader/gui/formeditgreaderaccount.cpp \
+           services/greader/gui/greaderaccountdetails.cpp \
            services/inoreader/gui/formeditinoreaderaccount.cpp \
+           services/inoreader/gui/inoreaderaccountdetails.cpp \
            services/inoreader/inoreaderentrypoint.cpp \
            services/inoreader/inoreaderfeed.cpp \
            services/inoreader/inoreaderserviceroot.cpp \
            services/inoreader/network/inoreadernetworkfactory.cpp \
            services/owncloud/gui/formeditowncloudaccount.cpp \
+           services/owncloud/gui/owncloudaccountdetails.cpp \
            services/owncloud/network/owncloudnetworkfactory.cpp \
            services/owncloud/owncloudfeed.cpp \
            services/owncloud/owncloudserviceentrypoint.cpp \
@@ -313,6 +355,7 @@ SOURCES += core/feeddownloader.cpp \
            services/standard/atomparser.cpp \
            services/standard/feedparser.cpp \
            services/abstract/gui/authenticationdetails.cpp \
+           services/standard/gui/formeditstandardaccount.cpp \
            services/standard/gui/formstandardcategorydetails.cpp \
            services/standard/gui/formstandardfeeddetails.cpp \
            services/standard/gui/formstandardimportexport.cpp \
@@ -327,6 +370,7 @@ SOURCES += core/feeddownloader.cpp \
            services/standard/standardserviceroot.cpp \
            services/tt-rss/gui/formeditttrssaccount.cpp \
            services/tt-rss/gui/formttrssfeeddetails.cpp \
+           services/tt-rss/gui/ttrssaccountdetails.cpp \
            services/tt-rss/gui/ttrssfeeddetails.cpp \
            services/tt-rss/network/ttrssnetworkfactory.cpp \
            services/tt-rss/ttrssfeed.cpp \
@@ -363,21 +407,25 @@ FORMS += gui/dialogs/formabout.ui \
          gui/settings/settingslocalization.ui \
          gui/settings/settingsshortcuts.ui \
          gui/toolbareditor.ui \
+         gui/networkproxydetails.ui \
          network-web/downloaditem.ui \
          network-web/downloadmanager.ui \
+         services/abstract/gui/formaccountdetails.ui \
          services/abstract/gui/formfeeddetails.ui \
-         services/gmail/gui/formeditgmailaccount.ui \
-         services/inoreader/gui/formeditinoreaderaccount.ui \
-         services/owncloud/gui/formeditowncloudaccount.ui \
          services/abstract/gui/authenticationdetails.ui \
+         services/feedly/gui/feedlyaccountdetails.ui \
+         services/gmail/gui/gmailaccountdetails.ui \
+         services/greader/gui/greaderaccountdetails.ui \
+         services/inoreader/gui/inoreaderaccountdetails.ui \
+         services/owncloud/gui/owncloudaccountdetails.ui \
          services/standard/gui/formstandardcategorydetails.ui \
          services/standard/gui/formstandardimportexport.ui \
          services/standard/gui/standardfeeddetails.ui \
-         services/tt-rss/gui/formeditttrssaccount.ui \
          services/gmail/gui/formdownloadattachment.ui \
          services/gmail/gui/formaddeditemail.ui \
          gui/searchtextwidget.ui \
          gui/newspaperpreviewer.ui \
+         services/tt-rss/gui/ttrssaccountdetails.ui \
          services/tt-rss/gui/ttrssfeeddetails.ui
 
 equals(USE_WEBENGINE, true) {
@@ -386,16 +434,14 @@ equals(USE_WEBENGINE, true) {
              gui/webbrowser.h \
              gui/discoverfeedsbutton.h \
              network-web/googlesuggest.h \
-             network-web/webpage.h \
-             network-web/rssguardschemehandler.h
+             network-web/webpage.h
 
   SOURCES += gui/locationlineedit.cpp \
              gui/webviewer.cpp \
              gui/webbrowser.cpp \
              gui/discoverfeedsbutton.cpp \
              network-web/googlesuggest.cpp \
-             network-web/webpage.cpp \
-             network-web/rssguardschemehandler.cpp
+             network-web/webpage.cpp
 
   # Add AdBlock sources.
   HEADERS += network-web/adblock/adblockaddsubscriptiondialog.h \
@@ -408,6 +454,7 @@ equals(USE_WEBENGINE, true) {
              network-web/adblock/adblocksubscription.h \
              network-web/adblock/adblocktreewidget.h \
              network-web/adblock/adblockurlinterceptor.h \
+             network-web/adblock/adblockrequestinfo.h \
              network-web/urlinterceptor.h \
              network-web/networkurlinterceptor.h \
              gui/treewidget.h
@@ -422,6 +469,7 @@ equals(USE_WEBENGINE, true) {
              network-web/adblock/adblocksubscription.cpp \
              network-web/adblock/adblocktreewidget.cpp \
              network-web/adblock/adblockurlinterceptor.cpp \
+             network-web/adblock/adblockrequestinfo.cpp \
              network-web/networkurlinterceptor.cpp \
              gui/treewidget.cpp
 
@@ -463,8 +511,8 @@ QMAKE_EXTRA_TARGETS += lupdate
 
 # Make sure QM translations are nerated.
 qtPrepareTool(LRELEASE, lrelease) {
-  message($$MSG_PREFIX: Running: \"$$LRELEASE\" -compress librssguard.pro)
-  system($$LRELEASE -compress librssguard.pro)
+  message($$MSG_PREFIX: Running: \"$$LRELEASE\" -compress $$TRANSLATIONS)
+  system($$LRELEASE -compress $$TRANSLATIONS)
 }
 
 mac {

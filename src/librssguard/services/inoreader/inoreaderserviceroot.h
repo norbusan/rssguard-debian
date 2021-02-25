@@ -12,12 +12,11 @@ class InoreaderServiceRoot : public ServiceRoot, public CacheForServiceRoot {
   Q_OBJECT
 
   public:
-    explicit InoreaderServiceRoot(InoreaderNetworkFactory* network, RootItem* parent = nullptr);
+    explicit InoreaderServiceRoot(RootItem* parent = nullptr);
     virtual ~InoreaderServiceRoot();
 
-    void saveAccountDataToDatabase();
+    void saveAccountDataToDatabase(bool creating_new);
 
-    void setNetwork(InoreaderNetworkFactory* network);
     InoreaderNetworkFactory* network() const;
 
     virtual LabelOperation supportedLabelOperations() const;
@@ -31,7 +30,7 @@ class InoreaderServiceRoot : public ServiceRoot, public CacheForServiceRoot {
     virtual void start(bool freshly_activated);
     virtual QString code() const;
     virtual QString additionalTooltip() const;
-    virtual void saveAllCachedData();
+    virtual void saveAllCachedData(bool ignore_errors);
 
     void updateTitle();
 
@@ -44,10 +43,6 @@ class InoreaderServiceRoot : public ServiceRoot, public CacheForServiceRoot {
   private:
     InoreaderNetworkFactory* m_network;
 };
-
-inline void InoreaderServiceRoot::setNetwork(InoreaderNetworkFactory* network) {
-  m_network = network;
-}
 
 inline InoreaderNetworkFactory* InoreaderServiceRoot::network() const {
   return m_network;

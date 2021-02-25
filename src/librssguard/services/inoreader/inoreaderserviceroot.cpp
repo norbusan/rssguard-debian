@@ -16,15 +16,8 @@
 
 #include <QThread>
 
-InoreaderServiceRoot::InoreaderServiceRoot(InoreaderNetworkFactory* network, RootItem* parent)
-  : ServiceRoot(parent), m_network(network) {
-  if (network == nullptr) {
-    m_network = new InoreaderNetworkFactory(this);
-  }
-  else {
-    m_network->setParent(this);
-  }
-
+InoreaderServiceRoot::InoreaderServiceRoot(RootItem* parent)
+  : ServiceRoot(parent), m_network(new InoreaderNetworkFactory(this)) {
   m_network->setService(this);
   setIcon(InoreaderEntryPoint().icon());
 }
@@ -32,7 +25,7 @@ InoreaderServiceRoot::InoreaderServiceRoot(InoreaderNetworkFactory* network, Roo
 InoreaderServiceRoot::~InoreaderServiceRoot() = default;
 
 void InoreaderServiceRoot::updateTitle() {
-  setTitle(m_network->userName() + QSL(" (Inoreader)"));
+  setTitle(TextFactory::extractUsernameFromEmail(m_network->username()) + QSL(" (Inoreader)"));
 }
 
 void InoreaderServiceRoot::loadFromDatabase() {
@@ -44,11 +37,11 @@ void InoreaderServiceRoot::loadFromDatabase() {
   performInitialAssembly(categories, feeds, labels);
 }
 
-void InoreaderServiceRoot::saveAccountDataToDatabase() {
+void InoreaderServiceRoot::saveAccountDataToDatabase(bool creating_new) {
   QSqlDatabase database = qApp->database()->connection(metaObject()->className());
 
-  if (accountId() != NO_PARENT_CATEGORY) {
-    if (DatabaseQueries::overwriteInoreaderAccount(database, m_network->userName(),
+  if (!creating_new) {
+    if (DatabaseQueries::overwriteInoreaderAccount(database, m_network->username(),
                                                    m_network->oauth()->clientId(),
                                                    m_network->oauth()->clientSecret(),
                                                    m_network->oauth()->redirectUrl(),
@@ -60,21 +53,15 @@ void InoreaderServiceRoot::saveAccountDataToDatabase() {
     }
   }
   else {
-    bool saved;
-    int id_to_assign = DatabaseQueries::createAccount(database, code(), &saved);
-
-    if (saved) {
-      if (DatabaseQueries::createInoreaderAccount(database, id_to_assign,
-                                                  m_network->userName(),
-                                                  m_network->oauth()->clientId(),
-                                                  m_network->oauth()->clientSecret(),
-                                                  m_network->oauth()->redirectUrl(),
-                                                  m_network->oauth()->refreshToken(),
-                                                  m_network->batchSize())) {
-        setId(id_to_assign);
-        setAccountId(id_to_assign);
-        updateTitle();
-      }
+    if (DatabaseQueries::createInoreaderAccount(database,
+                                                accountId(),
+                                                m_network->username(),
+                                                m_network->oauth()->clientId(),
+                                                m_network->oauth()->clientSecret(),
+                                                m_network->oauth()->redirectUrl(),
+                                                m_network->oauth()->refreshToken(),
+                                                m_network->batchSize())) {
+      updateTitle();
     }
   }
 }
@@ -94,7 +81,7 @@ bool InoreaderServiceRoot::canBeEdited() const {
 bool InoreaderServiceRoot::editViaGui() {
   FormEditInoreaderAccount form_pointer(qApp->mainFormWidget());
 
-  form_pointer.execForEdit(this);
+  form_pointer.addEditAccount(this);
   return true;
 }
 
@@ -148,7 +135,7 @@ RootItem* InoreaderServiceRoot::obtainNewTreeForSyncIn() const {
   }
 }
 
-void InoreaderServiceRoot::saveAllCachedData() {
+void InoreaderServiceRoot::saveAllCachedData(bool ignore_errors) {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -159,7 +146,7 @@ void InoreaderServiceRoot::saveAllCachedData() {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      if (network()->markMessagesRead(key, ids) != QNetworkReply::NetworkError::NoError) {
+      if (network()->markMessagesRead(key, ids) != QNetworkReply::NetworkError::NoError && !ignore_errors) {
         addMessageStatesToCache(ids, key);
       }
     }
@@ -180,7 +167,7 @@ void InoreaderServiceRoot::saveAllCachedData() {
         custom_ids.append(msg.m_customId);
       }
 
-      if (network()->markMessagesStarred(key, custom_ids) != QNetworkReply::NetworkError::NoError) {
+      if (network()->markMessagesStarred(key, custom_ids) != QNetworkReply::NetworkError::NoError && !ignore_errors) {
         addMessageStatesToCache(messages, key);
       }
     }
@@ -195,7 +182,7 @@ void InoreaderServiceRoot::saveAllCachedData() {
     QStringList messages = k.value();
 
     if (!messages.isEmpty()) {
-      if (network()->editLabels(label_custom_id, true, messages) != QNetworkReply::NetworkError::NoError) {
+      if (network()->editLabels(label_custom_id, true, messages) != QNetworkReply::NetworkError::NoError && !ignore_errors) {
         addLabelsAssignmentsToCache(messages, label_custom_id, true);
       }
     }
@@ -210,7 +197,7 @@ void InoreaderServiceRoot::saveAllCachedData() {
     QStringList messages = l.value();
 
     if (!messages.isEmpty()) {
-      if (network()->editLabels(label_custom_id, false, messages) != QNetworkReply::NetworkError::NoError) {
+      if (network()->editLabels(label_custom_id, false, messages) != QNetworkReply::NetworkError::NoError && !ignore_errors) {
         addLabelsAssignmentsToCache(messages, label_custom_id, false);
       }
     }

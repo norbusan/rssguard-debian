@@ -69,11 +69,11 @@ QNetworkReply::NetworkError TtRssNetworkFactory::lastError() const {
   return m_lastError;
 }
 
-TtRssLoginResponse TtRssNetworkFactory::login() {
+TtRssLoginResponse TtRssNetworkFactory::login(const QNetworkProxy& proxy) {
   if (!m_sessionId.isEmpty()) {
     qWarningNN << LOGSEC_TTRSS
                << "Session ID is not empty before login, logging out first.";
-    logout();
+    logout(proxy);
   }
 
   QJsonObject json;
@@ -92,10 +92,14 @@ TtRssLoginResponse TtRssNetworkFactory::login() {
                                                                         qApp->settings()->value(GROUP(Feeds),
                                                                                                 SETTING(
                                                                                                   Feeds::UpdateTimeout)).toInt(),
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssLoginResponse login_response(QString::fromUtf8(result_raw));
 
   if (network_reply.first == QNetworkReply::NoError) {
@@ -112,7 +116,7 @@ TtRssLoginResponse TtRssNetworkFactory::login() {
   return login_response;
 }
 
-TtRssResponse TtRssNetworkFactory::logout() {
+TtRssResponse TtRssNetworkFactory::logout(const QNetworkProxy& proxy) {
   if (!m_sessionId.isEmpty()) {
     QJsonObject json;
 
@@ -128,10 +132,14 @@ TtRssResponse TtRssNetworkFactory::logout() {
                                                                           qApp->settings()->value(GROUP(Feeds),
                                                                                                   SETTING(
                                                                                                     Feeds::UpdateTimeout)).toInt(),
-                                                                          QJsonDocument(json).toJson(QJsonDocument::Compact),
+                                                                          QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                           result_raw,
-                                                                          QNetworkAccessManager::PostOperation,
-                                                                          headers);
+                                                                          QNetworkAccessManager::Operation::PostOperation,
+                                                                          headers,
+                                                                          false,
+                                                                          {},
+                                                                          {},
+                                                                          proxy);
 
     m_lastError = network_reply.first;
 
@@ -149,12 +157,12 @@ TtRssResponse TtRssNetworkFactory::logout() {
   else {
     qWarningNN << LOGSEC_TTRSS
                << "Cannot logout because session ID is empty.";
-    m_lastError = QNetworkReply::NoError;
+    m_lastError = QNetworkReply::NetworkError::NoError;
     return TtRssResponse();
   }
 }
 
-TtRssGetLabelsResponse TtRssNetworkFactory::getLabels() {
+TtRssGetLabelsResponse TtRssNetworkFactory::getLabels(const QNetworkProxy& proxy) {
   QJsonObject json;
 
   json["op"] = QSL("getLabels");
@@ -168,20 +176,26 @@ TtRssGetLabelsResponse TtRssNetworkFactory::getLabels() {
   headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
 
   NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
+                                                                        QNetworkAccessManager::Operation::PostOperation,
                                                                         headers);
   TtRssGetLabelsResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssGetLabelsResponse(QString::fromUtf8(result_raw));
   }
 
@@ -195,7 +209,7 @@ TtRssGetLabelsResponse TtRssNetworkFactory::getLabels() {
   return result;
 }
 
-TtRssGetFeedsCategoriesResponse TtRssNetworkFactory::getFeedsCategories() {
+TtRssGetFeedsCategoriesResponse TtRssNetworkFactory::getFeedsCategories(const QNetworkProxy& proxy) {
   QJsonObject json;
 
   json["op"] = QSL("getFeedTree");
@@ -209,20 +223,30 @@ TtRssGetFeedsCategoriesResponse TtRssNetworkFactory::getFeedsCategories() {
   headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
 
   NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssGetFeedsCategoriesResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssGetFeedsCategoriesResponse(QString::fromUtf8(result_raw));
   }
 
@@ -238,7 +262,8 @@ TtRssGetFeedsCategoriesResponse TtRssNetworkFactory::getFeedsCategories() {
 
 TtRssGetHeadlinesResponse TtRssNetworkFactory::getHeadlines(int feed_id, int limit, int skip,
                                                             bool show_content, bool include_attachments,
-                                                            bool sanitize, bool unread_only) {
+                                                            bool sanitize, bool unread_only,
+                                                            const QNetworkProxy& proxy) {
   QJsonObject json;
 
   json["op"] = QSL("getHeadlines");
@@ -258,21 +283,32 @@ TtRssGetHeadlinesResponse TtRssNetworkFactory::getHeadlines(int feed_id, int lim
   headers << QPair<QByteArray, QByteArray>(HTTP_HEADERS_CONTENT_TYPE, TTRSS_CONTENT_TYPE_JSON);
   headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
 
-  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                                        timeout,
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssGetHeadlinesResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssGetHeadlinesResponse(QString::fromUtf8(result_raw));
   }
 
@@ -286,7 +322,8 @@ TtRssGetHeadlinesResponse TtRssNetworkFactory::getHeadlines(int feed_id, int lim
   return result;
 }
 
-TtRssResponse TtRssNetworkFactory::setArticleLabel(const QStringList& article_ids, const QString& label_custom_id, bool assign) {
+TtRssResponse TtRssNetworkFactory::setArticleLabel(const QStringList& article_ids, const QString& label_custom_id,
+                                                   bool assign, const QNetworkProxy& proxy) {
   QJsonObject json;
 
   json["op"] = QSL("setArticleLabel");
@@ -302,21 +339,32 @@ TtRssResponse TtRssNetworkFactory::setArticleLabel(const QStringList& article_id
   headers << QPair<QByteArray, QByteArray>(HTTP_HEADERS_CONTENT_TYPE, TTRSS_CONTENT_TYPE_JSON);
   headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
 
-  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                                        timeout,
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssResponse(QString::fromUtf8(result_raw));
   }
 
@@ -332,7 +380,8 @@ TtRssResponse TtRssNetworkFactory::setArticleLabel(const QStringList& article_id
 
 TtRssUpdateArticleResponse TtRssNetworkFactory::updateArticles(const QStringList& ids,
                                                                UpdateArticle::OperatingField field,
-                                                               UpdateArticle::Mode mode) {
+                                                               UpdateArticle::Mode mode,
+                                                               const QNetworkProxy& proxy) {
   QJsonObject json;
 
   json["op"] = QSL("updateArticle");
@@ -348,21 +397,32 @@ TtRssUpdateArticleResponse TtRssNetworkFactory::updateArticles(const QStringList
   headers << QPair<QByteArray, QByteArray>(HTTP_HEADERS_CONTENT_TYPE, TTRSS_CONTENT_TYPE_JSON);
   headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
 
-  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                                        timeout,
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssUpdateArticleResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssUpdateArticleResponse(QString::fromUtf8(result_raw));
   }
 
@@ -377,6 +437,7 @@ TtRssUpdateArticleResponse TtRssNetworkFactory::updateArticles(const QStringList
 }
 
 TtRssSubscribeToFeedResponse TtRssNetworkFactory::subscribeToFeed(const QString& url, int category_id,
+                                                                  const QNetworkProxy& proxy,
                                                                   bool protectd, const QString& username,
                                                                   const QString& password) {
   QJsonObject json;
@@ -398,21 +459,32 @@ TtRssSubscribeToFeedResponse TtRssNetworkFactory::subscribeToFeed(const QString&
   headers << QPair<QByteArray, QByteArray>(HTTP_HEADERS_CONTENT_TYPE, TTRSS_CONTENT_TYPE_JSON);
   headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
 
-  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                                        timeout,
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssSubscribeToFeedResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssSubscribeToFeedResponse(QString::fromUtf8(result_raw));
   }
 
@@ -426,7 +498,7 @@ TtRssSubscribeToFeedResponse TtRssNetworkFactory::subscribeToFeed(const QString&
   return result;
 }
 
-TtRssUnsubscribeFeedResponse TtRssNetworkFactory::unsubscribeFeed(int feed_id) {
+TtRssUnsubscribeFeedResponse TtRssNetworkFactory::unsubscribeFeed(int feed_id, const QNetworkProxy& proxy) {
   QJsonObject json;
 
   json["op"] = QSL("unsubscribeFeed");
@@ -441,20 +513,30 @@ TtRssUnsubscribeFeedResponse TtRssNetworkFactory::unsubscribeFeed(int feed_id) {
 
   NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
                                                                         timeout,
-                                                                        QJsonDocument(json).toJson(QJsonDocument::Compact),
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                                         result_raw,
-                                                                        QNetworkAccessManager::PostOperation,
-                                                                        headers);
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
   TtRssUnsubscribeFeedResponse result(QString::fromUtf8(result_raw));
 
   if (result.isNotLoggedIn()) {
     // We are not logged in.
-    login();
+    login(proxy);
     json["sid"] = m_sessionId;
-    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl, timeout, QJsonDocument(json).toJson(QJsonDocument::Compact),
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
                                                             result_raw,
-                                                            QNetworkAccessManager::PostOperation,
-                                                            headers);
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
     result = TtRssUnsubscribeFeedResponse(QString::fromUtf8(result_raw));
   }
 
@@ -541,7 +623,7 @@ bool TtRssResponse::isNotLoggedIn() const {
 }
 
 QString TtRssResponse::toString() const {
-  return QJsonDocument(m_rawContent).toJson(QJsonDocument::Compact);
+  return QJsonDocument(m_rawContent).toJson(QJsonDocument::JsonFormat::Compact);
 }
 
 TtRssLoginResponse::TtRssLoginResponse(const QString& raw_content) : TtRssResponse(raw_content) {}

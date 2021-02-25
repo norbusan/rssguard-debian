@@ -27,12 +27,12 @@ class OwnCloudServiceRoot : public ServiceRoot, public CacheForServiceRoot {
     virtual bool supportsCategoryAdding() const;
     virtual void start(bool freshly_activated);
     virtual QString code() const;
-    virtual void saveAllCachedData();
+    virtual void saveAllCachedData(bool ignore_errors);
 
     OwnCloudNetworkFactory* network() const;
 
     void updateTitle();
-    void saveAccountDataToDatabase();
+    void saveAccountDataToDatabase(bool creating_new);
 
   protected:
     virtual RootItem* obtainNewTreeForSyncIn() const;

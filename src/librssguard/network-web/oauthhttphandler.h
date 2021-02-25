@@ -17,6 +17,9 @@ class OAuthHttpHandler : public QObject {
 
     bool isListening() const;
 
+    // Stops server and clear all connections.
+    void stop();
+
     // Returns listening portnumber.
     quint16 listenPort() const;
 
@@ -73,6 +76,7 @@ class OAuthHttpHandler : public QObject {
       QPair<quint8, quint8> m_version;
       QMap<QByteArray, QByteArray> m_headers;
     };
+
     QMap<QTcpSocket*, QHttpRequest> m_connectedClients;
     QTcpServer m_httpServer;
     QHostAddress m_listenAddress;

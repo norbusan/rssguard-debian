@@ -34,7 +34,7 @@ DKEY Feeds::UpdateTimeout = "feed_update_timeout";
 DVALUE(int) Feeds::UpdateTimeoutDef = DOWNLOAD_TIMEOUT;
 
 DKEY Feeds::EnableAutoUpdateNotification = "enable_auto_update_notification";
-DVALUE(bool) Feeds::EnableAutoUpdateNotificationDef = true;
+DVALUE(bool) Feeds::EnableAutoUpdateNotificationDef = false;
 
 DKEY Feeds::CountFormat = "count_format";
 DVALUE(char*) Feeds::CountFormatDef = "(%unread)";
@@ -90,6 +90,12 @@ DVALUE(char*) Messages::CustomDateFormatDef = "";
 
 DKEY Messages::ClearReadOnExit = "clear_read_on_exit";
 DVALUE(bool) Messages::ClearReadOnExitDef = false;
+
+DKEY Messages::DisplayFeedIconsInList = "display_feed_icons_in_message_list";
+DVALUE(bool) Messages::DisplayFeedIconsInListDef = false;
+
+DKEY Messages::BringAppToFrontAfterMessageOpenedExternally = "bring_app_to_front_after_msg_opened";
+DVALUE(bool) Messages::BringAppToFrontAfterMessageOpenedExternallyDef = true;
 
 DKEY Messages::KeepCursorInCenter = "keep_cursor_center";
 DVALUE(bool) Messages::KeepCursorInCenterDef = false;
@@ -310,7 +316,7 @@ DKEY Browser::CustomExternalBrowserExecutable = "external_browser_executable";
 DVALUE(QString) Browser::CustomExternalBrowserExecutableDef = QString();
 
 DKEY Browser::CustomExternalBrowserArguments = "external_browser_arguments";
-DVALUE(char*) Browser::CustomExternalBrowserArgumentsDef = "%1";
+DVALUE(char*) Browser::CustomExternalBrowserArgumentsDef = "\"%1\"";
 
 DKEY Browser::CustomExternalEmailEnabled = "custom_external_email";
 DVALUE(bool) Browser::CustomExternalEmailEnabledDef = false;

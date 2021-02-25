@@ -18,23 +18,14 @@
 
 #include <QFileDialog>
 
-GmailServiceRoot::GmailServiceRoot(GmailNetworkFactory* network, RootItem* parent)
-  : ServiceRoot(parent), m_network(network), m_actionReply(nullptr) {
-  if (network == nullptr) {
-    m_network = new GmailNetworkFactory(this);
-  }
-  else {
-    m_network->setParent(this);
-  }
-
+GmailServiceRoot::GmailServiceRoot(RootItem* parent)
+  : ServiceRoot(parent), m_network(new GmailNetworkFactory(this)), m_actionReply(nullptr) {
   m_network->setService(this);
   setIcon(GmailEntryPoint().icon());
 }
 
-GmailServiceRoot::~GmailServiceRoot() = default;
-
 void GmailServiceRoot::updateTitle() {
-  setTitle(m_network->username() + QSL(" (Gmail)"));
+  setTitle(TextFactory::extractUsernameFromEmail(m_network->username()) + QSL(" (Gmail)"));
 }
 
 void GmailServiceRoot::replyToEmail() {
@@ -74,10 +65,10 @@ void GmailServiceRoot::loadFromDatabase() {
   }
 }
 
-void GmailServiceRoot::saveAccountDataToDatabase() {
+void GmailServiceRoot::saveAccountDataToDatabase(bool creating_new) {
   QSqlDatabase database = qApp->database()->connection(metaObject()->className());
 
-  if (accountId() != NO_PARENT_CATEGORY) {
+  if (!creating_new) {
     if (DatabaseQueries::overwriteGmailAccount(database, m_network->username(),
                                                m_network->oauth()->clientId(),
                                                m_network->oauth()->clientSecret(),
@@ -90,21 +81,15 @@ void GmailServiceRoot::saveAccountDataToDatabase() {
     }
   }
   else {
-    bool saved;
-    int id_to_assign = DatabaseQueries::createAccount(database, code(), &saved);
-
-    if (saved) {
-      if (DatabaseQueries::createGmailAccount(database, id_to_assign,
-                                              m_network->username(),
-                                              m_network->oauth()->clientId(),
-                                              m_network->oauth()->clientSecret(),
-                                              m_network->oauth()->redirectUrl(),
-                                              m_network->oauth()->refreshToken(),
-                                              m_network->batchSize())) {
-        setId(id_to_assign);
-        setAccountId(id_to_assign);
-        updateTitle();
-      }
+    if (DatabaseQueries::createGmailAccount(database,
+                                            accountId(),
+                                            m_network->username(),
+                                            m_network->oauth()->clientId(),
+                                            m_network->oauth()->clientSecret(),
+                                            m_network->oauth()->redirectUrl(),
+                                            m_network->oauth()->refreshToken(),
+                                            m_network->batchSize())) {
+      updateTitle();
     }
   }
 }
@@ -117,7 +102,7 @@ bool GmailServiceRoot::downloadAttachmentOnMyOwn(const QUrl& url) const {
                                               qApp->homeFolder() + QDir::separator() + parts.at(0));
 
   if (!file.isEmpty() && parts.size() == 3) {
-    Downloader* down = network()->downloadAttachment(parts.at(1), parts.at(2));
+    Downloader* down = network()->downloadAttachment(parts.at(1), parts.at(2), networkProxy());
     FormDownloadAttachment form(file, down, qApp->mainFormWidget());
 
     form.exec();
@@ -168,7 +153,7 @@ bool GmailServiceRoot::canBeEdited() const {
 bool GmailServiceRoot::editViaGui() {
   FormEditGmailAccount form_pointer(qApp->mainFormWidget());
 
-  form_pointer.execForEdit(this);
+  form_pointer.addEditAccount(this);
   return true;
 }
 
@@ -205,7 +190,7 @@ QString GmailServiceRoot::additionalTooltip() const {
                                                network()->oauth()->tokensExpireIn().toString() : QSL("-"));
 }
 
-void GmailServiceRoot::saveAllCachedData() {
+void GmailServiceRoot::saveAllCachedData(bool ignore_errors) {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -216,7 +201,9 @@ void GmailServiceRoot::saveAllCachedData() {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      if (network()->markMessagesRead(key, ids) != QNetworkReply::NetworkError::NoError) {
+      if (network()->markMessagesRead(key, ids, networkProxy()) !=
+          QNetworkReply::NetworkError::NoError &&
+          !ignore_errors) {
         addMessageStatesToCache(ids, key);
       }
     }
@@ -237,7 +224,9 @@ void GmailServiceRoot::saveAllCachedData() {
         custom_ids.append(msg.m_customId);
       }
 
-      if (network()->markMessagesStarred(key, custom_ids) != QNetworkReply::NetworkError::NoError) {
+      if (network()->markMessagesStarred(key, custom_ids, networkProxy()) !=
+          QNetworkReply::NetworkError::NoError &&
+          !ignore_errors) {
         addMessageStatesToCache(messages, key);
       }
     }

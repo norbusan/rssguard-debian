@@ -119,7 +119,7 @@ bool FeedsModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
         // Transferring of items between different accounts is not possible.
         qApp->showGuiMessage(tr("Cannot perform drag & drop operation"),
                              tr("You can't transfer dragged item into different account, this is not supported."),
-                             QSystemTrayIcon::Warning,
+                             QSystemTrayIcon::MessageIcon::Warning,
                              qApp->mainFormWidget(),
                              true);
         qDebugNN << LOGSEC_FEEDMODEL
@@ -141,7 +141,7 @@ bool FeedsModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
 }
 
 Qt::DropActions FeedsModel::supportedDropActions() const {
-  return Qt::MoveAction;
+  return Qt::DropAction::MoveAction;
 }
 
 Qt::ItemFlags FeedsModel::flags(const QModelIndex& index) const {
@@ -300,24 +300,6 @@ QList<ServiceRoot*>FeedsModel::serviceRoots() const {
   }
 
   return roots;
-}
-
-bool FeedsModel::containsServiceRootFromEntryPoint(const ServiceEntryPoint* point) const {
-  return boolinq::from(serviceRoots()).any([=](ServiceRoot* root) {
-    return root->code() == point->code();
-  });
-}
-
-StandardServiceRoot* FeedsModel::standardServiceRoot() const {
-  for (ServiceRoot* root : serviceRoots()) {
-    StandardServiceRoot* std_service_root;
-
-    if ((std_service_root = dynamic_cast<StandardServiceRoot*>(root)) != nullptr) {
-      return std_service_root;
-    }
-  }
-
-  return nullptr;
 }
 
 QList<Feed*>FeedsModel::feedsForScheduledUpdate(bool auto_update_now) {
@@ -536,7 +518,7 @@ void FeedsModel::loadActivatedServiceAccounts() {
   // Iterate all globally available feed "service plugins".
   for (const ServiceEntryPoint* entry_point : qApp->feedReader()->feedServices()) {
     // Load all stored root nodes from the entry point and add those to the model.
-    QList<ServiceRoot*>roots = entry_point->initializeSubtree();
+    QList<ServiceRoot*> roots = entry_point->initializeSubtree();
 
     for (ServiceRoot* root : roots) {
       addServiceAccount(root, false);
