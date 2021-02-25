@@ -94,7 +94,7 @@ QList<QAction*> ServiceRoot::serviceMenu() {
         auto* act_sync_cache = new QAction(qApp->icons()->fromTheme(QSL("view-refresh")), tr("Synchronize message cache"), this);
 
         connect(act_sync_cache, &QAction::triggered, this, [cache]() {
-          cache->saveAllCachedData();
+          cache->saveAllCachedData(false);
         });
 
         m_serviceMenu.append(act_sync_cache);
@@ -164,6 +164,20 @@ void ServiceRoot::completelyRemoveAllData() {
   updateCounts(true);
   itemChanged(QList<RootItem*>() << this);
   requestReloadMessageList(true);
+}
+
+QIcon ServiceRoot::feedIconForMessage(const QString& feed_custom_id) const {
+  QString low_id = feed_custom_id.toLower();
+  RootItem* found_item = getItemFromSubTree([low_id](const RootItem* it) {
+    return it->kind() == RootItem::Kind::Feed && it->customId().toLower() == low_id;
+  });
+
+  if (found_item != nullptr) {
+    return found_item->icon();
+  }
+  else {
+    return QIcon();
+  }
 }
 
 void ServiceRoot::removeOldAccountFromDatabase(bool including_messages) {
@@ -306,6 +320,16 @@ void ServiceRoot::restoreCustomFeedsData(const QMap<QString, QVariantMap>& data,
       feed->setMessageFilters(feed_custom_data.value(QSL("msg_filters")).value<QList<QPointer<MessageFilter>>>());
     }
   }
+}
+
+QNetworkProxy ServiceRoot::networkProxy() const {
+  return m_networkProxy;
+}
+
+void ServiceRoot::setNetworkProxy(const QNetworkProxy& network_proxy) {
+  m_networkProxy = network_proxy;
+
+  emit proxyChanged(network_proxy);
 }
 
 ImportantNode* ServiceRoot::importantNode() const {
@@ -704,7 +728,7 @@ void ServiceRoot::assembleFeeds(Assignment feeds) {
       categories.value(feed.first)->appendChild(feed.second);
     }
     else {
-      qWarning("Feed '%s' is loose, skipping it.", qPrintable(feed.second->title()));
+      qWarningNN << LOGSEC_CORE << "Feed" << QUOTE_W_SPACE(feed.second->title()) << "is loose, skipping it.";
     }
   }
 }

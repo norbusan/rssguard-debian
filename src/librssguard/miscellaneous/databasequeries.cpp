@@ -9,10 +9,16 @@
 #include "miscellaneous/textfactory.h"
 #include "network-web/oauth2service.h"
 #include "services/abstract/category.h"
+#include "services/feedly/definitions.h"
+#include "services/feedly/feedlynetwork.h"
+#include "services/feedly/feedlyserviceroot.h"
 #include "services/gmail/definitions.h"
 #include "services/gmail/gmailfeed.h"
 #include "services/gmail/gmailserviceroot.h"
 #include "services/gmail/network/gmailnetworkfactory.h"
+#include "services/greader/definitions.h"
+#include "services/greader/greadernetwork.h"
+#include "services/greader/greaderserviceroot.h"
 #include "services/inoreader/definitions.h"
 #include "services/inoreader/inoreaderfeed.h"
 #include "services/inoreader/inoreaderserviceroot.h"
@@ -927,11 +933,11 @@ int DatabaseQueries::updateMessages(QSqlDatabase db,
       message.m_url = QString(URI_SCHEME_HTTP) + message.m_url.mid(2);
     }
     else if (message.m_url.startsWith(QL1S("/"))) {
-      QString new_message_url = QUrl(url).toString(QUrl::RemoveUserInfo |
-                                                   QUrl::RemovePath |
-                                                   QUrl::RemoveQuery |
-                                                   QUrl::RemoveFilename |
-                                                   QUrl::StripTrailingSlash);
+      QString new_message_url = QUrl(url).toString(QUrl::UrlFormattingOption::RemoveUserInfo |
+                                                   QUrl::UrlFormattingOption::RemovePath |
+                                                   QUrl::UrlFormattingOption::RemoveQuery |
+                                                   QUrl::UrlFormattingOption::RemoveFilename |
+                                                   QUrl::UrlFormattingOption::StripTrailingSlash);
 
       new_message_url += message.m_url;
       message.m_url = new_message_url;
@@ -1482,8 +1488,8 @@ bool DatabaseQueries::storeAccountTree(const QSqlDatabase& db, RootItem* tree_ro
   query_feed.setForwardOnly(true);
   query_category.prepare("INSERT INTO Categories (parent_id, title, account_id, custom_id) "
                          "VALUES (:parent_id, :title, :account_id, :custom_id);");
-  query_feed.prepare("INSERT INTO Feeds (title, icon, category, protected, update_type, update_interval, account_id, custom_id) "
-                     "VALUES (:title, :icon, :category, :protected, :update_type, :update_interval, :account_id, :custom_id);");
+  query_feed.prepare("INSERT INTO Feeds (title, icon, url, category, protected, update_type, update_interval, account_id, custom_id) "
+                     "VALUES (:title, :icon, :url, :category, :protected, :update_type, :update_interval, :account_id, :custom_id);");
 
   // Iterate all children.
   for (RootItem* child : tree_root->getSubTree()) {
@@ -1505,9 +1511,10 @@ bool DatabaseQueries::storeAccountTree(const QSqlDatabase& db, RootItem* tree_ro
 
       query_feed.bindValue(QSL(":title"), feed->title());
       query_feed.bindValue(QSL(":icon"), qApp->icons()->toByteArray(feed->icon()));
+      query_feed.bindValue(QSL(":url"), feed->url());
       query_feed.bindValue(QSL(":category"), feed->parent()->id());
       query_feed.bindValue(QSL(":protected"), 0);
-      query_feed.bindValue(QSL(":update_type"), (int) feed->autoUpdateType());
+      query_feed.bindValue(QSL(":update_type"), int(feed->autoUpdateType()));
       query_feed.bindValue(QSL(":update_interval"), feed->autoUpdateInitialInterval());
       query_feed.bindValue(QSL(":account_id"), account_id);
       query_feed.bindValue(QSL(":custom_id"), feed->customId());
@@ -1652,6 +1659,69 @@ QStringList DatabaseQueries::customIdsOfMessagesFromFeed(const QSqlDatabase& db,
   return ids;
 }
 
+void DatabaseQueries::fillBaseAccountData(const QSqlDatabase& db, ServiceRoot* account, bool* ok) {
+  QSqlQuery query(db);
+
+  query.prepare(QSL("SELECT * FROM Accounts WHERE id = :id;"));
+  query.bindValue(QSL(":id"), account->accountId());
+
+  bool res = query.exec() && query.next();
+
+  if (res) {
+    QNetworkProxy proxy(QNetworkProxy::ProxyType(query.value(QSL("proxy_type")).toInt()),
+                        query.value(QSL("proxy_host")).toString(),
+                        query.value(QSL("proxy_port")).toInt(),
+                        query.value(QSL("proxy_username")).toString(),
+                        TextFactory::decrypt(query.value(QSL("proxy_password")).toString()));
+
+    account->setNetworkProxy(proxy);
+  }
+
+  if (ok != nullptr) {
+    *ok = res;
+  }
+}
+
+QList<ServiceRoot*> DatabaseQueries::getGreaderAccounts(const QSqlDatabase& db, bool* ok) {
+  QSqlQuery query(db);
+  QList<ServiceRoot*> roots;
+
+  if (query.exec("SELECT * FROM GoogleReaderApiAccounts;")) {
+    while (query.next()) {
+      auto* root = new GreaderServiceRoot();
+
+      root->setId(query.value(0).toInt());
+      root->setAccountId(query.value(0).toInt());
+      root->network()->setService(GreaderServiceRoot::Service(query.value(1).toInt()));
+      root->network()->setUsername(query.value(2).toString());
+      root->network()->setPassword(TextFactory::decrypt(query.value(3).toString()));
+      root->network()->setBaseUrl(query.value(4).toString());
+      root->network()->setBatchSize(query.value(5).toInt());
+      root->updateTitleIcon();
+
+      fillBaseAccountData(db, root);
+
+      roots.append(root);
+    }
+
+    if (ok != nullptr) {
+      *ok = true;
+    }
+  }
+  else {
+    qWarningNN << LOGSEC_GREADER
+               << "Getting list of activated accounts failed: '"
+               << query.lastError().text()
+               << "'.";
+
+    if (ok != nullptr) {
+      *ok = false;
+    }
+  }
+
+  return roots;
+}
+
 QList<ServiceRoot*> DatabaseQueries::getOwnCloudAccounts(const QSqlDatabase& db, bool* ok) {
   QSqlQuery query(db);
   QList<ServiceRoot*> roots;
@@ -1668,8 +1738,10 @@ QList<ServiceRoot*> DatabaseQueries::getOwnCloudAccounts(const QSqlDatabase& db,
       root->network()->setForceServerSideUpdate(query.value(4).toBool());
       root->network()->setBatchSize(query.value(5).toInt());
       root->network()->setDownloadOnlyUnreadMessages(query.value(6).toBool());
-
       root->updateTitle();
+
+      fillBaseAccountData(db, root);
+
       roots.append(root);
     }
 
@@ -1709,8 +1781,10 @@ QList<ServiceRoot*> DatabaseQueries::getTtRssAccounts(const QSqlDatabase& db, bo
       root->network()->setUrl(query.value(6).toString());
       root->network()->setForceServerSideUpdate(query.value(7).toBool());
       root->network()->setDownloadOnlyUnreadMessages(query.value(8).toBool());
-
       root->updateTitle();
+
+      fillBaseAccountData(db, root);
+
       roots.append(root);
     }
 
@@ -1770,6 +1844,112 @@ bool DatabaseQueries::overwriteOwnCloudAccount(const QSqlDatabase& db, const QSt
   }
 }
 
+bool DatabaseQueries::createFeedlyAccount(const QSqlDatabase& db, const QString& username,
+                                          const QString& developer_access_token, const QString& refresh_token,
+                                          int batch_size, bool download_only_unread_messages,
+                                          int account_id) {
+  QSqlQuery q(db);
+
+  q.prepare("INSERT INTO FeedlyAccounts (id, username, developer_access_token, refresh_token, msg_limit, update_only_unread) "
+            "VALUES (:id, :username, :developer_access_token, :refresh_token, :msg_limit, :update_only_unread);");
+  q.bindValue(QSL(":id"), account_id);
+  q.bindValue(QSL(":username"), username);
+  q.bindValue(QSL(":developer_access_token"), developer_access_token);
+  q.bindValue(QSL(":refresh_token"), refresh_token);
+  q.bindValue(QSL(":msg_limit"), batch_size <= 0 ? FEEDLY_UNLIMITED_BATCH_SIZE : batch_size);
+  q.bindValue(QSL(":update_only_unread"), download_only_unread_messages ? 1 : 0);
+
+  if (q.exec()) {
+    return true;
+  }
+  else {
+    qWarningNN << LOGSEC_FEEDLY
+               << "Inserting of new account failed:"
+               << QUOTE_W_SPACE_DOT(q.lastError().text());
+    return false;
+  }
+}
+
+bool DatabaseQueries::overwriteFeedlyAccount(const QSqlDatabase& db, const QString& username,
+                                             const QString& developer_access_token, const QString& refresh_token,
+                                             int batch_size, bool download_only_unread_messages,
+                                             int account_id) {
+  QSqlQuery query(db);
+
+  query.prepare("UPDATE FeedlyAccounts "
+                "SET username = :username, developer_access_token = :developer_access_token, "
+                "refresh_token = :refresh_token, msg_limit = :msg_limit, "
+                "update_only_unread = :update_only_unread "
+                "WHERE id = :id;");
+  query.bindValue(QSL(":id"), account_id);
+  query.bindValue(QSL(":username"), username);
+  query.bindValue(QSL(":developer_access_token"), developer_access_token);
+  query.bindValue(QSL(":refresh_token"), refresh_token);
+  query.bindValue(QSL(":msg_limit"), batch_size <= 0 ? FEEDLY_UNLIMITED_BATCH_SIZE : batch_size);
+  query.bindValue(QSL(":update_only_unread"), download_only_unread_messages ? 1 : 0);
+
+  if (query.exec()) {
+    return true;
+  }
+  else {
+    qCriticalNN << LOGSEC_FEEDLY << "Updating account failed:" << QUOTE_W_SPACE_DOT(query.lastError().text());
+    return false;
+  }
+}
+
+bool DatabaseQueries::createGreaderAccount(const QSqlDatabase& db, int id_to_assign, const QString& username,
+                                           const QString& password, GreaderServiceRoot::Service service,
+                                           const QString& url, int batch_size) {
+  QSqlQuery q(db);
+
+  q.prepare("INSERT INTO GoogleReaderApiAccounts (id, type, username, password, url, msg_limit) "
+            "VALUES (:id, :service, :username, :password, :url, :msg_limit);");
+  q.bindValue(QSL(":id"), id_to_assign);
+  q.bindValue(QSL(":username"), username);
+  q.bindValue(QSL(":service"), int(service));
+  q.bindValue(QSL(":password"), TextFactory::encrypt(password));
+  q.bindValue(QSL(":url"), url);
+  q.bindValue(QSL(":msg_limit"), batch_size <= 0 ? GREADER_UNLIMITED_BATCH_SIZE : batch_size);
+
+  if (q.exec()) {
+    return true;
+  }
+  else {
+    qWarningNN << LOGSEC_GREADER
+               << "Inserting of new account failed: '"
+               << q.lastError().text()
+               << "'.";
+    return false;
+  }
+}
+
+bool DatabaseQueries::overwriteGreaderAccount(const QSqlDatabase& db, const QString& username, const QString& password,
+                                              GreaderServiceRoot::Service service, const QString& url,
+                                              int batch_size, int account_id) {
+  QSqlQuery query(db);
+
+  query.prepare("UPDATE GoogleReaderApiAccounts "
+                "SET username = :username, password = :password, url = :url, type = :service, msg_limit = :msg_limit "
+                "WHERE id = :id;");
+  query.bindValue(QSL(":username"), username);
+  query.bindValue(QSL(":password"), TextFactory::encrypt(password));
+  query.bindValue(QSL(":url"), url);
+  query.bindValue(QSL(":service"), int(service));
+  query.bindValue(QSL(":id"), account_id);
+  query.bindValue(QSL(":msg_limit"), batch_size <= 0 ? GREADER_UNLIMITED_BATCH_SIZE : batch_size);
+
+  if (query.exec()) {
+    return true;
+  }
+  else {
+    qWarningNN << LOGSEC_GREADER
+               << "Updating account failed: '"
+               << query.lastError().text()
+               << "'.";
+    return false;
+  }
+}
+
 bool DatabaseQueries::createOwnCloudAccount(const QSqlDatabase& db, int id_to_assign, const QString& username,
                                             const QString& password, const QString& url,
                                             bool force_server_side_feed_update,
@@ -1798,7 +1978,7 @@ bool DatabaseQueries::createOwnCloudAccount(const QSqlDatabase& db, int id_to_as
   }
 }
 
-int DatabaseQueries::createAccount(const QSqlDatabase& db, const QString& code, bool* ok) {
+int DatabaseQueries::createBaseAccount(const QSqlDatabase& db, const QString& code, bool* ok) {
   QSqlQuery q(db);
 
   // First obtain the ID, which can be assigned to this new account.
@@ -1835,6 +2015,30 @@ int DatabaseQueries::createAccount(const QSqlDatabase& db, const QString& code, 
                << q.lastError().text()
                << "'.";
     return 0;
+  }
+}
+
+void DatabaseQueries::editBaseAccount(const QSqlDatabase& db, ServiceRoot* account, bool* ok) {
+  auto proxy = account->networkProxy();
+  QSqlQuery q(db);
+
+  q.setForwardOnly(true);
+
+  q.prepare(QSL("UPDATE Accounts "
+                "SET proxy_type = :proxy_type, proxy_host = :proxy_host, proxy_port = :proxy_port, "
+                "    proxy_username = :proxy_username, proxy_password = :proxy_password "
+                "WHERE id = :id"));
+  q.bindValue(QSL(":proxy_type"), proxy.type());
+  q.bindValue(QSL(":proxy_host"), proxy.hostName());
+  q.bindValue(QSL(":proxy_port"), proxy.port());
+  q.bindValue(QSL(":proxy_username"), proxy.user());
+  q.bindValue(QSL(":proxy_password"), TextFactory::encrypt(proxy.password()));
+  q.bindValue(QSL(":id"), account->accountId());
+
+  bool res = q.exec();
+
+  if (ok != nullptr) {
+    *ok = res;
   }
 }
 
@@ -1942,15 +2146,16 @@ int DatabaseQueries::addStandardFeed(const QSqlDatabase& db, int parent_id, int 
                                      const QString& description, const QDateTime& creation_date, const QIcon& icon,
                                      const QString& encoding, const QString& url, bool is_protected,
                                      const QString& username, const QString& password,
-                                     Feed::AutoUpdateType auto_update_type,
-                                     int auto_update_interval, StandardFeed::Type feed_format, bool* ok) {
+                                     Feed::AutoUpdateType auto_update_type, int auto_update_interval,
+                                     StandardFeed::SourceType source_type, const QString& post_process_script,
+                                     StandardFeed::Type feed_format, bool* ok) {
   QSqlQuery q(db);
 
   qDebug() << "Adding feed with title '" << title.toUtf8() << "' to DB.";
   q.setForwardOnly(true);
   q.prepare("INSERT INTO Feeds "
-            "(title, description, date_created, icon, category, encoding, url, protected, username, password, update_type, update_interval, type, account_id) "
-            "VALUES (:title, :description, :date_created, :icon, :category, :encoding, :url, :protected, :username, :password, :update_type, :update_interval, :type, :account_id);");
+            "(title, description, date_created, icon, category, encoding, url, source_type, post_process, protected, username, password, update_type, update_interval, type, account_id) "
+            "VALUES (:title, :description, :date_created, :icon, :category, :encoding, :url, :source_type, :post_process, :protected, :username, :password, :update_type, :update_interval, :type, :account_id);");
   q.bindValue(QSL(":title"), title.toUtf8());
   q.bindValue(QSL(":description"), description.toUtf8());
   q.bindValue(QSL(":date_created"), creation_date.toMSecsSinceEpoch());
@@ -1958,6 +2163,8 @@ int DatabaseQueries::addStandardFeed(const QSqlDatabase& db, int parent_id, int 
   q.bindValue(QSL(":category"), parent_id);
   q.bindValue(QSL(":encoding"), encoding);
   q.bindValue(QSL(":url"), url);
+  q.bindValue(QSL(":source_type"), int(source_type));
+  q.bindValue(QSL(":post_process"), post_process_script.simplified());
   q.bindValue(QSL(":protected"), is_protected ? 1 : 0);
   q.bindValue(QSL(":username"), username);
   q.bindValue(QSL(":account_id"), account_id);
@@ -2006,12 +2213,13 @@ bool DatabaseQueries::editStandardFeed(const QSqlDatabase& db, int parent_id, in
                                        const QString& encoding, const QString& url, bool is_protected,
                                        const QString& username, const QString& password,
                                        Feed::AutoUpdateType auto_update_type,
-                                       int auto_update_interval, StandardFeed::Type feed_format) {
+                                       int auto_update_interval, StandardFeed::SourceType source_type,
+                                       const QString& post_process_script, StandardFeed::Type feed_format) {
   QSqlQuery q(db);
 
   q.setForwardOnly(true);
   q.prepare("UPDATE Feeds "
-            "SET title = :title, description = :description, icon = :icon, category = :category, encoding = :encoding, url = :url, protected = :protected, username = :username, password = :password, update_type = :update_type, update_interval = :update_interval, type = :type "
+            "SET title = :title, description = :description, icon = :icon, category = :category, encoding = :encoding, url = :url, source_type = :source_type, post_process = :post_process, protected = :protected, username = :username, password = :password, update_type = :update_type, update_interval = :update_interval, type = :type "
             "WHERE id = :id;");
   q.bindValue(QSL(":title"), title);
   q.bindValue(QSL(":description"), description);
@@ -2019,6 +2227,8 @@ bool DatabaseQueries::editStandardFeed(const QSqlDatabase& db, int parent_id, in
   q.bindValue(QSL(":category"), parent_id);
   q.bindValue(QSL(":encoding"), encoding);
   q.bindValue(QSL(":url"), url);
+  q.bindValue(QSL(":source_type"), int(source_type));
+  q.bindValue(QSL(":post_process"), post_process_script.simplified());
   q.bindValue(QSL(":protected"), is_protected ? 1 : 0);
   q.bindValue(QSL(":username"), username);
 
@@ -2281,6 +2491,9 @@ QList<ServiceRoot*> DatabaseQueries::getStandardAccounts(const QSqlDatabase& db,
       auto* root = new StandardServiceRoot();
 
       root->setAccountId(q.value(0).toInt());
+
+      fillBaseAccountData(db, root);
+
       roots.append(root);
     }
 
@@ -2295,6 +2508,24 @@ QList<ServiceRoot*> DatabaseQueries::getStandardAccounts(const QSqlDatabase& db,
   }
 
   return roots;
+}
+
+bool DatabaseQueries::deleteFeedlyAccount(const QSqlDatabase& db, int account_id) {
+  QSqlQuery q(db);
+
+  q.setForwardOnly(true);
+  q.prepare(QSL("DELETE FROM FeedlyAccounts WHERE id = :id;"));
+  q.bindValue(QSL(":id"), account_id);
+  return q.exec();
+}
+
+bool DatabaseQueries::deleteGreaderAccount(const QSqlDatabase& db, int account_id) {
+  QSqlQuery q(db);
+
+  q.setForwardOnly(true);
+  q.prepare(QSL("DELETE FROM GoogleReaderApiAccounts WHERE id = :id;"));
+  q.bindValue(QSL(":id"), account_id);
+  return q.exec();
 }
 
 bool DatabaseQueries::deleteTtRssAccount(const QSqlDatabase& db, int account_id) {
@@ -2393,13 +2624,57 @@ QStringList DatabaseQueries::getAllRecipients(const QSqlDatabase& db, int accoun
   return rec;
 }
 
+QList<ServiceRoot*> DatabaseQueries::getFeedlyAccounts(const QSqlDatabase& db, bool* ok) {
+  QSqlQuery query(db);
+  QList<ServiceRoot*> roots;
+
+  if (query.exec("SELECT * FROM FeedlyAccounts;")) {
+    while (query.next()) {
+      auto* root = new FeedlyServiceRoot();
+
+      root->setId(query.value(0).toInt());
+      root->setAccountId(query.value(0).toInt());
+      root->network()->setUsername(query.value(1).toString());
+      root->network()->setDeveloperAccessToken(query.value(2).toString());
+
+#if defined (FEEDLY_OFFICIAL_SUPPORT)
+      root->network()->oauth()->setRefreshToken(query.value(3).toString());
+#endif
+
+      root->network()->setBatchSize(query.value(4).toInt());
+      root->network()->setDownloadOnlyUnreadMessages(query.value(5).toBool());
+      root->updateTitle();
+
+      fillBaseAccountData(db, root);
+
+      roots.append(root);
+    }
+
+    if (ok != nullptr) {
+      *ok = true;
+    }
+  }
+  else {
+    qWarningNN << LOGSEC_GMAIL
+               << "Getting list of activated accounts failed: '"
+               << query.lastError().text()
+               << "'.";
+
+    if (ok != nullptr) {
+      *ok = false;
+    }
+  }
+
+  return roots;
+}
+
 QList<ServiceRoot*> DatabaseQueries::getGmailAccounts(const QSqlDatabase& db, bool* ok) {
   QSqlQuery query(db);
   QList<ServiceRoot*> roots;
 
   if (query.exec("SELECT * FROM GmailAccounts;")) {
     while (query.next()) {
-      auto* root = new GmailServiceRoot(nullptr);
+      auto* root = new GmailServiceRoot();
 
       root->setId(query.value(0).toInt());
       root->setAccountId(query.value(0).toInt());
@@ -2410,6 +2685,9 @@ QList<ServiceRoot*> DatabaseQueries::getGmailAccounts(const QSqlDatabase& db, bo
       root->network()->oauth()->setRedirectUrl(query.value(4).toString());
       root->network()->setBatchSize(query.value(6).toInt());
       root->updateTitle();
+
+      fillBaseAccountData(db, root);
+
       roots.append(root);
     }
 
@@ -2440,27 +2718,6 @@ bool DatabaseQueries::deleteGmailAccount(const QSqlDatabase& db, int account_id)
   return q.exec();
 }
 
-bool DatabaseQueries::storeNewGmailTokens(const QSqlDatabase& db, const QString& refresh_token, int account_id) {
-  QSqlQuery query(db);
-
-  query.prepare("UPDATE GmailAccounts "
-                "SET refresh_token = :refresh_token "
-                "WHERE id = :id;");
-  query.bindValue(QSL(":refresh_token"), refresh_token);
-  query.bindValue(QSL(":id"), account_id);
-
-  if (query.exec()) {
-    return true;
-  }
-  else {
-    qWarningNN << LOGSEC_GMAIL
-               << "Updating tokens in DB failed: '"
-               << query.lastError().text()
-               << "'.";
-    return false;
-  }
-}
-
 bool DatabaseQueries::deleteInoreaderAccount(const QSqlDatabase& db, int account_id) {
   QSqlQuery q(db);
 
@@ -2470,23 +2727,22 @@ bool DatabaseQueries::deleteInoreaderAccount(const QSqlDatabase& db, int account
   return q.exec();
 }
 
-bool DatabaseQueries::storeNewInoreaderTokens(const QSqlDatabase& db, const QString& refresh_token, int account_id) {
+bool DatabaseQueries::storeNewOauthTokens(const QSqlDatabase& db, const QString& table_name,
+                                          const QString& refresh_token, int account_id) {
   QSqlQuery query(db);
 
-  query.prepare("UPDATE InoreaderAccounts "
-                "SET refresh_token = :refresh_token "
-                "WHERE id = :id;");
+  query.prepare(QSL("UPDATE %1 "
+                    "SET refresh_token = :refresh_token "
+                    "WHERE id = :id;").arg(table_name));
   query.bindValue(QSL(":refresh_token"), refresh_token);
   query.bindValue(QSL(":id"), account_id);
 
   if (query.exec()) {
+    qDebugNN << LOGSEC_DB << "Stored new refresh token into table" << QUOTE_W_SPACE_DOT(table_name);
     return true;
   }
   else {
-    qWarningNN << LOGSEC_INOREADER
-               << "Updating tokens in DB failed: '"
-               << query.lastError().text()
-               << "'.";
+    qWarningNN << LOGSEC_DB << "Updating tokens in DB failed:" << QUOTE_W_SPACE_DOT(query.lastError().text());
     return false;
   }
 }
@@ -2497,7 +2753,7 @@ QList<ServiceRoot*> DatabaseQueries::getInoreaderAccounts(const QSqlDatabase& db
 
   if (query.exec("SELECT * FROM InoreaderAccounts;")) {
     while (query.next()) {
-      auto* root = new InoreaderServiceRoot(nullptr);
+      auto* root = new InoreaderServiceRoot();
 
       root->setId(query.value(0).toInt());
       root->setAccountId(query.value(0).toInt());
@@ -2508,6 +2764,9 @@ QList<ServiceRoot*> DatabaseQueries::getInoreaderAccounts(const QSqlDatabase& db
       root->network()->oauth()->setRedirectUrl(query.value(4).toString());
       root->network()->setBatchSize(query.value(6).toInt());
       root->updateTitle();
+
+      fillBaseAccountData(db, root);
+
       roots.append(root);
     }
 

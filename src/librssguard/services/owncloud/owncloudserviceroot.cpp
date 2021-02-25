@@ -39,7 +39,7 @@ bool OwnCloudServiceRoot::canBeDeleted() const {
 bool OwnCloudServiceRoot::editViaGui() {
   QScopedPointer<FormEditOwnCloudAccount> form_pointer(new FormEditOwnCloudAccount(qApp->mainFormWidget()));
 
-  form_pointer->execForEdit(this);
+  form_pointer->addEditAccount(this);
   return true;
 }
 
@@ -80,7 +80,7 @@ OwnCloudNetworkFactory* OwnCloudServiceRoot::network() const {
   return m_network;
 }
 
-void OwnCloudServiceRoot::saveAllCachedData() {
+void OwnCloudServiceRoot::saveAllCachedData(bool ignore_errors) {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -91,9 +91,9 @@ void OwnCloudServiceRoot::saveAllCachedData() {
     QStringList ids = i.value();
 
     if (!ids.isEmpty()) {
-      auto res = network()->markMessagesRead(key, ids);
+      auto res = network()->markMessagesRead(key, ids, networkProxy());
 
-      if (res.first != QNetworkReply::NetworkError::NoError) {
+      if (!ignore_errors && res.first != QNetworkReply::NetworkError::NoError) {
         addMessageStatesToCache(ids, key);
       }
     }
@@ -115,9 +115,9 @@ void OwnCloudServiceRoot::saveAllCachedData() {
         guid_hashes.append(msg.m_customHash);
       }
 
-      auto res = network()->markMessagesStarred(key, feed_ids, guid_hashes);
+      auto res = network()->markMessagesStarred(key, feed_ids, guid_hashes, networkProxy());
 
-      if (res.first != QNetworkReply::NetworkError::NoError) {
+      if (!ignore_errors && res.first != QNetworkReply::NetworkError::NoError) {
         addMessageStatesToCache(messages, key);
       }
     }
@@ -128,10 +128,10 @@ void OwnCloudServiceRoot::updateTitle() {
   setTitle(m_network->authUsername() + QSL(" (Nextcloud News)"));
 }
 
-void OwnCloudServiceRoot::saveAccountDataToDatabase() {
+void OwnCloudServiceRoot::saveAccountDataToDatabase(bool creating_new) {
   QSqlDatabase database = qApp->database()->connection(metaObject()->className());
 
-  if (accountId() != NO_PARENT_CATEGORY) {
+  if (!creating_new) {
     if (DatabaseQueries::overwriteOwnCloudAccount(database, m_network->authUsername(),
                                                   m_network->authPassword(), m_network->url(),
                                                   m_network->forceServerSideUpdate(), m_network->batchSize(),
@@ -141,25 +141,18 @@ void OwnCloudServiceRoot::saveAccountDataToDatabase() {
     }
   }
   else {
-    bool saved;
-    int id_to_assign = DatabaseQueries::createAccount(database, code(), &saved);
-
-    if (saved) {
-      if (DatabaseQueries::createOwnCloudAccount(database, id_to_assign, m_network->authUsername(),
-                                                 m_network->authPassword(), m_network->url(),
-                                                 m_network->forceServerSideUpdate(),
-                                                 m_network->downloadOnlyUnreadMessages(),
-                                                 m_network->batchSize())) {
-        setId(id_to_assign);
-        setAccountId(id_to_assign);
-        updateTitle();
-      }
+    if (DatabaseQueries::createOwnCloudAccount(database, accountId(), m_network->authUsername(),
+                                               m_network->authPassword(), m_network->url(),
+                                               m_network->forceServerSideUpdate(),
+                                               m_network->downloadOnlyUnreadMessages(),
+                                               m_network->batchSize())) {
+      updateTitle();
     }
   }
 }
 
 RootItem* OwnCloudServiceRoot::obtainNewTreeForSyncIn() const {
-  OwnCloudGetFeedsCategoriesResponse feed_cats_response = m_network->feedsCategories();
+  OwnCloudGetFeedsCategoriesResponse feed_cats_response = m_network->feedsCategories(networkProxy());
 
   if (feed_cats_response.networkError() == QNetworkReply::NetworkError::NoError) {
     return feed_cats_response.feedsCategories(true);

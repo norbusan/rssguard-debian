@@ -32,12 +32,12 @@ class TtRssServiceRoot : public ServiceRoot, public CacheForServiceRoot {
     virtual bool supportsCategoryAdding() const;
     virtual void addNewFeed(RootItem* selected_item, const QString& url = QString());
     virtual QString additionalTooltip() const;
-    virtual void saveAllCachedData();
+    virtual void saveAllCachedData(bool ignore_errors);
 
     // Access to network.
     TtRssNetworkFactory* network() const;
 
-    void saveAccountDataToDatabase();
+    void saveAccountDataToDatabase(bool creating_new);
     void updateTitle();
 
   protected:

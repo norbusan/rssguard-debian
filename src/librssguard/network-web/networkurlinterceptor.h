@@ -35,11 +35,11 @@ class NetworkUrlInterceptor : public QWebEngineUrlRequestInterceptor {
     void installUrlInterceptor(UrlInterceptor* interceptor);
     void removeUrlInterceptor(UrlInterceptor* interceptor);
 
-    void loadSettings();
+    void load();
 
   private:
     QList<UrlInterceptor*> m_interceptors;
-    bool m_sendDNT;
+    bool m_sendDnt;
 };
 
 #endif // NETWORKURLINTERCEPTOR_H

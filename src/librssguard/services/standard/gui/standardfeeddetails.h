@@ -7,9 +7,12 @@
 
 #include "ui_standardfeeddetails.h"
 
+#include "services/standard/standardfeed.h"
+
+#include <QNetworkProxy>
+
 class Category;
 class RootItem;
-class StandardFeed;
 
 class StandardFeedDetails : public QWidget {
   Q_OBJECT
@@ -20,14 +23,27 @@ class StandardFeedDetails : public QWidget {
     explicit StandardFeedDetails(QWidget* parent = nullptr);
 
   private slots:
-    void guessIconOnly(const QString& url, const QString& username, const QString& password);
-    void guessFeed(const QString& url, const QString& username, const QString& password);
+    void guessIconOnly(StandardFeed::SourceType source_type,
+                       const QString& source,
+                       const QString& post_process_script,
+                       const QString& username,
+                       const QString& password,
+                       const QNetworkProxy& custom_proxy = QNetworkProxy::ProxyType::DefaultProxy);
+    void guessFeed(StandardFeed::SourceType source_type,
+                   const QString& source,
+                   const QString& post_process_script,
+                   const QString& username,
+                   const QString& password,
+                   const QNetworkProxy& custom_proxy = QNetworkProxy::ProxyType::DefaultProxy);
 
     void onTitleChanged(const QString& new_title);
     void onDescriptionChanged(const QString& new_description);
     void onUrlChanged(const QString& new_url);
+    void onPostProcessScriptChanged(const QString& new_pp);
     void onLoadIconFromFile();
     void onUseDefaultIcon();
+
+    StandardFeed::SourceType sourceType() const;
 
   private:
     void prepareForNewFeed(RootItem* parent_to_select, const QString& url);
@@ -35,7 +51,7 @@ class StandardFeedDetails : public QWidget {
     void loadCategories(const QList<Category*>& categories, RootItem* root_item);
 
   private:
-    Ui::StandardFeedDetails ui;
+    Ui::StandardFeedDetails m_ui;
     QMenu* m_iconMenu{};
     QAction* m_actionLoadIconFromFile{};
     QAction* m_actionUseDefaultIcon{};

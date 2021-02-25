@@ -9,6 +9,7 @@
 #include "services/abstract/category.h"
 #include "services/abstract/label.h"
 #include "services/abstract/serviceroot.h"
+#include "services/greader/greaderserviceroot.h"
 #include "services/standard/standardfeed.h"
 
 #include <QMultiMap>
@@ -88,7 +89,11 @@ class DatabaseQueries {
                                                    bool* ok = nullptr);
 
     // Common account methods.
-    static int createAccount(const QSqlDatabase& db, const QString& code, bool* ok = nullptr);
+    static bool storeNewOauthTokens(const QSqlDatabase& db, const QString& table_name,
+                                    const QString& refresh_token, int account_id);
+    static void fillBaseAccountData(const QSqlDatabase& db, ServiceRoot* account, bool* ok = nullptr);
+    static int createBaseAccount(const QSqlDatabase& db, const QString& code, bool* ok = nullptr);
+    static void editBaseAccount(const QSqlDatabase& db, ServiceRoot* account, bool* ok = nullptr);
     static int updateMessages(QSqlDatabase db, const QList<Message>& messages, const QString& feed_custom_id,
                               int account_id, const QString& url, bool force_update, bool* any_message_changed, bool* ok = nullptr);
     static bool deleteAccount(const QSqlDatabase& db, int account_id);
@@ -133,17 +138,47 @@ class DatabaseQueries {
                                const QString& description, const QDateTime& creation_date, const QIcon& icon,
                                const QString& encoding, const QString& url, bool is_protected,
                                const QString& username, const QString& password,
-                               Feed::AutoUpdateType auto_update_type,
-                               int auto_update_interval, StandardFeed::Type feed_format, bool* ok = nullptr);
+                               Feed::AutoUpdateType auto_update_type, int auto_update_interval,
+                               StandardFeed::SourceType source_type, const QString& post_process_script,
+                               StandardFeed::Type feed_format, bool* ok = nullptr);
     static bool editStandardFeed(const QSqlDatabase& db, int parent_id, int feed_id, const QString& title,
                                  const QString& description, const QIcon& icon,
                                  const QString& encoding, const QString& url, bool is_protected,
                                  const QString& username, const QString& password, Feed::AutoUpdateType auto_update_type,
-                                 int auto_update_interval, StandardFeed::Type feed_format);
+                                 int auto_update_interval, StandardFeed::SourceType source_type,
+                                 const QString& post_process_script, StandardFeed::Type feed_format);
     static QList<ServiceRoot*> getStandardAccounts(const QSqlDatabase& db, bool* ok = nullptr);
 
     template<typename T>
     static void fillFeedData(T* feed, const QSqlRecord& sql_record);
+
+    // Feedly account.
+    static bool deleteFeedlyAccount(const QSqlDatabase& db, int account_id);
+    static QList<ServiceRoot*> getFeedlyAccounts(const QSqlDatabase& db, bool* ok = nullptr);
+    static bool createFeedlyAccount(const QSqlDatabase& db,
+                                    const QString& username,
+                                    const QString& developer_access_token,
+                                    const QString& refresh_token,
+                                    int batch_size,
+                                    bool download_only_unread_messages,
+                                    int account_id);
+    static bool overwriteFeedlyAccount(const QSqlDatabase& db,
+                                       const QString& username,
+                                       const QString& developer_access_token,
+                                       const QString& refresh_token,
+                                       int batch_size,
+                                       bool download_only_unread_messages,
+                                       int account_id);
+
+    // Greader account.
+    static bool deleteGreaderAccount(const QSqlDatabase& db, int account_id);
+    static QList<ServiceRoot*> getGreaderAccounts(const QSqlDatabase& db, bool* ok = nullptr);
+    static bool createGreaderAccount(const QSqlDatabase& db, int id_to_assign, const QString& username,
+                                     const QString& password, GreaderServiceRoot::Service service,
+                                     const QString& url, int batch_size);
+    static bool overwriteGreaderAccount(const QSqlDatabase& db, const QString& username, const QString& password,
+                                        GreaderServiceRoot::Service service, const QString& url, int batch_size,
+                                        int account_id);
 
     // Nextcloud account.
     static QList<ServiceRoot*> getOwnCloudAccounts(const QSqlDatabase& db, bool* ok = nullptr);
@@ -151,8 +186,8 @@ class DatabaseQueries {
     static bool overwriteOwnCloudAccount(const QSqlDatabase& db, const QString& username, const QString& password,
                                          const QString& url, bool force_server_side_feed_update, int batch_size,
                                          bool download_only_unread_messages, int account_id);
-    static bool createOwnCloudAccount(const QSqlDatabase& db, int id_to_assign, const QString& username, const QString& password,
-                                      const QString& url, bool force_server_side_feed_update,
+    static bool createOwnCloudAccount(const QSqlDatabase& db, int id_to_assign, const QString& username,
+                                      const QString& password, const QString& url, bool force_server_side_feed_update,
                                       bool download_only_unread_messages, int batch_size);
 
     // TT-RSS acccount.
@@ -170,7 +205,6 @@ class DatabaseQueries {
     // Gmail account.
     static QStringList getAllRecipients(const QSqlDatabase& db, int account_id);
     static bool deleteGmailAccount(const QSqlDatabase& db, int account_id);
-    static bool storeNewGmailTokens(const QSqlDatabase& db, const QString& refresh_token, int account_id);
     static QList<ServiceRoot*> getGmailAccounts(const QSqlDatabase& db, bool* ok = nullptr);
     static bool overwriteGmailAccount(const QSqlDatabase& db, const QString& username, const QString& app_id,
                                       const QString& app_key, const QString& redirect_url, const QString& refresh_token,
@@ -181,7 +215,6 @@ class DatabaseQueries {
 
     // Inoreader account.
     static bool deleteInoreaderAccount(const QSqlDatabase& db, int account_id);
-    static bool storeNewInoreaderTokens(const QSqlDatabase& db, const QString& refresh_token, int account_id);
     static QList<ServiceRoot*> getInoreaderAccounts(const QSqlDatabase& db, bool* ok = nullptr);
     static bool overwriteInoreaderAccount(const QSqlDatabase& db, const QString& username, const QString& app_id,
                                           const QString& app_key, const QString& redirect_url, const QString& refresh_token,
@@ -244,8 +277,10 @@ Assignment DatabaseQueries::getCategories(const QSqlDatabase& db, int account_id
 }
 
 template<typename T>
-Assignment DatabaseQueries::getFeeds(const QSqlDatabase& db, const QList<MessageFilter*>& global_filters,
-                                     int account_id, bool* ok) {
+Assignment DatabaseQueries::getFeeds(const QSqlDatabase& db,
+                                     const QList<MessageFilter*>& global_filters,
+                                     int account_id,
+                                     bool* ok) {
   Assignment feeds;
 
   // All categories are now loaded.

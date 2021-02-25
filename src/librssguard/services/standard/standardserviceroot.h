@@ -29,6 +29,7 @@ class StandardServiceRoot : public ServiceRoot {
 
     bool canBeEdited() const;
     bool canBeDeleted() const;
+    bool editViaGui();
     bool deleteViaGui();
     bool supportsFeedAdding() const;
     bool supportsCategoryAdding() const;
@@ -46,6 +47,7 @@ class StandardServiceRoot : public ServiceRoot {
     // NOTE: This is used for import/export of the model.
     bool mergeImportExportModel(FeedsImportExportModel* model, RootItem* target_root_node, QString& output_message);
 
+    QString processFeedUrl(const QString& feed_url);
     void loadFromDatabase();
     void checkArgumentForFeedAdding(const QString& argument);
 
@@ -56,7 +58,6 @@ class StandardServiceRoot : public ServiceRoot {
     void exportFeeds();
 
   private:
-    QString processFeedUrl(const QString& feed_url);
     void checkArgumentsForFeedAdding();
 
     QPointer<StandardFeed> m_feedForMetadata = {};

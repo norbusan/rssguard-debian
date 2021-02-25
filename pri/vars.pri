@@ -3,8 +3,8 @@ APP_LOW_NAME                  = "rssguard"
 APP_REVERSE_NAME              = "com.github.rssguard"
 APP_LOW_H_NAME                = ".rssguard"
 APP_AUTHOR                    = "Martin Rotter"
-APP_COPYRIGHT                 = "(C) 2011-2020 $$APP_AUTHOR"
-APP_VERSION                   = "3.8.4"
+APP_COPYRIGHT                 = "(C) 2011-2021 $$APP_AUTHOR"
+APP_VERSION                   = "3.9.0"
 APP_LONG_NAME                 = "$$APP_NAME $$APP_VERSION"
 APP_EMAIL                     = "rotter.martinos@gmail.com"
 APP_URL                       = "https://github.com/martinrotter/rssguard"
@@ -13,7 +13,6 @@ APP_URL_ISSUES_NEW            = "https://github.com/martinrotter/rssguard/issues
 APP_URL_DOCUMENTATION         = "https://github.com/martinrotter/rssguard/blob/master/resources/docs/Documentation.md"
 APP_USERAGENT                 = "RSS Guard/$$APP_VERSION (github.com/martinrotter/rssguard)"
 APP_DONATE_URL                = "https://martinrotter.github.io/donate"
-APP_WIN_ARCH                  = "win64"
 
 message(rssguard: Welcome RSS Guard qmake script.)
 
@@ -33,4 +32,18 @@ isEmpty(USE_WEBENGINE) {
     USE_WEBENGINE = false
     ##message($$MSG_PREFIX: WebEngine component is probably NOT installed, disabling it.)
   }
+}
+
+isEmpty(FEEDLY_CLIENT_ID)|isEmpty(FEEDLY_CLIENT_SECRET) {
+  FEEDLY_OFFICIAL_SUPPORT = false
+
+  message($$MSG_PREFIX: Feedly client ID/secret variables are not set. Disabling official support.)
+}
+else {
+  FEEDLY_OFFICIAL_SUPPORT = true
+  DEFINES *= FEEDLY_OFFICIAL_SUPPORT
+  DEFINES *= FEEDLY_CLIENT_ID='"\\\"$$FEEDLY_CLIENT_ID\\\""'
+  DEFINES *= FEEDLY_CLIENT_SECRET='"\\\"$$FEEDLY_CLIENT_SECRET\\\""'
+
+  message($$MSG_PREFIX: Enabling official Feedly support.)
 }

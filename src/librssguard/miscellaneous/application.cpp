@@ -2,6 +2,7 @@
 
 #include "miscellaneous/application.h"
 
+#include "3rd-party/boolinq/boolinq.h"
 #include "dynamic-shortcuts/dynamicshortcuts.h"
 #include "exceptions/applicationexception.h"
 #include "gui/dialogs/formabout.h"
@@ -30,23 +31,15 @@
 #include "network-web/adblock/adblockicon.h"
 #include "network-web/adblock/adblockmanager.h"
 #include "network-web/networkurlinterceptor.h"
-#include "network-web/rssguardschemehandler.h"
-#include "network-web/urlinterceptor.h"
 
 #include <QWebEngineDownloadItem>
 #include <QWebEngineProfile>
-#include <QWebEngineScript>
-#include <QWebEngineScriptCollection>
-#include <QWebEngineUrlScheme>
 #endif
 
 Application::Application(const QString& id, int& argc, char** argv)
   : QtSingleApplication(id, argc, argv), m_updateFeedsLock(new Mutex()) {
   parseCmdArguments();
-
-#if defined(USE_WEBENGINE)
-  m_urlInterceptor = new NetworkUrlInterceptor(this);
-#endif
+  qInstallMessageHandler(performLogging);
 
   m_feedReader = nullptr;
   m_quitLogicDone = false;
@@ -62,8 +55,6 @@ Application::Application(const QString& id, int& argc, char** argv)
   m_downloadManager = nullptr;
   m_shouldRestart = false;
 
-  // Setup debug output system.
-  qInstallMessageHandler(performLogging);
   determineFirstRuns();
 
   //: Abbreviation of language, e.g. en.
@@ -79,32 +70,15 @@ Application::Application(const QString& id, int& argc, char** argv)
   connect(this, &Application::saveStateRequest, this, &Application::onSaveState);
 
 #if defined(USE_WEBENGINE)
-  QWebEngineUrlScheme url_scheme(QByteArray(APP_LOW_NAME));
-
-  url_scheme.setDefaultPort(QWebEngineUrlScheme::SpecialPort::PortUnspecified);
-  url_scheme.setSyntax(QWebEngineUrlScheme::Syntax::Host);
-  url_scheme.setFlags(QWebEngineUrlScheme::Flag::LocalScheme |
-                      QWebEngineUrlScheme::Flag::LocalAccessAllowed |
-                      QWebEngineUrlScheme::Flag::ServiceWorkersAllowed |
-                      QWebEngineUrlScheme::Flag::ContentSecurityPolicyIgnored);
-
-  QWebEngineUrlScheme::registerScheme(url_scheme);
-
   connect(QWebEngineProfile::defaultProfile(), &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
-
-#if QT_VERSION >= 0x050D00 // Qt >= 5.13.0
-  QWebEngineProfile::defaultProfile()->setUrlRequestInterceptor(m_urlInterceptor);
-#else
-  QWebEngineProfile::defaultProfile()->setRequestInterceptor(m_urlInterceptor);
-#endif
-
-  m_urlInterceptor->loadSettings();
-
-  QWebEngineProfile::defaultProfile()->installUrlSchemeHandler(QByteArray(APP_LOW_NAME),
-                                                               new RssGuardSchemeHandler(QWebEngineProfile::defaultProfile()));
 #endif
 
   m_webFactory->updateProxy();
+
+#if defined(USE_WEBENGINE)
+  m_webFactory->urlIinterceptor()->load();
+  m_webFactory->adBlock()->load(true);
+#endif
 }
 
 Application::~Application() {
@@ -112,11 +86,15 @@ Application::~Application() {
 }
 
 QString s_customLogFile = QString();
+bool s_disableDebug = false;
 
 void Application::performLogging(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
 #ifndef QT_NO_DEBUG_OUTPUT
   QString console_message = qFormatLogMessage(type, context, msg);
-  std::cout << console_message.toStdString() << std::endl;
+
+  if (!s_disableDebug) {
+    std::cerr << console_message.toStdString() << std::endl;
+  }
 
   if (!s_customLogFile.isEmpty()) {
     QFile log_file(s_customLogFile);
@@ -168,7 +146,7 @@ void Application::offerChanges() const {
   if (isFirstRunCurrentVersion()) {
     qApp->showGuiMessage(QSL(APP_NAME), QObject::tr("Welcome to %1.\n\nPlease, check NEW stuff included in this\n"
                                                     "version by clicking this popup notification.").arg(APP_LONG_NAME),
-                         QSystemTrayIcon::NoIcon, nullptr, false, [] {
+                         QSystemTrayIcon::MessageIcon::NoIcon, nullptr, false, [] {
       FormAbout(qApp->mainForm()).exec();
     });
   }
@@ -189,7 +167,7 @@ QList<QAction*> Application::userActions() {
     m_userActions = m_mainForm->allActions();
 
 #if defined(USE_WEBENGINE)
-    m_userActions.append(AdBlockManager::instance()->adBlockIcon());
+    m_userActions.append(m_webFactory->adBlock()->adBlockIcon());
 #endif
   }
 
@@ -387,10 +365,12 @@ void Application::processExecutionMessage(const QString& message) {
       }
       else if (msg.startsWith(QL1S(URI_SCHEME_FEED_SHORT))) {
         // Application was running, and someone wants to add new feed.
-        StandardServiceRoot* root = qApp->feedReader()->feedsModel()->standardServiceRoot();
+        ServiceRoot* rt = boolinq::from(feedReader()->feedsModel()->serviceRoots()).firstOrDefault([](ServiceRoot* root) {
+          return root->supportsFeedAdding();
+        });
 
-        if (root != nullptr) {
-          root->checkArgumentForFeedAdding(msg);
+        if (rt != nullptr) {
+          rt->addNewFeed(nullptr, msg);
         }
         else {
           showGuiMessage(tr("Cannot add feed"),
@@ -418,13 +398,6 @@ SystemTrayIcon* Application::trayIcon() {
 
   return m_trayIcon;
 }
-
-#if defined(USE_WEBENGINE)
-NetworkUrlInterceptor* Application::urlIinterceptor() {
-  return m_urlInterceptor;
-}
-
-#endif
 
 QIcon Application::desktopAwareIcon() const {
   auto from_theme = m_icons->fromTheme(APP_LOW_NAME);
@@ -497,7 +470,7 @@ void Application::onAboutToQuit() {
   m_quitLogicDone = true;
 
 #if defined(USE_WEBENGINE)
-  AdBlockManager::instance()->save();
+  m_webFactory->adBlock()->save();
 #endif
 
   // Make sure that we obtain close lock BEFORE even trying to quit the application.
@@ -602,8 +575,10 @@ void Application::parseCmdArguments() {
                                         "user-data-folder");
   QCommandLineOption disable_singleinstance(QStringList() << CLI_SIN_SHORT << CLI_SIN_LONG,
                                             "Allow running of multiple application instances.");
+  QCommandLineOption disable_debug(QStringList() << CLI_NDEBUG_SHORT << CLI_NDEBUG_LONG,
+                                   "Completely disable stdout/stderr outputs.");
 
-  m_cmdParser.addOptions({ log_file, custom_data_folder, disable_singleinstance });
+  m_cmdParser.addOptions({ log_file, custom_data_folder, disable_singleinstance, disable_debug });
   m_cmdParser.addHelpOption();
   m_cmdParser.addVersionOption();
   m_cmdParser.setApplicationDescription(APP_NAME);
@@ -628,6 +603,11 @@ void Application::parseCmdArguments() {
   if (m_cmdParser.isSet(CLI_SIN_SHORT)) {
     m_allowMultipleInstances = true;
     qDebugNN << LOGSEC_CORE << "Explicitly allowing this instance to run.";
+  }
+
+  if (m_cmdParser.isSet(CLI_NDEBUG_SHORT)) {
+    s_disableDebug = true;
+    qDebugNN << LOGSEC_CORE << "Disabling any stdout/stderr outputs.";
   }
 }
 

@@ -5,11 +5,8 @@
 #include "definitions/definitions.h"
 #include "miscellaneous/application.h"
 #include "miscellaneous/databasequeries.h"
+#include "services/standard/gui/formeditstandardaccount.h"
 #include "services/standard/standardserviceroot.h"
-
-bool StandardServiceEntryPoint::isSingleInstanceService() const {
-  return true;
-}
 
 QString StandardServiceEntryPoint::name() const {
   return QObject::tr("Standard online feeds (RSS/ATOM/JSON)");
@@ -32,20 +29,9 @@ QString StandardServiceEntryPoint::code() const {
 }
 
 ServiceRoot* StandardServiceEntryPoint::createNewRoot() const {
-  // Switch DB.
-  QSqlDatabase database = qApp->database()->connection(QSL("StandardServiceEntryPoint"));
-  bool ok;
-  int new_id = DatabaseQueries::createAccount(database, code(), &ok);
+  FormEditStandardAccount form_acc(qApp->mainFormWidget());
 
-  if (ok) {
-    auto* root = new StandardServiceRoot();
-
-    root->setAccountId(new_id);
-    return root;
-  }
-  else {
-    return nullptr;
-  }
+  return form_acc.addEditAccount<StandardServiceRoot>();
 }
 
 QList<ServiceRoot*> StandardServiceEntryPoint::initializeSubtree() const {

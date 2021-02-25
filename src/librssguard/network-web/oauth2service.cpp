@@ -25,6 +25,7 @@
 #include "network-web/oauth2service.h"
 
 #include "definitions/definitions.h"
+#include "gui/messagebox.h"
 #include "miscellaneous/application.h"
 #include "network-web/networkfactory.h"
 #include "network-web/oauthhttphandler.h"
@@ -46,8 +47,7 @@ OAuth2Service::OAuth2Service(const QString& auth_url, const QString& token_url, 
                              const QString& client_secret, const QString& scope, QObject* parent)
   : QObject(parent),
   m_id(QString::number(QRandomGenerator::global()->generate())), m_timerId(-1),
-  m_redirectionHandler(new OAuthHttpHandler(tr("You can close this window now. Go back to %1").arg(APP_NAME),
-                                            this)) {
+  m_redirectionHandler(new OAuthHttpHandler(tr("You can close this window now. Go back to %1.").arg(APP_NAME), this)) {
   m_tokenGrantType = QSL("authorization_code");
   m_tokenUrl = QUrl(token_url);
   m_authUrl = auth_url;
@@ -73,11 +73,15 @@ OAuth2Service::OAuth2Service(const QString& auth_url, const QString& token_url, 
   });
 }
 
+OAuth2Service::~OAuth2Service() {
+  qDebugNN << LOGSEC_OAUTH << "Destroying OAuth2Service instance.";
+}
+
 QString OAuth2Service::bearer() {
   if (!isFullyLoggedIn()) {
     qApp->showGuiMessage(tr("You have to login first"),
                          tr("Click here to login."),
-                         QSystemTrayIcon::Critical,
+                         QSystemTrayIcon::MessageIcon::Critical,
                          nullptr, false,
                          [this]() {
       login();
@@ -149,11 +153,8 @@ void OAuth2Service::retrieveAccessToken(const QString& auth_code) {
   m_networkManager.post(networkRequest, content.toUtf8());
 }
 
-void OAuth2Service::refreshAccessToken(QString refresh_token) {
-  if (refresh_token.isEmpty()) {
-    refresh_token = refreshToken();
-  }
-
+void OAuth2Service::refreshAccessToken(const QString& refresh_token) {
+  auto real_refresh_token = refresh_token.isEmpty() ? refreshToken() : refresh_token;
   QNetworkRequest networkRequest;
 
   networkRequest.setUrl(m_tokenUrl);
@@ -162,7 +163,7 @@ void OAuth2Service::refreshAccessToken(QString refresh_token) {
   QString content = QString("client_id=%1&"
                             "client_secret=%2&"
                             "refresh_token=%3&"
-                            "grant_type=%4").arg(m_clientId, m_clientSecret, refresh_token, QSL("refresh_token"));
+                            "grant_type=%4").arg(m_clientId, m_clientSecret, real_refresh_token, QSL("refresh_token"));
 
   qApp->showGuiMessage(tr("Logging in via OAuth 2.0..."),
                        tr("Refreshing login tokens for '%1'...").arg(m_tokenUrl.toString()),
@@ -206,7 +207,7 @@ void OAuth2Service::tokenRequestFinished(QNetworkReply* network_reply) {
              << "Obtained refresh token" << QUOTE_W_SPACE(refreshToken())
              << "- expires on date/time" << QUOTE_W_SPACE_DOT(tokensExpireIn());
 
-    emit tokensReceived(accessToken(), refreshToken(), expires);
+    emit tokensRetrieved(accessToken(), refreshToken(), expires);
   }
 
   network_reply->deleteLater();
@@ -266,6 +267,11 @@ bool OAuth2Service::login() {
   if (!m_redirectionHandler->isListening()) {
     qCriticalNN << LOGSEC_OAUTH
                 << "Cannot log-in because OAuth redirection handler is not listening.";
+
+    emit tokensRetrieveError(QString(), tr("Failed to start OAuth "
+                                           "redirection listener. Maybe your "
+                                           "rights are not high enough."));
+
     return false;
   }
 
@@ -289,10 +295,16 @@ bool OAuth2Service::login() {
   }
 }
 
-void OAuth2Service::logout() {
+void OAuth2Service::logout(bool stop_redirection_handler) {
   setTokensExpireIn(QDateTime());
   setAccessToken(QString());
   setRefreshToken(QString());
+
+  qDebugNN << LOGSEC_OAUTH << "Clearing tokens.";
+
+  if (stop_redirection_handler) {
+    m_redirectionHandler->stop();
+  }
 }
 
 void OAuth2Service::startRefreshTimer() {
@@ -320,11 +332,5 @@ void OAuth2Service::retrieveAuthCode() {
                                                                     m_id);
 
   // We run login URL in external browser, response is caught by light HTTP server.
-  if (!qApp->web()->openUrlInExternalBrowser(auth_url)) {
-    QInputDialog::getText(qApp->mainFormWidget(),
-                          tr("Navigate to website"),
-                          tr("To login, you need to navigate to this website:"),
-                          QLineEdit::EchoMode::Normal,
-                          auth_url);
-  }
+  qApp->web()->openUrlInExternalBrowser(auth_url);
 }

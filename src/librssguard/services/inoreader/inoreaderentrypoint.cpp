@@ -16,17 +16,13 @@
 ServiceRoot* InoreaderEntryPoint::createNewRoot() const {
   FormEditInoreaderAccount form_acc(qApp->mainFormWidget());
 
-  return form_acc.execForCreate();
+  return form_acc.addEditAccount<InoreaderServiceRoot>();
 }
 
 QList<ServiceRoot*> InoreaderEntryPoint::initializeSubtree() const {
   QSqlDatabase database = qApp->database()->connection(QSL("InoreaderEntryPoint"));
 
   return DatabaseQueries::getInoreaderAccounts(database);
-}
-
-bool InoreaderEntryPoint::isSingleInstanceService() const {
-  return false;
 }
 
 QString InoreaderEntryPoint::name() const {

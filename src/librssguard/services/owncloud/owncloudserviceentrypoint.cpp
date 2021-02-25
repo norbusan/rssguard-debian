@@ -13,17 +13,13 @@
 ServiceRoot* OwnCloudServiceEntryPoint::createNewRoot() const {
   FormEditOwnCloudAccount form_acc(qApp->mainFormWidget());
 
-  return form_acc.execForCreate();
+  return form_acc.addEditAccount<OwnCloudServiceRoot>();
 }
 
 QList<ServiceRoot*> OwnCloudServiceEntryPoint::initializeSubtree() const {
   QSqlDatabase database = qApp->database()->connection(QSL("OwnCloudServiceEntryPoint"));
 
   return DatabaseQueries::getOwnCloudAccounts(database);
-}
-
-bool OwnCloudServiceEntryPoint::isSingleInstanceService() const {
-  return false;
 }
 
 QString OwnCloudServiceEntryPoint::name() const {

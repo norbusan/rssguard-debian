@@ -90,14 +90,6 @@
         <translation>AdBlock låter dig blockera oönskat innehåll på webbsidor</translation>
     </message>
     <message>
-        <source>Blocked popup window</source>
-        <translation>Blockerade popup-fönster</translation>
-    </message>
-    <message>
-        <source>AdBlock blocked unwanted popup window.</source>
-        <translation>AdBlock blockerade oönskat popup-fönster.</translation>
-    </message>
-    <message>
         <source>Show AdBlock &amp;settings</source>
         <translation>Visa AdBlock-&amp;inställningar</translation>
     </message>
@@ -108,17 +100,6 @@
     <message>
         <source>Disable only on this page</source>
         <translation>Inaktivera endast på denna sida</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockManager</name>
-    <message>
-        <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation>Vill du prenumerera på &lt;b&gt;%1&lt;/b&gt;?</translation>
-    </message>
-    <message>
-        <source>Add AdBlock subscription</source>
-        <translation>Lägg till AdBlock-prenumeration</translation>
     </message>
 </context>
 <context>
@@ -337,17 +318,6 @@
 <context>
     <name>DiscoverFeedsButton</name>
     <message>
-        <source>This website does not contain any feeds.</source>
-        <translation>Webbsidan innehåller inga flöden.</translation>
-    </message>
-    <message numerus="yes">
-        <source>Click me to add feeds from this website.
-This website contains %n feed(s).</source>
-        <translation><numerusform>Klicka för att lägga till flöden från webbsidan.
-Denna webbsida innehåller ett annat flöde.</numerusform><numerusform>Klicka för att lägga till flöden från webbsidan.
-Denna webbsida innehåller %n flöden.</numerusform></translation>
-    </message>
-    <message>
         <source>Not supported</source>
         <translation>Stöds ej</translation>
     </message>
@@ -358,6 +328,14 @@ Denna webbsida innehåller %n flöden.</numerusform></translation>
     <message>
         <source>Feeds were detected, but no suitable accounts are configured.</source>
         <translation>Flöden har identifierats, men inget passande konto är konfigurerat.</translation>
+    </message>
+    <message>
+        <source>This website does not contain any feeds</source>
+        <translation>Denna webbsida innehåller inga flöden</translation>
+    </message>
+    <message numerus="yes">
+        <source>Add one of %n feed(s)</source>
+        <translation><numerusform>Lägg till ett av %n flöde</numerusform><numerusform>Lägg till ett av %n flöden</numerusform></translation>
     </message>
 </context>
 <context>
@@ -588,6 +566,144 @@ Status: %3</translation>
     </message>
 </context>
 <context>
+    <name>FeedlyAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Developer access token</source>
+        <translation>Åtkomst-token för utvecklare</translation>
+    </message>
+    <message>
+        <source>Get token</source>
+        <translation>Hämta token</translation>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation> meddelande(n)</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Logga in</translation>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation>Användarnamn för ditt konto</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Inget test utfört ännu.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Här visas resultat av anslutningstest.</translation>
+    </message>
+    <message>
+        <source>Your %1 build has official Feedly support. You do not have to use &quot;developer acess token&quot;. You can therefore leave corresponding field empty.</source>
+        <translation>Din %1 har officiellt Feedly-stöd. Du behöver inte använda &quot;Åtkomst-token för utvecklare&quot;. Du kan därför lämna motsvarande fält tomt.</translation>
+    </message>
+    <message>
+        <source>Your %1 does not offer official Feedly support, thus you must authorize via special authorization code called &quot;developer access token&quot;. These tokens are usually valid only for 1 month and allow only 250 API calls each day.</source>
+        <translation>Din %1 har inte officiellt Feedly-stöd. Därför måste du använda en speciell auktoriseringskod kallad &quot;Åtkomst-token för utvecklare&quot;. Dessa token är vanligtvis giltiga i endast en månad och tillåter bara 250 API-anrop per dag.</translation>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= obegränsat</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>meddelanden</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Du beviljade inte åtkomst.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Fel uppstod vid testning.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Fel. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Testet lyckades. Du kan behöva logga in igen.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Åtkomst beviljades.</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Du är redan inloggad.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Åtkomst beviljad.</translation>
+    </message>
+    <message>
+        <source>Login was successful.</source>
+        <translation>Inloggning slutförd</translation>
+    </message>
+    <message>
+        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
+        <translation>Tillse att din &quot;Åtkomst-token för utvecklare&quot; är korrekt och att din internetuppkoppling fungerar.</translation>
+    </message>
+    <message>
+        <source>Some problems.</source>
+        <translation>Lite problem.</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Användarnamn saknas.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Användarnamn okay.</translation>
+    </message>
+    <message>
+        <source>Access token is empty.</source>
+        <translation>Åtkomst-token saknas.</translation>
+    </message>
+    <message>
+        <source>Access token is okay.</source>
+        <translation>Åtkomst-token är OK.</translation>
+    </message>
+</context>
+<context>
+    <name>FeedlyNetwork</name>
+    <message>
+        <source>Feedly: authentication error</source>
+        <translation>Feedly: Autentiseringsfel</translation>
+    </message>
+    <message>
+        <source>Click this to login again. Error is: &apos;%1&apos;</source>
+        <translation>Klicka här för att logga in igen. Felet är: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Feedly: authorization denied</source>
+        <translation>Feedly: Autentisering nekad</translation>
+    </message>
+    <message>
+        <source>Click this to login again.</source>
+        <translation>Klicka här för att logga in igen.</translation>
+    </message>
+    <message>
+        <source>Logged in successfully</source>
+        <translation>Inloggad</translation>
+    </message>
+    <message>
+        <source>Your login to Feedly was authorized.</source>
+        <translation>Din inloggning till Feedly godkändes.</translation>
+    </message>
+</context>
+<context>
     <name>FeedsImportExportModel</name>
     <message>
         <source>Category </source>
@@ -809,14 +925,21 @@ att funktionen inte är implementerad än.</translation>
     </message>
 </context>
 <context>
+    <name>FormAccountDetails</name>
+    <message>
+        <source>Edit account &apos;%1&apos;</source>
+        <translation>Redigera konto &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Network proxy</source>
+        <translation>Nätverksproxy</translation>
+    </message>
+</context>
+<context>
     <name>FormAddAccount</name>
     <message>
         <source>Add new account</source>
         <translation>Lägg till nytt konto</translation>
-    </message>
-    <message>
-        <source>This account can be added only once.</source>
-        <translation>Kontot kan endast läggas till en gång.</translation>
     </message>
 </context>
 <context>
@@ -1047,527 +1170,45 @@ att funktionen inte är implementerad än.</translation>
     </message>
 </context>
 <context>
+    <name>FormEditFeedlyAccount</name>
+    <message>
+        <source>Service setup</source>
+        <translation>Tjänstinställning</translation>
+    </message>
+</context>
+<context>
     <name>FormEditGmailAccount</name>
     <message>
-        <source>Username</source>
-        <translation>Användarnamn</translation>
+        <source>Server setup</source>
+        <translation>Serverinställning</translation>
     </message>
+</context>
+<context>
+    <name>FormEditGreaderAccount</name>
     <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>OAuth 2.0 inställningar</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation>Applikation-ID</translation>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation>Applikationsnyckel</translation>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>Omdirigera URL</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation> meddelande(n)</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Logga in</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Inte testat ännu.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Användarsynligt användarnamn</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Du är redan inloggad.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Åtkomst beviljad.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation>Du beviljade inte åtkomst.</translation>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Fel uppstod vid testning.</translation>
-    </message>
-    <message>
-        <source>There is error. %1 </source>
-        <translation>Det finns fel. %1 </translation>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation>Åtkomst beviljades.</translation>
-    </message>
-    <message>
-        <source>Add new Gmail account</source>
-        <translation>Lägg till nytt Gmail-konto</translation>
-    </message>
-    <message>
-        <source>Edit existing Gmail account</source>
-        <translation>Lägg till befintligt Gmail-konto</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Ett tomt värde angavs.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Ett värde angavs.</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation>Testet lyckades. Du kan behöva logga in igen.</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation>Angiven omdirigerings-URL måste börja med &quot;http://localhost&quot; och måste konfigureras i ditt &quot;OAuth-program&quot;.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Inget användarnamn angivet.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Användarnamn angivet.</translation>
-    </message>
-    <message>
-        <source>Get my credentials</source>
-        <translation>Hämta mina inloggningsuppgifter</translation>
+        <source>Server setup</source>
+        <translation>Serverinställning</translation>
     </message>
 </context>
 <context>
     <name>FormEditInoreaderAccount</name>
     <message>
-        <source>Username</source>
-        <translation>Användarnamn</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>OAuth 2.0 inställningar</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation>Applikation-ID</translation>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation>Applikationsnyckel</translation>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>Omdirigera URL</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation> meddelande(n)</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Logga in</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Inte testat ännu.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Användarsynligt användarnamn</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Du är redan inloggad.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Åtkomst beviljad.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Inget användarnamn angivet.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Användarnamn angivet.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation>Du beviljade inte åtkomst.</translation>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Fel uppstod vid testning.</translation>
-    </message>
-    <message>
-        <source>There is error. %1</source>
-        <translation>Fel. %1</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation>Testet lyckades. Du kan behöva logga in igen.</translation>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation>Åtkomst beviljades.</translation>
-    </message>
-    <message>
-        <source>Add new Inoreader account</source>
-        <translation>Lägg till nytt Inoreader-konto</translation>
-    </message>
-    <message>
-        <source>Edit existing Inoreader account</source>
-        <translation>Redigera befintligt Inoreader-konto</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Ett tomt värde angavs.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Ett värde angavs.</translation>
-    </message>
-    <message>
-        <source>Get my own Application ID</source>
-        <translation>Skapa mitt eget applikations-ID</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;Application ID&quot;.</source>
-        <translation>Angiven omdirigerings-URL måste börja med &quot;http://localhost&quot; och måste konfigureras i ditt &quot;OAuth-program&quot;.
-
-Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
+        <source>Server setup</source>
+        <translation>Serverinställning</translation>
     </message>
 </context>
 <context>
     <name>FormEditOwnCloudAccount</name>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation>Tvinga serveruppdatering när flöden uppdateras från RSS-Guard</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>Autentisering</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Användarnamn</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Lösenord</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Visa lösenord</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>&amp;Testa inställning</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation>Aktivering av det här alternativet orsakar troligen att flödesuppdateringar tar längre tid och att tidsgränsen oftare överskrids.</translation>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>Inget test utfört ännu.</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation>Här visas resultat av anslutningstest.</translation>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>Nätverksfel: &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation>Ospecificerat fel! Angav du korrekt URL?</translation>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>Användarnamn saknas.</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation>Användarnamn okay.</translation>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>Lösenord saknas.</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation>Lösenord okay.</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URL saknas.</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation>URL okay.</translation>
-    </message>
-    <message>
-        <source>Limit number of downloaded messages per feed</source>
-        <translation>Begränsa antalet nerladdade meddelanden per flöde</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation> = obegränsat</translation>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation>Begränsning av antalet nerladdade meddelanden per flöde gör flödesuppdateringen snabbare, men om ditt flöde innehåller ett större antal meddelanden än specificerad begränsning, kanske en del meddelanden inte laddas ner under flödesuppdateringen.</translation>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= obegränsat</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>meddelanden</translation>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
-        <translation>Ladda bara ner olästa meddelanden</translation>
-    </message>
-    <message>
-        <source>Password for your Nextcloud account</source>
-        <translation>Lösenord för ditt Nextcloud-konto</translation>
-    </message>
-    <message>
-        <source>Username for your Nextcloud account</source>
-        <translation>Användarnamn för ditt Nextcloud-konto</translation>
-    </message>
-    <message>
-        <source>URL of your Nextcloud server, without any API path</source>
-        <translation>URL för din Nextcloud-server, utan API-sökväg</translation>
-    </message>
-    <message>
-        <source>Add new Nextcloud News account</source>
-        <translation>Lägg till nytt Nextcloud News-konto</translation>
-    </message>
-    <message>
-        <source>Edit existing Nextcloud News account</source>
-        <translation>Redigera befintligt Nextcloud News-konto</translation>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation>Den valda Nextcloud News-servern kör en version som inte stöds.</translation>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay, running with version %1, while at least version %2 is required.</source>
-        <translation>Nextclouds nyhetsserver fungerar med version %1, då minst version %2 krävs.</translation>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay.</source>
-        <translation>Nextclouds nyhetsserver är okay.</translation>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation>Nätverksfel! Har du angett korrekt Nextcloud-slutpunkt och lösenord?</translation>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version %1. At least version %2 is required.</source>
-        <translation>Den valda Nextcloud News-servern kör version %1 som inte stöds. Lägst version %2 krävs.</translation>
+        <source>Server setup</source>
+        <translation>Serverinställning</translation>
     </message>
 </context>
 <context>
     <name>FormEditTtRssAccount</name>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>Autentisering</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Användarnamn</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Lösenord</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Visa lösenord</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Kräver HTTP-autentisering</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>&amp;Testa inställning</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation>Tvinga serveruppdatering när flöden uppdateras från RSS-Guard</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation>Aktivering av det här alternativet orsakar troligen att flödesuppdateringar tar längre tid och att tidsgränsen oftare överskrids.</translation>
-    </message>
-    <message>
-        <source>Note that at least API level %1 is required.</source>
-        <translation>Notera att API-nivå %1 är miniminivå.</translation>
-    </message>
-    <message>
-        <source>HTTP authentication username</source>
-        <translation>Användarnamn för HTTP-autentisering</translation>
-    </message>
-    <message>
-        <source>HTTP authentication password</source>
-        <translation>Lösenord för HTTP-autentisering</translation>
-    </message>
-    <message>
-        <source>Password for your TT-RSS account</source>
-        <translation>Lösenord för ditt TT RSS-konto</translation>
-    </message>
-    <message>
-        <source>Username for your TT-RSS account</source>
-        <translation>Användarnamn för ditt TT RSS-konto</translation>
-    </message>
-    <message>
-        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
-        <translation>URL för din TT-RSS-instans UTAN vidhängande API-sträng</translation>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>Inget test utfört ännu.</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation>Här visas resultat av anslutningstest.</translation>
-    </message>
-    <message>
-        <source>Add new Tiny Tiny RSS account</source>
-        <translation>Lägg till nytt Tiny Tiny RSS-konto</translation>
-    </message>
-    <message>
-        <source>Edit existing Tiny Tiny RSS account</source>
-        <translation>Redigera befintligt Tiny Tiny RSS-konto</translation>
-    </message>
-    <message>
-        <source>API access on selected server is not enabled.</source>
-        <translation>API-åtkomst är inte aktiverad på den valda servern.</translation>
-    </message>
-    <message>
-        <source>Entered credentials are incorrect.</source>
-        <translation>Inloggningsuppgifter är felaktiga.</translation>
-    </message>
-    <message>
-        <source>Other error occurred, contact developers.</source>
-        <translation>Annat fel uppstod! Kontakta utvecklaren.</translation>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API (%1). At least API level %2 is required.</source>
-        <translation>Den valda Tiny Tiny RSS-servern kör en API-version (%1) som inte stöds. Minst API-nivå %2 krävs.</translation>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
-        <translation>Den valda Tiny Tiny RSS-servern kör en API-version som inte stöds.</translation>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay, running with API level %1, while at least API level %2 is required.</source>
-        <translation>Tiny Tiny RSS-servern är okay. Den kör API-nivå %1 och minimikravet är nivå %2.</translation>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay.</source>
-        <translation>Tiny Tiny RSS-servern är okay.</translation>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>Nätverksfel: &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
-        <translation>Nätverksfel! Har du angett korrekt Tiny Tiny RSS API-slutpunkt och lösenord?</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation>Ospecificerat fel! Angav du korrekt URL?</translation>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>Användarnamn saknas.</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation>Användarnamn okay.</translation>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>Lösenord saknas.</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation>Lösenord okay.</translation>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Användarnamnet är OK, eller behövs inte.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Användarnamn saknas.</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Lösenordet är OK, eller behövs inte.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Lösenord saknas.</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URL saknas.</translation>
-    </message>
-    <message>
-        <source>URL should NOT end with &quot;/api/&quot;.</source>
-        <translation>URL:en skall INTE sluta med &quot;/api/&quot;.</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation>URL okay.</translation>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
-        <translation>Ladda bara ner olästa meddelanden.</translation>
+        <source>Server setup</source>
+        <translation>Serverinställning</translation>
     </message>
 </context>
 <context>
@@ -2023,6 +1664,10 @@ Det rekommenderas starkt att du skapar ditt eget applikations-ID.</translation>
     <message>
         <source>Download messages for items with &amp;custom auto-download policy</source>
         <translation>Ladda ner meddelanden från objekt med &amp;anpassad policy för automatisk nerladdning</translation>
+    </message>
+    <message>
+        <source>Message viewer toolbars</source>
+        <translation>Verktygsfält i meddelandeläsare</translation>
     </message>
 </context>
 <context>
@@ -2753,6 +2398,101 @@ Du kan installera det nu.</translation>
     </message>
 </context>
 <context>
+    <name>GmailAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>OAuth 2.0 inställningar</translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation>Klient-ID</translation>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation>Klienthemlighet</translation>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>Omdirigera URL</translation>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation>Hämta mina inloggningsuppgifter</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation> meddelande(n)</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Logga in</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
+        <translation>Angiven omdirigerings-URL måste börja med &quot;http://localhost&quot; och måste konfigureras i ditt &quot;OAuth-program&quot;.</translation>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>Inte testat ännu.</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation>Användarsynligt användarnamn</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Du är redan inloggad.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Åtkomst beviljad.</translation>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation>Inget användarnamn angivet.</translation>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation>Användarnamn angivet.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Du beviljade inte åtkomst.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Fel uppstod vid testning.</translation>
+    </message>
+    <message>
+        <source>There is error. %1 </source>
+        <translation>Det finns fel. %1 </translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Testet lyckades. Du kan behöva logga in igen.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Åtkomst beviljades.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Ett tomt värde angavs.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Ett värde angavs.</translation>
+    </message>
+</context>
+<context>
     <name>GmailNetworkFactory</name>
     <message>
         <source>Logged in successfully</source>
@@ -2837,6 +2577,128 @@ Inloggningstoken upphör: %2</translation>
     </message>
 </context>
 <context>
+    <name>GreaderAccountDetails</name>
+    <message>
+        <source>Service</source>
+        <translation>Tjänst</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation> = obegränsat</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentisering</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Lösenord</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Visa lösenord</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>&amp;Testa inställning</translation>
+    </message>
+    <message>
+        <source>Password for your account</source>
+        <translation>Lösenord för ditt konto</translation>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation>Användarnamn för ditt konto</translation>
+    </message>
+    <message>
+        <source>URL of your server, without any service-specific path</source>
+        <translation>URL för din server, utan serverspecifik sökväg</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Inget test utfört ännu.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Här visas resultat av anslutningstest.</translation>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
+        <translation>Begränsning av antalet nerladdade meddelanden per flöde gör flödesuppdateringen snabbare, men om ditt flöde innehåller ett större antal meddelanden än specificerad begränsning, kanske en del äldre meddelanden inte laddas ner under flödesuppdateringen.</translation>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= obegränsat</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>meddelanden</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Nätverksfel: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation>Nätverksfel! Har du angett korrekt Nextcloud-slutpunkt och lösenord?</translation>
+    </message>
+    <message>
+        <source>You are good to go!</source>
+        <translation>Då kör vi!</translation>
+    </message>
+    <message>
+        <source>Yeah.</source>
+        <translation>Ja.</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Användarnamn saknas.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Användarnamn okay.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Lösenord saknas.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Lösenord okay.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL saknas.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL okay.</translation>
+    </message>
+</context>
+<context>
+    <name>GreaderNetwork</name>
+    <message>
+        <source>Other services</source>
+        <translation>Andra tjänster</translation>
+    </message>
+</context>
+<context>
     <name>IOFactory</name>
     <message>
         <source>Cannot open file &apos;%1&apos; for reading.</source>
@@ -2856,6 +2718,105 @@ Inloggningstoken upphör: %2</translation>
     <message>
         <source>You can find all important messages here.</source>
         <translation>Du hittar alla viktiga meddelanden här.</translation>
+    </message>
+</context>
+<context>
+    <name>InoreaderAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>OAuth 2.0 inställningar</translation>
+    </message>
+    <message>
+        <source>App ID</source>
+        <translation>Program-ID</translation>
+    </message>
+    <message>
+        <source>App key</source>
+        <translation>Programnyckel</translation>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>Omdirigera URL</translation>
+    </message>
+    <message>
+        <source>Get my own App ID</source>
+        <translation>Hämta mitt eget program-ID</translation>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation> meddelande(n)</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Logga in</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
+
+It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <translation>Angiven omdirigerings-URL måste börja med &quot;http://localhost&quot; och måste konfigureras i ditt &quot;OAuth-program&quot;.
+
+Det rekommenderas starkt att du skapar ditt eget program-ID, eftersom det fördefinierade kan vara begränsat på grund av användningskvoter, om det används av alltför många användare samtidigt.</translation>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>Inte testat ännu.</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation>Användarsynligt användarnamn</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Du är redan inloggad.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Åtkomst beviljad.</translation>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation>Inget användarnamn angivet.</translation>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation>Användarnamn angivet.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Du beviljade inte åtkomst.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Fel uppstod vid testning.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Fel. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Testet lyckades. Du kan behöva logga in igen.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Åtkomst beviljades.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Ett tomt värde angavs.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Ett värde angavs.</translation>
     </message>
 </context>
 <context>
@@ -3334,6 +3295,70 @@ Inloggningstoken upphör: %2</translation>
     </message>
 </context>
 <context>
+    <name>NetworkProxyDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <extracomment>Proxy server type.</extracomment>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>Värd</translation>
+    </message>
+    <message>
+        <source>Hostname or IP of your proxy server</source>
+        <translation>Värdnamn eller IP-adress till din proxyserver</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Your username for proxy server authentication</source>
+        <translation>Ditt användarnamn för proxyserverns autentisering</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Lösenord</translation>
+    </message>
+    <message>
+        <source>Your password for proxy server authentication</source>
+        <translation>Ditt lösenord för proxyserverns autentisering</translation>
+    </message>
+    <message>
+        <source>Display password</source>
+        <translation>Visa lösenordet</translation>
+    </message>
+    <message>
+        <source>Note that these settings are applied only on newly established connections.</source>
+        <translation>Notera att dess inställningar endast verkställs för nyetablerade anslutningar.</translation>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>Ingen proxy</translation>
+    </message>
+    <message>
+        <source>System proxy</source>
+        <translation>Systemets proxy</translation>
+    </message>
+    <message>
+        <source>Socks5</source>
+        <translation>Socks5</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>HTTP</translation>
+    </message>
+</context>
+<context>
     <name>NewspaperPreviewer</name>
     <message>
         <source>Form</source>
@@ -3379,8 +3404,143 @@ Inloggningstoken upphör: %2</translation>
         <translation>Du måste gå till denna webbsida för att logga in:</translation>
     </message>
     <message>
-        <source>You can close this window now. Go back to %1</source>
-        <translation>Du kan stänga det här fönstret nu. Gå tillbaka till %1</translation>
+        <source>You can close this window now. Go back to %1.</source>
+        <translation>Du kan stänga det här fönstret nu. Gå tillbaka till %1.</translation>
+    </message>
+    <message>
+        <source>Failed to start OAuth redirection listener. Maybe your rights are not high enough.</source>
+        <translation>Kunde inte starta OAuth vidarebefordringslyssnare. Dina rättigheter kanske inte är höga nog.</translation>
+    </message>
+</context>
+<context>
+    <name>OwnCloudAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation>Ladda bara ner olästa meddelanden.</translation>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation>Tvinga serveruppdatering när flöden uppdateras från RSS-Guard</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Ladda endast ner X nyaste meddelanden per flöde</translation>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation> = obegränsat</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentisering</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Lösenord</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Visa lösenord</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>&amp;Testa inställning</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation>Aktivering av det här alternativet orsakar troligen att flödesuppdateringar tar längre tid och att tidsgränsen oftare överskrids.</translation>
+    </message>
+    <message>
+        <source>Password for your Nextcloud account</source>
+        <translation>Lösenord för ditt Nextcloud-konto</translation>
+    </message>
+    <message>
+        <source>Username for your Nextcloud account</source>
+        <translation>Användarnamn för ditt Nextcloud-konto</translation>
+    </message>
+    <message>
+        <source>URL of your Nextcloud server, without any API path</source>
+        <translation>URL för din Nextcloud-server, utan API-sökväg</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Inget test utfört ännu.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Här visas resultat av anslutningstest.</translation>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
+        <translation>Begränsning av antalet nerladdade meddelanden per flöde gör flödesuppdateringen snabbare, men om ditt flöde innehåller ett större antal meddelanden än specificerad begränsning, kanske en del meddelanden inte laddas ner under flödesuppdateringen.</translation>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= obegränsat</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>meddelanden</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Nätverksfel: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation>Nätverksfel! Har du angett korrekt Nextcloud-slutpunkt och lösenord?</translation>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation>Installerad version: %1, minsta krav: %2.</translation>
+    </message>
+    <message>
+        <source>Selected Nextcloud News server is running unsupported version.</source>
+        <translation>Den valda Nextcloud News-servern kör en version som inte stöds.</translation>
+    </message>
+    <message>
+        <source>Nextcloud News server is okay.</source>
+        <translation>Nextclouds nyhetsserver är okay.</translation>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation>Ospecificerat fel! Angav du korrekt URL?</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Användarnamn saknas.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Användarnamn okay.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Lösenord saknas.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Lösenord okay.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL saknas.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL okay.</translation>
     </message>
 </context>
 <context>
@@ -3471,6 +3631,14 @@ genom att klicka på denna popup-avisering.</translation>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation>Standard online-flöden (RSS/ATOM/JSON)</translation>
     </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <translation>Google Reader API används av många RSS-läsare. Detta är här för att stödja</translation>
+    </message>
+    <message>
+        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <translation>Håll koll på de ämnen och trender du bryr dig om, utan att överdriva. Feedly är ett säkert utrymme där du privat kan organisera och utforska de ämnen och trender som är viktiga för dig.</translation>
+    </message>
 </context>
 <context>
     <name>RecycleBin</name>
@@ -3501,6 +3669,29 @@ genom att klicka på denna popup-avisering.</translation>
         <source>%n unread message(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
         <translation><numerusform>%n oläst meddelande.</numerusform><numerusform>%n olästa meddelanden.</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptException</name>
+    <message>
+        <source>script line is not well-formed</source>
+        <translation>skriptraden är inte väl formaterad</translation>
+    </message>
+    <message>
+        <source>script threw an error</source>
+        <translation>skriptet rapporterade ett fel</translation>
+    </message>
+    <message>
+        <source>script&apos;s interpreter was not found</source>
+        <translation>skriptets tolk hittades inte</translation>
+    </message>
+    <message>
+        <source>script execution took too long</source>
+        <translation>skriptexekvering tog för lång tid</translation>
+    </message>
+    <message>
+        <source>unknown error</source>
+        <translation>Okänt fel</translation>
     </message>
 </context>
 <context>
@@ -3600,51 +3791,6 @@ genom att klicka på denna popup-avisering.</translation>
  • %2 - brödtext för.</translation>
     </message>
     <message>
-        <source>Proxy</source>
-        <translation>Proxy</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <extracomment>Proxy server type.</extracomment>
-        <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Host</source>
-        <translation>Värd</translation>
-    </message>
-    <message>
-        <source>Hostname or IP of your proxy server</source>
-        <translation>Värdnamn eller IP-adress till din proxyserver</translation>
-    </message>
-    <message>
-        <source>Port</source>
-        <translation>Port</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Användarnamn</translation>
-    </message>
-    <message>
-        <source>Your username for proxy server authentication</source>
-        <translation>Ditt användarnamn för proxyserverns autentisering</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Lösenord</translation>
-    </message>
-    <message>
-        <source>Your password for proxy server authentication</source>
-        <translation>Ditt lösenord för proxyserverns autentisering</translation>
-    </message>
-    <message>
-        <source>Display password</source>
-        <translation>Visa lösenordet</translation>
-    </message>
-    <message>
-        <source>Note that these settings are applied only on newly established connections.</source>
-        <translation>Notera att dess inställningar endast verkställs för nyetablerade anslutningar.</translation>
-    </message>
-    <message>
         <source>Select web browser executable</source>
         <translation>Välj startfil för webbläsaren</translation>
     </message>
@@ -3672,22 +3818,6 @@ File filter for external tool selection dialog.</extracomment>
     <message>
         <source>Mozilla Thunderbird</source>
         <translation>Mozilla Thunderbird</translation>
-    </message>
-    <message>
-        <source>No proxy</source>
-        <translation>Ingen proxy</translation>
-    </message>
-    <message>
-        <source>System proxy</source>
-        <translation>Systemets proxy</translation>
-    </message>
-    <message>
-        <source>Socks5</source>
-        <translation>Socks5</translation>
-    </message>
-    <message>
-        <source>Http</source>
-        <translation>HTTP</translation>
     </message>
     <message>
         <source>Web browser &amp; e-mail &amp; proxy</source>
@@ -3736,6 +3866,10 @@ File filter for external tool selection dialog.</extracomment>
     <message>
         <source>Parameters passed to executable</source>
         <translation>Parametrar skickade till startfilen</translation>
+    </message>
+    <message>
+        <source>Network proxy</source>
+        <translation>Nätverksproxy</translation>
     </message>
 </context>
 <context>
@@ -4015,6 +4149,14 @@ Utvecklaren av detta program, är INTE ansvarig för förlorad data.</translatio
         <source>Auto-download messages for all feeds every</source>
         <translation>Ladda ner meddelanden automatiskt för alla flöden varje</translation>
     </message>
+    <message>
+        <source>Bring application window to front once message is opened in external web browser</source>
+        <translation>Flytta programfönstret längst fram när meddelande öppnats i extern webbläsare</translation>
+    </message>
+    <message>
+        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <translation>Visa riktiga ikoner för flödet i listan över meddelanden i stället för läst-/oläst-ikoner</translation>
+    </message>
 </context>
 <context>
     <name>SettingsGeneral</name>
@@ -4182,6 +4324,10 @@ Utvecklaren av detta program, är INTE ansvarig för förlorad data.</translatio
         <source>Left mouse button double-click</source>
         <translation>Dubbelklick på vänster musknapp</translation>
     </message>
+    <message>
+        <source>Display count of unread messages</source>
+        <translation>Visa räkneverk för olästa meddelanden</translation>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4238,10 +4384,6 @@ Utvecklaren av detta program, är INTE ansvarig för förlorad data.</translatio
         <translation>Metadata hämtades inte</translation>
     </message>
     <message>
-        <source>Metadata was not fetched because: %1.</source>
-        <translation>Metadata hämtades inte på grund av: %1.</translation>
-    </message>
-    <message>
         <source>
 Network status: %1
 Encoding: %2
@@ -4250,6 +4392,22 @@ Type: %3</source>
 Nätverksstatus: %1
 Kodning: %2
 Typ: %3</translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation>Skript</translation>
+    </message>
+    <message>
+        <source>Local file</source>
+        <translation>Lokal fil</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Okänd</translation>
+    </message>
+    <message>
+        <source>Metadata was not fetched.</source>
+        <translation>Metadata hämtades inte.</translation>
     </message>
 </context>
 <context>
@@ -4291,10 +4449,6 @@ Typ: %3</translation>
         <translation>Beskrivning</translation>
     </message>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
         <source>Fetch metadata</source>
         <translation>Hämta metadata</translation>
     </message>
@@ -4327,14 +4481,6 @@ Typ: %3</translation>
         <translation>Beskriv flödet.</translation>
     </message>
     <message>
-        <source>Full feed url including scheme</source>
-        <translation>Flödets fullständiga URL inklusive schema</translation>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation>Ange flödets URL.</translation>
-    </message>
-    <message>
         <source>Icon selection</source>
         <translation>Ikonval</translation>
     </message>
@@ -4363,16 +4509,8 @@ Typ: %3</translation>
         <translation>Ikonmetadata hämtad.</translation>
     </message>
     <message>
-        <source>Result: %1.</source>
-        <translation>Resultat: %1.</translation>
-    </message>
-    <message>
         <source>Icon metadata not fetched.</source>
         <translation>Ikonmetadata inte hämtad.</translation>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Fel: %1.</translation>
     </message>
     <message>
         <source>No icon fetched.</source>
@@ -4450,6 +4588,62 @@ Typ: %3</translation>
     <message>
         <source>Icon type:</source>
         <translation>Ikontyp:</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation>Källa</translation>
+    </message>
+    <message>
+        <source>Post-process script</source>
+        <translation>Efterbearbetningsskript</translation>
+    </message>
+    <message>
+        <source>You can use URL as a source of your feed or you can produce your feed with custom script. Also, you can post-process generated feed data with yet another script if you wish. These are advanced features and make sure to read the documentation before your use them.</source>
+        <translation>Du kan använda en URL som källa till ditt flöde eller så kan du producera ditt flöde med ett anpassat skript. Du kan också efterbearbeta genererad flödesdata med ännu ett skript om du vill. Det här är avancerade funktioner så se till att läsa dokumentationen innan du använder dem.</translation>
+    </message>
+    <message>
+        <source>Full feed source identifier</source>
+        <translation>Fullständig källidentifierare</translation>
+    </message>
+    <message>
+        <source>Full feed source identifier which can be URL.</source>
+        <translation>Fullständig källidentifierare, som kan vara en URL.</translation>
+    </message>
+    <message>
+        <source>Full command to execute</source>
+        <translation>Fullständigt kommando att köra</translation>
+    </message>
+    <message>
+        <source>You can enter full command including interpreter here.</source>
+        <translation>Du kan ange fullständigt kommando inklusive tolk här.</translation>
+    </message>
+    <message>
+        <source>Here you can enter script executaion line, including interpreter.</source>
+        <translation>Här kan du ange skriptexekveringsrad, inklusive tolk.</translation>
+    </message>
+    <message>
+        <source>The source is ok.</source>
+        <translation>Källan är OK.</translation>
+    </message>
+    <message>
+        <source>The source is empty.</source>
+        <translation>Källan är tom.</translation>
+    </message>
+    <message>
+        <source>The source does not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation>Källan verkar inte använda &quot;#&quot; som separator för argument.</translation>
+    </message>
+    <message>
+        <source>Command is ok.</source>
+        <translation>Kommandot är OK.</translation>
+    </message>
+    <message>
+        <source>Command not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation>Kommandot verkar inte använda &quot;#&quot; som separator för argument.</translation>
+    </message>
+    <message>
+        <source>Command is empty.</source>
+        <translation>Kommano saknas.</translation>
     </message>
 </context>
 <context>
@@ -4548,6 +4742,13 @@ Typ: %3</translation>
 Unread news: %2</source>
         <translation>%1
 Olästa nyheter: %2</translation>
+    </message>
+</context>
+<context>
+    <name>T</name>
+    <message>
+        <source>Add new account</source>
+        <translation>Lägg till nytt konto</translation>
     </message>
 </context>
 <context>
@@ -4670,6 +4871,161 @@ Olästa nyheter: %2</translation>
     </message>
 </context>
 <context>
+    <name>TtRssAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation>Ladda bara ner olästa meddelanden.</translation>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation>Tvinga serveruppdatering när flöden uppdateras från RSS-Guard</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Vissa flöden kräver autentisering. Gmail-flöden. BASIC, NTLM-2 och DIGEST-MD5 autentiseringsscheman stöds.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Autentisering</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Användarnamn</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Lösenord</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Visa lösenord</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Kräver HTTP-autentisering</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>&amp;Testa inställning</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation>Aktivering av det här alternativet orsakar troligen att flödesuppdateringar tar längre tid och att tidsgränsen oftare överskrids.</translation>
+    </message>
+    <message>
+        <source>HTTP authentication username</source>
+        <translation>Användarnamn för HTTP-autentisering</translation>
+    </message>
+    <message>
+        <source>HTTP authentication password</source>
+        <translation>Lösenord för HTTP-autentisering</translation>
+    </message>
+    <message>
+        <source>Password for your TT-RSS account</source>
+        <translation>Lösenord för ditt TT RSS-konto</translation>
+    </message>
+    <message>
+        <source>Username for your TT-RSS account</source>
+        <translation>Användarnamn för ditt TT RSS-konto</translation>
+    </message>
+    <message>
+        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
+        <translation>URL för din TT-RSS-instans UTAN vidhängande API-sträng</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Inget test utfört ännu.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Här visas resultat av anslutningstest.</translation>
+    </message>
+    <message>
+        <source>API access on selected server is not enabled.</source>
+        <translation>API-åtkomst är inte aktiverad på den valda servern.</translation>
+    </message>
+    <message>
+        <source>Entered credentials are incorrect.</source>
+        <translation>Inloggningsuppgifter är felaktiga.</translation>
+    </message>
+    <message>
+        <source>Other error occurred, contact developers.</source>
+        <translation>Annat fel uppstod! Kontakta utvecklaren.</translation>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation>Installerad version: %1, minsta krav: %2.</translation>
+    </message>
+    <message>
+        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
+        <translation>Den valda Tiny Tiny RSS-servern kör en API-version som inte stöds.</translation>
+    </message>
+    <message>
+        <source>Tiny Tiny RSS server is okay.</source>
+        <translation>Tiny Tiny RSS-servern är okay.</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Nätverksfel: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
+        <translation>Nätverksfel! Har du angett korrekt Tiny Tiny RSS API-slutpunkt och lösenord?</translation>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation>Ospecificerat fel! Angav du korrekt URL?</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Användarnamn saknas.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Användarnamn okay.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Lösenord saknas.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Lösenord okay.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Användarnamnet är OK, eller behövs inte.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Användarnamn saknas.</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Lösenordet är ok, eller behövs inte.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Lösenord saknas.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL saknas.</translation>
+    </message>
+    <message>
+        <source>URL should NOT end with &quot;/api/&quot;.</source>
+        <translation>URL:en skall INTE sluta med &quot;/api/&quot;.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL okay.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
@@ -4745,32 +5101,28 @@ Senaste inloggning: %4</translation>
         <translation>Tillbaka</translation>
     </message>
     <message>
-        <source>Go back.</source>
-        <translation>Gå tillbaka.</translation>
-    </message>
-    <message>
         <source>Forward</source>
         <translation>Framåt</translation>
-    </message>
-    <message>
-        <source>Go forward.</source>
-        <translation>Gå framåt.</translation>
     </message>
     <message>
         <source>Reload</source>
         <translation>Uppdatera</translation>
     </message>
     <message>
-        <source>Reload current web page.</source>
-        <translation>Läs in aktuell webbsida igen.</translation>
-    </message>
-    <message>
         <source>Stop</source>
         <translation>Stopp</translation>
     </message>
     <message>
-        <source>Stop web page loading.</source>
-        <translation>Stoppa inläsning av webbsidan.</translation>
+        <source>Open this website in system web browser</source>
+        <translation>Öppna denna webbsida i systemets webbläsare</translation>
+    </message>
+    <message>
+        <source>Failed to open URL in web browser</source>
+        <translation>Kunde inte öppna URL i webbläsaren</translation>
+    </message>
+    <message>
+        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
+        <translation>URL:en &quot;%1&quot; kunde inte öppnas i systemets webbläsare.</translation>
     </message>
 </context>
 <context>

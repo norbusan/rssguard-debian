@@ -12,10 +12,9 @@ class GmailServiceRoot : public ServiceRoot, public CacheForServiceRoot {
   Q_OBJECT
 
   public:
-    explicit GmailServiceRoot(GmailNetworkFactory* network, RootItem* parent = nullptr);
-    virtual ~GmailServiceRoot();
+    explicit GmailServiceRoot(RootItem* parent = nullptr);
 
-    void saveAccountDataToDatabase();
+    void saveAccountDataToDatabase(bool creating_new);
 
     void setNetwork(GmailNetworkFactory* network);
     GmailNetworkFactory* network() const;
@@ -33,7 +32,7 @@ class GmailServiceRoot : public ServiceRoot, public CacheForServiceRoot {
     virtual void start(bool freshly_activated);
     virtual QString code() const;
     virtual QString additionalTooltip() const;
-    virtual void saveAllCachedData();
+    virtual void saveAllCachedData(bool ignore_errors);
 
     void updateTitle();
 

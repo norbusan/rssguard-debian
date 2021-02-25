@@ -53,7 +53,7 @@
 #include <QStringMatcher>
 
 class QUrl;
-class QWebEngineUrlRequestInfo;
+class AdblockRequestInfo;
 class AdBlockSubscription;
 
 class AdBlockRule {
@@ -64,8 +64,8 @@ class AdBlockRule {
     virtual ~AdBlockRule() = default;
 
     AdBlockRule* copy() const;
-    AdBlockSubscription* subscription() const;
 
+    AdBlockSubscription* subscription() const;
     void setSubscription(AdBlockSubscription* subscription);
 
     QString filter() const;
@@ -88,17 +88,17 @@ class AdBlockRule {
     bool isInternalDisabled() const;
 
     bool urlMatch(const QUrl& url) const;
-    bool networkMatch(const QWebEngineUrlRequestInfo& request, const QString& domain, const QString& encodedUrl) const;
+    bool networkMatch(const AdblockRequestInfo& request, const QString& domain, const QString& encoded_url) const;
 
     bool matchDomain(const QString& domain) const;
-    bool matchThirdParty(const QWebEngineUrlRequestInfo& request) const;
-    bool matchObject(const QWebEngineUrlRequestInfo& request) const;
-    bool matchSubdocument(const QWebEngineUrlRequestInfo& request) const;
-    bool matchXmlHttpRequest(const QWebEngineUrlRequestInfo& request) const;
-    bool matchImage(const QWebEngineUrlRequestInfo& request) const;
-    bool matchScript(const QWebEngineUrlRequestInfo& request) const;
-    bool matchStyleSheet(const QWebEngineUrlRequestInfo& request) const;
-    bool matchObjectSubrequest(const QWebEngineUrlRequestInfo& request) const;
+    bool matchThirdParty(const AdblockRequestInfo& request) const;
+    bool matchObject(const AdblockRequestInfo& request) const;
+    bool matchSubdocument(const AdblockRequestInfo& request) const;
+    bool matchXmlHttpRequest(const AdblockRequestInfo& request) const;
+    bool matchImage(const AdblockRequestInfo& request) const;
+    bool matchScript(const AdblockRequestInfo& request) const;
+    bool matchStyleSheet(const AdblockRequestInfo& request) const;
+    bool matchObjectSubrequest(const AdblockRequestInfo& request) const;
 
   protected:
     bool matchDomain(const QString& pattern, const QString& domain) const;
@@ -116,6 +116,7 @@ class AdBlockRule {
       StringContainsMatchRule = 4,
       Invalid = 5
     };
+
     enum RuleOption {
       DomainRestrictedOption = 1,
       ThirdPartyOption = 2,
@@ -134,10 +135,10 @@ class AdBlockRule {
 
     Q_DECLARE_FLAGS(RuleOptions, RuleOption)
 
-    inline bool hasOption(const RuleOption& opt) const;
-    inline bool hasException(const RuleOption& opt) const;
-    inline void setOption(const RuleOption& opt);
-    inline void setException(const RuleOption& opt, bool on);
+    bool hasOption(const RuleOption& opt) const;
+    bool hasException(const RuleOption& opt) const;
+    void setOption(const RuleOption& opt);
+    void setException(const RuleOption& opt, bool on);
 
     void parseFilter();
     void parseDomains(const QString& domains, const QChar& separator);
@@ -160,19 +161,35 @@ class AdBlockRule {
 
     // Case sensitivity for string matching
     Qt::CaseSensitivity m_caseSensitivity;
-
     bool m_isEnabled;
     bool m_isException;
     bool m_isInternalDisabled;
     QStringList m_allowedDomains;
     QStringList m_blockedDomains;
     QString m_regexPattern;
-
     QList<QStringMatcher> matchers;
 
     friend class AdBlockMatcher;
     friend class AdBlockSearchTree;
     friend class AdBlockSubscription;
 };
+
+inline bool AdBlockRule::hasOption(const AdBlockRule::RuleOption& opt) const {
+  return (m_options & opt) != 0;
+}
+
+inline bool AdBlockRule::hasException(const AdBlockRule::RuleOption& opt) const {
+  return (m_exceptions & opt) != 0;
+}
+
+inline void AdBlockRule::setOption(const AdBlockRule::RuleOption& opt) {
+  m_options |= opt;
+}
+
+inline void AdBlockRule::setException(const AdBlockRule::RuleOption& opt, bool on) {
+  if (on) {
+    m_exceptions |= opt;
+  }
+}
 
 #endif // ADBLOCKRULE_H

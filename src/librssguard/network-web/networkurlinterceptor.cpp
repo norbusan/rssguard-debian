@@ -24,10 +24,10 @@
 #include "network-web/urlinterceptor.h"
 
 NetworkUrlInterceptor::NetworkUrlInterceptor(QObject* parent)
-  : QWebEngineUrlRequestInterceptor(parent), m_sendDNT(false) {}
+  : QWebEngineUrlRequestInterceptor(parent), m_sendDnt(false) {}
 
 void NetworkUrlInterceptor::interceptRequest(QWebEngineUrlRequestInfo& info) {
-  if (m_sendDNT) {
+  if (m_sendDnt) {
     info.setHttpHeader(QByteArrayLiteral("DNT"), QByteArrayLiteral("1"));
   }
 
@@ -48,6 +48,6 @@ void NetworkUrlInterceptor::removeUrlInterceptor(UrlInterceptor* interceptor) {
   m_interceptors.removeOne(interceptor);
 }
 
-void NetworkUrlInterceptor::loadSettings() {
-  m_sendDNT = qApp->settings()->value(GROUP(Browser), SETTING(Browser::SendDNT)).toBool();
+void NetworkUrlInterceptor::load() {
+  m_sendDnt = qApp->settings()->value(GROUP(Browser), SETTING(Browser::SendDNT)).toBool();
 }

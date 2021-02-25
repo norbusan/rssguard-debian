@@ -14,8 +14,6 @@
 #include <QTextDocument>
 #include <QTimer>
 
-NetworkFactory::NetworkFactory() = default;
-
 QStringList NetworkFactory::extractFeedLinksFromHtmlPage(const QUrl& url, const QString& html) {
   QStringList feeds;
   QRegularExpression rx(FEED_REGEX_MATCHER, QRegularExpression::PatternOption::CaseInsensitiveOption);
@@ -139,16 +137,29 @@ QString NetworkFactory::networkErrorText(QNetworkReply::NetworkError error_code)
   }
 }
 
-QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QString>& urls, int timeout, QIcon& output) {
-  QNetworkReply::NetworkError network_result = QNetworkReply::UnknownNetworkError;
+QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QString>& urls, int timeout,
+                                                         QIcon& output, const QNetworkProxy& custom_proxy) {
+  QNetworkReply::NetworkError network_result = QNetworkReply::NetworkError::UnknownNetworkError;
 
   for (const QString& url : urls) {
+    if (url.isEmpty()) {
+      continue;
+    }
+
     QByteArray icon_data;
 
-    network_result = performNetworkOperation(url, timeout, QByteArray(), icon_data,
-                                             QNetworkAccessManager::GetOperation).first;
+    network_result = performNetworkOperation(url,
+                                             timeout,
+                                             {},
+                                             icon_data,
+                                             QNetworkAccessManager::Operation::GetOperation,
+                                             {},
+                                             false,
+                                             {},
+                                             {},
+                                             custom_proxy).first;
 
-    if (network_result == QNetworkReply::NoError) {
+    if (network_result == QNetworkReply::NetworkError::NoError) {
       QPixmap icon_pixmap;
 
       icon_pixmap.loadFromData(icon_data);
@@ -165,12 +176,20 @@ QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QString>& u
       host = host.mid(4);
     }
 
-    const QString google_s2_with_url = QString("http://www.google.com/s2/favicons?domain=%1").arg(host);
+    const QString ddg_icon_service = QString("https://external-content.duckduckgo.com/ip3/%1.ico").arg(host);
 
-    network_result = performNetworkOperation(google_s2_with_url, timeout, QByteArray(), icon_data,
-                                             QNetworkAccessManager::GetOperation).first;
+    network_result = performNetworkOperation(ddg_icon_service,
+                                             timeout,
+                                             QByteArray(),
+                                             icon_data,
+                                             QNetworkAccessManager::Operation::GetOperation,
+                                             {},
+                                             false,
+                                             {},
+                                             {},
+                                             custom_proxy).first;
 
-    if (network_result == QNetworkReply::NoError) {
+    if (network_result == QNetworkReply::NetworkError::NoError) {
       QPixmap icon_pixmap;
 
       icon_pixmap.loadFromData(icon_data);
@@ -185,30 +204,12 @@ QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QString>& u
   return network_result;
 }
 
-Downloader* NetworkFactory::performAsyncNetworkOperation(const QString& url, int timeout, const QByteArray& input_data,
-                                                         QNetworkAccessManager::Operation operation,
-                                                         QList<QPair<QByteArray, QByteArray>> additional_headers,
-                                                         bool protected_contents, const QString& username,
-                                                         const QString& password) {
-  auto* downloader = new Downloader();
-
-  QObject::connect(downloader, &Downloader::completed, downloader, &Downloader::deleteLater);
-
-  for (const auto& header : additional_headers) {
-    if (!header.first.isEmpty()) {
-      downloader->appendRawHeader(header.first, header.second);
-    }
-  }
-
-  downloader->manipulateData(url, operation, input_data, timeout, protected_contents, username, password);
-  return downloader;
-}
-
 NetworkResult NetworkFactory::performNetworkOperation(const QString& url, int timeout, const QByteArray& input_data,
                                                       QByteArray& output, QNetworkAccessManager::Operation operation,
                                                       QList<QPair<QByteArray, QByteArray>> additional_headers,
                                                       bool protected_contents,
-                                                      const QString& username, const QString& password) {
+                                                      const QString& username, const QString& password,
+                                                      const QNetworkProxy& custom_proxy) {
   Downloader downloader;
   QEventLoop loop;
   NetworkResult result;
@@ -220,6 +221,10 @@ NetworkResult NetworkFactory::performNetworkOperation(const QString& url, int ti
     if (!header.first.isEmpty()) {
       downloader.appendRawHeader(header.first, header.second);
     }
+  }
+
+  if (custom_proxy.type() != QNetworkProxy::ProxyType::DefaultProxy) {
+    downloader.setProxy(custom_proxy);
   }
 
   downloader.manipulateData(url, operation, input_data, timeout, protected_contents, username, password);
@@ -239,7 +244,8 @@ NetworkResult NetworkFactory::performNetworkOperation(const QString& url,
                                                       QList<QPair<QByteArray, QByteArray>> additional_headers,
                                                       bool protected_contents,
                                                       const QString& username,
-                                                      const QString& password) {
+                                                      const QString& password,
+                                                      const QNetworkProxy& custom_proxy) {
   Downloader downloader;
   QEventLoop loop;
   NetworkResult result;
@@ -251,6 +257,10 @@ NetworkResult NetworkFactory::performNetworkOperation(const QString& url,
     if (!header.first.isEmpty()) {
       downloader.appendRawHeader(header.first, header.second);
     }
+  }
+
+  if (custom_proxy.type() != QNetworkProxy::ProxyType::DefaultProxy) {
+    downloader.setProxy(custom_proxy);
   }
 
   downloader.manipulateData(url, operation, input_data, timeout, protected_contents, username, password);

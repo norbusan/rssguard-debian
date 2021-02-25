@@ -47,7 +47,7 @@ void TtRssServiceRoot::start(bool freshly_activated) {
 }
 
 void TtRssServiceRoot::stop() {
-  m_network->logout();
+  m_network->logout(networkProxy());
   qDebugNN << LOGSEC_TTRSS
            << "Stopping Tiny Tiny RSS account, logging out with result"
            << QUOTE_W_SPACE_DOT(m_network->lastError());
@@ -64,7 +64,7 @@ bool TtRssServiceRoot::isSyncable() const {
 bool TtRssServiceRoot::editViaGui() {
   QScopedPointer<FormEditTtRssAccount> form_pointer(new FormEditTtRssAccount(qApp->mainFormWidget()));
 
-  form_pointer->execForEdit(this);
+  form_pointer->addEditAccount(this);
   return true;
 }
 
@@ -117,7 +117,7 @@ bool TtRssServiceRoot::canBeDeleted() const {
   return true;
 }
 
-void TtRssServiceRoot::saveAllCachedData() {
+void TtRssServiceRoot::saveAllCachedData(bool ignore_errors) {
   auto msg_cache = takeMessageCache();
   QMapIterator<RootItem::ReadStatus, QStringList> i(msg_cache.m_cachedStatesRead);
 
@@ -132,9 +132,10 @@ void TtRssServiceRoot::saveAllCachedData() {
                                            UpdateArticle::OperatingField::Unread,
                                            key == RootItem::ReadStatus::Unread
                                            ? UpdateArticle::Mode::SetToTrue
-                                           : UpdateArticle::Mode::SetToFalse);
+                                           : UpdateArticle::Mode::SetToFalse,
+                                           networkProxy());
 
-      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+      if (!ignore_errors && (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError())) {
         addMessageStatesToCache(ids, key);
       }
     }
@@ -154,9 +155,10 @@ void TtRssServiceRoot::saveAllCachedData() {
                                            UpdateArticle::OperatingField::Starred,
                                            key == RootItem::Importance::Important
                                            ? UpdateArticle::Mode::SetToTrue
-                                           : UpdateArticle::Mode::SetToFalse);
+                                           : UpdateArticle::Mode::SetToFalse,
+                                           networkProxy());
 
-      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+      if (!ignore_errors && (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError())) {
         addMessageStatesToCache(messages, key);
       }
     }
@@ -171,9 +173,9 @@ void TtRssServiceRoot::saveAllCachedData() {
     QStringList messages = k.value();
 
     if (!messages.isEmpty()) {
-      auto res = network()->setArticleLabel(messages, label_custom_id, true);
+      auto res = network()->setArticleLabel(messages, label_custom_id, true, networkProxy());
 
-      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+      if (!ignore_errors && (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError())) {
         addLabelsAssignmentsToCache(messages, label_custom_id, true);
       }
     }
@@ -188,9 +190,9 @@ void TtRssServiceRoot::saveAllCachedData() {
     QStringList messages = l.value();
 
     if (!messages.isEmpty()) {
-      auto res = network()->setArticleLabel(messages, label_custom_id, false);
+      auto res = network()->setArticleLabel(messages, label_custom_id, false, networkProxy());
 
-      if (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError()) {
+      if (!ignore_errors && (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError())) {
         addLabelsAssignmentsToCache(messages, label_custom_id, false);
       }
     }
@@ -211,10 +213,10 @@ TtRssNetworkFactory* TtRssServiceRoot::network() const {
   return m_network;
 }
 
-void TtRssServiceRoot::saveAccountDataToDatabase() {
+void TtRssServiceRoot::saveAccountDataToDatabase(bool creating_new) {
   QSqlDatabase database = qApp->database()->connection(metaObject()->className());
 
-  if (accountId() != NO_PARENT_CATEGORY) {
+  if (!creating_new) {
     // We are overwritting previously saved data.
     if (DatabaseQueries::overwriteTtRssAccount(database, m_network->username(), m_network->password(),
                                                m_network->authIsUsed(), m_network->authUsername(),
@@ -226,19 +228,12 @@ void TtRssServiceRoot::saveAccountDataToDatabase() {
     }
   }
   else {
-    bool saved;
-    int id_to_assign = DatabaseQueries::createAccount(database, code(), &saved);
-
-    if (saved) {
-      if (DatabaseQueries::createTtRssAccount(database, id_to_assign, m_network->username(),
-                                              m_network->password(), m_network->authIsUsed(),
-                                              m_network->authUsername(), m_network->authPassword(),
-                                              m_network->url(), m_network->forceServerSideUpdate(),
-                                              m_network->downloadOnlyUnreadMessages())) {
-        setId(id_to_assign);
-        setAccountId(id_to_assign);
-        updateTitle();
-      }
+    if (DatabaseQueries::createTtRssAccount(database, accountId(), m_network->username(),
+                                            m_network->password(), m_network->authIsUsed(),
+                                            m_network->authUsername(), m_network->authPassword(),
+                                            m_network->url(), m_network->forceServerSideUpdate(),
+                                            m_network->downloadOnlyUnreadMessages())) {
+      updateTitle();
     }
   }
 }
@@ -263,8 +258,8 @@ void TtRssServiceRoot::updateTitle() {
 }
 
 RootItem* TtRssServiceRoot::obtainNewTreeForSyncIn() const {
-  TtRssGetFeedsCategoriesResponse feed_cats = m_network->getFeedsCategories();
-  TtRssGetLabelsResponse labels = m_network->getLabels();
+  TtRssGetFeedsCategoriesResponse feed_cats = m_network->getFeedsCategories(networkProxy());
+  TtRssGetLabelsResponse labels = m_network->getLabels(networkProxy());
 
   if (m_network->lastError() == QNetworkReply::NoError) {
     auto* tree = feed_cats.feedsCategories(true, m_network->url());

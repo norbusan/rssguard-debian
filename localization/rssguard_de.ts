@@ -90,14 +90,6 @@
         <translation>AdBlock lässt sie unerwünschten Inhalt auf Webseiten blockieren</translation>
     </message>
     <message>
-        <source>Blocked popup window</source>
-        <translation>Popup Fenster blockiert</translation>
-    </message>
-    <message>
-        <source>AdBlock blocked unwanted popup window.</source>
-        <translation>AdBlock hat ein unerwünschtes Popup Fenster blockiert</translation>
-    </message>
-    <message>
         <source>Show AdBlock &amp;settings</source>
         <translation>AdBlock &amp;settings anzeigen</translation>
     </message>
@@ -108,17 +100,6 @@
     <message>
         <source>Disable only on this page</source>
         <translation>Nur auf dieser Seite ausschalten</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockManager</name>
-    <message>
-        <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation>Wollen Sie &lt;b&gt;%1&lt;/b&gt; Abos hinzufügen?</translation>
-    </message>
-    <message>
-        <source>Add AdBlock subscription</source>
-        <translation>AdBlock Abo hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -337,17 +318,6 @@
 <context>
     <name>DiscoverFeedsButton</name>
     <message>
-        <source>This website does not contain any feeds.</source>
-        <translation>Diese Website enthält keine Feeds.</translation>
-    </message>
-    <message numerus="yes">
-        <source>Click me to add feeds from this website.
-This website contains %n feed(s).</source>
-        <translation><numerusform>Zum Hinzufügen der Feeds auf dieser Webseite hier klicken.
-Diese Webseite enhält %n Feed.</numerusform><numerusform>Zum Hinzufügen der Feeds auf dieser Webseite hier klicken.
-Diese Webseite enhält %n Feeds.</numerusform></translation>
-    </message>
-    <message>
         <source>Not supported</source>
         <translation>Nicht unterstützt</translation>
     </message>
@@ -358,6 +328,14 @@ Diese Webseite enhält %n Feeds.</numerusform></translation>
     <message>
         <source>Feeds were detected, but no suitable accounts are configured.</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>This website does not contain any feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>Add one of %n feed(s)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -585,6 +563,144 @@ Status: %3</source>
     </message>
 </context>
 <context>
+    <name>FeedlyAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Developer access token</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Get token</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation>Nachricht(en)</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Login</translation>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Einstellungen wurden noch nicht getestet.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Anzeige der Ergebnisse des Verbindungstests.</translation>
+    </message>
+    <message>
+        <source>Your %1 build has official Feedly support. You do not have to use &quot;developer acess token&quot;. You can therefore leave corresponding field empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your %1 does not offer official Feedly support, thus you must authorize via special authorization code called &quot;developer access token&quot;. These tokens are usually valid only for 1 month and allow only 250 API calls each day.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= unbegrenzt</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>Nachrichten</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Sie haben keinen Zugang gewährt.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Ein Fehler ist während des Tests aufgetreten.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Ein Fehler ist aufgetreten. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Test erfolgreich. Sie könnten zu einem erneuten Einloggen aufgefordert werden.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Ihr Zugang wurde genehmigt.</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Sie sind bereits angemeldet.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Zugang gewährt.</translation>
+    </message>
+    <message>
+        <source>Login was successful.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some problems.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Benutzername darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Benutzername ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>Access token is empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access token is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>FeedlyNetwork</name>
+    <message>
+        <source>Feedly: authentication error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Click this to login again. Error is: &apos;%1&apos;</source>
+        <translation>Klicken Sie hier um sich wieder anzumelden. Der Fehler ist: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Feedly: authorization denied</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Click this to login again.</source>
+        <translation>Drücken Sie hier um sich neu anzumelden.</translation>
+    </message>
+    <message>
+        <source>Logged in successfully</source>
+        <translation>Erfolgreich eingeloggt</translation>
+    </message>
+    <message>
+        <source>Your login to Feedly was authorized.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FeedsImportExportModel</name>
     <message>
         <source>Category </source>
@@ -805,14 +921,21 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormAccountDetails</name>
+    <message>
+        <source>Edit account &apos;%1&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network proxy</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormAddAccount</name>
     <message>
         <source>Add new account</source>
         <translation>Neues Konto hinzufügen</translation>
-    </message>
-    <message>
-        <source>This account can be added only once.</source>
-        <translation>Von diesem Dienst kann nur ein Konto hinzugefügt werden.</translation>
     </message>
 </context>
 <context>
@@ -1043,524 +1166,44 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
-    <name>FormEditGmailAccount</name>
+    <name>FormEditFeedlyAccount</name>
     <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>OAuth 2.0 Einstellungen</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation>Applikations ID</translation>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation>Applikations Schlüssel</translation>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>URL umleiten</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>Nachricht(en)</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Login</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Noch nicht getestet.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Nutzer sichtbarer Benutzername</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Sie sind bereits angemeldet.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Zugang gewährt.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation>Sie haben keinen Zugang gewährt.</translation>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Ein Fehler ist während des Tests aufgetreten.</translation>
-    </message>
-    <message>
-        <source>There is error. %1 </source>
-        <translation>Ein Fehler ist aufgetreten. %1</translation>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation>Ihr Zugang wurde genehmigt.</translation>
-    </message>
-    <message>
-        <source>Add new Gmail account</source>
-        <translation>Neues Gmail Konto hinzufügen</translation>
-    </message>
-    <message>
-        <source>Edit existing Gmail account</source>
-        <translation>Bestehendes Gmail Konto bearbeiten</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Leerer Wert wurde eingegeben.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Ein Wert wurde eingegeben.</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation>Test erfolgreich. Sie könnten zu einem erneuten Einloggen aufgefordert werden.</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
+        <source>Service setup</source>
         <translation type="unfinished"/>
     </message>
+</context>
+<context>
+    <name>FormEditGmailAccount</name>
     <message>
-        <source>No username entered.</source>
-        <translation>Keinen Benutzernamen eingegeben.</translation>
+        <source>Server setup</source>
+        <translation type="unfinished"/>
     </message>
+</context>
+<context>
+    <name>FormEditGreaderAccount</name>
     <message>
-        <source>Some username entered.</source>
-        <translation>Ein Benutzername wurde eingegeben.</translation>
-    </message>
-    <message>
-        <source>Get my credentials</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditInoreaderAccount</name>
     <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>OAuth 2.0 Einstellungen</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation>Applikations ID</translation>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation>Applikations Schlüssel</translation>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>URL umleiten</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>Nachricht(en)</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Login</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Noch nicht getestet.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Nutzer sichtbarer Benutzername</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Sie sind bereits angemeldet.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Zugang gewährt.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Keinen Benutzernamen eingegeben.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Ein Benutzername wurde eingegeben.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation>Sie haben keinen Zugang gewährt.</translation>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Ein Fehler ist während des Tests aufgetreten.</translation>
-    </message>
-    <message>
-        <source>There is error. %1</source>
-        <translation>Ein Fehler ist aufgetreten. %1</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation>Test erfolgreich. Sie könnten zu einem erneuten Einloggen aufgefordert werden.</translation>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation>Ihr Zugang wurde genehmigt.</translation>
-    </message>
-    <message>
-        <source>Add new Inoreader account</source>
-        <translation>Neues Inoreader Konto hinzufügen </translation>
-    </message>
-    <message>
-        <source>Edit existing Inoreader account</source>
-        <translation>Bestehendes Inoreader Konto bearbeiten</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Leerer Wert wurde eingegeben.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Ein Wert wurde eingegeben.</translation>
-    </message>
-    <message>
-        <source>Get my own Application ID</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;Application ID&quot;.</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditOwnCloudAccount</name>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation>Aktualisierung auf Server erzwingen, wenn Feeds innerhalb RSS Guard aktualisiert werden</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Bestimmte Feeds brauchen eine Authentifizierung, wie z.b. Gmail-Feeds. BASIC, NTLM-2 und DIGEST-MD5 Authentifizierungsmechanismen werden unterstützt.</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>Authentifizierung</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Passwort</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Passwort anzeigen</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>Einstellungen &amp;testen</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation>Die Aktivierung dieser Option bedingt häufig langsameres Herunterladen und Zeitüberschreitungen.</translation>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>Einstellungen wurden noch nicht getestet.</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation>Anzeige der Ergebnisse des Verbindungstests.</translation>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>Netzwerkfehler: &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation>Nicht spezifizierter Fehler. Haben Sie einen korrekten URL eintragen?</translation>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>Benutzername darf nicht leer sein.</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation>Benutzername ist in Ordnung.</translation>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>Passwort darf nicht leer sein.</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation>Passwort ist in Ordnung.</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URL darf nicht leer sein.</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation>URL ist in Ordnung.</translation>
-    </message>
-    <message>
-        <source>Limit number of downloaded messages per feed</source>
-        <translation>Zahl der heruntergeladenen Nachrichten pro Feed begrenzen</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation>= unbegrenzt</translation>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation>Das Begrenzen der Menge an heruntergeladenen Nachrichten pro Feed, erhöht die Geschwindigkeit des Feeds updaten, allerdings könnte es passieren das Nachrichten außerhalb des Limits nicht heruntergeladen werden.</translation>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= unbegrenzt</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>Nachrichten</translation>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Password for your Nextcloud account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username for your Nextcloud account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL of your Nextcloud server, without any API path</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new Nextcloud News account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Edit existing Nextcloud News account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay, running with version %1, while at least version %2 is required.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version %1. At least version %2 is required.</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditTtRssAccount</name>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Bestimmte Feeds brauchen eine Authentifizierung, wie z.b. Gmail-Feeds. BASIC, NTLM-2 und DIGEST-MD5 Authentifizierungsmechanismen werden unterstützt.</translation>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>Authentifizierung</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Passwort</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Passwort anzeigen</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>Benötigt HTTP-Authentifizierung</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>Einstellungen &amp;testen</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation>Aktualisierung auf Server erzwingen, wenn Feeds innerhalb RSS Guard aktualisiert werden</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation>Die Aktivierung dieser Option bedingt häufig langsameres Herunterladen und Zeitüberschreitungen.</translation>
-    </message>
-    <message>
-        <source>Note that at least API level %1 is required.</source>
-        <translation>Bitte beachten, dass mindestens Stufe %1 des API benötigt wird.</translation>
-    </message>
-    <message>
-        <source>HTTP authentication username</source>
-        <translation>Benutzername für HTTP Authentifizierung</translation>
-    </message>
-    <message>
-        <source>HTTP authentication password</source>
-        <translation>Passwort für HTTP Authentifizierung</translation>
-    </message>
-    <message>
-        <source>Password for your TT-RSS account</source>
-        <translation>Passwort für das TT-RSS Konto</translation>
-    </message>
-    <message>
-        <source>Username for your TT-RSS account</source>
-        <translation>Benutzername für das TT-RSS Konto</translation>
-    </message>
-    <message>
-        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
-        <translation>URL der TT-RSS Instanz OHNE abschließendes &quot;/api/&quot;</translation>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>Einstellungen wurden noch nicht getestet.</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation>Anzeige der Ergebnisse des Verbindungstests.</translation>
-    </message>
-    <message>
-        <source>Add new Tiny Tiny RSS account</source>
-        <translation>Neues Tiny Tiny RSS Konto hinzufügen</translation>
-    </message>
-    <message>
-        <source>Edit existing Tiny Tiny RSS account</source>
-        <translation>Bestehendes Tiny Tiny RSS Konto bearbeiten</translation>
-    </message>
-    <message>
-        <source>API access on selected server is not enabled.</source>
-        <translation>Zugriff auf das API ist vom ausgewählten Server nicht aktiviert.</translation>
-    </message>
-    <message>
-        <source>Entered credentials are incorrect.</source>
-        <translation>Die eingegebenen Nutzerdaten sind nicht korrekt.</translation>
-    </message>
-    <message>
-        <source>Other error occurred, contact developers.</source>
-        <translation>Ein anderer Fehler ist aufgetreten. Bitte wenden Sie sich an die Entwickler.</translation>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API (%1). At least API level %2 is required.</source>
-        <translation>Der ausgewählte Tiny Tiny RSS Server verwendet eine nicht unterstützte Version (%1) des API. Es wird mindestens Stufe %2 benötigt.</translation>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
-        <translation>Der ausgewählte Tiny Tiny RSS Server verwendet eine nicht unterstützte Version des API.</translation>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay, running with API level %1, while at least API level %2 is required.</source>
-        <translation>Tiny Tiny RSS Server ist verfügbar und verwendet das API der Stufe %1, wobei mindestens %2 benötigt wird.</translation>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay.</source>
-        <translation>Tiny Tiny RSS Server ist verfügbar.</translation>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>Netzwerkfehler: &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
-        <translation>Netzwerkfehler. Haben Sie zum Tiny Tiny RSS API Endpunkt und Passwort korrekt eingetragen?</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation>Nicht spezifizierter Fehler. Haben Sie einen korrekten URL eintragen?</translation>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>Benutzername darf nicht leer sein.</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation>Benutzername ist in Ordnung.</translation>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>Passwort darf nicht leer sein.</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation>Passwort ist in Ordnung.</translation>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation>Benutzername ist in Ordnung oder wird nicht benötigt.</translation>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>Benutzername ist leer.</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation>Passwort ist in Ordnung oder wird nicht benötigt.</translation>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>Passwort ist leer.</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URL darf nicht leer sein.</translation>
-    </message>
-    <message>
-        <source>URL should NOT end with &quot;/api/&quot;.</source>
-        <translation>URL sollte NICHT auf &quot;/api/&quot; enden</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation>URL ist in Ordnung.</translation>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2016,6 +1659,10 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Download messages for items with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Message viewer toolbars</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2737,6 +2384,101 @@ Sie können es jetzt installieren.</translation>
     </message>
 </context>
 <context>
+    <name>GmailAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>OAuth 2.0 Einstellungen</translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>URL umleiten</translation>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation>Nachricht(en)</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Login</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>Noch nicht getestet.</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation>Nutzer sichtbarer Benutzername</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Sie sind bereits angemeldet.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Zugang gewährt.</translation>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation>Keinen Benutzernamen eingegeben.</translation>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation>Ein Benutzername wurde eingegeben.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Sie haben keinen Zugang gewährt.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Ein Fehler ist während des Tests aufgetreten.</translation>
+    </message>
+    <message>
+        <source>There is error. %1 </source>
+        <translation>Ein Fehler ist aufgetreten. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Test erfolgreich. Sie könnten zu einem erneuten Einloggen aufgefordert werden.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Ihr Zugang wurde genehmigt.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Leerer Wert wurde eingegeben.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Ein Wert wurde eingegeben.</translation>
+    </message>
+</context>
+<context>
     <name>GmailNetworkFactory</name>
     <message>
         <source>Logged in successfully</source>
@@ -2821,6 +2563,128 @@ Ablauf des Login tokens: %2</translation>
     </message>
 </context>
 <context>
+    <name>GreaderAccountDetails</name>
+    <message>
+        <source>Service</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation>= unbegrenzt</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Bestimmte Feeds brauchen eine Authentifizierung, wie z.b. Gmail-Feeds. BASIC, NTLM-2 und DIGEST-MD5 Authentifizierungsmechanismen werden unterstützt.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Authentifizierung</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Passwort anzeigen</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>Einstellungen &amp;testen</translation>
+    </message>
+    <message>
+        <source>Password for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL of your server, without any service-specific path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Einstellungen wurden noch nicht getestet.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Anzeige der Ergebnisse des Verbindungstests.</translation>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= unbegrenzt</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>Nachrichten</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Netzwerkfehler: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are good to go!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Yeah.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Benutzername darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Benutzername ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Passwort darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Passwort ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL ist in Ordnung.</translation>
+    </message>
+</context>
+<context>
+    <name>GreaderNetwork</name>
+    <message>
+        <source>Other services</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>IOFactory</name>
     <message>
         <source>Cannot open file &apos;%1&apos; for reading.</source>
@@ -2840,6 +2704,103 @@ Ablauf des Login tokens: %2</translation>
     <message>
         <source>You can find all important messages here.</source>
         <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>InoreaderAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>OAuth 2.0 Einstellungen</translation>
+    </message>
+    <message>
+        <source>App ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>App key</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>URL umleiten</translation>
+    </message>
+    <message>
+        <source>Get my own App ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation>Nachricht(en)</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>&amp;Login</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
+
+It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>Noch nicht getestet.</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation>Nutzer sichtbarer Benutzername</translation>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation>Sie sind bereits angemeldet.</translation>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation>Zugang gewährt.</translation>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation>Keinen Benutzernamen eingegeben.</translation>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation>Ein Benutzername wurde eingegeben.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Sie haben keinen Zugang gewährt.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Ein Fehler ist während des Tests aufgetreten.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Ein Fehler ist aufgetreten. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Test erfolgreich. Sie könnten zu einem erneuten Einloggen aufgefordert werden.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>Ihr Zugang wurde genehmigt.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Leerer Wert wurde eingegeben.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Ein Wert wurde eingegeben.</translation>
     </message>
 </context>
 <context>
@@ -3318,6 +3279,70 @@ Ablauf des Login tokens: %2</translation>
     </message>
 </context>
 <context>
+    <name>NetworkProxyDetails</name>
+    <message>
+        <source>Form</source>
+        <translation>Formular</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <extracomment>Proxy server type.</extracomment>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>Host</translation>
+    </message>
+    <message>
+        <source>Hostname or IP of your proxy server</source>
+        <translation>Hostname oder IP ihres Proxy-Servers</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Your username for proxy server authentication</source>
+        <translation>Ihr Benutzername für die Authentifizierung am Proxy-Server</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
+    </message>
+    <message>
+        <source>Your password for proxy server authentication</source>
+        <translation>Ihr Passwort für die Authentifizierung am Proxy-Server</translation>
+    </message>
+    <message>
+        <source>Display password</source>
+        <translation>Passwort anzeigen</translation>
+    </message>
+    <message>
+        <source>Note that these settings are applied only on newly established connections.</source>
+        <translation>Bitte beachten, dass diese Einstellungen nur auf neue Verbindungen angewendet werden.</translation>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>Kein Proxy</translation>
+    </message>
+    <message>
+        <source>System proxy</source>
+        <translation>Systemweiter Proxy</translation>
+    </message>
+    <message>
+        <source>Socks5</source>
+        <translation>Socks5</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>HTTP</translation>
+    </message>
+</context>
+<context>
     <name>NewspaperPreviewer</name>
     <message>
         <source>Form</source>
@@ -3363,8 +3388,143 @@ Ablauf des Login tokens: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>You can close this window now. Go back to %1</source>
-        <translation>Sie können dieses Fenster jetzt schließen. Gehen Sie zurück zu %1</translation>
+        <source>You can close this window now. Go back to %1.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to start OAuth redirection listener. Maybe your rights are not high enough.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>OwnCloudAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation>Aktualisierung auf Server erzwingen, wenn Feeds innerhalb RSS Guard aktualisiert werden</translation>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation>Nur die neuesten X messages pro Feed herunterladen</translation>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation>= unbegrenzt</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Bestimmte Feeds brauchen eine Authentifizierung, wie z.b. Gmail-Feeds. BASIC, NTLM-2 und DIGEST-MD5 Authentifizierungsmechanismen werden unterstützt.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Authentifizierung</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Passwort anzeigen</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>Einstellungen &amp;testen</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation>Die Aktivierung dieser Option bedingt häufig langsameres Herunterladen und Zeitüberschreitungen.</translation>
+    </message>
+    <message>
+        <source>Password for your Nextcloud account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username for your Nextcloud account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL of your Nextcloud server, without any API path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Einstellungen wurden noch nicht getestet.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Anzeige der Ergebnisse des Verbindungstests.</translation>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
+        <translation>Das Begrenzen der Menge an heruntergeladenen Nachrichten pro Feed, erhöht die Geschwindigkeit des Feeds updaten, allerdings könnte es passieren das Nachrichten außerhalb des Limits nicht heruntergeladen werden.</translation>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation>= unbegrenzt</translation>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation>Nachrichten</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Netzwerkfehler: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Selected Nextcloud News server is running unsupported version.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Nextcloud News server is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation>Nicht spezifizierter Fehler. Haben Sie einen korrekten URL eintragen?</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Benutzername darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Benutzername ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Passwort darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Passwort ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL ist in Ordnung.</translation>
     </message>
 </context>
 <context>
@@ -3452,6 +3612,14 @@ durch Klicken auf diese Benachrichtigung.</translation>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>RecycleBin</name>
@@ -3482,6 +3650,29 @@ durch Klicken auf diese Benachrichtigung.</translation>
         <source>%n unread message(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
         <translation><numerusform>%n ungelesene Nachricht.</numerusform><numerusform>%n ungelesene Nachrichten.</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptException</name>
+    <message>
+        <source>script line is not well-formed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script threw an error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script&apos;s interpreter was not found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script execution took too long</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>unknown error</source>
+        <translation>unbekannter Fehler</translation>
     </message>
 </context>
 <context>
@@ -3581,51 +3772,6 @@ durch Klicken auf diese Benachrichtigung.</translation>
  • %2 - Textkörper der ausgewählten Nachricht</translation>
     </message>
     <message>
-        <source>Proxy</source>
-        <translation>Proxy</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <extracomment>Proxy server type.</extracomment>
-        <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Host</source>
-        <translation>Host</translation>
-    </message>
-    <message>
-        <source>Hostname or IP of your proxy server</source>
-        <translation>Hostname oder IP ihres Proxy-Servers</translation>
-    </message>
-    <message>
-        <source>Port</source>
-        <translation>Port</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Benutzername</translation>
-    </message>
-    <message>
-        <source>Your username for proxy server authentication</source>
-        <translation>Ihr Benutzername für die Authentifizierung am Proxy-Server</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Passwort</translation>
-    </message>
-    <message>
-        <source>Your password for proxy server authentication</source>
-        <translation>Ihr Passwort für die Authentifizierung am Proxy-Server</translation>
-    </message>
-    <message>
-        <source>Display password</source>
-        <translation>Passwort anzeigen</translation>
-    </message>
-    <message>
-        <source>Note that these settings are applied only on newly established connections.</source>
-        <translation>Bitte beachten, dass diese Einstellungen nur auf neue Verbindungen angewendet werden.</translation>
-    </message>
-    <message>
         <source>Select web browser executable</source>
         <translation>Wählen Sie die auszuführende Datei des Webbrowsers</translation>
     </message>
@@ -3653,22 +3799,6 @@ File filter for external tool selection dialog.</extracomment>
     <message>
         <source>Mozilla Thunderbird</source>
         <translation>Mozilla Thunderbird</translation>
-    </message>
-    <message>
-        <source>No proxy</source>
-        <translation>Kein Proxy</translation>
-    </message>
-    <message>
-        <source>System proxy</source>
-        <translation>Systemweiter Proxy</translation>
-    </message>
-    <message>
-        <source>Socks5</source>
-        <translation>Socks5</translation>
-    </message>
-    <message>
-        <source>Http</source>
-        <translation>HTTP</translation>
     </message>
     <message>
         <source>Web browser &amp; e-mail &amp; proxy</source>
@@ -3716,6 +3846,10 @@ File filter for external tool selection dialog.</extracomment>
     </message>
     <message>
         <source>Parameters passed to executable</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network proxy</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3996,6 +4130,14 @@ Die Autoren dieser Anwendung sind NICHT für Datenverlust verantwortlich.</trans
         <source>Auto-download messages for all feeds every</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Bring application window to front once message is opened in external web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsGeneral</name>
@@ -4163,6 +4305,10 @@ Die Autoren dieser Anwendung sind NICHT für Datenverlust verantwortlich.</trans
         <source>Left mouse button double-click</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Display count of unread messages</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4219,10 +4365,6 @@ Die Autoren dieser Anwendung sind NICHT für Datenverlust verantwortlich.</trans
         <translation>Metadaten wurden nicht abgerufen</translation>
     </message>
     <message>
-        <source>Metadata was not fetched because: %1.</source>
-        <translation>Metadaten wurden aus folgendem Grund nicht abgerufen: %1.</translation>
-    </message>
-    <message>
         <source>
 Network status: %1
 Encoding: %2
@@ -4231,6 +4373,22 @@ Type: %3</source>
 Netzwerkstatus: %1
 Codierung: %2
 Typ: %3</translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Local file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Metadata was not fetched.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4272,10 +4430,6 @@ Typ: %3</translation>
         <translation>Beschreibung</translation>
     </message>
     <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
         <source>Fetch metadata</source>
         <translation>Metadaten abrufen</translation>
     </message>
@@ -4308,14 +4462,6 @@ Typ: %3</translation>
         <translation>Beschreibung für den Feed setzen.</translation>
     </message>
     <message>
-        <source>Full feed url including scheme</source>
-        <translation>Vollständiger Feed URL einschließliches eines Schemas</translation>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation>URL für den Feed setzen.</translation>
-    </message>
-    <message>
         <source>Icon selection</source>
         <translation>Auswahl des Icons</translation>
     </message>
@@ -4344,16 +4490,8 @@ Typ: %3</translation>
         <translation>Metadaten des Icons wurden abgerufen.</translation>
     </message>
     <message>
-        <source>Result: %1.</source>
-        <translation>Ergebnis: %1.</translation>
-    </message>
-    <message>
         <source>Icon metadata not fetched.</source>
         <translation>Die Metadaten des Icons wurde nicht abgerufen.</translation>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>Fehler: %1.</translation>
     </message>
     <message>
         <source>No icon fetched.</source>
@@ -4431,6 +4569,62 @@ Typ: %3</translation>
     <message>
         <source>Icon type:</source>
         <translation>Icon-Typ:</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Post-process script</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can use URL as a source of your feed or you can produce your feed with custom script. Also, you can post-process generated feed data with yet another script if you wish. These are advanced features and make sure to read the documentation before your use them.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full feed source identifier</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full feed source identifier which can be URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full command to execute</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can enter full command including interpreter here.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Here you can enter script executaion line, including interpreter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source is ok.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source is empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source does not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command is ok.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command is empty.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4529,6 +4723,13 @@ Typ: %3</translation>
 Unread news: %2</source>
         <translation>%1
 Ungelesene Nachrichten: %2</translation>
+    </message>
+</context>
+<context>
+    <name>T</name>
+    <message>
+        <source>Add new account</source>
+        <translation>Neues Konto hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -4651,6 +4852,161 @@ Ungelesene Nachrichten: %2</translation>
     </message>
 </context>
 <context>
+    <name>TtRssAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation>Aktualisierung auf Server erzwingen, wenn Feeds innerhalb RSS Guard aktualisiert werden</translation>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation>Bestimmte Feeds brauchen eine Authentifizierung, wie z.b. Gmail-Feeds. BASIC, NTLM-2 und DIGEST-MD5 Authentifizierungsmechanismen werden unterstützt.</translation>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>Authentifizierung</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Benutzername</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Passwort</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>Passwort anzeigen</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>Benötigt HTTP-Authentifizierung</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>Einstellungen &amp;testen</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation>Die Aktivierung dieser Option bedingt häufig langsameres Herunterladen und Zeitüberschreitungen.</translation>
+    </message>
+    <message>
+        <source>HTTP authentication username</source>
+        <translation>Benutzername für HTTP Authentifizierung</translation>
+    </message>
+    <message>
+        <source>HTTP authentication password</source>
+        <translation>Passwort für HTTP Authentifizierung</translation>
+    </message>
+    <message>
+        <source>Password for your TT-RSS account</source>
+        <translation>Passwort für das TT-RSS Konto</translation>
+    </message>
+    <message>
+        <source>Username for your TT-RSS account</source>
+        <translation>Benutzername für das TT-RSS Konto</translation>
+    </message>
+    <message>
+        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
+        <translation>URL der TT-RSS Instanz OHNE abschließendes &quot;/api/&quot;</translation>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>Einstellungen wurden noch nicht getestet.</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation>Anzeige der Ergebnisse des Verbindungstests.</translation>
+    </message>
+    <message>
+        <source>API access on selected server is not enabled.</source>
+        <translation>Zugriff auf das API ist vom ausgewählten Server nicht aktiviert.</translation>
+    </message>
+    <message>
+        <source>Entered credentials are incorrect.</source>
+        <translation>Die eingegebenen Nutzerdaten sind nicht korrekt.</translation>
+    </message>
+    <message>
+        <source>Other error occurred, contact developers.</source>
+        <translation>Ein anderer Fehler ist aufgetreten. Bitte wenden Sie sich an die Entwickler.</translation>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
+        <translation>Der ausgewählte Tiny Tiny RSS Server verwendet eine nicht unterstützte Version des API.</translation>
+    </message>
+    <message>
+        <source>Tiny Tiny RSS server is okay.</source>
+        <translation>Tiny Tiny RSS Server ist verfügbar.</translation>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>Netzwerkfehler: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
+        <translation>Netzwerkfehler. Haben Sie zum Tiny Tiny RSS API Endpunkt und Passwort korrekt eingetragen?</translation>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation>Nicht spezifizierter Fehler. Haben Sie einen korrekten URL eintragen?</translation>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>Benutzername darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation>Benutzername ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>Passwort darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation>Passwort ist in Ordnung.</translation>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation>Benutzername ist in Ordnung oder wird nicht benötigt.</translation>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>Benutzername ist leer.</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation>Passwort ist in Ordnung oder wird nicht benötigt.</translation>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>Passwort ist leer.</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URL darf nicht leer sein.</translation>
+    </message>
+    <message>
+        <source>URL should NOT end with &quot;/api/&quot;.</source>
+        <translation>URL sollte NICHT auf &quot;/api/&quot; enden</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation>URL ist in Ordnung.</translation>
+    </message>
+</context>
+<context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
@@ -4726,32 +5082,28 @@ Letzte Anmeldung am: %4</translation>
         <translation>Zurück</translation>
     </message>
     <message>
-        <source>Go back.</source>
-        <translation>Gehe zurück.</translation>
-    </message>
-    <message>
         <source>Forward</source>
         <translation>Vorwärts</translation>
-    </message>
-    <message>
-        <source>Go forward.</source>
-        <translation>Gehe vorwärts.</translation>
     </message>
     <message>
         <source>Reload</source>
         <translation>Neu laden</translation>
     </message>
     <message>
-        <source>Reload current web page.</source>
-        <translation>Aktuelle Webseite neu laden.</translation>
-    </message>
-    <message>
         <source>Stop</source>
         <translation>Stopp</translation>
     </message>
     <message>
-        <source>Stop web page loading.</source>
-        <translation>Stoppe das laden der Webseite.</translation>
+        <source>Open this website in system web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to open URL in web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

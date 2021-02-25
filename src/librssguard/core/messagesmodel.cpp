@@ -18,11 +18,12 @@
 
 MessagesModel::MessagesModel(QObject* parent)
   : QSqlQueryModel(parent), m_cache(new MessagesModelCache(this)), m_messageHighlighter(MessageHighlighter::NoHighlighting),
-  m_customDateFormat(QString()), m_selectedItem(nullptr), m_itemHeight(-1) {
+  m_customDateFormat(QString()), m_selectedItem(nullptr), m_itemHeight(-1), m_displayFeedIcons(false) {
   setupFonts();
   setupIcons();
   setupHeaderData();
   updateDateFormat();
+  updateFeedIconsDisplay();
   loadMessages(nullptr);
 }
 
@@ -156,6 +157,10 @@ void MessagesModel::updateDateFormat() {
   }
 }
 
+void MessagesModel::updateFeedIconsDisplay() {
+  m_displayFeedIcons = qApp->settings()->value(GROUP(Messages), SETTING(Messages::DisplayFeedIconsInList)).toBool();
+}
+
 void MessagesModel::reloadWholeLayout() {
   emit layoutAboutToBeChanged();
   emit layoutChanged();
@@ -237,7 +242,7 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
   // This message is not in cache, return real data from live query.
   switch (role) {
     // Human readable data for viewing.
-    case Qt::DisplayRole: {
+    case Qt::ItemDataRole::DisplayRole: {
       int index_column = idx.column();
 
       if (index_column == MSG_DB_DCREATED_INDEX) {
@@ -261,7 +266,9 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
 
         return author_name.isEmpty() ? QSL("-") : author_name;
       }
-      else if (index_column != MSG_DB_IMPORTANT_INDEX && index_column != MSG_DB_READ_INDEX && index_column != MSG_DB_HAS_ENCLOSURES) {
+      else if (index_column != MSG_DB_IMPORTANT_INDEX &&
+               index_column != MSG_DB_READ_INDEX &&
+               index_column != MSG_DB_HAS_ENCLOSURES) {
         return QSqlQueryModel::data(idx, role);
       }
       else {
@@ -269,10 +276,10 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
       }
     }
 
-    case Qt::EditRole:
+    case Qt::ItemDataRole::EditRole:
       return m_cache->containsData(idx.row()) ? m_cache->data(idx) : QSqlQueryModel::data(idx, role);
 
-    case Qt::FontRole: {
+    case Qt::ItemDataRole::FontRole: {
       QModelIndex idx_read = index(idx.row(), MSG_DB_READ_INDEX);
       QVariant data_read = data(idx_read, Qt::EditRole);
       const bool is_bin = qobject_cast<RecycleBin*>(loadedItem()) != nullptr;
@@ -299,7 +306,7 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
       }
     }
 
-    case Qt::ForegroundRole:
+    case Qt::ItemDataRole::ForegroundRole:
       switch (m_messageHighlighter) {
         case MessageHighlighter::HighlightImportant: {
           QModelIndex idx_important = index(idx.row(), MSG_DB_IMPORTANT_INDEX);
@@ -320,14 +327,31 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
           return QVariant();
       }
 
-    case Qt::DecorationRole: {
+    case Qt::ItemDataRole::DecorationRole: {
       const int index_column = idx.column();
 
       if (index_column == MSG_DB_READ_INDEX) {
-        QModelIndex idx_read = index(idx.row(), MSG_DB_READ_INDEX);
-        QVariant dta = m_cache->containsData(idx_read.row()) ? m_cache->data(idx_read) : QSqlQueryModel::data(idx_read);
+        if (m_displayFeedIcons && m_selectedItem != nullptr) {
+          QModelIndex idx_feedid = index(idx.row(), MSG_DB_FEED_CUSTOM_ID_INDEX);
+          QVariant dta = m_cache->containsData(idx_feedid.row())
+                           ? m_cache->data(idx_feedid)
+                           : QSqlQueryModel::data(idx_feedid);
+          QString feed_custom_id = dta.toString();
+          auto acc = m_selectedItem->getParentServiceRoot()->feedIconForMessage(feed_custom_id);
 
-        return dta.toInt() == 1 ? m_readIcon : m_unreadIcon;
+          if (acc.isNull()) {
+            return qApp->icons()->fromTheme(QSL("application-rss+xml"));
+          }
+          else {
+            return acc;
+          }
+        }
+        else {
+          QModelIndex idx_read = index(idx.row(), MSG_DB_READ_INDEX);
+          QVariant dta = m_cache->containsData(idx_read.row()) ? m_cache->data(idx_read) : QSqlQueryModel::data(idx_read);
+
+          return dta.toInt() == 1 ? m_readIcon : m_unreadIcon;
+        }
       }
       else if (index_column == MSG_DB_IMPORTANT_INDEX) {
         QModelIndex idx_important = index(idx.row(), MSG_DB_IMPORTANT_INDEX);

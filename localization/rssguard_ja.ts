@@ -90,14 +90,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Blocked popup window</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>AdBlock blocked unwanted popup window.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Show AdBlock &amp;settings</source>
         <translation type="unfinished"/>
     </message>
@@ -107,17 +99,6 @@
     </message>
     <message>
         <source>Disable only on this page</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>AdBlockManager</name>
-    <message>
-        <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add AdBlock subscription</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -337,15 +318,6 @@
 <context>
     <name>DiscoverFeedsButton</name>
     <message>
-        <source>This website does not contain any feeds.</source>
-        <translation>このウェブサイトにはフィードがありません。</translation>
-    </message>
-    <message numerus="yes">
-        <source>Click me to add feeds from this website.
-This website contains %n feed(s).</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
-    </message>
-    <message>
         <source>Not supported</source>
         <translation>サポートされていません</translation>
     </message>
@@ -356,6 +328,14 @@ This website contains %n feed(s).</source>
     <message>
         <source>Feeds were detected, but no suitable accounts are configured.</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>This website does not contain any feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>Add one of %n feed(s)</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -583,6 +563,144 @@ Status: %3</source>
     </message>
 </context>
 <context>
+    <name>FeedlyAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>Developer access token</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Get token</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>ログイン(&amp;L)</translation>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>まだテストが完了していません。</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your %1 build has official Feedly support. You do not have to use &quot;developer acess token&quot;. You can therefore leave corresponding field empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your %1 does not offer official Feedly support, thus you must authorize via special authorization code called &quot;developer access token&quot;. These tokens are usually valid only for 1 month and allow only 250 API calls each day.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Login was successful.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some problems.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>ユーザ名は空にできません。</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access token is empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access token is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>FeedlyNetwork</name>
+    <message>
+        <source>Feedly: authentication error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Click this to login again. Error is: &apos;%1&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feedly: authorization denied</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Click this to login again.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Logged in successfully</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your login to Feedly was authorized.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FeedsImportExportModel</name>
     <message>
         <source>Category </source>
@@ -803,14 +921,21 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormAccountDetails</name>
+    <message>
+        <source>Edit account &apos;%1&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network proxy</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormAddAccount</name>
     <message>
         <source>Add new account</source>
         <translation>新しいアカウントを追加</translation>
-    </message>
-    <message>
-        <source>This account can be added only once.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1041,524 +1166,44 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormEditFeedlyAccount</name>
+    <message>
+        <source>Service setup</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormEditGmailAccount</name>
     <message>
-        <source>Username</source>
-        <translation>ユーザー名</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>OAuth 2.0 設定</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
+</context>
+<context>
+    <name>FormEditGreaderAccount</name>
     <message>
-        <source>Application key</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>ログイン(&amp;L)</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>まだテストしていません。</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>There is error. %1 </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new Gmail account</source>
-        <translation>新しい Gmail アカウントの追加</translation>
-    </message>
-    <message>
-        <source>Edit existing Gmail account</source>
-        <translation>既存の Gmail アカウントの編集</translation>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Get my credentials</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditInoreaderAccount</name>
     <message>
-        <source>Username</source>
-        <translation>ユーザー名</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>OAuth 2.0 設定</translation>
-    </message>
-    <message>
-        <source>Application ID</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Application key</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>ログイン(&amp;L)</translation>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>まだテストしていません。</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>There is error. %1</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new Inoreader account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Edit existing Inoreader account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Get my own Application ID</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;Application ID&quot;.</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditOwnCloudAccount</name>
     <message>
-        <source>URL</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>証明</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>ユーザー名</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>パスワード</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>パスワードを表示</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>テストセットアップ(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>まだテストが完了していません。</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>ネットワークエラー: %1</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>ユーザ名は空にできません。</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>パスワードは空にできません。</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URLは空にできません。</translation>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Limit number of downloaded messages per feed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Password for your Nextcloud account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username for your Nextcloud account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL of your Nextcloud server, without any API path</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new Nextcloud News account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Edit existing Nextcloud News account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay, running with version %1, while at least version %2 is required.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Nextcloud News server is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Selected Nextcloud News server is running unsupported version %1. At least version %2 is required.</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormEditTtRssAccount</name>
     <message>
-        <source>URL</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Authentication</source>
-        <translation>証明</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>ユーザー名</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>パスワード</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>パスワードを表示</translation>
-    </message>
-    <message>
-        <source>Requires HTTP authentication</source>
-        <translation>HTTP証明が必要です</translation>
-    </message>
-    <message>
-        <source>&amp;Test setup</source>
-        <translation>テストセットアップ(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Note that at least API level %1 is required.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>HTTP authentication username</source>
-        <translation>HTTP認証のユーザ名</translation>
-    </message>
-    <message>
-        <source>HTTP authentication password</source>
-        <translation>HTTP認証のパスワード</translation>
-    </message>
-    <message>
-        <source>Password for your TT-RSS account</source>
-        <translation>あなたのTT-RSSアカウントのパスワード</translation>
-    </message>
-    <message>
-        <source>Username for your TT-RSS account</source>
-        <translation>あなたのTT-RSSアカウントのユーザ名</translation>
-    </message>
-    <message>
-        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No test done yet.</source>
-        <translation>まだテストが完了していません。</translation>
-    </message>
-    <message>
-        <source>Here, results of connection test are shown.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new Tiny Tiny RSS account</source>
-        <translation>新しいTiny Tiny RSSアカウントを追加</translation>
-    </message>
-    <message>
-        <source>Edit existing Tiny Tiny RSS account</source>
-        <translation>存在するTiny Tiny RSSアカウントを編集</translation>
-    </message>
-    <message>
-        <source>API access on selected server is not enabled.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Entered credentials are incorrect.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Other error occurred, contact developers.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API (%1). At least API level %2 is required.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay, running with API level %1, while at least API level %2 is required.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Tiny Tiny RSS server is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Network error: &apos;%1&apos;.</source>
-        <translation>ネットワークエラー: %1</translation>
-    </message>
-    <message>
-        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
-        <translation>ネットワークエラーが発生しました。正しいTiny Tiny RSS APIエンドポイントとパスワードを入力しているか確認してください。</translation>
-    </message>
-    <message>
-        <source>Unspecified error, did you enter correct URL?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username cannot be empty.</source>
-        <translation>ユーザ名は空にできません。</translation>
-    </message>
-    <message>
-        <source>Username is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Password cannot be empty.</source>
-        <translation>パスワードは空にできません。</translation>
-    </message>
-    <message>
-        <source>Password is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username is ok or it is not needed.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Username is empty.</source>
-        <translation>ユーザー名が空です。</translation>
-    </message>
-    <message>
-        <source>Password is ok or it is not needed.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Password is empty.</source>
-        <translation>パスワードが空です。</translation>
-    </message>
-    <message>
-        <source>URL cannot be empty.</source>
-        <translation>URLは空にできません。</translation>
-    </message>
-    <message>
-        <source>URL should NOT end with &quot;/api/&quot;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL is okay.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download only unread messages</source>
+        <source>Server setup</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2014,6 +1659,10 @@ It is highly recommended to create your own &quot;Application ID&quot;.</source>
     </message>
     <message>
         <source>Download messages for items with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Message viewer toolbars</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2729,6 +2378,101 @@ You can install it now.</source>
     </message>
 </context>
 <context>
+    <name>GmailAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>OAuth 2.0 設定</translation>
+    </message>
+    <message>
+        <source>Client ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Client secret</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Get my credentials</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>ログイン(&amp;L)</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>まだテストしていません。</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error. %1 </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>GmailNetworkFactory</name>
     <message>
         <source>Logged in successfully</source>
@@ -2812,6 +2556,128 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
+    <name>GreaderAccountDetails</name>
+    <message>
+        <source>Service</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>証明</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>パスワード</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>パスワードを表示</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>テストセットアップ(&amp;T)</translation>
+    </message>
+    <message>
+        <source>Password for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username for your account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL of your server, without any service-specific path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>まだテストが完了していません。</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>ネットワークエラー: %1</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are good to go!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Yeah.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>ユーザ名は空にできません。</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>パスワードは空にできません。</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URLは空にできません。</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>GreaderNetwork</name>
+    <message>
+        <source>Other services</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>IOFactory</name>
     <message>
         <source>Cannot open file &apos;%1&apos; for reading.</source>
@@ -2830,6 +2696,103 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>You can find all important messages here.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>InoreaderAccountDetails</name>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>OAuth 2.0 設定</translation>
+    </message>
+    <message>
+        <source>App ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>App key</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Get my own App ID</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> message(s)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Login</source>
+        <translation>ログイン(&amp;L)</translation>
+    </message>
+    <message>
+        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
+
+It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Not tested yet.</source>
+        <translation>まだテストしていません。</translation>
+    </message>
+    <message>
+        <source>User-visible username</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are already logged in.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Access granted.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No username entered.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some username entered.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3308,6 +3271,70 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
+    <name>NetworkProxyDetails</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Type</source>
+        <extracomment>Proxy server type.</extracomment>
+        <translation>タイプ</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>ホスト</translation>
+    </message>
+    <message>
+        <source>Hostname or IP of your proxy server</source>
+        <translation>プロキシサーバのホスト名またはIP</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>ポート</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>Your username for proxy server authentication</source>
+        <translation>プロキシサーバ認証のためのユーザ名</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>パスワード</translation>
+    </message>
+    <message>
+        <source>Your password for proxy server authentication</source>
+        <translation>プロキシサーバ認証のためのパスワード</translation>
+    </message>
+    <message>
+        <source>Display password</source>
+        <translation>パスワードを表示</translation>
+    </message>
+    <message>
+        <source>Note that these settings are applied only on newly established connections.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>プロキシなし</translation>
+    </message>
+    <message>
+        <source>System proxy</source>
+        <translation>システム設定</translation>
+    </message>
+    <message>
+        <source>Socks5</source>
+        <translation>Socks5</translation>
+    </message>
+    <message>
+        <source>Http</source>
+        <translation>Http</translation>
+    </message>
+</context>
+<context>
     <name>NewspaperPreviewer</name>
     <message>
         <source>Form</source>
@@ -3353,7 +3380,142 @@ Login tokens expiration: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>You can close this window now. Go back to %1</source>
+        <source>You can close this window now. Go back to %1.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to start OAuth redirection listener. Maybe your rights are not high enough.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>OwnCloudAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X messages per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source> = unlimited</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>証明</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>パスワード</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>パスワードを表示</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>テストセットアップ(&amp;T)</translation>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Password for your Nextcloud account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username for your Nextcloud account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL of your Nextcloud server, without any API path</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>まだテストが完了していません。</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>= unlimited</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>ネットワークエラー: %1</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Selected Nextcloud News server is running unsupported version.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Nextcloud News server is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>ユーザ名は空にできません。</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>パスワードは空にできません。</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URLは空にできません。</translation>
+    </message>
+    <message>
+        <source>URL is okay.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3434,6 +3596,14 @@ version by clicking this popup notification.</source>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>RecycleBin</name>
@@ -3464,6 +3634,29 @@ version by clicking this popup notification.</source>
         <source>%n unread message(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
         <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>ScriptException</name>
+    <message>
+        <source>script line is not well-formed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script threw an error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script&apos;s interpreter was not found</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>script execution took too long</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>unknown error</source>
+        <translation>不明なエラー</translation>
     </message>
 </context>
 <context>
@@ -3561,51 +3754,6 @@ version by clicking this popup notification.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Proxy</source>
-        <translation>プロキシ</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <extracomment>Proxy server type.</extracomment>
-        <translation>タイプ</translation>
-    </message>
-    <message>
-        <source>Host</source>
-        <translation>ホスト</translation>
-    </message>
-    <message>
-        <source>Hostname or IP of your proxy server</source>
-        <translation>プロキシサーバのホスト名またはIP</translation>
-    </message>
-    <message>
-        <source>Port</source>
-        <translation>ポート</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>ユーザー名</translation>
-    </message>
-    <message>
-        <source>Your username for proxy server authentication</source>
-        <translation>プロキシサーバ認証のためのユーザ名</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>パスワード</translation>
-    </message>
-    <message>
-        <source>Your password for proxy server authentication</source>
-        <translation>プロキシサーバ認証のためのパスワード</translation>
-    </message>
-    <message>
-        <source>Display password</source>
-        <translation>パスワードを表示</translation>
-    </message>
-    <message>
-        <source>Note that these settings are applied only on newly established connections.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Select web browser executable</source>
         <translation>実行形式のウェブブラウザを選択してください</translation>
     </message>
@@ -3633,22 +3781,6 @@ File filter for external tool selection dialog.</extracomment>
     <message>
         <source>Mozilla Thunderbird</source>
         <translation>Mozilla Thunderbird</translation>
-    </message>
-    <message>
-        <source>No proxy</source>
-        <translation>プロキシなし</translation>
-    </message>
-    <message>
-        <source>System proxy</source>
-        <translation>システム設定</translation>
-    </message>
-    <message>
-        <source>Socks5</source>
-        <translation>Socks5</translation>
-    </message>
-    <message>
-        <source>Http</source>
-        <translation>Http</translation>
     </message>
     <message>
         <source>Web browser &amp; e-mail &amp; proxy</source>
@@ -3696,6 +3828,10 @@ File filter for external tool selection dialog.</extracomment>
     </message>
     <message>
         <source>Parameters passed to executable</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network proxy</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3965,6 +4101,14 @@ Authors of this application are NOT responsible for lost data.</source>
         <source>Auto-download messages for all feeds every</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Bring application window to front once message is opened in external web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsGeneral</name>
@@ -4132,6 +4276,10 @@ Authors of this application are NOT responsible for lost data.</source>
         <source>Left mouse button double-click</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Display count of unread messages</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4188,14 +4336,26 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Metadata was not fetched because: %1.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>
 Network status: %1
 Encoding: %2
 Type: %3</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Local file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Metadata was not fetched.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4238,10 +4398,6 @@ Type: %3</source>
         <translation>説明</translation>
     </message>
     <message>
-        <source>URL</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Fetch metadata</source>
         <translation>メタデータを取得</translation>
     </message>
@@ -4274,14 +4430,6 @@ Type: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Full feed url including scheme</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Set url for your feed.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Icon selection</source>
         <translation>アイコン選択</translation>
     </message>
@@ -4310,16 +4458,8 @@ Type: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Result: %1.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Icon metadata not fetched.</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Error: %1.</source>
-        <translation>エラー: %1。</translation>
     </message>
     <message>
         <source>No icon fetched.</source>
@@ -4396,6 +4536,62 @@ Type: %3</source>
     </message>
     <message>
         <source>Icon type:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Post-process script</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can use URL as a source of your feed or you can produce your feed with custom script. Also, you can post-process generated feed data with yet another script if you wish. These are advanced features and make sure to read the documentation before your use them.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full feed source identifier</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full feed source identifier which can be URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full command to execute</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can enter full command including interpreter here.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Here you can enter script executaion line, including interpreter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source is ok.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source is empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The source does not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command is ok.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command not seem to use &quot;#&quot; separator for arguments.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Command is empty.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4494,6 +4690,13 @@ Type: %3</source>
         <source>%1
 Unread news: %2</source>
         <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>T</name>
+    <message>
+        <source>Add new account</source>
+        <translation>新しいアカウントを追加</translation>
     </message>
 </context>
 <context>
@@ -4616,6 +4819,161 @@ Unread news: %2</source>
     </message>
 </context>
 <context>
+    <name>TtRssAccountDetails</name>
+    <message>
+        <source>Download only unread messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Force execution of server-side update when updating feeds from RSS Guard</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Authentication</source>
+        <translation>証明</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>ユーザー名</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>パスワード</translation>
+    </message>
+    <message>
+        <source>Show password</source>
+        <translation>パスワードを表示</translation>
+    </message>
+    <message>
+        <source>Requires HTTP authentication</source>
+        <translation>HTTP証明が必要です</translation>
+    </message>
+    <message>
+        <source>&amp;Test setup</source>
+        <translation>テストセットアップ(&amp;T)</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Leaving this option on causes that updates of feeds will be probably much slower and may time-out often.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>HTTP authentication username</source>
+        <translation>HTTP認証のユーザ名</translation>
+    </message>
+    <message>
+        <source>HTTP authentication password</source>
+        <translation>HTTP認証のパスワード</translation>
+    </message>
+    <message>
+        <source>Password for your TT-RSS account</source>
+        <translation>あなたのTT-RSSアカウントのパスワード</translation>
+    </message>
+    <message>
+        <source>Username for your TT-RSS account</source>
+        <translation>あなたのTT-RSSアカウントのユーザ名</translation>
+    </message>
+    <message>
+        <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No test done yet.</source>
+        <translation>まだテストが完了していません。</translation>
+    </message>
+    <message>
+        <source>Here, results of connection test are shown.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>API access on selected server is not enabled.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Entered credentials are incorrect.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Other error occurred, contact developers.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Installed version: %1, required at least: %2.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tiny Tiny RSS server is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network error: &apos;%1&apos;.</source>
+        <translation>ネットワークエラー: %1</translation>
+    </message>
+    <message>
+        <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
+        <translation>ネットワークエラーが発生しました。正しいTiny Tiny RSS APIエンドポイントとパスワードを入力しているか確認してください。</translation>
+    </message>
+    <message>
+        <source>Unspecified error, did you enter correct URL?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username cannot be empty.</source>
+        <translation>ユーザ名は空にできません。</translation>
+    </message>
+    <message>
+        <source>Username is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Password cannot be empty.</source>
+        <translation>パスワードは空にできません。</translation>
+    </message>
+    <message>
+        <source>Password is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username is ok or it is not needed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Username is empty.</source>
+        <translation>ユーザー名が空です。</translation>
+    </message>
+    <message>
+        <source>Password is ok or it is not needed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Password is empty.</source>
+        <translation>パスワードが空です。</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty.</source>
+        <translation>URLは空にできません。</translation>
+    </message>
+    <message>
+        <source>URL should NOT end with &quot;/api/&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL is okay.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
@@ -4688,15 +5046,7 @@ Last login on: %4</source>
         <translation>戻る</translation>
     </message>
     <message>
-        <source>Go back.</source>
-        <translation>戻る</translation>
-    </message>
-    <message>
         <source>Forward</source>
-        <translation>進む</translation>
-    </message>
-    <message>
-        <source>Go forward.</source>
         <translation>進む</translation>
     </message>
     <message>
@@ -4704,15 +5054,19 @@ Last login on: %4</source>
         <translation>再読み込み</translation>
     </message>
     <message>
-        <source>Reload current web page.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <source>Stop web page loading.</source>
+        <source>Open this website in system web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Failed to open URL in web browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
         <translation type="unfinished"/>
     </message>
 </context>

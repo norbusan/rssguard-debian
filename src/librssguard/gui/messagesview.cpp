@@ -34,7 +34,7 @@ MessagesView::MessagesView(QWidget* parent) : QTreeView(parent), m_contextMenu(n
   createConnections();
   setModel(m_proxyModel);
   setupAppearance();
-  header()->setContextMenuPolicy(Qt::CustomContextMenu);
+  header()->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
   connect(header(), &QHeaderView::customContextMenuRequested, this, [=](const QPoint& point) {
     TreeViewColumnsMenu mm(header());
     mm.exec(header()->mapToGlobal(point));
@@ -380,12 +380,7 @@ void MessagesView::openSelectedSourceMessagesExternally() {
                    .m_url
                    .replace(QRegularExpression("[\\t\\n]"), QString());
 
-    if (!qApp->web()->openUrlInExternalBrowser(link)) {
-      qApp->showGuiMessage(tr("Problem with starting external web browser"),
-                           tr("External web browser could not be started."),
-                           QSystemTrayIcon::Critical);
-      return;
-    }
+    qApp->web()->openUrlInExternalBrowser(link);
   }
 
   // Finally, mark opened messages as read.
@@ -393,9 +388,11 @@ void MessagesView::openSelectedSourceMessagesExternally() {
     QTimer::singleShot(0, this, &MessagesView::markSelectedMessagesRead);
   }
 
-  QTimer::singleShot(1000, this, []() {
-    qApp->mainForm()->display();
-  });
+  if (qApp->settings()->value(GROUP(Messages), SETTING(Messages::BringAppToFrontAfterMessageOpenedExternally)).toBool()) {
+    QTimer::singleShot(1000, this, []() {
+      qApp->mainForm()->display();
+    });
+  }
 }
 
 void MessagesView::openSelectedMessagesInternally() {

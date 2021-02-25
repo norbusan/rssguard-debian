@@ -18,6 +18,30 @@ quint64 TextFactory::s_encryptionKey = 0x0;
 
 TextFactory::TextFactory() = default;
 
+QString TextFactory::extractUsernameFromEmail(const QString& email_address) {
+  const int zav = email_address.indexOf('@');
+
+  if (zav >= 0) {
+    return email_address.mid(0, zav);
+  }
+  else {
+    return email_address;
+  }
+}
+
+QColor TextFactory::generateColorFromText(const QString& text) {
+  quint32 color = 0;
+
+  for (const QChar chr : text) {
+    color += chr.unicode();
+  }
+
+  color = QRandomGenerator(color).bounded(double(0xFFFFFF)) - 1;
+  auto color_name = QSL("#%1").arg(color, 6, 16);
+
+  return QColor(color_name);
+}
+
 int TextFactory::stringHeight(const QString& string, const QFontMetrics& metrics) {
   const int count_lines = string.split(QL1C('\n')).size();
 
