@@ -1,3 +1,10 @@
+rssguard (3.9.1+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 3.9.1+dfsg
+  * Drop upstream patch.
+
+ -- Norbert Preining <norbert@preining.info>  Tue, 06 Apr 2021 20:21:34 +0900
+
 rssguard (3.9.0+dfsg-2) unstable; urgency=medium
 
   * Backport upstream fix for repeated notifications.
