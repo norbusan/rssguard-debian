@@ -1,3 +1,9 @@
+rssguard (3.9.2+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 3.9.2+dfsg
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 12 Apr 2021 16:39:32 +0900
+
 rssguard (3.9.1+dfsg-1) unstable; urgency=medium
 
   * New upstream version 3.9.1+dfsg
