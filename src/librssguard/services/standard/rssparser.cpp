@@ -7,12 +7,12 @@
 #include "miscellaneous/iofactory.h"
 #include "miscellaneous/textfactory.h"
 #include "network-web/webfactory.h"
+#include "services/standard/definitions.h"
 
 #include <QDomDocument>
+#include <QTextStream>
 
 RssParser::RssParser(const QString& data) : FeedParser(data) {}
-
-RssParser::~RssParser() = default;
 
 QDomNodeList RssParser::messageElements() {
   QDomNode channel_elem = m_xml.namedItem(QSL("rss")).namedItem(QSL("channel"));
@@ -30,10 +30,11 @@ Message RssParser::extractMessage(const QDomElement& msg_element, QDateTime curr
 
   // Deal with titles & descriptions.
   QString elem_title = msg_element.namedItem(QSL("title")).toElement().text().simplified();
-  QString elem_description = msg_element.namedItem(QSL("encoded")).toElement().text();
+  QString elem_description = rawXmlChild(msg_element.elementsByTagName(QSL("encoded")).at(0).toElement());
   QString elem_enclosure = msg_element.namedItem(QSL("enclosure")).toElement().attribute(QSL("url"));
   QString elem_enclosure_type = msg_element.namedItem(QSL("enclosure")).toElement().attribute(QSL("type"));
 
+  new_message.m_customId = msg_element.namedItem(QSL("guid")).toElement().text();
   new_message.m_url = msg_element.namedItem(QSL("link")).toElement().text();
 
   if (new_message.m_url.isEmpty() && !new_message.m_enclosures.isEmpty()) {
@@ -46,7 +47,7 @@ Message RssParser::extractMessage(const QDomElement& msg_element, QDateTime curr
   }
 
   if (elem_description.isEmpty()) {
-    elem_description = msg_element.namedItem(QSL("description")).toElement().text();
+    elem_description = rawXmlChild(msg_element.elementsByTagName(QSL("description")).at(0).toElement());
   }
 
   if (elem_description.isEmpty()) {
@@ -81,6 +82,14 @@ Message RssParser::extractMessage(const QDomElement& msg_element, QDateTime curr
   else {
     new_message.m_enclosures.append(mrssGetEnclosures(msg_element));
   }
+
+  QString raw_contents;
+  QTextStream str(&raw_contents);
+
+  str.setCodec(DEFAULT_FEED_ENCODING);
+
+  msg_element.save(str, 0, QDomNode::EncodingPolicy::EncodingFromTextStream);
+  new_message.m_rawContents = raw_contents;
 
   new_message.m_author = msg_element.namedItem(QSL("author")).toElement().text();
 

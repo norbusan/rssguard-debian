@@ -10,28 +10,26 @@ class AdblockRequestInfo {
     explicit AdblockRequestInfo(const QWebEngineUrlRequestInfo& webengine_info);
     explicit AdblockRequestInfo(const QUrl& url);
 
-    QWebEngineUrlRequestInfo::ResourceType resourceType() const;
-    void setResourceType(const QWebEngineUrlRequestInfo::ResourceType& resourceType);
-
-    QWebEngineUrlRequestInfo::NavigationType navigationType() const;
-    void setNavigationType(const QWebEngineUrlRequestInfo::NavigationType& navigationType);
+    QString resourceType() const;
+    void setResourceType(const QString& resource_type);
 
     QUrl requestUrl() const;
-    void setRequestUrl(const QUrl& requestUrl);
+    void setRequestUrl(const QUrl& request_url);
 
     QUrl firstPartyUrl() const;
-    void setFirstPartyUrl(const QUrl& firstPartyUrl);
+    void setFirstPartyUrl(const QUrl& first_party_url);
 
     QByteArray requestMethod() const;
-    void setRequestMethod(const QByteArray& requestMethod);
+    void setRequestMethod(const QByteArray& request_method);
 
   private:
     void initialize(const QWebEngineUrlRequestInfo& webengine_info);
     void initialize(const QUrl& url);
 
+    QString convertResourceType(QWebEngineUrlRequestInfo::ResourceType rt) const;
+
   private:
-    QWebEngineUrlRequestInfo::ResourceType m_resourceType;
-    QWebEngineUrlRequestInfo::NavigationType m_navigationType;
+    QString m_resourceType;
     QUrl m_requestUrl;
     QUrl m_firstPartyUrl;
     QUrl m_initiator;

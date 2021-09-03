@@ -2,22 +2,25 @@
 
 #include "services/greader/greaderserviceroot.h"
 
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
+#include "exceptions/feedfetchexception.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/iconfactory.h"
 #include "miscellaneous/mutex.h"
 #include "miscellaneous/textfactory.h"
+#include "network-web/oauth2service.h"
 #include "services/abstract/importantnode.h"
 #include "services/abstract/recyclebin.h"
+#include "services/greader/definitions.h"
 #include "services/greader/greaderentrypoint.h"
-#include "services/greader/greaderfeed.h"
 #include "services/greader/greadernetwork.h"
 #include "services/greader/gui/formeditgreaderaccount.h"
 
 GreaderServiceRoot::GreaderServiceRoot(RootItem* parent)
   : ServiceRoot(parent), m_network(new GreaderNetwork(this)) {
   setIcon(GreaderEntryPoint().icon());
+  m_network->setRoot(this);
 }
 
 bool GreaderServiceRoot::isSyncable() const {
@@ -28,10 +31,6 @@ bool GreaderServiceRoot::canBeEdited() const {
   return true;
 }
 
-bool GreaderServiceRoot::canBeDeleted() const {
-  return true;
-}
-
 bool GreaderServiceRoot::editViaGui() {
   FormEditGreaderAccount form_pointer(qApp->mainFormWidget());
 
@@ -39,24 +38,141 @@ bool GreaderServiceRoot::editViaGui() {
   return true;
 }
 
-bool GreaderServiceRoot::deleteViaGui() {
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+QVariantHash GreaderServiceRoot::customDatabaseData() const {
+  QVariantHash data;
 
-  if (DatabaseQueries::deleteGreaderAccount(database, accountId())) {
-    return ServiceRoot::deleteViaGui();
+  data["service"] = int(m_network->service());
+  data["username"] = m_network->username();
+  data["password"] = TextFactory::encrypt(m_network->password());
+  data["batch_size"] = m_network->batchSize();
+  data["download_only_unread"] = m_network->downloadOnlyUnreadMessages();
+  data["intelligent_synchronization"] = m_network->intelligentSynchronization();
+
+  if (m_network->newerThanFilter().isValid()) {
+    data["fetch_newer_than"] = m_network->newerThanFilter();
+  }
+
+  if (m_network->service() == Service::Inoreader) {
+    data["client_id"] = m_network->oauth()->clientId();
+    data["client_secret"] = m_network->oauth()->clientSecret();
+    data["refresh_token"] = m_network->oauth()->refreshToken();
+    data["redirect_uri"] = m_network->oauth()->redirectUrl();
   }
   else {
-    return false;
+    data["url"] = m_network->baseUrl();
+  }
+
+  return data;
+}
+
+void GreaderServiceRoot::setCustomDatabaseData(const QVariantHash& data) {
+  m_network->setService(GreaderServiceRoot::Service(data["service"].toInt()));
+  m_network->setUsername(data["username"].toString());
+  m_network->setPassword(TextFactory::decrypt(data["password"].toString()));
+  m_network->setBatchSize(data["batch_size"].toInt());
+  m_network->setDownloadOnlyUnreadMessages(data["download_only_unread"].toBool());
+  m_network->setIntelligentSynchronization(data["intelligent_synchronization"].toBool());
+
+  if (data["fetch_newer_than"].toDate().isValid()) {
+    m_network->setNewerThanFilter(data["fetch_newer_than"].toDate());
+  }
+
+  if (m_network->service() == Service::Inoreader) {
+    m_network->oauth()->setClientId(data["client_id"].toString());
+    m_network->oauth()->setClientSecret(data["client_secret"].toString());
+    m_network->oauth()->setRefreshToken(data["refresh_token"].toString());
+    m_network->oauth()->setRedirectUrl(data["redirect_uri"].toString(), true);
+
+    m_network->setBaseUrl(QSL(GREADER_URL_INOREADER));
+  }
+  else {
+    m_network->setBaseUrl(data["url"].toString());
   }
 }
 
-void GreaderServiceRoot::start(bool freshly_activated) {
-  Q_UNUSED(freshly_activated)
-  loadFromDatabase();
-  loadCacheFromFile();
+void GreaderServiceRoot::aboutToBeginFeedFetching(const QList<Feed*>& feeds,
+                                                  const QHash<QString, QHash<BagOfMessages, QStringList>>& stated_messages,
+                                                  const QHash<QString, QStringList>& tagged_messages) {
+  if (m_network->intelligentSynchronization()) {
+    m_network->prepareFeedFetching(this, feeds, stated_messages, tagged_messages, networkProxy());
+  }
+  else {
+    m_network->clearPrefetchedMessages();
+  }
+}
 
-  if (childCount() <= 3) {
-    syncIn();
+QString GreaderServiceRoot::serviceToString(Service service) {
+  switch (service) {
+    case Service::FreshRss:
+      return QSL("FreshRSS");
+
+    case Service::Bazqux:
+      return QSL("Bazqux");
+
+    case Service::Reedah:
+      return QSL("Reedah");
+
+    case Service::TheOldReader:
+      return QSL("The Old Reader");
+
+    case Service::Inoreader:
+      return QSL("Inoreader");
+
+    default:
+      return tr("Other services");
+  }
+}
+
+QList<Message> GreaderServiceRoot::obtainNewMessages(Feed* feed,
+                                                     const QHash<ServiceRoot::BagOfMessages, QStringList>& stated_messages,
+                                                     const QHash<QString, QStringList>& tagged_messages) {
+  Feed::Status error = Feed::Status::Normal;
+  QList<Message> msgs;
+
+  if (m_network->intelligentSynchronization()) {
+    msgs = m_network->getMessagesIntelligently(this,
+                                               feed->customId(),
+                                               stated_messages,
+                                               tagged_messages,
+                                               error,
+                                               networkProxy());
+  }
+  else {
+    msgs = m_network->streamContents(this, feed->customId(), error, networkProxy());
+  }
+
+  if (error != Feed::Status::NewMessages && error != Feed::Status::Normal) {
+    throw FeedFetchException(error);
+  }
+  else {
+    return msgs;
+  }
+}
+
+bool GreaderServiceRoot::wantsBaggedIdsOfExistingMessages() const {
+  return m_network->intelligentSynchronization();
+}
+
+void GreaderServiceRoot::start(bool freshly_activated) {
+  if (!freshly_activated) {
+    DatabaseQueries::loadFromDatabase<Category, Feed>(this);
+    loadCacheFromFile();
+  }
+
+  updateTitleIcon();
+
+  if (getSubTreeFeeds().isEmpty()) {
+    if (m_network->service() == Service::Inoreader) {
+      m_network->oauth()->login([this]() {
+        syncIn();
+      });
+    }
+    else {
+      syncIn();
+    }
+  }
+  else if (m_network->service() == Service::Inoreader) {
+    m_network->oauth()->login();
   }
 }
 
@@ -105,7 +221,7 @@ void GreaderServiceRoot::saveAllCachedData(bool ignore_errors) {
   }
 
   if (m_network->service() != Service::TheOldReader) {
-    // The Old Reader does not support labels.
+    // NOTE: The Old Reader does not support labels.
     QMapIterator<QString, QStringList> k(msg_cache.m_cachedLabelAssignments);
 
     // Assign label for these messages.
@@ -141,12 +257,12 @@ void GreaderServiceRoot::saveAllCachedData(bool ignore_errors) {
 }
 
 ServiceRoot::LabelOperation GreaderServiceRoot::supportedLabelOperations() const {
-  return LabelOperation(0);
+  return ServiceRoot::LabelOperation::Synchronised;
 }
 
 void GreaderServiceRoot::updateTitleIcon() {
   setTitle(QString("%1 (%2)").arg(TextFactory::extractUsernameFromEmail(m_network->username()),
-                                  m_network->serviceToString(m_network->service())));
+                                  GreaderServiceRoot::serviceToString(m_network->service())));
 
   switch (m_network->service()) {
     case Service::TheOldReader:
@@ -161,42 +277,20 @@ void GreaderServiceRoot::updateTitleIcon() {
       setIcon(qApp->icons()->miscIcon(QSL("bazqux")));
       break;
 
+    case Service::Reedah:
+      setIcon(qApp->icons()->miscIcon(QSL("reedah")));
+      break;
+
+    case Service::Inoreader:
+      setIcon(qApp->icons()->miscIcon(QSL("inoreader")));
+      break;
+
     default:
       setIcon(GreaderEntryPoint().icon());
       break;
   }
 }
 
-void GreaderServiceRoot::saveAccountDataToDatabase(bool creating_new) {
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
-
-  if (!creating_new) {
-    if (DatabaseQueries::overwriteGreaderAccount(database, m_network->username(),
-                                                 m_network->password(), m_network->service(),
-                                                 m_network->baseUrl(), m_network->batchSize(),
-                                                 accountId())) {
-      updateTitleIcon();
-      itemChanged(QList<RootItem*>() << this);
-    }
-  }
-  else {
-    if (DatabaseQueries::createGreaderAccount(database, accountId(), m_network->username(),
-                                              m_network->password(), m_network->service(),
-                                              m_network->baseUrl(), m_network->batchSize())) {
-      updateTitleIcon();
-    }
-  }
-}
-
 RootItem* GreaderServiceRoot::obtainNewTreeForSyncIn() const {
   return m_network->categoriesFeedsLabelsTree(true, networkProxy());
-}
-
-void GreaderServiceRoot::loadFromDatabase() {
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
-  Assignment categories = DatabaseQueries::getCategories<Category>(database, accountId());
-  Assignment feeds = DatabaseQueries::getFeeds<GreaderFeed>(database, qApp->feedReader()->messageFilters(), accountId());
-  auto labels = DatabaseQueries::getLabels(database, accountId());
-
-  performInitialAssembly(categories, feeds, labels);
 }

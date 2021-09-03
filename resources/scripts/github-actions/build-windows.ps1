@@ -23,7 +23,7 @@ $qt_version = "5.15.2"
 $qt_link = "https://github.com/qt/qtbase/archive/$qt_version.zip"
 $qt_output = "qt.zip"
 
-$maria_version = "10.5.8"
+$maria_version = "10.5.11"
 $maria_link = "https://downloads.mariadb.org/f/mariadb-$maria_version/winx64-packages/mariadb-$maria_version-winx64.zip/from/https%3A//mirror.vpsfree.cz/mariadb/?serve"
 $maria_output = "maria.zip"
 
@@ -35,14 +35,15 @@ Invoke-WebRequest -Uri "$maria_link" -OutFile "$maria_output"
 
 # Download Qt itself.
 $qt_path = "$old_pwd\qt"
+pip3 install -U pip
 pip3 install aqtinstall
-aqt install -b "https://mirrors.ocf.berkeley.edu/qt/" -O "$qt_path" "$qt_version" "windows" "desktop" "win64_msvc2019_64"-m "qtwebengine" 
+aqt install -O "$qt_path" "$qt_version" "windows" "desktop" "win64_msvc2019_64" -m "qtwebengine"
 
 $qt_qmake = "$qt_path\$qt_version\msvc2019_64\bin\qmake.exe"
 $env:PATH = "$qt_path\$qt_version\msvc2019_64\bin\;" + $env:PATH
 
 # Download openssl.
-aqt tool -b "https://mirrors.ocf.berkeley.edu/qt/" -O "$qt_path" windows tools_openssl_x64 1.1.1 qt.tools.openssl.win_x64
+aqt tool -O "$qt_path" windows tools_openssl_x64 1.1.1 qt.tools.openssl.win_x64
 $openssl_base_path = "$qt_path\Tools\OpenSSL\Win_x64"
 
 # Build dependencies.
@@ -57,14 +58,14 @@ cd "$old_pwd"
 # Build application.
 mkdir "rssguard-build"
 cd "rssguard-build"
-& "$qt_qmake" "..\build.pro" "-r" "USE_WEBENGINE=$webengine" "CONFIG-=debug" "CONFIG-=debug_and_release" "CONFIG*=release"
+& "$qt_qmake" "..\build.pro" "-r" "USE_WEBENGINE=$webengine" "FEEDLY_CLIENT_ID=$env:FEEDLY_CLIENT_ID" "FEEDLY_CLIENT_SECRET=$env:FEEDLY_CLIENT_SECRET" "GMAIL_CLIENT_ID=$env:GMAIL_CLIENT_ID" "GMAIL_CLIENT_SECRET=$env:GMAIL_CLIENT_SECRET" "INOREADER_CLIENT_ID=$env:INOREADER_CLIENT_ID" "INOREADER_CLIENT_SECRET=$env:INOREADER_CLIENT_SECRET" "CONFIG-=debug" "CONFIG-=debug_and_release" "CONFIG*=release"
 nmake.exe
 
 cd "src\rssguard"
 nmake.exe install
 
 cd "app"
-windeployqt.exe --verbose 1 --compiler-runtime --no-translations --release rssguard.exe librssguard.dll
+windeployqt.exe --verbose 1 --no-compiler-runtime --no-translations --release rssguard.exe librssguard.dll
 cd ".."
 
 # Copy OpenSSL.

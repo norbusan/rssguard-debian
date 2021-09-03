@@ -3,16 +3,21 @@
 #include "services/standard/feedparser.h"
 
 #include "exceptions/applicationexception.h"
+#include "miscellaneous/application.h"
+#include "network-web/webfactory.h"
 
 #include <QDebug>
 #include <QRegularExpression>
+
 #include <utility>
 
 FeedParser::FeedParser(QString data) : m_xmlData(std::move(data)), m_mrssNamespace(QSL("http://search.yahoo.com/mrss/")) {
-  m_xml.setContent(m_xmlData, true);
-}
+  QString error;
 
-FeedParser::~FeedParser() = default;
+  if (!m_xml.setContent(m_xmlData, true, &error)) {
+    throw ApplicationException(QObject::tr("XML problem: %1").arg(error));
+  }
+}
 
 QList<Message> FeedParser::messages() {
   QString feed_author = feedAuthor();
@@ -28,7 +33,7 @@ QList<Message> FeedParser::messages() {
     try {
       Message new_message = extractMessage(message_item.toElement(), current_time);
 
-      if (new_message.m_author.isEmpty()) {
+      if (new_message.m_author.isEmpty() && !feed_author.isEmpty()) {
         new_message.m_author = feed_author;
       }
 
@@ -80,6 +85,26 @@ QString FeedParser::mrssTextFromPath(const QDomElement& msg_element, const QStri
   return text;
 }
 
+QString FeedParser::rawXmlChild(const QDomElement& container) const {
+  QString raw;
+  auto children = container.childNodes();
+
+  for (int i = 0; i < children.size(); i++) {
+    if (children.at(i).isCDATASection()) {
+      raw += children.at(i).toCDATASection().data();
+    }
+    else {
+      QString raw_ch;
+      QTextStream str(&raw_ch);
+
+      children.at(i).save(str, 0);
+      raw += qApp->web()->unescapeHtml(raw_ch);
+    }
+  }
+
+  return raw;
+}
+
 QStringList FeedParser::textsFromPath(const QDomElement& element, const QString& namespace_uri,
                                       const QString& xml_path, bool only_first) const {
   QStringList paths = xml_path.split('/');
@@ -112,7 +137,7 @@ QStringList FeedParser::textsFromPath(const QDomElement& element, const QString&
   }
 
   if (!current_elements.isEmpty()) {
-    for (const QDomElement& elem : current_elements) {
+    for (const QDomElement& elem : qAsConst(current_elements)) {
       result.append(elem.text());
     }
   }

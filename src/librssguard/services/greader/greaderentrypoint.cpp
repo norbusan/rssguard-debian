@@ -2,9 +2,9 @@
 
 #include "services/greader/greaderentrypoint.h"
 
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/iconfactory.h"
 #include "services/greader/definitions.h"
 #include "services/greader/greaderserviceroot.h"
@@ -17,9 +17,9 @@ ServiceRoot* GreaderEntryPoint::createNewRoot() const {
 }
 
 QList<ServiceRoot*> GreaderEntryPoint::initializeSubtree() const {
-  QSqlDatabase database = qApp->database()->connection(QSL("GreaderEntryPoint"));
+  QSqlDatabase database = qApp->database()->driver()->connection(QSL("GreaderEntryPoint"));
 
-  return DatabaseQueries::getGreaderAccounts(database);
+  return DatabaseQueries::getAccounts<GreaderServiceRoot>(database, code());
 }
 
 QString GreaderEntryPoint::name() const {
@@ -31,8 +31,8 @@ QString GreaderEntryPoint::code() const {
 }
 
 QString GreaderEntryPoint::description() const {
-  return QObject::tr("Google Reader API is used by many online RSS readers. This is here to support") +
-         QSL(" FreshRSS, Bazqux, TheOldReader, Reedah, ...");
+  return QObject::tr("Google Reader API is used by many online RSS readers.\n\nList of supported readers:") +
+         QSL(" Inoreader, FreshRSS, Bazqux, TheOldReader, Reedah and possibly others.");
 }
 
 QString GreaderEntryPoint::author() const {

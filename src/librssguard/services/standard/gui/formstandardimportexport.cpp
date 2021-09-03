@@ -7,6 +7,7 @@
 #include "gui/dialogs/formmain.h"
 #include "gui/feedmessageviewer.h"
 #include "gui/feedsview.h"
+#include "gui/guiutilities.h"
 #include "gui/messagebox.h"
 #include "miscellaneous/application.h"
 #include "services/abstract/category.h"
@@ -23,11 +24,14 @@ FormStandardImportExport::FormStandardImportExport(StandardServiceRoot* service_
   connect(m_model, &FeedsImportExportModel::parsingStarted, this, &FormStandardImportExport::onParsingStarted);
   connect(m_model, &FeedsImportExportModel::parsingFinished, this, &FormStandardImportExport::onParsingFinished);
   connect(m_model, &FeedsImportExportModel::parsingProgress, this, &FormStandardImportExport::onParsingProgress);
-  setWindowFlags(Qt::MSWindowsFixedSizeDialogHint | Qt::Dialog | Qt::WindowSystemMenuHint);
+
+  GuiUtilities::applyDialogProperties(*this, qApp->icons()->fromTheme(QSL("document-export")));
+
   m_ui->m_lblSelectFile->setStatus(WidgetWithStatus::StatusType::Error, tr("No file is selected."), tr("No file is selected."));
-  m_ui->m_buttonBox->button(QDialogButtonBox::Ok)->disconnect();
+  m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok)->disconnect();
   m_ui->m_lblResult->setStatus(WidgetWithStatus::StatusType::Warning, tr("No operation executed yet."), tr("No operation executed yet."));
-  connect(m_ui->m_buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &FormStandardImportExport::performAction);
+
+  connect(m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok), &QPushButton::clicked, this, &FormStandardImportExport::performAction);
   connect(m_ui->m_btnSelectFile, &QPushButton::clicked, this, &FormStandardImportExport::selectFile);
   connect(m_ui->m_btnCheckAllItems, &QPushButton::clicked, m_model, &FeedsImportExportModel::checkAllItems);
   connect(m_ui->m_btnUncheckAllItems, &QPushButton::clicked, m_model, &FeedsImportExportModel::uncheckAllItems);
@@ -52,6 +56,7 @@ void FormStandardImportExport::setMode(const FeedsImportExportModel::Mode& mode)
       m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setText(tr("&Export to file"));
       setWindowTitle(tr("Export feeds"));
       setWindowIcon(qApp->icons()->fromTheme(QSL("document-export")));
+      selectExportFile(true);
       break;
     }
 
@@ -72,7 +77,7 @@ void FormStandardImportExport::setMode(const FeedsImportExportModel::Mode& mode)
       break;
   }
 
-  m_ui->m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+  m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(false);
 }
 
 void FormStandardImportExport::selectFile() {
@@ -82,7 +87,7 @@ void FormStandardImportExport::selectFile() {
       break;
 
     case FeedsImportExportModel::Mode::Export: {
-      selectExportFile();
+      selectExportFile(false);
       break;
     }
 
@@ -97,7 +102,7 @@ void FormStandardImportExport::onParsingStarted() {
   m_ui->m_groupFeeds->setEnabled(false);
   m_ui->m_progressBar->setValue(0);
   m_ui->m_progressBar->setVisible(true);
-  m_ui->m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+  m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(false);
 }
 
 void FormStandardImportExport::onParsingFinished(int count_failed, int count_succeeded, bool parsing_error) {
@@ -121,7 +126,7 @@ void FormStandardImportExport::onParsingFinished(int count_failed, int count_suc
                                  tr("Error occurred. File is not well-formed. Select another file."));
   }
 
-  m_ui->m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+  m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(true);
 }
 
 void FormStandardImportExport::onParsingProgress(int completed, int total) {
@@ -129,18 +134,31 @@ void FormStandardImportExport::onParsingProgress(int completed, int total) {
   m_ui->m_progressBar->setValue(completed);
 }
 
-void FormStandardImportExport::selectExportFile() {
+void FormStandardImportExport::selectExportFile(bool without_dialog) {
+  const QString the_file = qApp->homeFolder() +
+                           QDir::separator() +
+                           QSL("rssguard_feeds_%1.opml").arg(QDate::currentDate().toString(Qt::DateFormat::ISODate));
+  QString selected_file;
+  QString selected_filter;
   const QString filter_opml20 = tr("OPML 2.0 files (*.opml)");
   const QString filter_txt_url_per_line = tr("TXT files [one URL per line] (*.txt)");
-  QString filter;
-  QString selected_filter;
 
-  // Add more filters here.
-  filter += filter_opml20;
-  filter += ";;";
-  filter += filter_txt_url_per_line;
-  QString selected_file = QFileDialog::getSaveFileName(this, tr("Select file for feeds export"),
-                                                       qApp->homeFolder(), filter, &selected_filter);
+  if (!without_dialog) {
+    QString filter;
+
+    // Add more filters here.
+    filter += filter_opml20;
+    filter += ";;";
+    filter += filter_txt_url_per_line;
+    selected_file = QFileDialog::getSaveFileName(this, tr("Select file for feeds export"),
+                                                 the_file,
+                                                 filter,
+                                                 &selected_filter);
+  }
+  else {
+    selected_file = the_file;
+    selected_filter = filter_opml20;
+  }
 
   if (!selected_file.isEmpty()) {
     if (selected_filter == filter_opml20) {
@@ -161,7 +179,7 @@ void FormStandardImportExport::selectExportFile() {
     m_ui->m_lblSelectFile->setStatus(WidgetWithStatus::StatusType::Ok, QDir::toNativeSeparators(selected_file), tr("File is selected."));
   }
 
-  m_ui->m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_ui->m_lblSelectFile->status() == WidgetWithStatus::StatusType::Ok);
+  m_ui->m_buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(m_ui->m_lblSelectFile->status() == WidgetWithStatus::StatusType::Ok);
 }
 
 void FormStandardImportExport::selectImportFile() {

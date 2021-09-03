@@ -11,6 +11,7 @@
 #include <QMetaType>
 #include <QNetworkReply>
 #include <QPair>
+#include <QRegularExpression>
 
 class UpdateUrl {
   public:
@@ -26,7 +27,6 @@ class UpdateInfo {
     QString m_availableVersion;
     QString m_changes;
     QDateTime m_date;
-
     QList<UpdateUrl> m_urls;
 };
 
@@ -55,12 +55,7 @@ class SystemFactory : public QObject {
     // new status failed.
     bool setAutoStartStatus(AutoStartStatus new_status);
 
-#if defined(Q_OS_WIN)
-    bool removeTrolltechJunkRegistryKeys();
-#endif
-
 #if defined(Q_OS_LINUX)
-
     // Returns standard location where auto-start .desktop files
     // should be placed.
     QString autostartDesktopFileLocation() const;
@@ -72,6 +67,7 @@ class SystemFactory : public QObject {
     // Tries to download list with new updates.
     void checkForUpdates() const;
 
+  public slots:
     void checkForUpdatesOnStartup();
 
     static QRegularExpression supportedUpdateFiles();

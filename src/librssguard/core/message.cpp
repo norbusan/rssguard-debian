@@ -4,6 +4,7 @@
 
 #include "3rd-party/boolinq/boolinq.h"
 #include "miscellaneous/textfactory.h"
+#include "services/abstract/feed.h"
 #include "services/abstract/label.h"
 
 #include <QDebug>
@@ -20,13 +21,14 @@ Enclosure::Enclosure(QString url, QString mime) : m_url(std::move(url)), m_mimeT
 
 QList<Enclosure> Enclosures::decodeEnclosuresFromString(const QString& enclosures_data) {
   QList<Enclosure> enclosures;
-
-  for (const QString& single_enclosure : enclosures_data.split(ENCLOSURES_OUTER_SEPARATOR,
+  auto enc = enclosures_data.split(ENCLOSURES_OUTER_SEPARATOR,
 #if QT_VERSION >= 0x050F00 // Qt >= 5.15.0
-                                                               Qt::SplitBehaviorFlags::SkipEmptyParts)) {
+                                   Qt::SplitBehaviorFlags::SkipEmptyParts);
 #else
-                                                               QString::SkipEmptyParts)) {
+                                   QString::SplitBehavior::SkipEmptyParts);
 #endif
+
+  for (const QString& single_enclosure : qAsConst(enc)) {
     Enclosure enclosure;
 
     if (single_enclosure.contains(ECNLOSURES_INNER_SEPARATOR)) {
@@ -63,14 +65,15 @@ QString Enclosures::encodeEnclosuresToString(const QList<Enclosure>& enclosures)
 }
 
 Message::Message() {
-  m_title = m_url = m_author = m_contents = m_feedId = m_customId = m_customHash = "";
+  m_title = m_url = m_author = m_contents = m_rawContents = m_feedId = m_customId = m_customHash = QSL("");
   m_enclosures = QList<Enclosure>();
   m_accountId = m_id = 0;
+  m_score = 0.0;
   m_isRead = m_isImportant = m_isDeleted = false;
   m_assignedLabels = QList<Label*>();
 }
 
-void Message::sanitize() {
+void Message::sanitize(const Feed* feed) {
   // Sanitize title.
   m_title = m_title
 
@@ -82,6 +85,20 @@ void Message::sanitize() {
 
             // Remove all newlines and leading white space.
             .remove(QRegularExpression(QSL("([\\n\\r])|(^\\s)")));
+
+  // Check if messages contain relative URLs and if they do, then replace them.
+  if (m_url.startsWith(QL1S("//"))) {
+    m_url = QSL(URI_SCHEME_HTTPS) + m_url.mid(2);
+  }
+  else if (QUrl(m_url).isRelative()) {
+    QUrl base(feed->source());
+
+    if (base.isValid()) {
+      base = QUrl(base.scheme() + QSL("://") + base.host());
+
+      m_url = base.resolved(m_url).toString();
+    }
+  }
 }
 
 Message Message::fromSqlRecord(const QSqlRecord& record, bool* result) {
@@ -106,6 +123,7 @@ Message Message::fromSqlRecord(const QSqlRecord& record, bool* result) {
   message.m_created = TextFactory::parseDateTime(record.value(MSG_DB_DCREATED_INDEX).value<qint64>());
   message.m_contents = record.value(MSG_DB_CONTENTS_INDEX).toString();
   message.m_enclosures = Enclosures::decodeEnclosuresFromString(record.value(MSG_DB_ENCLOSURES_INDEX).toString());
+  message.m_score = record.value(MSG_DB_SCORE_INDEX).toDouble();
   message.m_accountId = record.value(MSG_DB_ACCOUNT_ID_INDEX).toInt();
   message.m_customId = record.value(MSG_DB_CUSTOM_ID_INDEX).toString();
   message.m_customHash = record.value(MSG_DB_CUSTOM_HASH_INDEX).toString();
@@ -117,6 +135,23 @@ Message Message::fromSqlRecord(const QSqlRecord& record, bool* result) {
   return message;
 }
 
+QString Message::generateRawAtomContents(const Message& msg) {
+  return QSL("<entry>"
+             "<title>%1</title>"
+             "<link href=\"%2\" rel=\"alternate\" type=\"text/html\" title=\"%1\"/>"
+             "<published>%3</published>"
+             "<author><name>%6</name></author>"
+             "<updated>%3</updated>"
+             "<id>%4</id>"
+             "<summary type=\"html\">%5</summary>"
+             "</entry>").arg(msg.m_title,
+                             msg.m_url,
+                             msg.m_created.toUTC().toString(QSL("yyyy-MM-ddThh:mm:ss")),
+                             msg.m_url,
+                             msg.m_contents.toHtmlEscaped(),
+                             msg.m_author);
+}
+
 QDataStream& operator<<(QDataStream& out, const Message& my_obj) {
   out << my_obj.m_accountId
       << my_obj.m_customHash
@@ -125,31 +160,34 @@ QDataStream& operator<<(QDataStream& out, const Message& my_obj) {
       << my_obj.m_id
       << my_obj.m_isImportant
       << my_obj.m_isRead
-      << my_obj.m_isDeleted;
+      << my_obj.m_isDeleted
+      << my_obj.m_score;
 
   return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Message& my_obj) {
-  int accountId;
-  QString customHash;
-  QString customId;
-  QString feedId;
+  int account_id;
+  QString custom_hash;
+  QString custom_id;
+  QString feed_id;
   int id;
-  bool isImportant;
-  bool isRead;
-  bool isDeleted;
+  bool is_important;
+  bool is_read;
+  bool is_deleted;
+  double score;
 
-  in >> accountId >> customHash >> customId >> feedId >> id >> isImportant >> isRead >> isDeleted;
+  in >> account_id >> custom_hash >> custom_id >> feed_id >> id >> is_important >> is_read >> is_deleted >> score;
 
-  my_obj.m_accountId = accountId;
-  my_obj.m_customHash = customHash;
-  my_obj.m_customId = customId;
-  my_obj.m_feedId = feedId;
+  my_obj.m_accountId = account_id;
+  my_obj.m_customHash = custom_hash;
+  my_obj.m_customId = custom_id;
+  my_obj.m_feedId = feed_id;
   my_obj.m_id = id;
-  my_obj.m_isImportant = isImportant;
-  my_obj.m_isRead = isRead;
-  my_obj.m_isDeleted = isDeleted;
+  my_obj.m_isImportant = is_important;
+  my_obj.m_isRead = is_read;
+  my_obj.m_isDeleted = is_deleted;
+  my_obj.m_score = score;
 
   return in;
 }

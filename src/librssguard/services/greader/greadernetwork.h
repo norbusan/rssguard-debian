@@ -9,6 +9,8 @@
 #include "services/abstract/feed.h"
 #include "services/greader/greaderserviceroot.h"
 
+class OAuth2Service;
+
 class GreaderNetwork : public QObject {
   Q_OBJECT
 
@@ -19,11 +21,15 @@ class GreaderNetwork : public QObject {
       SubscriptionList,
       StreamContents,
       EditTag,
-      Token
+      Token,
+      UserInfo,
+      ItemIds,
+      ItemContents
     };
 
     explicit GreaderNetwork(QObject* parent = nullptr);
 
+    // Convenience methods.
     QNetworkReply::NetworkError markMessagesRead(RootItem::ReadStatus status,
                                                  const QStringList& msg_custom_ids,
                                                  const QNetworkProxy& proxy);
@@ -31,21 +37,25 @@ class GreaderNetwork : public QObject {
                                                     const QStringList& msg_custom_ids,
                                                     const QNetworkProxy& proxy);
 
-    // Assign/deassign tags to/from message(s).
-    QNetworkReply::NetworkError editLabels(const QString& state, bool assign,
-                                           const QStringList& msg_custom_ids, const QNetworkProxy& proxy);
+    void prepareFeedFetching(GreaderServiceRoot* root,
+                             const QList<Feed*>& feeds,
+                             const QHash<QString, QHash<ServiceRoot::BagOfMessages, QStringList>>& stated_messages,
+                             const QHash<QString, QStringList>& tagged_messages,
+                             const QNetworkProxy& proxy);
 
-    // Stream contents for a feed/label/etc.
-    QList<Message> streamContents(ServiceRoot* root, const QString& stream_id,
-                                  Feed::Status& error, const QNetworkProxy& proxy);
+    QList<Message> getMessagesIntelligently(ServiceRoot* root,
+                                            const QString& stream_id,
+                                            const QHash<ServiceRoot::BagOfMessages, QStringList>& stated_messages,
+                                            const QHash<QString, QStringList>& tagged_messages,
+                                            Feed::Status& error,
+                                            const QNetworkProxy& proxy);
 
-    // Downloads and structures full tree for sync-in.
     RootItem* categoriesFeedsLabelsTree(bool obtain_icons, const QNetworkProxy& proxy);
 
-    // Performs client login, if successful, then saves SID, LSID and Auth.
-    QNetworkReply::NetworkError clientLogin(const QNetworkProxy& proxy);
+    void clearCredentials();
 
-    // Getters/setters.
+    void clearPrefetchedMessages();
+
     GreaderServiceRoot::Service service() const;
     void setService(const GreaderServiceRoot::Service& service);
 
@@ -61,9 +71,35 @@ class GreaderNetwork : public QObject {
     int batchSize() const;
     void setBatchSize(int batch_size);
 
-    void clearCredentials();
+    bool downloadOnlyUnreadMessages() const;
+    void setDownloadOnlyUnreadMessages(bool download_only_unread);
 
-    static QString serviceToString(GreaderServiceRoot::Service service);
+    bool intelligentSynchronization() const;
+    void setIntelligentSynchronization(bool intelligent_synchronization);
+
+    void setRoot(GreaderServiceRoot* root);
+
+    OAuth2Service* oauth() const;
+    void setOauth(OAuth2Service* oauth);
+
+    // API methods.
+    QNetworkReply::NetworkError editLabels(const QString& state, bool assign,
+                                           const QStringList& msg_custom_ids, const QNetworkProxy& proxy);
+    QVariantHash userInfo(const QNetworkProxy& proxy);
+    QStringList itemIds(const QString& stream_id, bool unread_only, const QNetworkProxy& proxy, int max_count = -1,
+                        const QDate& newer_than = {});
+    QList<Message> itemContents(ServiceRoot* root, const QList<QString>& stream_ids,
+                                Feed::Status& error, const QNetworkProxy& proxy);
+    QList<Message> streamContents(ServiceRoot* root, const QString& stream_id,
+                                  Feed::Status& error, const QNetworkProxy& proxy);
+    QNetworkReply::NetworkError clientLogin(const QNetworkProxy& proxy);
+
+    QDate newerThanFilter() const;
+    void setNewerThanFilter(const QDate& newer_than);
+
+  private slots:
+    void onTokensError(const QString& error, const QString& error_description);
+    void onAuthFailed();
 
   private:
     QPair<QByteArray, QByteArray> authHeader() const;
@@ -71,21 +107,36 @@ class GreaderNetwork : public QObject {
     // Make sure we are logged in and if we are not, return error.
     bool ensureLogin(const QNetworkProxy& proxy, QNetworkReply::NetworkError* output = nullptr);
 
+    QString convertLongStreamIdToShortStreamId(const QString& stream_id) const;
+    QString convertShortStreamIdToLongStreamId(const QString& stream_id) const;
     QString simplifyStreamId(const QString& stream_id) const;
-    QList<Message> decodeStreamContents(ServiceRoot* root, const QString& stream_json_data, const QString& stream_id);
+
+    QStringList decodeItemIds(const QString& stream_json_data, QString& continuation);
+    QList<Message> decodeStreamContents(ServiceRoot* root, const QString& stream_json_data, const QString& stream_id, QString& continuation);
     RootItem* decodeTagsSubscriptions(const QString& categories, const QString& feeds, bool obtain_icons, const QNetworkProxy& proxy);
+
     QString sanitizedBaseUrl() const;
     QString generateFullUrl(Operations operation) const;
 
+    void initializeOauth();
+
   private:
+    GreaderServiceRoot* m_root;
     GreaderServiceRoot::Service m_service;
     QString m_username;
     QString m_password;
     QString m_baseUrl;
     int m_batchSize;
+    bool m_downloadOnlyUnreadMessages;
     QString m_authSid;
     QString m_authAuth;
     QString m_authToken;
+    QList<Message> m_prefetchedMessages;
+    Feed::Status m_prefetchedStatus;
+    bool m_performGlobalFetching;
+    bool m_intelligentSynchronization;
+    QDate m_newerThanFilter;
+    OAuth2Service* m_oauth;
 };
 
 #endif // GREADERNETWORK_H

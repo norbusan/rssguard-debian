@@ -11,6 +11,8 @@
 
 #include <QNetworkProxy>
 
+class OAuth2Service;
+
 class GreaderAccountDetails : public QWidget {
   Q_OBJECT
 
@@ -23,14 +25,28 @@ class GreaderAccountDetails : public QWidget {
     void setService(GreaderServiceRoot::Service service);
 
   private slots:
-    void displayPassword(bool display);
     void performTest(const QNetworkProxy& custom_proxy);
     void onUsernameChanged();
     void onPasswordChanged();
     void onUrlChanged();
+    void fillPredefinedUrl();
+    void checkOAuthValue(const QString& value);
+    void registerApi();
+    void onAuthFailed();
+    void onAuthError(const QString& error, const QString& detailed_description);
+    void onAuthGranted();
+
+  private:
+    void hookNetwork();
 
   private:
     Ui::GreaderAccountDetails m_ui;
+
+    // Testing OAuth service. This object is not ever copied
+    // to new living account instance but maybe be copied from it,
+    // instead only its properties like tokens are copied.
+    OAuth2Service* m_oauth;
+    QNetworkProxy m_lastProxy;
 };
 
 #endif // GREADERACCOUNTDETAILS_H

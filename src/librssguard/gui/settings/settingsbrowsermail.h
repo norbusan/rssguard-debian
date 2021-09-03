@@ -18,12 +18,13 @@ class SettingsBrowserMail : public SettingsPanel {
     explicit SettingsBrowserMail(Settings* settings, QWidget* parent = nullptr);
     virtual ~SettingsBrowserMail();
 
-    QString title() const;
-    void loadSettings();
-    void saveSettings();
+    virtual QString title() const;
+    virtual void loadSettings();
+    virtual void saveSettings();
 
   private slots:
     void addExternalTool();
+    void editSelectedExternalTool();
     void deleteSelectedExternalTool();
     void changeDefaultBrowserArguments(int index);
     void selectBrowserExecutable();
@@ -31,7 +32,10 @@ class SettingsBrowserMail : public SettingsPanel {
     void selectEmailExecutable();
 
   private:
-    QList<ExternalTool> externalTools() const;
+    ExternalTool tweakExternalTool(const ExternalTool& tool) const;
+
+  private:
+    QVector<ExternalTool> externalTools() const;
     void setExternalTools(const QList<ExternalTool>& list);
 
     NetworkProxyDetails* m_proxyDetails;

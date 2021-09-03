@@ -6,23 +6,22 @@
 #include "services/abstract/rootitem.h"
 
 #include "core/message.h"
+#include "core/messagefilter.h"
+#include "definitions/typedefs.h"
 
+#include <QJsonDocument>
 #include <QNetworkProxy>
 #include <QPair>
 
 class FeedsModel;
 class RecycleBin;
 class ImportantNode;
+class UnreadNode;
 class LabelsNode;
 class Label;
 class QAction;
 class MessagesModel;
 class CacheForServiceRoot;
-
-// First item here represents ID (int, primary key) of the item.
-typedef QList<QPair<int, RootItem*>> Assignment;
-typedef QPair<int, RootItem*> AssignmentItem;
-typedef QPair<Message, RootItem::Importance> ImportanceChange;
 
 // THIS IS the root node of the service.
 // NOTE: The root usually contains some core functionality of the
@@ -34,7 +33,17 @@ class ServiceRoot : public RootItem {
     enum class LabelOperation {
       Adding = 1,
       Editing = 2,
-      Deleting = 4
+      Deleting = 4,
+
+      // NOTE: Service fetches list of labels from remote source
+      // and does not use local offline labels.
+      Synchronised = 8
+    };
+
+    enum class BagOfMessages {
+      Read,
+      Unread,
+      Starred
     };
 
   public:
@@ -42,17 +51,27 @@ class ServiceRoot : public RootItem {
     virtual ~ServiceRoot();
 
     // These methods bellow are part of "interface".
+    RecycleBin* recycleBin() const;
+    ImportantNode* importantNode() const;
+    LabelsNode* labelsNode() const;
+    UnreadNode* unreadNode() const;
+
     virtual void updateCounts(bool including_total_count);
+    virtual bool canBeDeleted() const;
     virtual bool deleteViaGui();
     virtual bool markAsReadUnread(ReadStatus status);
-    virtual RecycleBin* recycleBin() const;
-    virtual ImportantNode* importantNode() const;
-    virtual LabelsNode* labelsNode() const;
     virtual bool downloadAttachmentOnMyOwn(const QUrl& url) const;
     virtual QList<Message> undeletedMessages() const;
     virtual bool supportsFeedAdding() const;
     virtual bool supportsCategoryAdding() const;
     virtual LabelOperation supportedLabelOperations() const;
+    virtual void saveAccountDataToDatabase();
+    virtual QVariantHash customDatabaseData() const;
+    virtual void setCustomDatabaseData(const QVariantHash& data);
+    virtual bool wantsBaggedIdsOfExistingMessages() const;
+    virtual void aboutToBeginFeedFetching(const QList<Feed*>& feeds,
+                                          const QHash<QString, QHash<ServiceRoot::BagOfMessages, QStringList>>& stated_messages,
+                                          const QHash<QString, QStringList>& tagged_messages);
 
     // Returns list of specific actions for "Add new item" main window menu.
     // So typical list of returned actions could look like:
@@ -85,6 +104,13 @@ class ServiceRoot : public RootItem {
     // user explicitly deletes existing service instance.
     virtual void start(bool freshly_activated);
     virtual void stop();
+
+    // Obtains list of messages.
+    // Throws exception subclassed from ApplicationException, preferably FeedFetchException
+    // if any problems arise.
+    virtual QList<Message> obtainNewMessages(Feed* feed,
+                                             const QHash<ServiceRoot::BagOfMessages, QStringList>& stated_messages,
+                                             const QHash<QString, QStringList>& tagged_messages) = 0;
 
     // This method should prepare messages for given "item" (download them maybe?)
     // into predefined "Messages" table
@@ -167,6 +193,9 @@ class ServiceRoot : public RootItem {
     // and from model.
     void completelyRemoveAllData();
 
+    // Returns counts of updated messages <unread, all>.
+    QPair<int, int> updateMessages(QList<Message>& messages, Feed* feed, bool force_update);
+
     QIcon feedIconForMessage(const QString& feed_custom_id) const;
 
     // Removes all/read only messages from given underlying feeds.
@@ -190,22 +219,24 @@ class ServiceRoot : public RootItem {
     QStringList customIDsOfMessages(const QList<Message>& messages);
     QStringList customIDSOfMessagesForItem(RootItem* item);
 
+    void performInitialAssembly(const Assignment& categories, const Assignment& feeds, const QList<Label*>& labels);
+
   public slots:
     virtual void addNewFeed(RootItem* selected_item, const QString& url = QString());
     virtual void addNewCategory(RootItem* selected_item);
     virtual void syncIn();
 
   protected:
-    void performInitialAssembly(const Assignment& categories, const Assignment& feeds, const QList<Label*>& labels);
 
     // This method should obtain new tree of feed/categories/whatever to perform sync in.
     virtual RootItem* obtainNewTreeForSyncIn() const;
 
     // Removes all messages/categories/feeds which are
     // associated with this account.
-    void removeOldAccountFromDatabase(bool including_messages);
+    void removeOldAccountFromDatabase(bool delete_messages_too, bool delete_labels_too);
     void storeNewFeedTree(RootItem* root);
-    void cleanAllItemsFromModel();
+    void cleanAllItemsFromModel(bool clean_labels_too);
+    void appendCommonNodes();
 
     // Removes messages which do not belong to any
     // existing feed.
@@ -248,10 +279,15 @@ class ServiceRoot : public RootItem {
     RecycleBin* m_recycleBin;
     ImportantNode* m_importantNode;
     LabelsNode* m_labelsNode;
+    UnreadNode* m_unreadNode;
     int m_accountId;
     QList<QAction*> m_serviceMenu;
     QNetworkProxy m_networkProxy;
 };
+
+inline uint qHash(ServiceRoot::BagOfMessages key, uint seed) {
+  return ::qHash(static_cast<uint>(key), seed);
+}
 
 ServiceRoot::LabelOperation operator|(ServiceRoot::LabelOperation lhs, ServiceRoot::LabelOperation rhs);
 ServiceRoot::LabelOperation operator&(ServiceRoot::LabelOperation lhs, ServiceRoot::LabelOperation rhs);

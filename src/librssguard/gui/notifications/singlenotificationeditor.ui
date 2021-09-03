@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SingleNotificationEditor</class>
+ <widget class="QGroupBox" name="SingleNotificationEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>423</width>
+    <height>128</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QCheckBox" name="m_cbBalloon">
+     <property name="text">
+      <string>Balloon notification</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="m_wdgSound" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Sound</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_txtSound</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="BaseLineEdit" name="m_txtSound">
+          <property name="placeholderText">
+           <string>Full path to your WAV sound file</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_btnBrowseSound">
+          <property name="text">
+           <string>&amp;Browse</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_btnPlaySound">
+          <property name="text">
+           <string>&amp;Play</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BaseLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>baselineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>m_cbBalloon</tabstop>
+  <tabstop>m_txtSound</tabstop>
+  <tabstop>m_btnBrowseSound</tabstop>
+  <tabstop>m_btnPlaySound</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

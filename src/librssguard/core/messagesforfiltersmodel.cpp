@@ -10,7 +10,7 @@
 
 MessagesForFiltersModel::MessagesForFiltersModel(QObject* parent) : QAbstractTableModel(parent) {
   m_headerData << tr("Read") << tr("Important") << tr("In recycle bin") << tr("Title")
-               << tr("URL") << tr("Author") << tr("Created on");
+               << tr("URL") << tr("Author") << tr("Date") << tr("Score");
 }
 
 void MessagesForFiltersModel::setMessages(const QList<Message>& messages) {
@@ -75,6 +75,9 @@ QVariant MessagesForFiltersModel::data(const QModelIndex& index, int role) const
 
         case MFM_MODEL_CREATED:
           return msg.m_created;
+
+        case MFM_MODEL_SCORE:
+          return msg.m_score;
       }
 
       break;
@@ -114,6 +117,7 @@ void MessagesForFiltersModel::testFilter(MessageFilter* filter, QJSEngine* engin
   for (int i = 0; i < m_messages.size(); i++) {
     Message* msg = messageForRow(i);
 
+    msg->m_rawContents = Message::generateRawAtomContents(*msg);
     msg_proxy->setMessage(msg);
 
     try {

@@ -26,11 +26,15 @@
 #define DEFAULT_VALUE(x) x ## Def
 #define GROUP(x) x::ID
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
 namespace WebEngineAttributes {
   KEY ID;
 }
 #endif
+
+namespace Cookies {
+  KEY ID;
+}
 
 namespace AdBlock {
   KEY ID;
@@ -38,11 +42,11 @@ namespace AdBlock {
   KEY AdBlockEnabled;
   VALUE(bool) AdBlockEnabledDef;
 
-  KEY DisabledRules;
-  VALUE(QStringList) DisabledRulesDef;
+  KEY FilterLists;
+  VALUE(QStringList) FilterListsDef;
 
-  KEY LastUpdatedOn;
-  VALUE(QDateTime) LastUpdatedOnDef;
+  KEY CustomFilters;
+  VALUE(QStringList) CustomFiltersDef;
 }
 
 // Feeds.
@@ -52,11 +56,11 @@ namespace Feeds {
   KEY UpdateTimeout;
   VALUE(int) UpdateTimeoutDef;
 
-  KEY EnableAutoUpdateNotification;
-  VALUE(bool) EnableAutoUpdateNotificationDef;
-
   KEY CountFormat;
   VALUE(char*) CountFormatDef;
+
+  KEY EnableTooltipsFeedsMessages;
+  VALUE(bool) EnableTooltipsFeedsMessagesDef;
 
   KEY AutoUpdateInterval;
   VALUE(int) AutoUpdateIntervalDef;
@@ -79,6 +83,9 @@ namespace Feeds {
   KEY ShowTreeBranches;
   VALUE(bool) ShowTreeBranchesDef;
 
+  KEY HideCountsIfNoUnread;
+  VALUE(bool) HideCountsIfNoUnreadDef;
+
   KEY AutoExpandOnSelection;
   VALUE(bool) AutoExpandOnSelectionDef;
 
@@ -91,6 +98,9 @@ namespace Messages {
 
   KEY MessageHeadImageHeight;
   VALUE(int) MessageHeadImageHeightDef;
+
+  KEY DisplayEnclosuresInMessage;
+  VALUE(bool) DisplayEnclosuresInMessageDef;
 
   KEY EnableMessagePreview;
   VALUE(bool) EnableMessagePreviewDef;
@@ -133,6 +143,9 @@ namespace Messages {
 // GUI.
 namespace GUI {
   KEY ID;
+
+  KEY EnableNotifications;
+  VALUE(bool) EnableNotificationsDef;
 
   KEY MessageViewState;
   VALUE(QString) MessageViewStateDef;
@@ -197,9 +210,6 @@ namespace GUI {
   KEY UnreadNumbersInTrayIcon;
   VALUE(bool) UnreadNumbersInTrayIconDef;
 
-  KEY EnableNotifications;
-  VALUE(bool) EnableNotificationsDef;
-
   KEY TabCloseMiddleClick;
   VALUE(bool) TabCloseMiddleClickDef;
 
@@ -240,20 +250,14 @@ namespace GUI {
 // General.
 namespace General {
   KEY ID;
-  KEY UpdateOnStartup;
 
+  KEY UpdateOnStartup;
   VALUE(bool) UpdateOnStartupDef;
 
-  KEY RemoveTrolltechJunk;
-
-  VALUE(bool) RemoveTrolltechJunkDef;
-
   KEY FirstRun;
-
   VALUE(bool) FirstRunDef;
 
   KEY Language;
-
   VALUE(QString) LanguageDef;
 }
 
@@ -350,6 +354,11 @@ namespace Keyboard {
   KEY ID;
 }
 
+// Notifications.
+namespace Notifications {
+  KEY ID;
+}
+
 // Web browser.
 namespace Browser {
   KEY ID;
@@ -410,12 +419,14 @@ class Settings : public QSettings {
     QVariant password(const QString& section, const QString& key, const QVariant& default_value = QVariant()) const;
     void setPassword(const QString& section, const QString& key, const QVariant& value);
 
+    QStringList allKeys(const QString& section);
+
     QVariant value(const QString& section, const QString& key, const QVariant& default_value = QVariant()) const;
     void setValue(const QString& section, const QString& key, const QVariant& value);
     void setValue(const QString& key, const QVariant& value);
 
     bool contains(const QString& section, const QString& key) const;
-    void remove(const QString& section, const QString& key);
+    void remove(const QString& section, const QString& key = {});
 
     // Returns the path which contains the settings.
     QString pathName() const;
@@ -470,7 +481,14 @@ inline bool Settings::contains(const QString& section, const QString& key) const
 }
 
 inline void Settings::remove(const QString& section, const QString& key) {
-  QSettings::remove(QString(QSL("%1/%2")).arg(section, key));
+  if (key.isEmpty()) {
+    beginGroup(section);
+    QSettings::remove({});
+    endGroup();
+  }
+  else {
+    QSettings::remove(QString(QSL("%1/%2")).arg(section, key));
+  }
 }
 
 #endif // SETTINGS_H

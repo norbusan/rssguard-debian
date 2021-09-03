@@ -17,6 +17,7 @@ class GreaderServiceRoot : public ServiceRoot, public CacheForServiceRoot {
       TheOldReader = 2,
       Bazqux = 4,
       Reedah = 8,
+      Inoreader = 16,
       Other = 1024
     };
 
@@ -24,24 +25,30 @@ class GreaderServiceRoot : public ServiceRoot, public CacheForServiceRoot {
 
     virtual bool isSyncable() const;
     virtual bool canBeEdited() const;
-    virtual bool canBeDeleted() const;
     virtual bool editViaGui();
-    virtual bool deleteViaGui();
     virtual void start(bool freshly_activated);
     virtual QString code() const;
     virtual void saveAllCachedData(bool ignore_errors);
     virtual LabelOperation supportedLabelOperations() const;
+    virtual QVariantHash customDatabaseData() const;
+    virtual void setCustomDatabaseData(const QVariantHash& data);
+    virtual void aboutToBeginFeedFetching(const QList<Feed*>& feeds,
+                                          const QHash<QString, QHash<ServiceRoot::BagOfMessages, QStringList>>& stated_messages,
+                                          const QHash<QString, QStringList>& tagged_messages);
+    virtual QList<Message> obtainNewMessages(Feed* feed,
+                                             const QHash<ServiceRoot::BagOfMessages, QStringList>& stated_messages,
+                                             const QHash<QString, QStringList>& tagged_messages);
+    virtual bool wantsBaggedIdsOfExistingMessages() const;
 
     GreaderNetwork* network() const;
 
-    void updateTitleIcon();
-    void saveAccountDataToDatabase(bool creating_new);
+    static QString serviceToString(Service service);
 
   protected:
     virtual RootItem* obtainNewTreeForSyncIn() const;
 
   private:
-    void loadFromDatabase();
+    void updateTitleIcon();
 
   private:
     GreaderNetwork* m_network;

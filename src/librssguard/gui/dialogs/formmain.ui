@@ -100,11 +100,11 @@
    </widget>
    <widget class="QMenu" name="m_menuFeeds">
     <property name="title">
-     <string>Feeds &amp;&amp; categories</string>
+     <string>F&amp;eeds</string>
     </property>
     <widget class="QMenu" name="m_menuAddItem">
      <property name="title">
-      <string>Add &amp;new item</string>
+      <string>&amp;Add item</string>
      </property>
     </widget>
     <addaction name="m_actionUpdateAllItems"/>
@@ -120,6 +120,7 @@
     <addaction name="m_actionAutoExpandItemsWhenSelected"/>
     <addaction name="m_actionShowTreeBranches"/>
     <addaction name="m_actionExpandCollapseItem"/>
+    <addaction name="m_actionExpandCollapseItemRecursively"/>
     <addaction name="separator"/>
     <addaction name="m_actionSelectNextItem"/>
     <addaction name="m_actionSelectPreviousItem"/>
@@ -135,7 +136,7 @@
    </widget>
    <widget class="QMenu" name="m_menuMessages">
     <property name="title">
-     <string>&amp;Messages</string>
+     <string>Art&amp;icles</string>
     </property>
     <addaction name="m_actionOpenSelectedSourceArticlesExternally"/>
     <addaction name="m_actionOpenSelectedMessagesInternally"/>
@@ -172,7 +173,7 @@
    </widget>
    <widget class="QMenu" name="m_menuWebBrowserTabs">
     <property name="title">
-     <string>Web browser &amp;&amp; tabs</string>
+     <string>&amp;Web browser &amp;&amp; tabs</string>
     </property>
     <addaction name="m_actionTabNewWebBrowser"/>
     <addaction name="separator"/>
@@ -236,18 +237,21 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>View &amp;fullscreen</string>
+    <string>&amp;Fullscreen</string>
    </property>
    <property name="toolTip">
     <string>Switch fullscreen mode.</string>
    </property>
    <property name="shortcut">
-    <string notr="true">F</string>
+    <string notr="true">F11</string>
    </property>
   </action>
   <action name="m_actionUpdateAllItems">
    <property name="text">
-    <string>&amp;Download all new messages</string>
+    <string>&amp;Fetch all</string>
+   </property>
+   <property name="toolTip">
+    <string>Fetch all feeds</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+Shift+U</string>
@@ -255,7 +259,10 @@
   </action>
   <action name="m_actionUpdateSelectedItems">
    <property name="text">
-    <string>Download messages for &amp;selected items</string>
+    <string>Fetch &amp;selected</string>
+   </property>
+   <property name="toolTip">
+    <string>Fetch selected feeds</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+U</string>
@@ -279,7 +286,10 @@
   </action>
   <action name="m_actionMarkSelectedMessagesAsRead">
    <property name="text">
-    <string>Mark selected messages as &amp;read</string>
+    <string>Mark articles &amp;read</string>
+   </property>
+   <property name="toolTip">
+    <string>Mark selected articles read</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -287,7 +297,10 @@
   </action>
   <action name="m_actionMarkSelectedMessagesAsUnread">
    <property name="text">
-    <string>Mark selected messages as &amp;unread</string>
+    <string>Mark articles &amp;unread</string>
+   </property>
+   <property name="toolTip">
+    <string>Mark selected articles unread</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -295,7 +308,10 @@
   </action>
   <action name="m_actionSwitchImportanceOfSelectedMessages">
    <property name="text">
-    <string>Switch &amp;importance of selected messages</string>
+    <string>Switch &amp;importance</string>
+   </property>
+   <property name="toolTip">
+    <string>Switch importance of selected articles</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -303,7 +319,7 @@
   </action>
   <action name="m_actionMarkSelectedItemsAsRead">
    <property name="text">
-    <string>&amp;Mark selected items as read</string>
+    <string>&amp;Mark selected item read</string>
    </property>
    <property name="toolTip">
     <string>Mark all messages (without message filters) from selected items as read.</string>
@@ -314,7 +330,7 @@
   </action>
   <action name="m_actionMarkSelectedItemsAsUnread">
    <property name="text">
-    <string>&amp;Mark selected items as unread</string>
+    <string>&amp;Mark selected item unread</string>
    </property>
    <property name="toolTip">
     <string>Mark all messages (without message filters) from selected items as unread.</string>
@@ -325,7 +341,7 @@
   </action>
   <action name="m_actionDeleteSelectedMessages">
    <property name="text">
-    <string>&amp;Delete selected messages</string>
+    <string>&amp;Delete articles</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -333,7 +349,7 @@
   </action>
   <action name="m_actionClearSelectedItems">
    <property name="text">
-    <string>&amp;Clean selected items</string>
+    <string>&amp;Clean selected item</string>
    </property>
    <property name="toolTip">
     <string>Deletes all messages from selected items.</string>
@@ -344,7 +360,10 @@
   </action>
   <action name="m_actionOpenSelectedSourceArticlesExternally">
    <property name="text">
-    <string>Open selected source articles in &amp;external browser</string>
+    <string>Open in &amp;external browser</string>
+   </property>
+   <property name="toolTip">
+    <string>Open selected articles in external browser</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -352,7 +371,10 @@
   </action>
   <action name="m_actionOpenSelectedMessagesInternally">
    <property name="text">
-    <string>Open selected messages in &amp;internal browser</string>
+    <string>Open in &amp;internal browser</string>
+   </property>
+   <property name="toolTip">
+    <string>Open selected articles in internal browser</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -374,7 +396,7 @@
   </action>
   <action name="m_actionMarkAllItemsRead">
    <property name="text">
-    <string>&amp;Mark all items as read</string>
+    <string>&amp;Mark all read</string>
    </property>
    <property name="toolTip">
     <string>Marks all messages in all items read. This does not take message filters into account.</string>
@@ -385,7 +407,7 @@
   </action>
   <action name="m_actionViewSelectedItemsNewspaperMode">
    <property name="text">
-    <string>View selected items in &amp;newspaper mode</string>
+    <string>View selected item in &amp;newspaper mode</string>
    </property>
    <property name="toolTip">
     <string>Displays all messages from selected item in a new &quot;newspaper mode&quot; tab. Note that messages are not set as read automatically.</string>
@@ -399,7 +421,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Switch visibility of main &amp;window</string>
+    <string>Minimize (or hide) main window</string>
    </property>
    <property name="toolTip">
     <string>Hides main window if it is visible and shows it if it is hidden.</string>
@@ -427,7 +449,7 @@
   </action>
   <action name="m_actionClearAllItems">
    <property name="text">
-    <string>&amp;Clean all items</string>
+    <string>&amp;Clean all</string>
    </property>
    <property name="toolTip">
     <string>Deletes all messages from all items.</string>
@@ -454,7 +476,7 @@
   </action>
   <action name="m_actionSelectNextMessage">
    <property name="text">
-    <string>Select &amp;next message</string>
+    <string>&amp;Next article</string>
    </property>
    <property name="shortcut">
     <string notr="true">W</string>
@@ -462,7 +484,7 @@
   </action>
   <action name="m_actionSelectPreviousMessage">
    <property name="text">
-    <string>Select &amp;previous message</string>
+    <string>&amp;Previous article</string>
    </property>
    <property name="shortcut">
     <string notr="true">Q</string>
@@ -526,7 +548,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Feed/message list headers</string>
+    <string>&amp;List headers</string>
    </property>
    <property name="shortcut">
     <string notr="true">H</string>
@@ -558,7 +580,7 @@
   </action>
   <action name="m_actionRestoreDatabaseSettings">
    <property name="text">
-    <string>&amp;Restore database/settings</string>
+    <string>&amp;Restore settings</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -566,7 +588,7 @@
   </action>
   <action name="m_actionBackupDatabaseSettings">
    <property name="text">
-    <string>&amp;Backup database/settings</string>
+    <string>&amp;Backup settings</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -574,7 +596,7 @@
   </action>
   <action name="m_actionSwitchMessageListOrientation">
    <property name="text">
-    <string>Switch message list layout orientation</string>
+    <string>Switch layout</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -590,7 +612,10 @@
   </action>
   <action name="m_actionSendMessageViaEmail">
    <property name="text">
-    <string>Send selected message via e-mail</string>
+    <string>Send via e-mail</string>
+   </property>
+   <property name="toolTip">
+    <string>Send selected articles via e-mail</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -609,7 +634,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show only unread items</string>
+    <string>Show unread items only</string>
    </property>
    <property name="shortcut">
     <string notr="true">U</string>
@@ -625,7 +650,7 @@
   </action>
   <action name="m_actionServiceAdd">
    <property name="text">
-    <string>&amp;Add new account</string>
+    <string>&amp;Add account</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -633,7 +658,7 @@
   </action>
   <action name="m_actionRestoreSelectedMessages">
    <property name="text">
-    <string>&amp;Restore selected messages</string>
+    <string>&amp;Restore articles</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -657,7 +682,7 @@
   </action>
   <action name="m_actionSelectNextUnreadMessage">
    <property name="text">
-    <string>Select next &amp;unread message</string>
+    <string>Next &amp;unread article</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -705,7 +730,7 @@
   </action>
   <action name="m_actionStopRunningItemsUpdate">
    <property name="text">
-    <string>Stop ongoing downloading of messages</string>
+    <string>Stop ongoing fetching</string>
    </property>
    <property name="shortcut">
     <string notr="true"/>
@@ -713,7 +738,7 @@
   </action>
   <action name="m_actionTabNewWebBrowser">
    <property name="text">
-    <string>New web browser tab</string>
+    <string>New browser tab</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+T</string>
@@ -744,12 +769,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Enable message preview</string>
+    <string>&amp;Enable article preview</string>
    </property>
   </action>
   <action name="m_actionCopyUrlSelectedFeed">
    <property name="text">
-    <string>&amp;Copy URLs of selected items</string>
+    <string>&amp;Copy URLs of selected item</string>
    </property>
   </action>
   <action name="m_actionShowOnlyUnreadMessages">
@@ -757,7 +782,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show only &amp;unread messages</string>
+    <string>Show &amp;unread articles only</string>
    </property>
   </action>
   <action name="m_actionMessageFilters">
@@ -770,12 +795,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;Show tree branches</string>
+    <string>&amp;Show tree expanders</string>
    </property>
   </action>
   <action name="m_actionUpdateSelectedItemsWithCustomTimers">
    <property name="text">
-    <string>Download messages for items with &amp;custom auto-download policy</string>
+    <string>Fetch feeds with &amp;custom auto-download policy</string>
    </property>
   </action>
   <action name="m_actionAlternateColorsInLists">
@@ -791,7 +816,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Automatically &amp;expand items when selected</string>
+    <string>Automatically &amp;expand item when selected</string>
    </property>
   </action>
   <action name="m_actionSwitchMessageViewerToolbars">
@@ -803,6 +828,11 @@
    </property>
    <property name="text">
     <string>Message viewer toolbars</string>
+   </property>
+  </action>
+  <action name="m_actionExpandCollapseItemRecursively">
+   <property name="text">
+    <string>Expand/collapse selected item &amp;recursively</string>
    </property>
   </action>
  </widget>

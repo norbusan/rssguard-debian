@@ -23,6 +23,7 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
 
   // Added for message filtering with labels.
   Q_PROPERTY(QString title READ title)
+  Q_PROPERTY(int id READ id)
   Q_PROPERTY(QString customId READ customId)
 
   public:
@@ -47,7 +48,8 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
       ServiceRoot = 16,
       Labels = 32,
       Important = 64,
-      Label = 128
+      Label = 128,
+      Unread = 256
     };
 
     // Constructors and destructors.
@@ -142,7 +144,8 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
     // Returns list of feeds complemented by their own string CUSTOM ID.
     QHash<QString, Feed*> getHashedSubTreeFeeds() const;
     QList<Feed*> getSubTreeFeeds() const;
-    QList<Feed*> getSubTreeManuallyIntervaledFeeds() const;
+    QList<Feed*> getSubTreeAutoFetchingWithManualIntervalsFeeds() const;
+    QList<Feed*> getSubAutoFetchingEnabledFeeds() const;
 
     // Returns the service root node which is direct or indirect parent of current item.
     ServiceRoot* getParentServiceRoot() const;
@@ -161,12 +164,16 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
     // This ALWAYS represents primary column number/ID under which
     // the item is stored in DB.
     int id() const;
+
+    // WARNING: Do not EVER call this method if your "this" object is derived
+    // from "ServiceRoot";
     void setId(int id);
 
     // Each item has its title.
     QString title() const;
     void setTitle(const QString& title);
 
+    // This should be in UTC and should be converted to localtime when needed.
     QDateTime creationDate() const;
     void setCreationDate(const QDateTime& creation_date);
 

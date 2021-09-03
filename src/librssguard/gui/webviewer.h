@@ -6,6 +6,7 @@
 #include <QWebEngineView>
 
 #include "core/message.h"
+#include "miscellaneous/externaltool.h"
 #include "network-web/webpage.h"
 
 class RootItem;
@@ -26,7 +27,7 @@ class WebViewer : public QWebEngineView {
   public slots:
     bool increaseWebPageZoom();
     bool decreaseWebPageZoom();
-    bool resetWebPageZoom();
+    bool resetWebPageZoom(bool to_factory_default = false);
 
     void displayMessage();
     void loadMessages(const QList<Message>& messages, RootItem* root);
@@ -39,8 +40,12 @@ class WebViewer : public QWebEngineView {
     virtual bool event(QEvent* event);
     virtual bool eventFilter(QObject* object, QEvent* event);
 
+  private slots:
+    void openUrlWithExternalTool(ExternalTool tool, const QWebEngineContextMenuData& target);
+
   private:
     RootItem* m_root;
+    QString m_messageBaseUrl;
     QString m_messageContents;
 };
 

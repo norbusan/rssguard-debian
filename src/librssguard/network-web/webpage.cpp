@@ -7,8 +7,6 @@
 #include "miscellaneous/application.h"
 #include "network-web/adblock/adblockmanager.h"
 #include "network-web/adblock/adblockrequestinfo.h"
-#include "network-web/adblock/adblockrule.h"
-#include "network-web/adblock/adblocksubscription.h"
 #include "network-web/webfactory.h"
 #include "services/abstract/rootitem.h"
 #include "services/abstract/serviceroot.h"
@@ -20,7 +18,7 @@
 #include <QWebEngineScript>
 
 WebPage::WebPage(QObject* parent) : QWebEnginePage(parent) {
-  setBackgroundColor(Qt::transparent);
+  setBackgroundColor(Qt::GlobalColor::transparent);
 
   connect(this, &QWebEnginePage::loadFinished, this, &WebPage::hideUnwantedElements);
 }
@@ -34,22 +32,13 @@ void WebPage::hideUnwantedElements() {
     return;
   }
 
-  auto css = qApp->web()->adBlock()->elementHidingRules(url());
+  auto css = qApp->web()->adBlock()->elementHidingRulesForDomain(url());
 
   if (!css.isEmpty()) {
     auto js = qApp->web()->adBlock()->generateJsForElementHiding(css);
 
     runJavaScript(js);
-    qDebugNN << LOGSEC_JS << "Running global JS for element hiding rules.";
-  }
-
-  css = qApp->web()->adBlock()->elementHidingRulesForDomain(url());
-
-  if (!css.isEmpty()) {
-    auto js = qApp->web()->adBlock()->generateJsForElementHiding(css);
-
-    runJavaScript(js);
-    qDebugNN << LOGSEC_JS << "Running domain-specific JS for element hiding rules.";
+    qDebugNN << LOGSEC_ADBLOCK << "Running domain-specific JS for element hiding rules.";
   }
 }
 
@@ -57,11 +46,11 @@ bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool
   const RootItem* root = view()->root();
 
   if (is_main_frame) {
-    auto* adblock_rule = qApp->web()->adBlock()->block(AdblockRequestInfo(url));
+    auto blocked = qApp->web()->adBlock()->block(AdblockRequestInfo(url));
 
-    if (adblock_rule != nullptr) {
+    if (blocked.m_blocked) {
       // This website is entirely blocked.
-      setHtml(qApp->skins()->adBlockedPage(adblock_rule->subscription()->title(), adblock_rule->filter()),
+      setHtml(qApp->skins()->adBlockedPage(url.toString(), blocked.m_blockedByFilter),
               QUrl::fromUserInput(INTERNAL_URL_ADBLOCKED));
       return false;
     }
@@ -73,13 +62,14 @@ bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool
     return false;
   }
 
-  if (url.host() == INTERNAL_URL_MESSAGE_HOST) {
-    setHtml(view()->messageContents(), QUrl(INTERNAL_URL_MESSAGE));
-    return true;
-  }
-  else {
-    return QWebEnginePage::acceptNavigationRequest(url, type, is_main_frame);
-  }
+  /*if (url.host() == INTERNAL_URL_MESSAGE_HOST) {
+     setHtml(view()->messageContents(), QUrl(INTERNAL_URL_MESSAGE));
+     return true;
+     }
+     else {*/
+  return QWebEnginePage::acceptNavigationRequest(url, type, is_main_frame);
+
+  //}
 }
 
 void WebPage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level, const QString& message,

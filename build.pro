@@ -28,16 +28,22 @@
 #            of this variable can be mimicked with $INSTALL_ROOT variable on Linux. Note that
 #            RSS Guard's installation is automatically relocatable, in other words, no
 #            absolute OS-dependent paths are used.
-#   FEEDLY_CLIENT_ID - official production client ID obtained from Feedly when setting up application
-#                      partnership.
-#   FEEDLY_CLIENT_SECRET - official production client SECRET obtained from Feedly when setting up application
-#                          partnership.
+#   {FEEDLY,GMAIL,INOREADER}_CLIENT_ID - preconfigured OAuth cliend ID.
+#   {FEEDLY,GMAIL,INOREADER}_CLIENT_SECRET - preconfigured OAuth cliend SECRET.
 #
 # Other information:
 #   - supports Windows, Linux, Mac OS X, OS/2, Android,
 #   - Qt 5.9.0 or higher is required,
 #   - if you wish to make packages for Windows, then you must initialize all submodules within repository before compilation,
 #   - C++ 11/17 is required.
+#
+# Building on OS/2:
+#   RSS Guard can run on OS/2 and if you want to compile it by yourself, you need to make sure that
+#   your OS/2 distro is up-to-date and you have all dependencies installed: os2-base, all gcc-* packages,
+#   libc and libcx up-to-date, kbuild-make, ash, binutils, all relevant qt5-* packages.
+#
+#   After your dependecies are installed, then you can compile via standard `qmake -> make -> make install` steps
+#   and package with: 7z.exe a -t7z -mmt -mx9 "rssguard.7z" "<build-folder\src\rssguard\app\*" command.
 #
 # Authors and contributors:
 #   - Martin Rotter (project leader),

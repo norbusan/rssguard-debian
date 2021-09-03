@@ -3,16 +3,16 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "qtsingleapplication/qtsingleapplication.h"
-
 #include "core/feeddownloader.h"
+#include "database/databasefactory.h"
 #include "definitions/definitions.h"
 #include "gui/systemtrayicon.h"
-#include "miscellaneous/databasefactory.h"
 #include "miscellaneous/feedreader.h"
 #include "miscellaneous/iofactory.h"
 #include "miscellaneous/localization.h"
+#include "miscellaneous/notification.h"
 #include "miscellaneous/settings.h"
+#include "miscellaneous/singleapplication.h"
 #include "miscellaneous/skinfactory.h"
 #include "miscellaneous/systemfactory.h"
 #include "network-web/downloadmanager.h"
@@ -35,8 +35,9 @@ class QAction;
 class Mutex;
 class QWebEngineDownloadItem;
 class WebFactory;
+class NotificationFactory;
 
-class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
+class RSSGUARD_DLLSPEC Application : public SingleApplication {
   Q_OBJECT
 
   public:
@@ -50,6 +51,8 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
     void offerChanges() const;
 
     bool isAlreadyRunning();
+
+    QStringList builtinSounds() const;
 
     FeedReader* feedReader();
     void setFeedReader(FeedReader* feed_reader);
@@ -76,6 +79,7 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
     FormMain* mainForm();
     QWidget* mainFormWidget();
     SystemTrayIcon* trayIcon();
+    NotificationFactory* notifications() const;
 
     QIcon desktopAwareIcon() const;
 
@@ -93,6 +97,9 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
     // NOTE: Use this to get correct path under which store user data.
     QString userDataFolder();
 
+    QString replaceDataUserDataFolderPlaceholder(QString text) const;
+    QStringList replaceDataUserDataFolderPlaceholder(QStringList texts) const;
+
     void setMainForm(FormMain* main_form);
 
     void backupDatabaseSettings(bool backup_database, bool backup_settings,
@@ -106,8 +113,9 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
 
     // Displays given simple message in tray icon bubble or OSD
     // or in message box if tray icon is disabled.
-    void showGuiMessage(const QString& title, const QString& message, QSystemTrayIcon::MessageIcon message_type,
-                        QWidget* parent = nullptr, bool show_at_least_msgbox = false,
+    void showGuiMessage(Notification::Event event, const QString& title, const QString& message,
+                        QSystemTrayIcon::MessageIcon message_type, bool show_at_least_msgbox = false,
+                        QWidget* parent = nullptr, const QString& functor_heading = {},
                         std::function<void()> functor = nullptr);
 
     // Returns pointer to "GOD" application singleton.
@@ -122,15 +130,18 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
     void restart();
 
     // Processes incoming message from another RSS Guard instance.
-    void processExecutionMessage(const QString& message);
+    void parseCmdArgumentsFromOtherInstance(const QString& message);
+    void parseCmdArgumentsFromMyInstance();
 
   private slots:
     void onCommitData(QSessionManager& manager);
     void onSaveState(QSessionManager& manager);
     void onAboutToQuit();
+    void showMessagesNumber(int unread_messages, bool any_feed_has_unread_messages);
 
 #if defined(USE_WEBENGINE)
     void downloadRequested(QWebEngineDownloadItem* download_item);
+    void onAdBlockFailure();
 #endif
 
     void onFeedUpdatesFinished(const FeedDownloadResults& results);
@@ -139,7 +150,6 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
     void setupCustomDataFolder(const QString& data_folder);
     void determineFirstRuns();
     void eliminateFirstRuns();
-    void parseCmdArguments();
 
   private:
     QCommandLineParser m_cmdParser;
@@ -172,6 +182,7 @@ class RSSGUARD_DLLSPEC Application : public QtSingleApplication {
     IconFactory* m_icons;
     DatabaseFactory* m_database;
     DownloadManager* m_downloadManager;
+    NotificationFactory* m_notifications;
     bool m_shouldRestart;
     bool m_firstRunEver;
     bool m_firstRunCurrentVersion;

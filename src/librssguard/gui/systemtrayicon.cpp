@@ -15,11 +15,13 @@
 TrayIconMenu::TrayIconMenu(const QString& title, QWidget* parent) : QMenu(title, parent) {}
 
 bool TrayIconMenu::event(QEvent* event) {
-  if (event->type() == QEvent::Show && Application::activeModalWidget() != nullptr) {
+  if (event->type() == QEvent::Type::Show && Application::activeModalWidget() != nullptr) {
     QTimer::singleShot(0, this, &TrayIconMenu::hide);
-    qApp->showGuiMessage(QSL(APP_LONG_NAME),
+    qApp->showGuiMessage(Notification::Event::GeneralEvent,
+                         QSL(APP_LONG_NAME),
                          tr("Close opened modal dialogs first."),
-                         QSystemTrayIcon::Warning, qApp->mainFormWidget(), true);
+                         QSystemTrayIcon::Warning,
+                         true);
   }
 
   return QMenu::event(event);
@@ -60,12 +62,12 @@ void SystemTrayIcon::onActivated(QSystemTrayIcon::ActivationReason reason) {
   }
 }
 
-bool SystemTrayIcon::isSystemTrayAvailable() {
+bool SystemTrayIcon::isSystemTrayAreaAvailable() {
   return QSystemTrayIcon::isSystemTrayAvailable() && QSystemTrayIcon::supportsMessages();
 }
 
-bool SystemTrayIcon::isSystemTrayActivated() {
-  return SystemTrayIcon::isSystemTrayAvailable() && qApp->settings()->value(GROUP(GUI), SETTING(GUI::UseTrayIcon)).toBool();
+bool SystemTrayIcon::isSystemTrayDesired() {
+  return qApp->settings()->value(GROUP(GUI), SETTING(GUI::UseTrayIcon)).toBool();
 }
 
 bool SystemTrayIcon::areNotificationsEnabled() {
@@ -92,8 +94,8 @@ void SystemTrayIcon::show() {
   showPrivate();
 #else
   // Delay avoids race conditions and tray icon is properly displayed.
-  qDebugNN << LOGSEC_GUI << "Showing tray icon with 1000 ms delay.";
-  QTimer::singleShot(1000, this, &SystemTrayIcon::showPrivate);
+  qDebugNN << LOGSEC_GUI << "Showing tray icon with 3000 ms delay.";
+  QTimer::singleShot(3000, this, &SystemTrayIcon::showPrivate);
 #endif
 }
 
@@ -127,7 +129,7 @@ void SystemTrayIcon::setNumber(int number, bool any_new_message) {
     if (number > 999) {
       m_font.setPixelSize(background.width() * 0.78);
       tray_painter.setFont(m_font);
-      tray_painter.drawText(background.rect(), Qt::AlignVCenter | Qt::AlignCenter, QChar(8734));
+      tray_painter.drawText(background.rect(), Qt::AlignmentFlag::AlignCenter, QChar(8734));
     }
     else {
       // Smaller number if it has 3 digits.
@@ -145,7 +147,7 @@ void SystemTrayIcon::setNumber(int number, bool any_new_message) {
 
       tray_painter.setFont(m_font);
       tray_painter.drawText(background.rect(),
-                            Qt::AlignmentFlag::AlignVCenter | Qt::AlignmentFlag::AlignCenter,
+                            Qt::AlignmentFlag::AlignCenter,
                             QString::number(number));
     }
 
