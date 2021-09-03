@@ -6,10 +6,10 @@
 #include "core/messagesmodel.h"
 #include "core/messagesproxymodel.h"
 #include "gui/dialogs/formmain.h"
-#include "gui/labelsmenu.h"
 #include "gui/messagebox.h"
-#include "gui/styleditemdelegatewithoutfocus.h"
-#include "gui/treeviewcolumnsmenu.h"
+#include "gui/reusable/labelsmenu.h"
+#include "gui/reusable/styleditemdelegatewithoutfocus.h"
+#include "gui/reusable/treeviewcolumnsmenu.h"
 #include "miscellaneous/externaltool.h"
 #include "miscellaneous/feedreader.h"
 #include "miscellaneous/settings.h"
@@ -26,7 +26,8 @@
 #include <QTimer>
 #include <QTimer>
 
-MessagesView::MessagesView(QWidget* parent) : QTreeView(parent), m_contextMenu(nullptr), m_columnsAdjusted(false) {
+MessagesView::MessagesView(QWidget* parent)
+  : QTreeView(parent), m_contextMenu(nullptr), m_columnsAdjusted(false), m_processingMouse(false) {
   m_sourceModel = qApp->feedReader()->messagesModel();
   m_proxyModel = qApp->feedReader()->messagesProxyModel();
 
@@ -51,12 +52,71 @@ void MessagesView::reloadFontSettings() {
   m_sourceModel->setupFonts();
 }
 
-void MessagesView::sort(int column, Qt::SortOrder order, bool repopulate_data, bool change_header, bool emit_changed_from_header) {
+QByteArray MessagesView::saveHeaderState() const {
+  QByteArray arr;
+  QDataStream outt(&arr, QIODevice::OpenModeFlag::WriteOnly);
+
+  outt.setVersion(QDataStream::Version::Qt_4_7);
+  outt << header()->count();
+  outt << int(header()->sortIndicatorOrder());
+  outt << header()->sortIndicatorSection();
+
+  // Save column data.
+  for (int i = 0; i < header()->count(); i++) {
+    outt << header()->visualIndex(i);
+    outt << header()->sectionSize(i);
+    outt << header()->isSectionHidden(i);
+  }
+
+  return arr;
+}
+
+void MessagesView::restoreHeaderState(const QByteArray& dta) {
+  QByteArray arr = dta;
+  QDataStream inn(&arr, QIODevice::OpenModeFlag::ReadOnly);
+
+  inn.setVersion(QDataStream::Version::Qt_4_7);
+
+  int saved_header_count; inn >> saved_header_count;
+
+  if (std::abs(saved_header_count - header()->count()) > 10) {
+    qWarningNN << LOGSEC_GUI << "Detected invalid state for list view.";
+    return;
+  }
+
+  int saved_sort_order; inn >> saved_sort_order;
+  int saved_sort_column; inn >> saved_sort_column;
+
+  for (int i = 0; i < saved_header_count && i < header()->count(); i++) {
+    int vi, ss;
+    bool ish;
+
+    inn >> vi;
+    inn >> ss;
+    inn >> ish;
+
+    if (vi < header()->count()) {
+      header()->swapSections(header()->visualIndex(i), vi);
+    }
+
+    header()->resizeSection(i, ss);
+    header()->setSectionHidden(i, ish);
+  }
+
+  if (saved_sort_column < header()->count()) {
+    header()->setSortIndicator(saved_sort_column, Qt::SortOrder(saved_sort_order));
+  }
+}
+
+void MessagesView::sort(int column, Qt::SortOrder order,
+                        bool repopulate_data, bool change_header,
+                        bool emit_changed_from_header,
+                        bool ignore_multicolumn_sorting) {
   if (change_header && !emit_changed_from_header) {
     header()->blockSignals(true);
   }
 
-  m_sourceModel->addSortState(column, order);
+  m_sourceModel->addSortState(column, order, ignore_multicolumn_sorting);
 
   if (repopulate_data) {
     m_sourceModel->repopulate();
@@ -79,9 +139,9 @@ void MessagesView::createConnections() {
 void MessagesView::keyboardSearch(const QString& search) {
   // WARNING: This is quite hacky way how to force selection of next item even
   // with extended selection enabled.
-  setSelectionMode(QAbstractItemView::SingleSelection);
+  setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
   QTreeView::keyboardSearch(search);
-  setSelectionMode(QAbstractItemView::ExtendedSelection);
+  setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
 }
 
 void MessagesView::reloadSelections() {
@@ -93,7 +153,7 @@ void MessagesView::reloadSelections() {
   const Qt::SortOrder ord = header()->sortIndicatorOrder();
 
   // Reload the model now.
-  sort(col, ord, true, false, false);
+  sort(col, ord, true, false, false, true);
 
   // Now, we must find the same previously focused message.
   if (selected_message.m_id > 0) {
@@ -153,6 +213,7 @@ void MessagesView::setupAppearance() {
   setItemDelegate(new StyledItemDelegateWithoutFocus(this));
   header()->setDefaultSectionSize(MESSAGES_VIEW_DEFAULT_COL);
   header()->setMinimumSectionSize(MESSAGES_VIEW_MINIMUM_COL);
+  header()->setFirstSectionMovable(true);
   header()->setCascadingSectionResizes(false);
   header()->setStretchLastSection(false);
 }
@@ -190,7 +251,7 @@ void MessagesView::contextMenuEvent(QContextMenuEvent* event) {
 
 void MessagesView::initializeContextMenu() {
   if (m_contextMenu == nullptr) {
-    m_contextMenu = new QMenu(tr("Context menu for messages"), this);
+    m_contextMenu = new QMenu(tr("Context menu for articles"), this);
   }
 
   m_contextMenu->clear();
@@ -209,10 +270,11 @@ void MessagesView::initializeContextMenu() {
   // External tools.
   QFileIconProvider icon_provider;
   QMenu* menu_ext_tools = new QMenu(tr("Open with external tool"), m_contextMenu);
+  auto tools = ExternalTool::toolsFromSettings();
 
   menu_ext_tools->setIcon(qApp->icons()->fromTheme(QSL("document-open")));
 
-  for (const ExternalTool& tool : ExternalTool::toolsFromSettings()) {
+  for (const ExternalTool& tool : qAsConst(tools)) {
     QAction* act_tool = new QAction(QFileInfo(tool.executable()).fileName(), menu_ext_tools);
 
     act_tool->setIcon(icon_provider.icon(tool.executable()));
@@ -224,7 +286,7 @@ void MessagesView::initializeContextMenu() {
   }
 
   if (menu_ext_tools->actions().isEmpty()) {
-    QAction* act_not_tools = new QAction("No external tools activated");
+    QAction* act_not_tools = new QAction(tr("No external tools activated"));
 
     act_not_tools->setEnabled(false);
     menu_ext_tools->addAction(act_not_tools);
@@ -275,7 +337,9 @@ void MessagesView::initializeContextMenu() {
 }
 
 void MessagesView::mousePressEvent(QMouseEvent* event) {
+  m_processingMouse = true;
   QTreeView::mousePressEvent(event);
+  m_processingMouse = false;
 
   switch (event->button()) {
     case Qt::MouseButton::LeftButton: {
@@ -346,8 +410,9 @@ void MessagesView::selectionChanged(const QItemSelection& selected, const QItemS
     emit currentMessageRemoved();
   }
 
-  if (qApp->settings()->value(GROUP(Messages), SETTING(Messages::KeepCursorInCenter)).toBool()) {
-    scrollTo(currentIndex(), QAbstractItemView::PositionAtCenter);
+  if (!m_processingMouse &&
+      qApp->settings()->value(GROUP(Messages), SETTING(Messages::KeepCursorInCenter)).toBool()) {
+    scrollTo(currentIndex(), QAbstractItemView::ScrollHint::PositionAtCenter);
   }
 
   QTreeView::selectionChanged(selected, deselected);
@@ -358,7 +423,7 @@ void MessagesView::loadItem(RootItem* item) {
   const Qt::SortOrder ord = header()->sortIndicatorOrder();
 
   scrollToTop();
-  sort(col, ord, false, true, false);
+  sort(col, ord, false, true, false, true);
   m_sourceModel->loadMessages(item);
 
   // Messages are loaded, make sure that previously
@@ -375,10 +440,12 @@ void MessagesView::switchShowUnreadOnly(bool set_new_value, bool show_unread_onl
 }
 
 void MessagesView::openSelectedSourceMessagesExternally() {
-  for (const QModelIndex& index : selectionModel()->selectedRows()) {
+  auto rws = selectionModel()->selectedRows();
+
+  for (const QModelIndex& index : qAsConst(rws)) {
     QString link = m_sourceModel->messageAt(m_proxyModel->mapToSource(index).row())
                    .m_url
-                   .replace(QRegularExpression("[\\t\\n]"), QString());
+                   .replace(QRegularExpression(QSL("[\\t\\n]")), QString());
 
     qApp->web()->openUrlInExternalBrowser(link);
   }
@@ -397,8 +464,9 @@ void MessagesView::openSelectedSourceMessagesExternally() {
 
 void MessagesView::openSelectedMessagesInternally() {
   QList<Message> messages;
+  auto rws = selectionModel()->selectedRows();
 
-  for (const QModelIndex& index : selectionModel()->selectedRows()) {
+  for (const QModelIndex& index : qAsConst(rws)) {
     messages << m_sourceModel->messageAt(m_proxyModel->mapToSource(index).row());
   }
 
@@ -529,6 +597,12 @@ void MessagesView::selectNextItem() {
 
   if (index_next.isValid()) {
     setCurrentIndex(index_next);
+
+    scrollTo(index_next,
+             !m_processingMouse && qApp->settings()->value(GROUP(Messages), SETTING(Messages::KeepCursorInCenter)).toBool()
+             ? QAbstractItemView::ScrollHint::PositionAtCenter
+             : QAbstractItemView::ScrollHint::PositionAtTop);
+
     selectionModel()->select(index_next, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     setFocus();
   }
@@ -539,6 +613,12 @@ void MessagesView::selectPreviousItem() {
 
   if (index_previous.isValid()) {
     setCurrentIndex(index_previous);
+
+    scrollTo(index_previous,
+             !m_processingMouse && qApp->settings()->value(GROUP(Messages), SETTING(Messages::KeepCursorInCenter)).toBool()
+             ? QAbstractItemView::ScrollHint::PositionAtCenter
+             : QAbstractItemView::ScrollHint::PositionAtTop);
+
     selectionModel()->select(index_previous, QItemSelectionModel::Select | QItemSelectionModel::Rows);
     setFocus();
   }
@@ -561,16 +641,28 @@ void MessagesView::selectNextUnreadItem() {
   if (next_unread.isValid()) {
     // We found unread message, mark it.
     setCurrentIndex(next_unread);
-    selectionModel()->select(next_unread, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+
+    // Make sure that item is properly visible even if
+    // message previewer was hidden and shows up.
+    qApp->processEvents();
+
+    scrollTo(next_unread,
+             !m_processingMouse && qApp->settings()->value(GROUP(Messages), SETTING(Messages::KeepCursorInCenter)).toBool()
+             ? QAbstractItemView::ScrollHint::PositionAtCenter
+             : QAbstractItemView::ScrollHint::PositionAtTop);
+
+    selectionModel()->select(next_unread,
+                             QItemSelectionModel::SelectionFlag::Select |
+                             QItemSelectionModel::SelectionFlag::Rows);
     setFocus();
   }
 }
 
 void MessagesView::searchMessages(const QString& pattern) {
-#if QT_VERSION_MAJOR <= 5
-  m_proxyModel->setFilterRegExp(pattern);
+#if QT_VERSION < 0x050C00 // Qt < 5.12.0
+  m_proxyModel->setFilterRegExp(pattern.toLower());
 #else
-  m_proxyModel->setFilterRegularExpression(pattern);
+  m_proxyModel->setFilterRegularExpression(pattern.toLower());
 #endif
 
   if (selectionModel()->selectedRows().isEmpty()) {
@@ -578,7 +670,10 @@ void MessagesView::searchMessages(const QString& pattern) {
   }
   else {
     // Scroll to selected message, it could become scrolled out due to filter change.
-    scrollTo(selectionModel()->selectedRows().at(0));
+    scrollTo(selectionModel()->selectedRows().at(0),
+             !m_processingMouse && qApp->settings()->value(GROUP(Messages), SETTING(Messages::KeepCursorInCenter)).toBool()
+             ? QAbstractItemView::ScrollHint::PositionAtCenter
+             : QAbstractItemView::ScrollHint::EnsureVisible);
   }
 }
 
@@ -591,17 +686,19 @@ void MessagesView::openSelectedMessagesWithExternalTool() {
 
   if (sndr != nullptr) {
     auto tool = sndr->data().value<ExternalTool>();
+    auto rws = selectionModel()->selectedRows();
 
-    for (const QModelIndex& index : selectionModel()->selectedRows()) {
+    for (const QModelIndex& index : qAsConst(rws)) {
       const QString link = m_sourceModel->messageAt(m_proxyModel->mapToSource(index).row())
                            .m_url
-                           .replace(QRegularExpression("[\\t\\n]"), QString());
+                           .replace(QRegularExpression(QSL("[\\t\\n]")), QString());
 
       if (!link.isEmpty()) {
-        if (!QProcess::startDetached(tool.executable(), QStringList() << tool.parameters() << link)) {
-          qApp->showGuiMessage(tr("Cannot run external tool"),
+        if (!tool.run(link)) {
+          qApp->showGuiMessage(Notification::Event::GeneralEvent,
+                               tr("Cannot run external tool"),
                                tr("External tool '%1' could not be started.").arg(tool.executable()),
-                               QSystemTrayIcon::Critical);
+                               QSystemTrayIcon::MessageIcon::Critical);
         }
       }
     }
@@ -614,13 +711,14 @@ void MessagesView::adjustColumns() {
 
     // Setup column resize strategies.
     for (int i = 0; i < header()->count(); i++) {
-      header()->setSectionResizeMode(i, QHeaderView::Interactive);
+      header()->setSectionResizeMode(i, QHeaderView::ResizeMode::Interactive);
     }
 
-    header()->setSectionResizeMode(MSG_DB_TITLE_INDEX, QHeaderView::Stretch);
-    header()->setSectionResizeMode(MSG_DB_READ_INDEX, QHeaderView::ResizeToContents);
-    header()->setSectionResizeMode(MSG_DB_IMPORTANT_INDEX, QHeaderView::ResizeToContents);
-    header()->setSectionResizeMode(MSG_DB_HAS_ENCLOSURES, QHeaderView::ResizeToContents);
+    header()->setSectionResizeMode(MSG_DB_TITLE_INDEX, QHeaderView::ResizeMode::Stretch);
+    header()->setSectionResizeMode(MSG_DB_READ_INDEX, QHeaderView::ResizeMode::ResizeToContents);
+    header()->setSectionResizeMode(MSG_DB_IMPORTANT_INDEX, QHeaderView::ResizeMode::ResizeToContents);
+    header()->setSectionResizeMode(MSG_DB_SCORE_INDEX, QHeaderView::ResizeMode::ResizeToContents);
+    header()->setSectionResizeMode(MSG_DB_HAS_ENCLOSURES, QHeaderView::ResizeMode::ResizeToContents);
 
     // Hide columns.
     hideColumn(MSG_DB_ID_INDEX);
@@ -629,16 +727,19 @@ void MessagesView::adjustColumns() {
     hideColumn(MSG_DB_CONTENTS_INDEX);
     hideColumn(MSG_DB_PDELETED_INDEX);
     hideColumn(MSG_DB_ENCLOSURES_INDEX);
+    hideColumn(MSG_DB_SCORE_INDEX);
     hideColumn(MSG_DB_ACCOUNT_ID_INDEX);
     hideColumn(MSG_DB_CUSTOM_ID_INDEX);
     hideColumn(MSG_DB_CUSTOM_HASH_INDEX);
     hideColumn(MSG_DB_FEED_CUSTOM_ID_INDEX);
+    hideColumn(MSG_DB_FEED_TITLE_INDEX);
+    hideColumn(MSG_DB_HAS_ENCLOSURES);
   }
 }
 
 void MessagesView::onSortIndicatorChanged(int column, Qt::SortOrder order) {
   // Repopulate the shit.
-  sort(column, order, true, false, false);
+  sort(column, order, true, false, false, false);
 
   emit currentMessageRemoved();
 }

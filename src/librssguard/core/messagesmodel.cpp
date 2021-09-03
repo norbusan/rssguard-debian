@@ -3,18 +3,22 @@
 #include "core/messagesmodel.h"
 
 #include "core/messagesmodelcache.h"
+#include "database/databasefactory.h"
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasefactory.h"
-#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/iconfactory.h"
 #include "miscellaneous/skinfactory.h"
 #include "miscellaneous/textfactory.h"
 #include "services/abstract/recyclebin.h"
 #include "services/abstract/serviceroot.h"
 
+#include <QPainter>
+#include <QPainterPath>
 #include <QSqlError>
 #include <QSqlField>
+
+#include <cmath>
 
 MessagesModel::MessagesModel(QObject* parent)
   : QSqlQueryModel(parent), m_cache(new MessagesModelCache(this)), m_messageHighlighter(MessageHighlighter::NoHighlighting),
@@ -36,6 +40,43 @@ void MessagesModel::setupIcons() {
   m_readIcon = qApp->icons()->fromTheme(QSL("mail-mark-read"));
   m_unreadIcon = qApp->icons()->fromTheme(QSL("mail-mark-unread"));
   m_enclosuresIcon = qApp->icons()->fromTheme(QSL("mail-attachment"));
+
+  for (int i = int(MSG_SCORE_MIN); i <= int(MSG_SCORE_MAX); i += 10) {
+    m_scoreIcons.append(generateIconForScore(double(i)));
+  }
+}
+
+QIcon MessagesModel::generateIconForScore(double score) {
+  QPixmap pix(64, 64);
+  QPainter paint(&pix);
+
+  paint.setRenderHint(QPainter::RenderHint::Antialiasing);
+
+  int level = std::min(MSG_SCORE_MAX, std::max(MSG_SCORE_MIN, std::floor(score / 10.0)));
+  QPainterPath path;
+
+  path.addRoundedRect(QRectF(2, 2, 60, 60), 5, 5);
+
+  QPen pen(Qt::GlobalColor::black, 2);
+
+  paint.setPen(pen);
+  paint.fillPath(path, Qt::GlobalColor::white);
+  paint.drawPath(path);
+
+#if QT_VERSION >= 0x050D00 // Qt >= 5.13.0
+  path.clear();
+#else
+  path = QPainterPath();
+#endif
+
+  paint.setPen(Qt::GlobalColor::transparent);
+
+  int bar_height = 6 * level;
+
+  path.addRoundedRect(QRectF(2, 64 - bar_height - 2, 60, bar_height), 5, 5);
+  paint.fillPath(path, QColor::fromHsv(int(score), 200, 230));
+
+  return pix;
 }
 
 MessagesModelCache* MessagesModel::cache() const {
@@ -101,10 +142,10 @@ void MessagesModel::loadMessages(RootItem* item) {
       qCriticalNN << LOGSEC_MESSAGEMODEL
                   << "Loading of messages from item '"
                   << item->title() << "' failed.";
-      qApp->showGuiMessage(tr("Loading of messages from item '%1' failed.").arg(item->title()),
-                           tr("Loading of messages failed, maybe messages could not be downloaded."),
+      qApp->showGuiMessage(Notification::Event::GeneralEvent,
+                           tr("Loading of articles from item '%1' failed.").arg(item->title()),
+                           tr("Loading of articles failed, maybe messages could not be downloaded."),
                            QSystemTrayIcon::MessageIcon::Critical,
-                           qApp->mainFormWidget(),
                            true);
     }
   }
@@ -177,11 +218,13 @@ void MessagesModel::setupHeaderData() {
 
     /*: Tooltip for "read" column in msg list.*/ tr("Read") <<
 
-    /*: Tooltip for "deleted" column in msg list.*/ tr("Deleted") <<
-
     /*: Tooltip for "important" column in msg list.*/ tr("Important") <<
 
-    /*: Tooltip for name of feed for message.*/ tr("Feed") <<
+    /*: Tooltip for "deleted" column in msg list.*/ tr("Deleted") <<
+
+    /*: Tooltip for "pdeleted" column in msg list.*/ tr("Permanently deleted") <<
+
+    /*: Tooltip for custom ID of feed of message.*/ tr("Feed ID") <<
 
     /*: Tooltip for title of message.*/ tr("Title") <<
 
@@ -189,13 +232,13 @@ void MessagesModel::setupHeaderData() {
 
     /*: Tooltip for author of message.*/ tr("Author") <<
 
-    /*: Tooltip for creation date of message.*/ tr("Created on") <<
+    /*: Tooltip for creation date of message.*/ tr("Date") <<
 
     /*: Tooltip for contents of message.*/ tr("Contents") <<
 
-    /*: Tooltip for "pdeleted" column in msg list.*/ tr("Permanently deleted") <<
-
     /*: Tooltip for attachments of message.*/ tr("Attachments") <<
+
+    /*: Tooltip for score of message.*/ tr("Score") <<
 
     /*: Tooltip for account ID of message.*/ tr("Account ID") <<
 
@@ -203,20 +246,29 @@ void MessagesModel::setupHeaderData() {
 
     /*: Tooltip for custom hash string of message.*/ tr("Custom hash") <<
 
-    /*: Tooltip for custom ID of feed of message.*/ tr("Feed ID") <<
+    /*: Tooltip for name of feed for message.*/ tr("Feed") <<
 
     /*: Tooltip for indication of presence of enclosures.*/ tr("Has enclosures");
 
-  m_tooltipData <<
-    tr("Id of the message.") << tr("Is message read?") <<
-    tr("Is message deleted?") << tr("Is message important?") <<
-    tr("Id of feed which this message belongs to.") <<
-    tr("Title of the message.") << tr("Url of the message.") <<
-    tr("Author of the message.") << tr("Creation date of the message.") <<
-    tr("Contents of the message.") << tr("Is message permanently deleted from recycle bin?") <<
-    tr("List of attachments.") << tr("Account ID of the message.") << tr("Custom ID of the message") <<
-    tr("Custom hash of the message.") << tr("Custom ID of feed of the message.") <<
-    tr("Indication of enclosures presence within the message.");
+  m_tooltipData
+    << tr("ID of the article.")
+    << tr("Is article read?")
+    << tr("Is article important?")
+    << tr("Is article deleted?")
+    << tr("Is article permanently deleted from recycle bin?")
+    << tr("ID of feed which this article belongs to.")
+    << tr("Title of the article.")
+    << tr("Url of the article.")
+    << tr("Author of the article.")
+    << tr("Creation date of the article.")
+    << tr("Contents of the article.")
+    << tr("List of attachments.")
+    << tr("Score of the article.")
+    << tr("Account ID of the article.")
+    << tr("Custom ID of the article")
+    << tr("Custom hash of the article.")
+    << tr("Custom ID of feed of the article.")
+    << tr("Indication of enclosures presence within the article.");
 }
 
 Qt::ItemFlags MessagesModel::flags(const QModelIndex& index) const {
@@ -224,8 +276,8 @@ Qt::ItemFlags MessagesModel::flags(const QModelIndex& index) const {
   return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemNeverHasChildren;
 }
 
-QList<Message> MessagesModel::messagesAt(QList<int> row_indices) const {
-  QList<Message> msgs;
+QList<Message> MessagesModel::messagesAt(const QList<int>& row_indices) const {
+  QList<Message> msgs; msgs.reserve(row_indices.size());
 
   for (int idx : row_indices) {
     msgs << messageAt(idx);
@@ -268,7 +320,8 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
       }
       else if (index_column != MSG_DB_IMPORTANT_INDEX &&
                index_column != MSG_DB_READ_INDEX &&
-               index_column != MSG_DB_HAS_ENCLOSURES) {
+               index_column != MSG_DB_HAS_ENCLOSURES &&
+               index_column != MSG_DB_SCORE_INDEX) {
         return QSqlQueryModel::data(idx, role);
       }
       else {
@@ -276,24 +329,47 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
       }
     }
 
+    case LOWER_TITLE_ROLE:
+      return m_cache->containsData(idx.row())
+          ? m_cache->data(idx).toString().toLower()
+          : QSqlQueryModel::data(idx, Qt::ItemDataRole::EditRole).toString().toLower();
+
     case Qt::ItemDataRole::EditRole:
-      return m_cache->containsData(idx.row()) ? m_cache->data(idx) : QSqlQueryModel::data(idx, role);
+      return m_cache->containsData(idx.row())
+          ? m_cache->data(idx)
+          : QSqlQueryModel::data(idx, role);
+
+    case Qt::ItemDataRole::ToolTipRole: {
+      if (!qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::EnableTooltipsFeedsMessages)).toBool()) {
+        return QVariant();
+      }
+      else if (idx.column() == MSG_DB_SCORE_INDEX) {
+        QVariant dta = m_cache->containsData(idx.row())
+                         ? m_cache->data(idx)
+                         : QSqlQueryModel::data(idx);
+
+        return dta.toString();
+      }
+      else {
+        return QVariant();
+      }
+    }
 
     case Qt::ItemDataRole::FontRole: {
       QModelIndex idx_read = index(idx.row(), MSG_DB_READ_INDEX);
-      QVariant data_read = data(idx_read, Qt::EditRole);
+      QVariant data_read = data(idx_read, Qt::ItemDataRole::EditRole);
       const bool is_bin = qobject_cast<RecycleBin*>(loadedItem()) != nullptr;
       bool is_deleted;
 
       if (is_bin) {
         QModelIndex idx_del = index(idx.row(), MSG_DB_PDELETED_INDEX);
 
-        is_deleted = data(idx_del, Qt::EditRole).toBool();
+        is_deleted = data(idx_del, Qt::ItemDataRole::EditRole).toBool();
       }
       else {
         QModelIndex idx_del = index(idx.row(), MSG_DB_DELETED_INDEX);
 
-        is_deleted = data(idx_del, Qt::EditRole).toBool();
+        is_deleted = data(idx_del, Qt::ItemDataRole::EditRole).toBool();
       }
 
       const bool striked = is_deleted;
@@ -364,6 +440,12 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
         QVariant dta = QSqlQueryModel::data(idx_important);
 
         return dta.toBool() ? m_enclosuresIcon : QVariant();
+      }
+      else if (index_column == MSG_DB_SCORE_INDEX) {
+        QVariant dta = QSqlQueryModel::data(idx);
+        int level = std::min(MSG_SCORE_MAX, std::max(MSG_SCORE_MIN, std::floor(dta.toDouble() / 10.0)));
+
+        return m_scoreIcons.at(level);
       }
       else {
         return QVariant();
@@ -460,8 +542,8 @@ bool MessagesModel::switchMessageImportance(int row_index) {
 }
 
 bool MessagesModel::switchBatchMessageImportance(const QModelIndexList& messages) {
-  QStringList message_ids;
-  QList<QPair<Message, RootItem::Importance>> message_states;
+  QStringList message_ids; message_ids.reserve(messages.size());
+  QList<QPair<Message, RootItem::Importance>> message_states; message_states.reserve(messages.size());
 
   // Obtain IDs of all desired messages.
   for (const QModelIndex& message : messages) {
@@ -495,8 +577,8 @@ bool MessagesModel::switchBatchMessageImportance(const QModelIndexList& messages
 }
 
 bool MessagesModel::setBatchMessagesDeleted(const QModelIndexList& messages) {
-  QStringList message_ids;
-  QList<Message> msgs;
+  QStringList message_ids; message_ids.reserve(messages.size());
+  QList<Message> msgs; msgs.reserve(messages.size());
 
   // Obtain IDs of all desired messages.
   for (const QModelIndex& message : messages) {
@@ -537,8 +619,8 @@ bool MessagesModel::setBatchMessagesDeleted(const QModelIndexList& messages) {
 }
 
 bool MessagesModel::setBatchMessagesRead(const QModelIndexList& messages, RootItem::ReadStatus read) {
-  QStringList message_ids;
-  QList<Message> msgs;
+  QStringList message_ids; message_ids.reserve(messages.size());
+  QList<Message> msgs; msgs.reserve(messages.size());
 
   // Obtain IDs of all desired messages.
   for (const QModelIndex& message : messages) {
@@ -564,8 +646,8 @@ bool MessagesModel::setBatchMessagesRead(const QModelIndexList& messages, RootIt
 }
 
 bool MessagesModel::setBatchMessagesRestored(const QModelIndexList& messages) {
-  QStringList message_ids;
-  QList<Message> msgs;
+  QStringList message_ids; message_ids.reserve(messages.size());
+  QList<Message> msgs; msgs.reserve(messages.size());
 
   // Obtain IDs of all desired messages.
   for (const QModelIndex& message : messages) {
@@ -599,7 +681,10 @@ QVariant MessagesModel::headerData(int section, Qt::Orientation orientation, int
 
       // Display textual headers for all columns except "read" and
       // "important" and "has enclosures" columns.
-      if (section != MSG_DB_READ_INDEX && section != MSG_DB_IMPORTANT_INDEX && section != MSG_DB_HAS_ENCLOSURES) {
+      if (section != MSG_DB_READ_INDEX &&
+          section != MSG_DB_IMPORTANT_INDEX &&
+          section != MSG_DB_SCORE_INDEX &&
+          section != MSG_DB_HAS_ENCLOSURES) {
         return m_headerData.at(section);
       }
       else {
@@ -623,6 +708,9 @@ QVariant MessagesModel::headerData(int section, Qt::Orientation orientation, int
 
         case MSG_DB_IMPORTANT_INDEX:
           return m_favoriteIcon;
+
+        case MSG_DB_SCORE_INDEX:
+          return m_scoreIcons.at(5);
 
         default:
           return QVariant();

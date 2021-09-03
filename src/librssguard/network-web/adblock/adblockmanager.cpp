@@ -1,267 +1,118 @@
-// For license of this file, see <project-root-folder>/LICENSE.md.
-
-//
-// Copyright (C) 2011-2017 by Martin Rotter <rotter.martinos@gmail.com>
-// Copyright (C) 2010-2014 by David Rosca <nowrep@gmail.com>
-//
-// RSS Guard is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// RSS Guard is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with RSS Guard. If not, see <http://www.gnu.org/licenses/>.
+﻿// For license of this file, see <project-root-folder>/LICENSE.md.
 
 #include "network-web/adblock/adblockmanager.h"
 
+#include "exceptions/applicationexception.h"
+#include "exceptions/networkexception.h"
 #include "miscellaneous/application.h"
 #include "miscellaneous/settings.h"
 #include "network-web/adblock/adblockdialog.h"
 #include "network-web/adblock/adblockicon.h"
-#include "network-web/adblock/adblockmatcher.h"
 #include "network-web/adblock/adblockrequestinfo.h"
-#include "network-web/adblock/adblocksubscription.h"
 #include "network-web/adblock/adblockurlinterceptor.h"
+#include "network-web/networkfactory.h"
 #include "network-web/networkurlinterceptor.h"
 #include "network-web/webfactory.h"
 
 #include <QDateTime>
 #include <QDir>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMessageBox>
-#include <QMutexLocker>
-#include <QSaveFile>
-#include <QTextStream>
+#include <QThread>
 #include <QTimer>
 #include <QUrlQuery>
 #include <QWebEngineProfile>
 
 AdBlockManager::AdBlockManager(QObject* parent)
-  : QObject(parent), m_loaded(false), m_enabled(false), m_matcher(new AdBlockMatcher(this)),
-  m_interceptor(new AdBlockUrlInterceptor(this)) {
+  : QObject(parent), m_loaded(false), m_enabled(false), m_interceptor(new AdBlockUrlInterceptor(this)),
+  m_serverProcess(nullptr), m_cacheBlocks({}) {
   m_adblockIcon = new AdBlockIcon(this);
   m_adblockIcon->setObjectName(QSL("m_adblockIconAction"));
+  m_unifiedFiltersFile = qApp->userDataFolder() + QDir::separator() + QSL("adblock-unified-filters.txt");
 }
 
 AdBlockManager::~AdBlockManager() {
-  qDeleteAll(m_subscriptions);
+  killServer();
 }
 
-QList<AdBlockSubscription*> AdBlockManager::subscriptions() const {
-  return m_subscriptions;
-}
-
-const AdBlockRule* AdBlockManager::block(const AdblockRequestInfo& request) {
-  QMutexLocker locker(&m_mutex);
-
+BlockingResult AdBlockManager::block(const AdblockRequestInfo& request) {
   if (!isEnabled()) {
-    return nullptr;
+    return { false };
   }
 
   const QString url_string = request.requestUrl().toEncoded().toLower();
-  const QString url_domain = request.requestUrl().host().toLower();
+  const QString firstparty_url_string = request.firstPartyUrl().toEncoded().toLower();
   const QString url_scheme = request.requestUrl().scheme().toLower();
+  const QPair<QString, QString> url_pair = { firstparty_url_string, url_string };
+  const QString url_type = request.resourceType();
 
-  if (!canRunOnScheme(url_scheme) || !canBeBlocked(request.firstPartyUrl())) {
-    return nullptr;
+  if (!canRunOnScheme(url_scheme)) {
+    return { false };
   }
   else {
-    const AdBlockRule* blocked_rule = m_matcher->match(request, url_domain, url_string);
+    if (m_cacheBlocks.contains(url_pair)) {
+      qDebugNN << LOGSEC_ADBLOCK
+               << "Found blocking data in cache, URL:"
+               << QUOTE_W_SPACE_DOT(url_pair);
 
-    return blocked_rule;
-  }
-}
+      return m_cacheBlocks.value(url_pair);
+    }
 
-QStringList AdBlockManager::disabledRules() const {
-  return m_disabledRules;
-}
+    if (m_serverProcess != nullptr && m_serverProcess->state() == QProcess::ProcessState::Running) {
+      try {
+        auto result = askServerIfBlocked(firstparty_url_string, url_string, url_type);
 
-void AdBlockManager::addDisabledRule(const QString& filter) {
-  m_disabledRules.append(filter);
-}
+        m_cacheBlocks.insert(url_pair, result);
 
-void AdBlockManager::removeDisabledRule(const QString& filter) {
-  m_disabledRules.removeOne(filter);
-}
+        qDebugNN << LOGSEC_ADBLOCK
+                 << "Inserted blocking data to cache for:"
+                 << QUOTE_W_SPACE_DOT(url_pair);
 
-AdBlockSubscription* AdBlockManager::addSubscription(const QString& title, const QString& url) {
-  if (title.isEmpty() || url.isEmpty()) {
-    return nullptr;
-  }
-
-  QString fileName = title + QSL(".txt");
-  QString filePath = storedListsPath() + QDir::separator() + fileName;
-  QByteArray data = QString("Title: %1\nUrl: %2\n[Adblock Plus 1.1.1]").arg(title, url).toLatin1();
-  QSaveFile file(filePath);
-
-  if (!file.open(QFile::WriteOnly)) {
-    qWarningNN << LOGSEC_ADBLOCK
-               << "Cannot save AdBlock subscription to file"
-               << QUOTE_W_SPACE_DOT(filePath);
-    return nullptr;
-  }
-
-  file.write(data);
-  file.commit();
-  auto* subscription = new AdBlockSubscription(title, this);
-
-  subscription->setUrl(QUrl(url));
-  subscription->setFilePath(filePath);
-  subscription->loadSubscription(m_disabledRules);
-  m_subscriptions.insert(m_subscriptions.count() - 1, subscription);
-
-  connect(subscription, &AdBlockSubscription::subscriptionChanged, this, &AdBlockManager::updateMatcher);
-  return subscription;
-}
-
-bool AdBlockManager::removeSubscription(AdBlockSubscription* subscription) {
-  QMutexLocker locker(&m_mutex);
-
-  if (!m_subscriptions.contains(subscription) || !subscription->canBeRemoved()) {
-    return false;
-  }
-
-  QFile(subscription->filePath()).remove();
-  m_subscriptions.removeOne(subscription);
-  m_matcher->update();
-  delete subscription;
-  return true;
-}
-
-AdBlockCustomList* AdBlockManager::customList() const {
-  for (AdBlockSubscription* subscription : m_subscriptions) {
-    auto* list = qobject_cast<AdBlockCustomList*>(subscription);
-
-    if (list != nullptr) {
-      return list;
+        return result;
+      }
+      catch (const ApplicationException& ex) {
+        qCriticalNN << LOGSEC_ADBLOCK
+                    << "HTTP error when calling server for blocking rules:"
+                    << QUOTE_W_SPACE_DOT(ex.message());
+        return { false };
+      }
+    }
+    else {
+      return { false };
     }
   }
-
-  return nullptr;
 }
 
-QString AdBlockManager::storedListsPath() {
-  return qApp->userDataFolder() + QDir::separator() + ADBLOCK_LISTS_SUBDIRECTORY;
-}
-
-void AdBlockManager::load(bool initial_load) {
-  QMutexLocker locker(&m_mutex);
-  auto new_enabled = qApp->settings()->value(GROUP(AdBlock), SETTING(AdBlock::AdBlockEnabled)).toBool();
-
-  if (!initial_load) {
-    new_enabled = !new_enabled;
-  }
-
-  if (new_enabled != m_enabled) {
-    emit enabledChanged(new_enabled);
-
-    qApp->settings()->setValue(GROUP(AdBlock), AdBlock::AdBlockEnabled, new_enabled);
-  }
-  else if (!initial_load) {
+void AdBlockManager::setEnabled(bool enabled) {
+  if (enabled == m_enabled) {
     return;
   }
 
-  m_enabled = new_enabled;
-
   if (!m_loaded) {
-    m_disabledRules = qApp->settings()->value(GROUP(AdBlock), SETTING(AdBlock::DisabledRules)).toStringList();
-
-    QDateTime last_update = qApp->settings()->value(GROUP(AdBlock), SETTING(AdBlock::LastUpdatedOn)).toDateTime();
-    QDir adblock_dir(storedListsPath());
-
-    // Create if neccessary
-    if (!adblock_dir.exists()) {
-      QDir().mkpath(storedListsPath());
-    }
-
-    for (const QString& subscription_file_name : adblock_dir.entryList(QStringList("*.txt"), QDir::Files)) {
-      if (subscription_file_name == ADBLOCK_CUSTOMLIST_NAME) {
-        continue;
-      }
-
-      const QString absolute_path = adblock_dir.absoluteFilePath(subscription_file_name);
-      QFile file(absolute_path);
-
-      if (!file.open(QFile::OpenModeFlag::ReadOnly)) {
-        continue;
-      }
-
-      QTextStream subscription_stream(&file);
-
-      subscription_stream.setCodec("UTF-8");
-      QString title = subscription_stream.readLine(1024).remove(QLatin1String("Title: "));
-      QUrl url = QUrl(subscription_stream.readLine(1024).remove(QLatin1String("Url: ")));
-
-      if (title.isEmpty() || !url.isValid()) {
-        qWarningNN << LOGSEC_ADBLOCK
-                   << "Invalid AdBlock subscription file"
-                   << QUOTE_W_SPACE_DOT(absolute_path);
-        continue;
-      }
-
-      auto* subscription = new AdBlockSubscription(title, this);
-
-      subscription->setUrl(url);
-      subscription->setFilePath(absolute_path);
-      m_subscriptions.append(subscription);
-    }
-
-    // Append CustomList.
-    auto* custom_list = new AdBlockCustomList(this);
-
-    m_subscriptions.append(custom_list);
-
-    // Load all subscriptions.
-    for (AdBlockSubscription* subscription : m_subscriptions) {
-      subscription->loadSubscription(m_disabledRules);
-      connect(subscription, &AdBlockSubscription::subscriptionChanged, this, &AdBlockManager::updateMatcher);
-    }
-
-    if (last_update.addDays(ADBLOCK_UPDATE_DAYS_INTERVAL) < QDateTime::currentDateTime()) {
-      QTimer::singleShot(1000 * 60, this, &AdBlockManager::updateAllSubscriptions);
-    }
-
     qApp->web()->urlIinterceptor()->installUrlInterceptor(m_interceptor);
     m_loaded = true;
   }
 
+  m_enabled = enabled;
+  emit enabledChanged(m_enabled);
+
   if (m_enabled) {
-    m_matcher->update();
+    try {
+      updateUnifiedFiltersFileAndStartServer();
+    }
+    catch (const ApplicationException& ex) {
+      qCriticalNN << LOGSEC_ADBLOCK
+                  << "Failed to write unified filters to file or re-start server, error:"
+                  << QUOTE_W_SPACE_DOT(ex.message());
+
+      m_enabled = false;
+      emit enabledChanged(m_enabled);
+    }
   }
   else {
-    m_matcher->clear();
+    killServer();
   }
-}
-
-void AdBlockManager::updateMatcher() {
-  QMutexLocker locker(&m_mutex);
-
-  m_matcher->update();
-}
-
-void AdBlockManager::updateAllSubscriptions() {
-  for (AdBlockSubscription* subscription : m_subscriptions) {
-    subscription->updateSubscription();
-  }
-
-  qApp->settings()->setValue(GROUP(AdBlock), AdBlock::LastUpdatedOn, QDateTime::currentDateTime());
-}
-
-void AdBlockManager::save() {
-  if (!m_loaded) {
-    return;
-  }
-
-  for (AdBlockSubscription* subscription : m_subscriptions) {
-    subscription->saveSubscription();
-  }
-
-  qApp->settings()->setValue(GROUP(AdBlock), AdBlock::AdBlockEnabled, m_enabled);
-  qApp->settings()->setValue(GROUP(AdBlock), AdBlock::DisabledRules, m_disabledRules);
 }
 
 bool AdBlockManager::isEnabled() const {
@@ -269,33 +120,45 @@ bool AdBlockManager::isEnabled() const {
 }
 
 bool AdBlockManager::canRunOnScheme(const QString& scheme) const {
-  return !(scheme == QSL("file") || scheme == QSL("qrc") ||
-           scheme == QSL("data") || scheme == QSL("abp"));
-}
-
-bool AdBlockManager::canBeBlocked(const QUrl& url) const {
-  return !m_matcher->adBlockDisabledForUrl(url);
-}
-
-QString AdBlockManager::elementHidingRules(const QUrl& url) const {
-  if (!isEnabled() || !canRunOnScheme(url.scheme()) || !canBeBlocked(url)) {
-    return QString();
-  }
-  else {
-    return m_matcher->elementHidingRules();
-  }
+  return !(scheme == QSL("file") || scheme == QSL("qrc") || scheme == QSL("data") || scheme == QSL("abp"));
 }
 
 QString AdBlockManager::elementHidingRulesForDomain(const QUrl& url) const {
-  if (!isEnabled() || !canRunOnScheme(url.scheme()) || !canBeBlocked(url)) {
-    return QString();
+  if (m_serverProcess != nullptr &&  m_serverProcess->state() == QProcess::ProcessState::Running) {
+    try {
+      auto result = askServerForCosmeticRules(url.toString());
+
+      return result;
+    }
+    catch (const ApplicationException& ex) {
+      qCriticalNN << LOGSEC_ADBLOCK
+                  << "HTTP error when calling server for cosmetic rules:"
+                  << QUOTE_W_SPACE_DOT(ex.message());
+      return {};
+    }
   }
   else {
-    return m_matcher->elementHidingRulesForDomain(url.host());
+    return {};
   }
 }
 
-QString AdBlockManager::generateJsForElementHiding(const QString& css) const {
+QStringList AdBlockManager::filterLists() const {
+  return qApp->settings()->value(GROUP(AdBlock), SETTING(AdBlock::FilterLists)).toStringList();
+}
+
+void AdBlockManager::setFilterLists(const QStringList& filter_lists) {
+  qApp->settings()->setValue(GROUP(AdBlock), AdBlock::FilterLists, filter_lists);
+}
+
+QStringList AdBlockManager::customFilters() const {
+  return qApp->settings()->value(GROUP(AdBlock), SETTING(AdBlock::CustomFilters)).toStringList();
+}
+
+void AdBlockManager::setCustomFilters(const QStringList& custom_filters) {
+  qApp->settings()->setValue(GROUP(AdBlock), AdBlock::CustomFilters, custom_filters);
+}
+
+QString AdBlockManager::generateJsForElementHiding(const QString& css) {
   QString source = QL1S("(function() {"
                         "var head = document.getElementsByTagName('head')[0];"
                         "if (!head) return;"
@@ -314,4 +177,212 @@ QString AdBlockManager::generateJsForElementHiding(const QString& css) const {
 
 void AdBlockManager::showDialog() {
   AdBlockDialog(qApp->mainFormWidget()).exec();
+}
+
+void AdBlockManager::onServerProcessFinished(int exit_code, QProcess::ExitStatus exit_status) {
+  Q_UNUSED(exit_status)
+  killServer();
+
+  qCriticalNN << LOGSEC_ADBLOCK
+              << "Process exited with exit code"
+              << QUOTE_W_SPACE(exit_code)
+              << "so check application log for more details.";
+
+  m_enabled = false;
+  emit processTerminated();
+}
+
+BlockingResult AdBlockManager::askServerIfBlocked(const QString& fp_url, const QString& url, const QString& url_type) const {
+  QJsonObject req_obj;
+  QByteArray out;
+  QElapsedTimer tmr;
+
+  req_obj["fp_url"] = fp_url;
+  req_obj["url"] = url;
+  req_obj["url_type"] = url_type,
+  req_obj["filter"] = true;
+
+  tmr.start();
+
+  auto network_res = NetworkFactory::performNetworkOperation(QSL("http://%1:%2").arg(QHostAddress(QHostAddress::SpecialAddress::LocalHost).toString(),
+                                                                                     QString::number(ADBLOCK_SERVER_PORT)),
+                                                             500,
+                                                             QJsonDocument(req_obj).toJson(),
+                                                             out,
+                                                             QNetworkAccessManager::Operation::PostOperation,
+                                                             { {
+                                                               QSL(HTTP_HEADERS_CONTENT_TYPE).toLocal8Bit(),
+                                                               QSL("application/json").toLocal8Bit() } });
+
+  if (network_res.first == QNetworkReply::NetworkError::NoError) {
+    qDebugNN << LOGSEC_ADBLOCK
+             << "Query for blocking info to server took "
+             << tmr.elapsed()
+             << " ms.";
+
+    QJsonObject out_obj = QJsonDocument::fromJson(out).object();
+    bool blocking = out_obj["filter"].toObject()["match"].toBool();
+
+    return {
+      blocking,
+      blocking
+          ? out_obj["filter"].toObject()["filter"].toObject()["filter"].toString()
+          : QString()
+    };
+  }
+  else {
+    throw NetworkException(network_res.first);
+  }
+}
+
+QString AdBlockManager::askServerForCosmeticRules(const QString& url) const {
+  QJsonObject req_obj;
+  QByteArray out;
+  QElapsedTimer tmr;
+
+  req_obj["url"] = url;
+  req_obj["cosmetic"] = true;
+
+  tmr.start();
+
+  auto network_res = NetworkFactory::performNetworkOperation(QSL("http://%1:%2").arg(QHostAddress(QHostAddress::SpecialAddress::LocalHost).toString(),
+                                                                                     QString::number(ADBLOCK_SERVER_PORT)),
+                                                             500,
+                                                             QJsonDocument(req_obj).toJson(),
+                                                             out,
+                                                             QNetworkAccessManager::Operation::PostOperation,
+                                                             { {
+                                                               QSL(HTTP_HEADERS_CONTENT_TYPE).toLocal8Bit(),
+                                                               QSL("application/json").toLocal8Bit() } });
+
+  if (network_res.first == QNetworkReply::NetworkError::NoError) {
+    qDebugNN << LOGSEC_ADBLOCK
+             << "Query for cosmetic rules to server took "
+             << tmr.elapsed()
+             << " ms.";
+
+    QJsonObject out_obj = QJsonDocument::fromJson(out).object();
+
+    return out_obj["cosmetic"].toObject()["styles"].toString();
+  }
+  else {
+    throw NetworkException(network_res.first);
+  }
+}
+
+QProcess* AdBlockManager::startServer(int port) {
+  QString temp_server = QDir::toNativeSeparators(IOFactory::getSystemFolder(QStandardPaths::StandardLocation::TempLocation)) +
+                        QDir::separator() +
+                        QSL("adblock-server.js");
+
+  if (!IOFactory::copyFile(QSL(":/scripts/adblock/adblock-server.js"), temp_server)) {
+    qWarningNN << LOGSEC_ADBLOCK << "Failed to copy server file to TEMP.";
+  }
+
+  QProcess* proc = new QProcess(this);
+
+#if defined(Q_OS_WIN)
+  proc->setProgram(QSL("node.exe"));
+#else
+  proc->setProgram(QSL("node"));
+#endif
+
+  proc->setArguments({
+    QDir::toNativeSeparators(temp_server),
+    QString::number(port),
+    QDir::toNativeSeparators(m_unifiedFiltersFile)
+  });
+
+  proc->setProcessEnvironment(QProcessEnvironment::systemEnvironment());
+
+  auto pe = proc->processEnvironment();
+  QString default_node_path =
+#if defined(Q_OS_WIN)
+    pe.value(QSL("APPDATA")) + QDir::separator() + QSL("npm") + QDir::separator() + QSL("node_modules");
+#elif defined(Q_OS_LINUX)
+    QSL("/usr/lib/node_modules");
+#elif defined(Q_OS_MACOS)
+    QSL("/usr/local/lib/node_modules");
+#else
+    QSL("");
+#endif
+
+  if (!pe.contains(QSL("NODE_PATH")) && !default_node_path.isEmpty()) {
+    pe.insert(QSL("NODE_PATH"), default_node_path);
+  }
+
+  proc->setProcessEnvironment(pe);
+  proc->setProcessChannelMode(QProcess::ProcessChannelMode::ForwardedErrorChannel);
+
+  connect(proc, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &AdBlockManager::onServerProcessFinished);
+
+  proc->open();
+
+  qDebugNN << LOGSEC_ADBLOCK << "Attempting to start AdBlock server.";
+  return proc;
+}
+
+void AdBlockManager::killServer() {
+  if (m_serverProcess != nullptr) {
+    disconnect(m_serverProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+               this, &AdBlockManager::onServerProcessFinished);
+
+    if (m_serverProcess->state() == QProcess::ProcessState::Running) {
+      m_serverProcess->kill();
+    }
+
+    m_serverProcess->deleteLater();
+    m_serverProcess = nullptr;
+  }
+}
+
+void AdBlockManager::updateUnifiedFiltersFileAndStartServer() {
+  m_cacheBlocks.clear();
+  killServer();
+
+  if (QFile::exists(m_unifiedFiltersFile)) {
+    QFile::remove(m_unifiedFiltersFile);
+  }
+
+  QString unified_contents;
+  auto filter_lists = filterLists();
+
+  // Download filters one by one and append.
+  for (const QString& filter_list_url : qAsConst(filter_lists)) {
+    if (filter_list_url.simplified().isEmpty()) {
+      continue;
+    }
+
+    QByteArray out;
+    auto res = NetworkFactory::performNetworkOperation(filter_list_url,
+                                                       2000,
+                                                       {},
+                                                       out,
+                                                       QNetworkAccessManager::Operation::GetOperation);
+
+    if (res.first == QNetworkReply::NetworkError::NoError) {
+      unified_contents = unified_contents.append(QString::fromUtf8(out));
+      unified_contents = unified_contents.append('\n');
+
+      qDebugNN << LOGSEC_ADBLOCK
+               << "Downloaded filter list from"
+               << QUOTE_W_SPACE_DOT(filter_list_url);
+    }
+    else {
+      throw NetworkException(res.first, tr("failed to download filter list '%1'").arg(filter_list_url));
+    }
+  }
+
+  unified_contents = unified_contents.append(customFilters().join(QSL("\n")));
+
+  // Save.
+  m_unifiedFiltersFile = IOFactory::getSystemFolder(QStandardPaths::StandardLocation::TempLocation) +
+                         QDir::separator() +
+                         QSL("adblock.filters");
+
+  IOFactory::writeFile(m_unifiedFiltersFile, unified_contents.toUtf8());
+
+  if (m_enabled) {
+    m_serverProcess = startServer(ADBLOCK_SERVER_PORT);
+  }
 }

@@ -4,19 +4,18 @@
 
 #include "3rd-party/boolinq/boolinq.h"
 #include "3rd-party/boolinq/boolinq.h"
+#include "database/databasequeries.h"
 #include "exceptions/networkexception.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "network-web/networkfactory.h"
 #include "network-web/webfactory.h"
 #include "services/abstract/category.h"
 #include "services/abstract/label.h"
 #include "services/abstract/labelsnode.h"
 #include "services/feedly/definitions.h"
-#include "services/feedly/feedlyfeed.h"
 #include "services/feedly/feedlyserviceroot.h"
 
-#if defined (FEEDLY_OFFICIAL_SUPPORT)
+#if defined(FEEDLY_OFFICIAL_SUPPORT)
 #include "network-web/oauth2service.h"
 #endif
 
@@ -26,18 +25,19 @@
 
 FeedlyNetwork::FeedlyNetwork(QObject* parent)
   : QObject(parent), m_service(nullptr),
-#if defined (FEEDLY_OFFICIAL_SUPPORT)
+#if defined(FEEDLY_OFFICIAL_SUPPORT)
   m_oauth(new OAuth2Service(QSL(FEEDLY_API_URL_BASE) + FEEDLY_API_URL_AUTH,
                             QSL(FEEDLY_API_URL_BASE) + FEEDLY_API_URL_TOKEN,
-                            FEEDLY_CLIENT_ID,
-                            FEEDLY_CLIENT_ID,
+                            TextFactory::decrypt(FEEDLY_CLIENT_ID, OAUTH_DECRYPTION_KEY),
+                            TextFactory::decrypt(FEEDLY_CLIENT_SECRET, OAUTH_DECRYPTION_KEY),
                             FEEDLY_API_SCOPE, this)),
 #endif
   m_username(QString()),
   m_developerAccessToken(QString()), m_batchSize(FEEDLY_DEFAULT_BATCH_SIZE), m_downloadOnlyUnreadMessages(false) {
 
-#if defined (FEEDLY_OFFICIAL_SUPPORT)
-  m_oauth->setRedirectUrl(QString(OAUTH_REDIRECT_URI) + QL1C(':') + QString::number(FEEDLY_API_REDIRECT_URI_PORT));
+#if defined(FEEDLY_OFFICIAL_SUPPORT)
+  m_oauth->setRedirectUrl(QString(OAUTH_REDIRECT_URI) + QL1C(':') + QString::number(FEEDLY_API_REDIRECT_URI_PORT),
+                          true);
 
   connect(m_oauth, &OAuth2Service::tokensRetrieveError, this, &FeedlyNetwork::onTokensError);
   connect(m_oauth, &OAuth2Service::authFailed, this, &FeedlyNetwork::onAuthFailed);
@@ -232,13 +232,16 @@ QList<Message> FeedlyNetwork::decodeStreamContents(const QByteArray& stream_cont
 
   continuation = json.object()["continuation"].toString();
 
-  for (const QJsonValue& entry : json.object()["items"].toArray()) {
+  auto items = json.object()["items"].toArray();
+
+  for (const QJsonValue& entry : qAsConst(items)) {
     const QJsonObject& entry_obj = entry.toObject();
     Message message;
 
     message.m_title = entry_obj["title"].toString();
     message.m_author = entry_obj["author"].toString();
     message.m_contents = entry_obj["content"].toObject()["content"].toString();
+    message.m_rawContents = QJsonDocument(entry_obj).toJson(QJsonDocument::JsonFormat::Compact);
 
     if (message.m_contents.isEmpty()) {
       message.m_contents = entry_obj["summary"].toObject()["content"].toString();
@@ -255,7 +258,9 @@ QList<Message> FeedlyNetwork::decodeStreamContents(const QByteArray& stream_cont
       message.m_url = entry_obj["canonical"].toObject()["href"].toString();
     }
 
-    for (const QJsonValue& enc : entry_obj["enclosure"].toArray()) {
+    auto enclosures = entry_obj["enclosure"].toArray();
+
+    for (const QJsonValue& enc : qAsConst(enclosures)) {
       const QJsonObject& enc_obj = enc.toObject();
       const QString& enc_href = enc_obj["href"].toString();
 
@@ -266,7 +271,9 @@ QList<Message> FeedlyNetwork::decodeStreamContents(const QByteArray& stream_cont
       }
     }
 
-    for (const QJsonValue& tag : entry_obj["tags"].toArray()) {
+    auto tags = entry_obj["tags"].toArray();
+
+    for (const QJsonValue& tag : qAsConst(tags)) {
       const QJsonObject& tag_obj = tag.toObject();
       const QString& tag_id = tag_obj["id"].toString();
 
@@ -332,15 +339,18 @@ RootItem* FeedlyNetwork::decodeCollections(const QByteArray& json, bool obtain_i
   QJsonDocument doc = QJsonDocument::fromJson(json);
   auto* parent = new RootItem();
   QList<QString> used_feeds;
+  auto coll = doc.array();
 
-  for (const QJsonValue& cat : doc.array()) {
+  for (const QJsonValue& cat : qAsConst(coll)) {
     QJsonObject cat_obj = cat.toObject();
     auto* category = new Category(parent);
 
     category->setTitle(cat_obj["label"].toString());
     category->setCustomId(cat_obj["id"].toString());
 
-    for (const QJsonValue& fee : cat["feeds"].toArray()) {
+    auto feeds = cat["feeds"].toArray();
+
+    for (const QJsonValue& fee : qAsConst(feeds)) {
       QJsonObject fee_obj = fee.toObject();
 
       if (used_feeds.contains(fee_obj["id"].toString())) {
@@ -351,7 +361,7 @@ RootItem* FeedlyNetwork::decodeCollections(const QByteArray& json, bool obtain_i
         continue;
       }
 
-      auto* feed = new FeedlyFeed(category);
+      auto* feed = new Feed(category);
 
       feed->setTitle(fee_obj["title"].toString());
       feed->setDescription(fee_obj["description"].toString());
@@ -446,8 +456,9 @@ QList<RootItem*> FeedlyNetwork::tags() {
 
   QJsonDocument json = QJsonDocument::fromJson(output);
   QList<RootItem*> lbls;
+  auto tags = json.array();
 
-  for (const QJsonValue& tag : json.array()) {
+  for (const QJsonValue& tag : qAsConst(tags)) {
     const QJsonObject& tag_obj = tag.toObject();
     QString name_id = tag_obj["id"].toString();
 
@@ -490,28 +501,35 @@ void FeedlyNetwork::setBatchSize(int batch_size) {
   m_batchSize = batch_size;
 }
 
-#if defined (FEEDLY_OFFICIAL_SUPPORT)
+#if defined(FEEDLY_OFFICIAL_SUPPORT)
 
 void FeedlyNetwork::onTokensError(const QString& error, const QString& error_description) {
   Q_UNUSED(error)
 
-  qApp->showGuiMessage(tr("Feedly: authentication error"),
+  qApp->showGuiMessage(Notification::Event::LoginFailure,
+                       tr("Feedly: authentication error"),
                        tr("Click this to login again. Error is: '%1'").arg(error_description),
                        QSystemTrayIcon::MessageIcon::Critical,
-                       nullptr, false,
+                       {}, {},
+                       tr("Login"),
                        [this]() {
-    m_oauth->logout(false);
+    m_oauth->setAccessToken(QString());
+    m_oauth->setRefreshToken(QString());
+
+    //m_oauth->logout(false);
     m_oauth->login();
   });
 }
 
 void FeedlyNetwork::onAuthFailed() {
-  qApp->showGuiMessage(tr("Feedly: authorization denied"),
+  qApp->showGuiMessage(Notification::Event::LoginFailure,
+                       tr("Feedly: authorization denied"),
                        tr("Click this to login again."),
                        QSystemTrayIcon::MessageIcon::Critical,
-                       nullptr, false,
+                       {}, {},
+                       tr("Login"),
                        [this]() {
-    m_oauth->logout(false);
+    //m_oauth->logout(false);
     m_oauth->login();
   });
 }
@@ -521,9 +539,9 @@ void FeedlyNetwork::onTokensRetrieved(const QString& access_token, const QString
   Q_UNUSED(access_token)
 
   if (m_service != nullptr && !refresh_token.isEmpty()) {
-    QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+    QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
 
-    DatabaseQueries::storeNewOauthTokens(database, QSL("FeedlyAccounts"), refresh_token, m_service->accountId());
+    DatabaseQueries::storeNewOauthTokens(database, refresh_token, m_service->accountId());
   }
 }
 
@@ -561,7 +579,7 @@ QString FeedlyNetwork::fullUrl(FeedlyNetwork::Service service) const {
 }
 
 QString FeedlyNetwork::bearer() const {
-#if defined (FEEDLY_OFFICIAL_SUPPORT)
+#if defined(FEEDLY_OFFICIAL_SUPPORT)
   if (m_developerAccessToken.simplified().isEmpty()) {
     return m_oauth->bearer().toLocal8Bit();
   }

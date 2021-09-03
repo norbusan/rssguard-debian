@@ -8,11 +8,10 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-MessageObject::MessageObject(QSqlDatabase* db, const QString& feed_custom_id,
-                             int account_id, QList<Label*> available_labels,
-                             QObject* parent)
+MessageObject::MessageObject(QSqlDatabase* db, const QString& feed_custom_id, int account_id,
+                             const QList<Label*>& available_labels, bool is_new_message, QObject* parent)
   : QObject(parent), m_db(db), m_feedCustomId(feed_custom_id), m_accountId(account_id), m_message(nullptr),
-  m_availableLabels(available_labels) {}
+  m_availableLabels(available_labels), m_runningAfterFetching(is_new_message) {}
 
 void MessageObject::setMessage(Message* message) {
   m_message = message;
@@ -22,36 +21,36 @@ bool MessageObject::isDuplicateWithAttribute(MessageObject::DuplicationAttribute
   // Check database according to duplication attribute_check.
   QSqlQuery q(*m_db);
   QStringList where_clauses;
-  QList<QPair<QString, QVariant>> bind_values;
+  QVector<QPair<QString, QVariant>> bind_values;
 
   // Now we construct the query according to parameter.
   if ((attribute_check& DuplicationAttributeCheck::SameTitle) == DuplicationAttributeCheck::SameTitle) {
     where_clauses.append(QSL("title = :title"));
-    bind_values.append({ ":title", title() });
+    bind_values.append({ QSL(":title"), title() });
   }
 
   if ((attribute_check& DuplicationAttributeCheck::SameUrl) == DuplicationAttributeCheck::SameUrl) {
     where_clauses.append(QSL("url = :url"));
-    bind_values.append({ ":url", url() });
+    bind_values.append({ QSL(":url"), url() });
   }
 
   if ((attribute_check& DuplicationAttributeCheck::SameAuthor) == DuplicationAttributeCheck::SameAuthor) {
     where_clauses.append(QSL("author = :author"));
-    bind_values.append({ ":author", author() });
+    bind_values.append({ QSL(":author"), author() });
   }
 
   if ((attribute_check& DuplicationAttributeCheck::SameDateCreated) == DuplicationAttributeCheck::SameDateCreated) {
     where_clauses.append(QSL("date_created = :date_created"));
-    bind_values.append({ ":date_created", created().toMSecsSinceEpoch() });
+    bind_values.append({ QSL(":date_created"), created().toMSecsSinceEpoch() });
   }
 
   where_clauses.append(QSL("account_id = :account_id"));
-  bind_values.append({ ":account_id", accountId() });
+  bind_values.append({ QSL(":account_id"), accountId() });
 
   if ((attribute_check& DuplicationAttributeCheck::AllFeedsSameAccount) != DuplicationAttributeCheck::AllFeedsSameAccount) {
     // Limit to current feed.
     where_clauses.append(QSL("feed = :feed"));
-    bind_values.append({ ":feed", feedCustomId() });
+    bind_values.append({ QSL(":feed"), feedCustomId() });
   }
 
   QString full_query = QSL("SELECT COUNT(*) FROM Messages WHERE ") + where_clauses.join(QSL(" AND ")) + QSL(";");
@@ -88,7 +87,11 @@ bool MessageObject::isDuplicateWithAttribute(MessageObject::DuplicationAttribute
   return false;
 }
 
-bool MessageObject::assignLabel(QString label_custom_id) const {
+bool MessageObject::assignLabel(const QString& label_custom_id) const {
+  if (m_message->m_id <= 0 && m_message->m_customId.isEmpty()) {
+    return false;
+  }
+
   Label* lbl = boolinq::from(m_availableLabels).firstOrDefault([label_custom_id](Label* lbl) {
     return lbl->customId() == label_custom_id;
   });
@@ -105,7 +108,11 @@ bool MessageObject::assignLabel(QString label_custom_id) const {
   }
 }
 
-bool MessageObject::deassignLabel(QString label_custom_id) const {
+bool MessageObject::deassignLabel(const QString& label_custom_id) const {
+  if (m_message->m_id <= 0 && m_message->m_customId.isEmpty()) {
+    return false;
+  }
+
   Label* lbl = boolinq::from(m_message->m_assignedLabels).firstOrDefault([label_custom_id](Label* lbl) {
     return lbl->customId() == label_custom_id;
   });
@@ -151,6 +158,14 @@ void MessageObject::setContents(const QString& contents) {
   m_message->m_contents = contents;
 }
 
+QString MessageObject::rawContents() const {
+  return m_message->m_rawContents;
+}
+
+void MessageObject::setRawContents(const QString& raw_contents) {
+  m_message->m_rawContents = raw_contents;
+}
+
 QDateTime MessageObject::created() const {
   return m_message->m_created;
 }
@@ -183,6 +198,14 @@ void MessageObject::setIsDeleted(bool is_deleted) {
   m_message->m_isDeleted = is_deleted;
 }
 
+double MessageObject::score() const {
+  return m_message->m_score;
+}
+
+void MessageObject::setScore(double score) {
+  m_message->m_score = score;
+}
+
 QString MessageObject::feedCustomId() const {
   if (m_feedCustomId.isEmpty() || m_feedCustomId == QString::number(NO_PARENT_CATEGORY)) {
     return m_message->m_feedId;
@@ -204,6 +227,6 @@ QList<Label*> MessageObject::availableLabels() const {
   return m_availableLabels;
 }
 
-bool MessageObject::alreadyStoredInDb() const {
-  return m_message->m_id > 0;
+bool MessageObject::runningFilterWhenFetching() const {
+  return m_runningAfterFetching;
 }

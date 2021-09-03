@@ -5,6 +5,7 @@
 #include "miscellaneous/application.h"
 #include "miscellaneous/textfactory.h"
 #include "network-web/webfactory.h"
+#include "services/standard/definitions.h"
 
 #include "exceptions/applicationexception.h"
 
@@ -19,14 +20,18 @@ AtomParser::AtomParser(const QString& data) : FeedParser(data) {
   }
 }
 
-AtomParser::~AtomParser() = default;
-
 QString AtomParser::feedAuthor() const {
-  QDomNodeList authors = m_xml.documentElement().elementsByTagNameNS(m_atomNamespace, QSL("author"));
+  QDomNodeList top_level_nodes = m_xml.documentElement().childNodes();
   QStringList author_str;
 
-  for (int i = 0; i < authors.size(); i++) {
-    QDomNodeList names = authors.at(i).toElement().elementsByTagNameNS(m_atomNamespace, QSL("name"));
+  for (int i = 0; i < top_level_nodes.size(); i++) {
+    auto elem = top_level_nodes.at(i).toElement();
+
+    if (elem.localName() != QSL("author") || elem.namespaceURI() != m_atomNamespace) {
+      continue;
+    }
+
+    QDomNodeList names = elem.elementsByTagNameNS(m_atomNamespace, QSL("name"));
 
     if (!names.isEmpty()) {
       const QString name = names.at(0).toElement().text();
@@ -43,13 +48,13 @@ QString AtomParser::feedAuthor() const {
 Message AtomParser::extractMessage(const QDomElement& msg_element, QDateTime current_time) const {
   Message new_message;
   QString title = textsFromPath(msg_element, m_atomNamespace, QSL("title"), true).join(QSL(", "));
-  QString summary = textsFromPath(msg_element, m_atomNamespace, QSL("content"), true).join(QSL(", "));
+  QString summary = rawXmlChild(msg_element.elementsByTagNameNS(m_atomNamespace, QSL("content")).at(0).toElement());
 
   if (summary.isEmpty()) {
-    summary = textsFromPath(msg_element, m_atomNamespace, QSL("summary"), true).join(QSL(", "));
+    summary = rawXmlChild(msg_element.elementsByTagNameNS(m_atomNamespace, QSL("summary")).at(0).toElement());
 
     if (summary.isEmpty()) {
-      summary = mrssTextFromPath(msg_element, QSL("description"));
+      summary = rawXmlChild(msg_element.elementsByTagNameNS(m_mrssNamespace, QSL("description")).at(0).toElement());
     }
   }
 
@@ -63,6 +68,15 @@ Message AtomParser::extractMessage(const QDomElement& msg_element, QDateTime cur
   new_message.m_title = qApp->web()->unescapeHtml(qApp->web()->stripTags(title));
   new_message.m_contents = summary;
   new_message.m_author = qApp->web()->unescapeHtml(messageAuthor(msg_element));
+  new_message.m_customId = msg_element.elementsByTagNameNS(m_atomNamespace, QSL("id")).at(0).toElement().text();
+
+  QString raw_contents;
+  QTextStream str(&raw_contents);
+
+  str.setCodec(DEFAULT_FEED_ENCODING);
+
+  msg_element.save(str, 0, QDomNode::EncodingPolicy::EncodingFromTextStream);
+  new_message.m_rawContents = raw_contents;
 
   QString updated = textsFromPath(msg_element, m_atomNamespace, QSL("updated"), true).join(QSL(", "));
 
@@ -131,6 +145,10 @@ QString AtomParser::messageAuthor(const QDomElement& msg_element) const {
   }
 
   return author_str.join(", ");
+}
+
+QString AtomParser::atomNamespace() const {
+  return m_atomNamespace;
 }
 
 QDomNodeList AtomParser::messageElements() {

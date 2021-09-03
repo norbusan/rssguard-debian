@@ -11,40 +11,6 @@
     </message>
 </context>
 <context>
-    <name>AdBlockAddSubscriptionDialog</name>
-    <message>
-        <source>Add subscription</source>
-        <translation>Abonnement toevoegen</translation>
-    </message>
-    <message>
-        <source>Use predefined subscription</source>
-        <translation>Voorgeschreven abonnement gebruiken</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Naam</translation>
-    </message>
-    <message>
-        <source>Title of subscription</source>
-        <translation>Naam van abonnement</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Absolute URL to online subscription file</source>
-        <translation>Volledige url naar een online-abonnementsbestand</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockCustomList</name>
-    <message>
-        <source>Custom rules</source>
-        <translation>Aangepaste regels</translation>
-    </message>
-</context>
-<context>
     <name>AdBlockDialog</name>
     <message>
         <source>AdBlock configuration</source>
@@ -55,32 +21,60 @@
         <translation>Advertenties blokkeren</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation>Opties</translation>
+        <source>Add your direct links to filter lists here (one URL per line)</source>
+        <translation>Voeg hier je directe links toe aan filterlijsten (een URL per lijn)</translation>
     </message>
     <message>
-        <source>Add rule</source>
-        <translation>Regel toevoegen</translation>
+        <source>Custom filters</source>
+        <translation>Aangepaste filters</translation>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Regel verwijderen</translation>
+        <source>Add your custom filters here (one filter per line)</source>
+        <translation>Voeg hier je aangepaste filters toe (een filter per lijn)</translation>
     </message>
     <message>
-        <source>Add subscription</source>
-        <translation>Abonnement toevoegen</translation>
+        <source>&amp;Help</source>
+        <translation>&amp;Help</translation>
     </message>
     <message>
-        <source>Remove subscription</source>
-        <translation>Abonnement verwijderen</translation>
+        <source>&amp;Test configuration</source>
+        <translation>&amp;Test configuratie</translation>
     </message>
     <message>
-        <source>Update subscriptions</source>
-        <translation>Abonnementen bijwerken</translation>
+        <source>Filter lists</source>
+        <translation>Filter lijst</translation>
     </message>
     <message>
-        <source>Learn about writing rules...</source>
-        <translation>Lees meer over het opstellen van regels...</translation>
+        <source>No test executed yet.</source>
+        <translation>Nog geen test uitgevoerd.</translation>
+    </message>
+    <message>
+        <source>Cannot enable AdBlock</source>
+        <translation>Kan AdBlock niet inschakelen</translation>
+    </message>
+    <message>
+        <source>There is some error in AdBlock component and it cannot be enabled. Check error message below (or application debug log) for more information.</source>
+        <translation>Er is een fout in de AdBlock-component en deze kan niet worden ingeschakeld. Controleer het onderstaande foutbericht (of het foutopsporingslogboek van de toepassing) voor meer informatie. </translation>
+    </message>
+    <message>
+        <source>You are good to go.</source>
+        <translation>Je bent klaar om te gaan.</translation>
+    </message>
+    <message>
+        <source>OK!</source>
+        <translation>OK!</translation>
+    </message>
+    <message>
+        <source>There is error, check application log for more details and head to online documentation. Also make sure that Node.js is installed.
+
+Error: %1</source>
+        <translation>Er is een fout opgetreden, controleer het toepassingslogboek voor meer details en ga naar de online documentatie. Zorg er ook voor dat Node.js is geïnstalleerd. 
+
+Fout: %1</translation>
+    </message>
+    <message>
+        <source>ERROR!</source>
+        <translation>FOUT!</translation>
     </message>
 </context>
 <context>
@@ -93,66 +87,35 @@
         <source>Show AdBlock &amp;settings</source>
         <translation>Advertentieblokkering&amp;sinstellingen tonen</translation>
     </message>
-    <message>
-        <source>Disable on %1</source>
-        <translation>Uitschakelen op %1</translation>
-    </message>
-    <message>
-        <source>Disable only on this page</source>
-        <translation>Alleen uitschakelen op deze pagina</translation>
-    </message>
 </context>
 <context>
-    <name>AdBlockSubscription</name>
+    <name>AdBlockManager</name>
     <message>
-        <source>Cannot load subscription!</source>
-        <translation>Kan abonnement niet laden!</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockTreeWidget</name>
-    <message>
-        <source>Add rule</source>
-        <translation>Regel toevoegen</translation>
+        <source>AdBlock needs to be configured</source>
+        <translation>AdBlock moet worden geconfigureerd</translation>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Regel verwijderen</translation>
+        <source>AdBlock component is not configured properly.</source>
+        <translation>AdBlock-component is niet correct geconfigureerd.</translation>
     </message>
     <message>
-        <source>Add custom rule</source>
-        <translation>Aangepaste regel toevoegen</translation>
-    </message>
-    <message>
-        <source>Please write your rule here:</source>
-        <translation>Stel je regel op:</translation>
-    </message>
-    <message>
-        <source>%1 (recently updated)</source>
-        <translation>%1 (onlangs bijgewerkt)</translation>
-    </message>
-    <message>
-        <source>%1 (error: %2)</source>
-        <translation>%1 (fout: %2)</translation>
+        <source>failed to download filter list &apos;%1&apos;</source>
+        <translation>kan filterlijst &apos;%1&apos; niet downloaden</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Application is already running.</source>
-        <translation>RSSguard is al gestart</translation>
+        <translation>RSS Guard is al gestart.</translation>
     </message>
     <message>
         <source>Output directory is not writable.</source>
-        <translation>De uitvoermap is niet beschrijfbaar</translation>
+        <translation>De uitvoermap is niet beschrijfbaar.</translation>
     </message>
     <message>
         <source>Settings file not copied to output directory successfully.</source>
         <translation>Het instellingenbestand is niet gekopieerd naar de uitvoermap.</translation>
-    </message>
-    <message>
-        <source>Database file not copied to output directory successfully.</source>
-        <translation>Het databankbestand is niet gekopieerd naar de uitvoermap.</translation>
     </message>
     <message>
         <source>Database restoration was not initiated. Make sure that output directory is writable.</source>
@@ -167,12 +130,12 @@
         <translation>Kan feed niet toevoegen</translation>
     </message>
     <message>
-        <source>Feed cannot be added because standard RSS/ATOM account is not enabled.</source>
-        <translation>De feed kan niet worden toegevoegd omdat het standaard RSS-/Atom-account niet is ingeschakeld.</translation>
+        <source>Feed cannot be added because there is no active account which can add feeds.</source>
+        <translation>Feed kan niet worden toegevoegd omdat er geen actief account is dat feeds kan toevoegen.</translation>
     </message>
     <message>
-        <source>New messages downloaded</source>
-        <translation>Nieuwe berichten opgehaald</translation>
+        <source>Unread articles fetched</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -183,11 +146,11 @@
     </message>
     <message>
         <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Sommige feeds vereisen verificatie,inclusief GMail feeds. BASIC, NTLM-2 en DIGEST-MD5 verificaties schema&apos;s worden ondersteund.</translation>
+        <translation>Sommige feeds vereisen inloggegevens, inclusief feeds van GMail. Ondersteunde authenticatiemethodes zijn BASIC, NTLM-2 en DIGEST-MD5.</translation>
     </message>
     <message>
         <source>Requires HTTP authentication</source>
-        <translation>Vereist HTTP verificatie</translation>
+        <translation>Vereist HTTP-authenticatie</translation>
     </message>
     <message>
         <source>Username</source>
@@ -195,7 +158,7 @@
     </message>
     <message>
         <source>Password</source>
-        <translation>Paswoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Set username to access the feed.</source>
@@ -203,7 +166,7 @@
     </message>
     <message>
         <source>Set password to access the feed.</source>
-        <translation>Stel paswoord in voor toegang tot feed.</translation>
+        <translation>Stel wachtwoord in voor toegang tot feed.</translation>
     </message>
     <message>
         <source>Username is ok or it is not needed.</source>
@@ -215,22 +178,29 @@
     </message>
     <message>
         <source>Password is ok or it is not needed.</source>
-        <translation>Paswoord is ok of het is niet nodig.</translation>
+        <translation>Wachtwoord is ok of het is niet nodig.</translation>
     </message>
     <message>
         <source>Password is empty.</source>
-        <translation>Paswoord is leeg.</translation>
+        <translation>Wachtwoord is leeg.</translation>
+    </message>
+</context>
+<context>
+    <name>BaseLineEdit</name>
+    <message>
+        <source>Show/hide the password</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
-        <translation type="unfinished"/>
+        <translation>Klik om kleur te wijzigen!</translation>
     </message>
     <message>
         <source>Select new color</source>
-        <translation type="unfinished"/>
+        <translation>Nieuwe kleur selecteren</translation>
     </message>
 </context>
 <context>
@@ -244,75 +214,47 @@
         <translation>Databankbestand is gecomprimeerd...</translation>
     </message>
     <message>
-        <source>Removing read messages...</source>
-        <translation>Bezig met verwijderen van gelezen berichten...</translation>
-    </message>
-    <message>
-        <source>Read messages purged...</source>
-        <translation>Gelezen berichten gewist...</translation>
-    </message>
-    <message>
         <source>Recycle bin purged...</source>
         <translation>Prullenbak is geleegd...</translation>
-    </message>
-    <message>
-        <source>Removing old messages...</source>
-        <translation>Bezig met verwijderen van oude berichten...</translation>
     </message>
     <message>
         <source>Purging recycle bin...</source>
         <translation>Bezig met legen van prullenbak...</translation>
     </message>
     <message>
-        <source>Old messages purged...</source>
-        <translation>Oude berichten gewist...</translation>
+        <source>Removing read articles...</source>
+        <translation>Gelezen artikelen verwijderen....</translation>
     </message>
     <message>
-        <source>Removing starred messages...</source>
-        <translation type="unfinished"/>
+        <source>Read articles purged...</source>
+        <translation>Gelezen artikelen verwijderd ...</translation>
     </message>
     <message>
-        <source>Starred messages purged...</source>
-        <translation type="unfinished"/>
+        <source>Removing old articles...</source>
+        <translation>Oude artikelen verwijderd</translation>
+    </message>
+    <message>
+        <source>Old articles purged...</source>
+        <translation>Oude artikelen verwijderd...</translation>
+    </message>
+    <message>
+        <source>Removing starred articles...</source>
+        <translation>Met ster gemarkeerde artikelen worden verwijderd...</translation>
+    </message>
+    <message>
+        <source>Starred articles purged...</source>
+        <translation>Met ster gemarkeerde artikelen verwijderd...</translation>
     </message>
 </context>
 <context>
     <name>DatabaseFactory</name>
     <message>
-        <source>MySQL server works as expected.</source>
-        <translation>De MySQL-server werkt zoals verwacht.</translation>
+        <source>Cannot connect to database</source>
+        <translation>Kan niet verbinden met database</translation>
     </message>
     <message>
-        <source>No MySQL server is running in the target destination.</source>
-        <translation>Er is geen MySQL-server actief op de doelbestemming.</translation>
-    </message>
-    <message>
-        <source>Access denied. Invalid username or password used.</source>
-        <translation>Toegang geweigerd. Ongeldige gebruikersnaam of wachtwoord ingevoerd.</translation>
-    </message>
-    <message>
-        <source>MySQL/MariaDB (dedicated database)</source>
-        <translation>MySQL/MariaDB (specifieke databank)</translation>
-    </message>
-    <message>
-        <source>SQLite (embedded database)</source>
-        <translation>SQLite (ingesloten databank)</translation>
-    </message>
-    <message>
-        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
-        <translation>De geselecteerde databank bestaat (nog) niet. Deze wordt nu aangemaakt - dit is normaal.</translation>
-    </message>
-    <message>
-        <source>MySQL database not available</source>
-        <translation>MySQL-databank is niet beschikbaar</translation>
-    </message>
-    <message>
-        <source>%1 cannot use MySQL storage, it is not available. %1 is now switching to SQLite database. Start your MySQL server and make adjustments in application settings.</source>
-        <translation>%1 kan geen gebruik maken van MySQL-opslag - het is niet beschikbaar. %1 schakelt nu over naar de SQLite-databank. Start je MySQL-server en maak aanpassingen in de programma-instellingen.</translation>
-    </message>
-    <message>
-        <source>Unknown error: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
+        <source>Connection to your database was not established with error: &apos;%1&apos;. Falling back to SQLite.</source>
+        <translation>Er is geen verbinding met u database tot stand gebracht met fout:&apos;%1&apos;. Terugvallen naar SQLite.</translation>
     </message>
 </context>
 <context>
@@ -327,15 +269,15 @@
     </message>
     <message>
         <source>Feeds were detected, but no suitable accounts are configured.</source>
-        <translation type="unfinished"/>
+        <translation>Er zijn feeds gevonden maar er zijn geen bijpassende accounts voor ingesteld.</translation>
     </message>
     <message>
         <source>This website does not contain any feeds</source>
-        <translation type="unfinished"/>
+        <translation>Deze website bevat geen feeds</translation>
     </message>
     <message numerus="yes">
         <source>Add one of %n feed(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>Eén van %n feed(s) toevoegen</numerusform><numerusform>Eén van %n feed(s) toevoegen</numerusform></translation>
     </message>
 </context>
 <context>
@@ -482,7 +424,7 @@ Klik hier om de bovenliggende map te openen.</translation>
     </message>
     <message>
         <source>E-mail address</source>
-        <translation type="unfinished"/>
+        <translation>E-mailadres</translation>
     </message>
 </context>
 <context>
@@ -492,75 +434,81 @@ Klik hier om de bovenliggende map te openen.</translation>
         <translation>geen fouten</translation>
     </message>
     <message>
-        <source>has new messages</source>
-        <translation>bevat nieuwe berichten</translation>
-    </message>
-    <message>
         <source>authentication error</source>
-        <translation>verificatiefout</translation>
+        <translation>authenticatiefout</translation>
     </message>
     <message>
         <source>network error</source>
         <translation>netwerkfout</translation>
     </message>
     <message>
-        <source>unspecified error</source>
-        <translation>onverwachte fout</translation>
-    </message>
-    <message>
         <source>Auto-update status: %1
 Active message filters: %2
 Status: %3</source>
-        <translation type="unfinished"/>
+        <translation>Status autom. bijwerken: %1
+Berichtfilters actief: %2
+Status: %3</translation>
     </message>
     <message>
-        <source>does not use auto-downloading of messages</source>
+        <source>does not use auto-fetching of articles</source>
         <extracomment>Describes feed auto-update status.</extracomment>
-        <translation type="unfinished"/>
+        <translation>maakt geen gebruik van automatisch ophalen van artikelen</translation>
     </message>
     <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <source>uses global settings (%n minute(s) to next auto-fetch of articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <source>uses global settings (global auto-fetching of articles is disabled)</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <source>uses specific settings (%n minute(s) to next auto-fetching of new articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>has new articles</source>
+        <translation>bevat nieuwe artikelen</translation>
+    </message>
+    <message>
+        <source>parsing error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>error</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedMessageViewer</name>
     <message>
-        <source>Toolbar for messages</source>
-        <translation>Berichtwerkbalk</translation>
-    </message>
-    <message>
         <source>Toolbar for feeds</source>
         <translation>Feedwerkbalk</translation>
+    </message>
+    <message>
+        <source>Toolbar for articles</source>
+        <translation>Werkbalk voor artikelen</translation>
     </message>
 </context>
 <context>
     <name>FeedReader</name>
     <message>
-        <source>Cannot update all items</source>
-        <translation>Kan niet alle items bijwerken</translation>
-    </message>
-    <message>
-        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Starting auto-download of some feeds&apos; messages</source>
+        <source>Starting auto-download of some feeds&apos; articles</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-download new messages for %n feed(s).</source>
+        <source>I will auto-download new articles for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>Cannot fetch articles at this point</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot fetch new articles now because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -571,19 +519,11 @@ Status: %3</source>
     </message>
     <message>
         <source>Developer access token</source>
-        <translation type="unfinished"/>
+        <translation>Toegangstoken voor ontwikkelaars</translation>
     </message>
     <message>
         <source>Get token</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>bericht(en)</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Download alleen de nieuwste X berichten  van een feed</translation>
+        <translation>Token verkrijgen</translation>
     </message>
     <message>
         <source>&amp;Login</source>
@@ -591,7 +531,7 @@ Status: %3</source>
     </message>
     <message>
         <source>Username for your account</source>
-        <translation type="unfinished"/>
+        <translation>Gebruikersnaam van account</translation>
     </message>
     <message>
         <source>No test done yet.</source>
@@ -599,31 +539,23 @@ Status: %3</source>
     </message>
     <message>
         <source>Here, results of connection test are shown.</source>
-        <translation>Hier, worden resultaten van verbinding getoond.</translation>
+        <translation>Hier worden resultaten van verbinding getoond.</translation>
     </message>
     <message>
         <source>Your %1 build has official Feedly support. You do not have to use &quot;developer acess token&quot;. You can therefore leave corresponding field empty.</source>
-        <translation type="unfinished"/>
+        <translation>De %1-versie wordt officieel ondersteund door Feedly. Het is niet nodig een &quot;developer access token&quot; te gebruiken. Dit veld kan leeggelaten worden.</translation>
     </message>
     <message>
         <source>Your %1 does not offer official Feedly support, thus you must authorize via special authorization code called &quot;developer access token&quot;. These tokens are usually valid only for 1 month and allow only 250 API calls each day.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>Berichten</translation>
+        <translation>De %1-versie wordt niet ondersteund door Feedly. Het is dus nodig om een authorisatiecode (&quot;developer access token&quot;) te gebruiken. Deze codes zijn gewoonlijk geldig voor 1 maand en laten slechts 250 opvragingen per dag via de API toe.</translation>
     </message>
     <message>
         <source>You did not grant access.</source>
-        <translation type="unfinished"/>
+        <translation>Je hebt geen toegang gegeven.</translation>
     </message>
     <message>
         <source>There was error during testing.</source>
-        <translation>Er was een fout tijdens het testen. </translation>
+        <translation>Er was een fout tijdens het testen.</translation>
     </message>
     <message>
         <source>There is error. %1</source>
@@ -631,31 +563,23 @@ Status: %3</source>
     </message>
     <message>
         <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation type="unfinished"/>
+        <translation>Met succes getest. Mogelijk wordt nog een keer gevraagd om in te loggen.</translation>
     </message>
     <message>
         <source>Your access was approved.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Je bent al ingelogd.</translation>
+        <translation>De toegang is goedgekeurd.</translation>
     </message>
     <message>
         <source>Access granted.</source>
-        <translation type="unfinished"/>
+        <translation>Verbinding toegestaan.</translation>
     </message>
     <message>
         <source>Login was successful.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
-        <translation type="unfinished"/>
+        <translation>Inloggen is gelukt.</translation>
     </message>
     <message>
         <source>Some problems.</source>
-        <translation type="unfinished"/>
+        <translation>Enkele problemen.</translation>
     </message>
     <message>
         <source>Username cannot be empty.</source>
@@ -667,10 +591,26 @@ Status: %3</source>
     </message>
     <message>
         <source>Access token is empty.</source>
-        <translation type="unfinished"/>
+        <translation>Toegangstoken is leeg.</translation>
     </message>
     <message>
         <source>Access token is okay.</source>
+        <translation>Toegangstoken is goed.</translation>
+    </message>
+    <message>
+        <source>Error: &apos;%1&apos;</source>
+        <translation>Fout: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation>Download alleen ongelezen artikelen</translation>
+    </message>
+    <message>
+        <source>Beware of downloading too many articles, because Feedly permanently caches ALL articles of the feed, so you might end up with thousands of articles which you will never read anyway.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -678,34 +618,26 @@ Status: %3</source>
     <name>FeedlyNetwork</name>
     <message>
         <source>Feedly: authentication error</source>
-        <translation type="unfinished"/>
+        <translation>Feedly: fout bij inloggen</translation>
     </message>
     <message>
         <source>Click this to login again. Error is: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Klik hier om opnieuw in te loggen. Foutmelding is: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Feedly: authorization denied</source>
-        <translation type="unfinished"/>
+        <translation>Feedly: inloggegevens niet geaccepteerd</translation>
     </message>
     <message>
         <source>Click this to login again.</source>
-        <translation>Klik hier om opnieuw in te loggen</translation>
-    </message>
-    <message>
-        <source>Logged in successfully</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your login to Feedly was authorized.</source>
-        <translation type="unfinished"/>
+        <translation>Klik hier om opnieuw in te loggen.</translation>
     </message>
 </context>
 <context>
     <name>FeedsImportExportModel</name>
     <message>
         <source>Category </source>
-        <translation>Categorie</translation>
+        <translation>Categorie </translation>
     </message>
 </context>
 <context>
@@ -740,6 +672,14 @@ Status: %3</source>
     <message>
         <source>Toolbar spacer</source>
         <translation>Werkbalkruimte</translation>
+    </message>
+    <message>
+        <source>Search feeds</source>
+        <translation>Feeds zoeken</translation>
+    </message>
+    <message>
+        <source>Feeds search box</source>
+        <translation>Feeds zoekveld</translation>
     </message>
 </context>
 <context>
@@ -823,11 +763,11 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
         <translation>Rechtermuisknopmenu van accounts</translation>
     </message>
     <message>
-        <source>Context menu for important messages</source>
-        <translation type="unfinished"/>
+        <source>Context menu for label</source>
+        <translation>Contextmenu voor label</translation>
     </message>
     <message>
-        <source>Context menu for label</source>
+        <source>Context menu for important articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -911,26 +851,30 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>MIT License (applies to boolinq source code)</source>
-        <translation type="unfinished"/>
+        <translation>MIT-licentie (geldt voor de broncode van boolinq)</translation>
     </message>
     <message>
         <source>GNU GPL License (applies to RSS Guard; mimesis; Numix source codes)</source>
-        <translation type="unfinished"/>
+        <translation>GNU GPL-licentie (geldt voor broncode van RSS Guard, mimesis, Numix)</translation>
     </message>
     <message>
         <source>CUSTOM</source>
-        <translation type="unfinished"/>
+        <translation>AANGEPAST</translation>
     </message>
 </context>
 <context>
     <name>FormAccountDetails</name>
     <message>
         <source>Edit account &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Account &apos;%1&apos; aanpassen</translation>
     </message>
     <message>
         <source>Network proxy</source>
-        <translation type="unfinished"/>
+        <translation>Netwerkproxy</translation>
+    </message>
+    <message>
+        <source>Add new account</source>
+        <translation>Account toevoegen</translation>
     </message>
 </context>
 <context>
@@ -956,23 +900,23 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Add new recipient.</source>
-        <translation>Ontvanger toevoegen</translation>
+        <translation>Ontvanger toevoegen.</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation type="unfinished"/>
+        <translation>Onderwerp</translation>
     </message>
     <message>
         <source>Title of your message</source>
-        <translation type="unfinished"/>
+        <translation>Berichttitel</translation>
     </message>
     <message>
         <source>E-mail NOT sent</source>
-        <translation type="unfinished"/>
+        <translation>E-mail NIET verstuurd</translation>
     </message>
     <message>
         <source>Your e-mail message wasn&apos;t sent.</source>
-        <translation type="unfinished"/>
+        <translation>De e-mail is niet verstuurd.</translation>
     </message>
 </context>
 <context>
@@ -983,34 +927,34 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Name for your label</source>
-        <translation type="unfinished"/>
+        <translation>Naam voor het label</translation>
     </message>
     <message>
         <source>Label&apos;s name cannot be empty.</source>
-        <translation type="unfinished"/>
+        <translation>Naam van label mag niet leeg zijn.</translation>
     </message>
     <message>
         <source>Perfect!</source>
-        <translation type="unfinished"/>
+        <translation>Perfect!</translation>
     </message>
     <message>
         <source>Hot stuff</source>
-        <translation type="unfinished"/>
+        <translation>Tof spul</translation>
     </message>
     <message>
         <source>Create new label</source>
-        <translation type="unfinished"/>
+        <translation>Nieuw label aanmaken</translation>
     </message>
     <message>
         <source>Edit label &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Label &apos;%1&apos; bewerken</translation>
     </message>
 </context>
 <context>
     <name>FormBackupDatabaseSettings</name>
     <message>
         <source>Backup database/settings</source>
-        <translation>Databank/Instellingen back-uppen</translation>
+        <translation>Back-up van database/instellingen</translation>
     </message>
     <message>
         <source>Backup properties</source>
@@ -1018,7 +962,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Items to backup</source>
-        <translation>Te back-uppen items</translation>
+        <translation>Back-up maken van</translation>
     </message>
     <message>
         <source>Database</source>
@@ -1082,30 +1026,126 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
 </context>
 <context>
+    <name>FormCategoryDetails</name>
+    <message>
+        <source>Select parent item for your category.</source>
+        <translation>Kies hoofd item voor je categorie.</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Naam</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beschrijving</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Pictogram</translation>
+    </message>
+    <message>
+        <source>Select icon for your category.</source>
+        <translation>Selecteer pictogram voor je categorie.</translation>
+    </message>
+    <message>
+        <source>Add new category</source>
+        <translation>Nieuwe categorie toevoegen</translation>
+    </message>
+    <message>
+        <source>Category name is ok.</source>
+        <translation>Categorienaam is ok.</translation>
+    </message>
+    <message>
+        <source>Category name is too short.</source>
+        <translation>Categorie naam is te kort.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Beschrijving is leeg.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>Beschrijving is ok.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the category</source>
+        <translation>Kies pictogrambestand voor de categorie</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Afbeeldingen (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Selecteer pictogram</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuleren</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
+        <translation>Kijk in:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Pictogramnaam:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Type pictogram:</translation>
+    </message>
+    <message>
+        <source>Category title</source>
+        <translation>Titel categorie</translation>
+    </message>
+    <message>
+        <source>Set title for your category.</source>
+        <translation>Stel titel in voor je categorie.</translation>
+    </message>
+    <message>
+        <source>Category description</source>
+        <translation>Beschrijving van categorie</translation>
+    </message>
+    <message>
+        <source>Set description for your category.</source>
+        <translation>Stel beschrijving in voor de categorie.</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Pictogramselectie</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Laad pictogram uit een bestand...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation>Standaardpictogrammen van systeem gebruiken</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation>Bovenliggende map</translation>
+    </message>
+    <message>
+        <source>Edit &quot;%1&quot;</source>
+        <translation>Bewerk &quot;%1&quot;</translation>
+    </message>
+</context>
+<context>
     <name>FormDatabaseCleanup</name>
     <message>
         <source>Cleanup database</source>
-        <translation>Databank opschonen</translation>
-    </message>
-    <message>
-        <source>Remove all messages older than</source>
-        <translation>Verwijder alle berichten ouder dan</translation>
+        <translation>Database opschonen</translation>
     </message>
     <message numerus="yes">
         <source> day(s)</source>
         <translation><numerusform> dag</numerusform><numerusform> dagen</numerusform></translation>
     </message>
     <message>
-        <source>Shrink database file</source>
-        <translation>Databankbestand verkleinen</translation>
-    </message>
-    <message>
         <source>Database information</source>
         <translation>Databankinformatie</translation>
-    </message>
-    <message>
-        <source>Database file size</source>
-        <translation>Groote van databankbestand</translation>
     </message>
     <message>
         <source>Database type</source>
@@ -1132,35 +1172,43 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
         <translation>De databank kan niet worden opgeschoond.</translation>
     </message>
     <message>
-        <source>Cleanup settings (all checked items are completely erased from database)</source>
-        <translation>Instellingen opschanen (alle aangekruiste items worden volledig gewist uit de databank)</translation>
-    </message>
-    <message>
-        <source>Remove all read messages (not those from recycle bin)</source>
-        <translation>Alle gelezen berichten verwijderen (behalve die in de prullenbak)</translation>
-    </message>
-    <message>
-        <source>Remove all messages from recycle bin</source>
-        <translation>Alle berichten verwijderen uit de prullenbak</translation>
-    </message>
-    <message>
-        <source>Remove all starred messages (including those from recycle bin)</source>
-        <translation>Verwijder alle berichten met ster(niet die van de prullenbak)</translation>
-    </message>
-    <message>
         <source>unknown</source>
         <translation>onbekend</translation>
     </message>
     <message>
-        <source>file: %1, data: %2</source>
-        <translation>bestand: %1, gegevens: %2</translation>
+        <source>Total data size</source>
+        <translation>Totale gegevens grootte</translation>
+    </message>
+    <message>
+        <source>Cleanup settings</source>
+        <translation>Instellingen voor opschonen</translation>
+    </message>
+    <message>
+        <source>Optimize database file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all read articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles from recycle bin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles older than</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all starred articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormDownloadAttachment</name>
     <message>
         <source>Downloading attachment...</source>
-        <translation>Download aanhangsel</translation>
+        <translation>Download aanhangsel...</translation>
     </message>
     <message>
         <source>Downloaded: %1 kB</source>
@@ -1171,76 +1219,73 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     <name>FormEditFeedlyAccount</name>
     <message>
         <source>Service setup</source>
-        <translation type="unfinished"/>
+        <translation>Installatie van service</translation>
     </message>
 </context>
 <context>
     <name>FormEditGmailAccount</name>
     <message>
         <source>Server setup</source>
-        <translation type="unfinished"/>
+        <translation>Installatie van server</translation>
     </message>
 </context>
 <context>
     <name>FormEditGreaderAccount</name>
     <message>
         <source>Server setup</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FormEditInoreaderAccount</name>
-    <message>
-        <source>Server setup</source>
-        <translation type="unfinished"/>
+        <translation>Installatie van server</translation>
     </message>
 </context>
 <context>
     <name>FormEditOwnCloudAccount</name>
     <message>
         <source>Server setup</source>
-        <translation type="unfinished"/>
+        <translation>Installatie van server</translation>
     </message>
 </context>
 <context>
     <name>FormEditTtRssAccount</name>
     <message>
         <source>Server setup</source>
-        <translation type="unfinished"/>
+        <translation>Installatie van server</translation>
     </message>
 </context>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Cannot edit feed</source>
-        <translation>Kan feed niet bewerken</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Door een fout is de feed niet bewerkt.</translation>
-    </message>
-    <message>
-        <source>Edit &apos;%1&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Auto-downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
+        <translation>Selecteer de manier waarop berichten van deze feed automatisch worden bijgewerkt. De standaardmanier betekent dat nieuwe berichten worden gedownload volgens de ingestelde interval zoals opgegeven in de instellingen.</translation>
+    </message>
+    <message>
+        <source>Add new feed</source>
+        <translation>Nieuwe feed toevoegen</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fout</translation>
+    </message>
+    <message>
+        <source>Cannot save changes: %1</source>
+        <translation>Kan wijzigingen niet opslaan: %1</translation>
+    </message>
+    <message>
+        <source>Auto-downloading of articles</source>
+        <translation>Artikelen automatisch downloaden</translation>
+    </message>
+    <message>
+        <source>Edit &quot;%1&quot;</source>
+        <translation>Bewerk &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Fetch articles using global interval</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages using global interval</source>
+        <source>Fetch articles every</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages every</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Do not download messages at all</source>
+        <source>Disable auto-fetching of articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1256,7 +1301,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>&amp;View</source>
-        <translation>&amp;Toon</translation>
+        <translation>&amp;Beeld</translation>
     </message>
     <message>
         <source>&amp;Tools</source>
@@ -1264,19 +1309,11 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
-        <translation>&amp;Sluit</translation>
+        <translation>Af&amp;sluiten</translation>
     </message>
     <message>
         <source>&amp;Settings</source>
         <translation>&amp;Instellingen</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp;Berichten</translation>
-    </message>
-    <message>
-        <source>Switch &amp;importance of selected messages</source>
-        <translation>Wissel het &amp;belang van geselecteerde berichten</translation>
     </message>
     <message>
         <source>Quit the application.</source>
@@ -1288,7 +1325,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Switch fullscreen mode.</source>
-        <translation>Schakel beeldvullende modus.</translation>
+        <translation>In volledig scherm weergeven.</translation>
     </message>
     <message>
         <source>No actions available</source>
@@ -1308,39 +1345,19 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Check if new update for the application is available for download.</source>
-        <translation>Controleer als nieuwe update voor RSSguard beschikbaar is om te downloaden.</translation>
+        <translation>Controleer als nieuwe update voor RSS Guard beschikbaar is om te downloaden.</translation>
     </message>
     <message>
         <source>&amp;About application</source>
-        <translation>&amp;Over RSSguard</translation>
+        <translation>&amp;Over RSS Guard</translation>
     </message>
     <message>
         <source>Displays extra info about this application.</source>
-        <translation>Toon extra informatie over RSSguard.</translation>
-    </message>
-    <message>
-        <source>&amp;Delete selected messages</source>
-        <translation>Verwij&amp;der geselecteerde berichten</translation>
+        <translation>Toon extra informatie over RSS Guard.</translation>
     </message>
     <message>
         <source>Hides or displays the main menu.</source>
         <translation>Verberg of toon het hoofdmenu.</translation>
-    </message>
-    <message>
-        <source>Open selected source articles in &amp;external browser</source>
-        <translation>Open geselecteerde bron artikelen met &amp;externe webbrowser</translation>
-    </message>
-    <message>
-        <source>Open selected messages in &amp;internal browser</source>
-        <translation>Open geselecteerde berichten met &amp;ingebouwde webbrowser</translation>
-    </message>
-    <message>
-        <source>Select &amp;next message</source>
-        <translation>Selecteer volge&amp;nd bericht</translation>
-    </message>
-    <message>
-        <source>Select &amp;previous message</source>
-        <translation>Selecteer &amp;vorige bericht</translation>
     </message>
     <message>
         <source>Check for &amp;updates</source>
@@ -1352,23 +1369,11 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>&amp;Feed list</source>
-        <translation>&amp;Feed lijst</translation>
+        <translation>&amp;Feedlijst</translation>
     </message>
     <message>
         <source>&amp;Main menu</source>
         <translation>Hoofd&amp;menu</translation>
-    </message>
-    <message>
-        <source>Switch visibility of main &amp;window</source>
-        <translation>Schakel over naar het hoofd&amp;venster</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser</source>
-        <translation>Kan externe browser niet starten</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser. Navigate to application website manually.</source>
-        <translation>Kan externe webbrowser niet starten, Navigeer handmatig naar RSSguard website.</translation>
     </message>
     <message>
         <source>&amp;Toolbars</source>
@@ -1376,67 +1381,31 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Switch visibility of main toolbars.</source>
-        <translation>Schakel over naar het hoofdvenster.</translation>
-    </message>
-    <message>
-        <source>&amp;Feed/message list headers</source>
-        <translation>&amp;Feed/bericht  kopteksten</translation>
-    </message>
-    <message>
-        <source>&amp;Restore database/settings</source>
-        <translation>&amp;Herstel database/instellingen</translation>
-    </message>
-    <message>
-        <source>&amp;Backup database/settings</source>
-        <translation>&amp;Backup database/instellingen</translation>
-    </message>
-    <message>
-        <source>Switch message list layout orientation</source>
-        <translation>Schakel tussen lijst met berichten indeling </translation>
+        <translation>Zichtbaarheid van werkbalken.</translation>
     </message>
     <message>
         <source>&amp;Downloads</source>
         <translation>&amp;Downloads</translation>
     </message>
     <message>
-        <source>Send selected message via e-mail</source>
-        <translation>Geselecteerde berichten verzenden via e-mail</translation>
-    </message>
-    <message>
         <source>&amp;Cleanup database</source>
-        <translation>&amp;database opschonen</translation>
-    </message>
-    <message>
-        <source>Add &amp;new item</source>
-        <translation>Voeg &amp;nieuw item toe</translation>
+        <translation>&amp;Database opschonen</translation>
     </message>
     <message>
         <source>&amp;Edit selected item</source>
-        <translation>&amp;Bewerk geselecteerde item</translation>
+        <translation>Geselecteerd item &amp;bewerken</translation>
     </message>
     <message>
         <source>&amp;Delete selected item</source>
-        <translation>&amp;Verwijder geselecteerde item</translation>
-    </message>
-    <message>
-        <source>&amp;Mark selected items as read</source>
-        <translation>&amp;Markeer geselecteerde berichten als gelezen</translation>
+        <translation>Geselecteerd item &amp;verwijderen</translation>
     </message>
     <message>
         <source>Mark all messages (without message filters) from selected items as read.</source>
         <translation>Markeer alle berichten (zonder berichtenfilters) van geselecteerde items als gelezen.</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as unread</source>
-        <translation>&amp;Markeer geselecteerde item als ongelezen</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as unread.</source>
         <translation>Markeer alle berichten (zonder berichtenfilters) van geselecteerde items als ongelezen.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean selected items</source>
-        <translation>Geselecteerde items &amp;opschonen</translation>
     </message>
     <message>
         <source>Deletes all messages from selected items.</source>
@@ -1447,16 +1416,8 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
         <translation>Markeer alle berichten in alle items als gelezen. Dit neemt geen berichtenfilters mee in account.</translation>
     </message>
     <message>
-        <source>View selected items in &amp;newspaper mode</source>
-        <translation>Bekijk geselecteerde items in kra&amp;ntweergave</translation>
-    </message>
-    <message>
         <source>Displays all messages from selected item in a new &quot;newspaper mode&quot; tab. Note that messages are not set as read automatically.</source>
-        <translation>Toon alle berichten van geselecteerde item in een nieuwe &quot;krantweergave&quot; tabblad.Let op dat berichten niet automatisch als gelezen zijn ingesteld.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean all items</source>
-        <translation>Alle items &amp;opschonen</translation>
+        <translation>Toon alle berichten van geselecteerde item in een nieuw tabblad als &quot;krantweergave&quot;. Let op dat berichten niet automatisch als gelezen worden ingesteld.</translation>
     </message>
     <message>
         <source>Deletes all messages from all items.</source>
@@ -1464,23 +1425,15 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Select &amp;next item</source>
-        <translation>Selecteer &amp;volgende item</translation>
+        <translation>Selecteer &amp;volgend item</translation>
     </message>
     <message>
         <source>Select &amp;previous item</source>
-        <translation>Selecteer &amp;vorige item</translation>
-    </message>
-    <message>
-        <source>Show only unread items</source>
-        <translation>Toon alleen ongelezen items</translation>
+        <translation>Selecteer &amp;vorig item</translation>
     </message>
     <message>
         <source>&amp;Expand/collapse selected item</source>
         <translation>&amp;Uitklappen/inklappen geselecteerde item</translation>
-    </message>
-    <message>
-        <source>&amp;Restore selected messages</source>
-        <translation>&amp;Herstel geselecteerde berichten</translation>
     </message>
     <message>
         <source>No possible actions</source>
@@ -1499,24 +1452,12 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
         <translation>&amp;Leeg alle prullenbakken</translation>
     </message>
     <message>
-        <source>Select next &amp;unread message</source>
-        <translation>Selecteer volgende &amp;ongelezen bericht</translation>
-    </message>
-    <message>
         <source>No recycle bin</source>
-        <translation>Geeen vuilnisbak</translation>
-    </message>
-    <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Feeds &amp;&amp; categorieën</translation>
+        <translation>Geen prullenbak</translation>
     </message>
     <message>
         <source>&amp;Accounts</source>
         <translation>&amp;Accounts</translation>
-    </message>
-    <message>
-        <source>&amp;Add new account</source>
-        <translation>&amp;Voeg nieuw account toe</translation>
     </message>
     <message>
         <source>Status bar</source>
@@ -1524,7 +1465,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>&amp;Edit selected account</source>
-        <translation>&amp;Bewerk geselecteerde account</translation>
+        <translation>Geselecteerde account &amp;bewerken</translation>
     </message>
     <message>
         <source>&amp;Delete selected account</source>
@@ -1532,27 +1473,19 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Add new category</source>
-        <translation>Voeg nieuwe categorie toe</translation>
+        <translation>Nieuwe categorie toevoegen</translation>
     </message>
     <message>
         <source>Add new feed</source>
-        <translation>Voeg nieuw feed toe</translation>
+        <translation>Nieuwe feed toevoegen</translation>
     </message>
     <message>
         <source>No actions possible</source>
         <translation>Acties niet mogelijk</translation>
     </message>
     <message>
-        <source>Web browser &amp;&amp; tabs</source>
-        <translation>Web browser &amp;&amp; tabbladen</translation>
-    </message>
-    <message>
         <source>Report a &amp;bug...</source>
         <translation>Rapporteer een &amp;bug...</translation>
-    </message>
-    <message>
-        <source>New web browser tab</source>
-        <translation>Nieuwe web browser tabblad</translation>
     </message>
     <message>
         <source>Close all tabs</source>
@@ -1563,156 +1496,280 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
         <translation>Sluit alle tabbladen behalve deze</translation>
     </message>
     <message>
-        <source>View &amp;fullscreen</source>
-        <translation>Toon &amp;beeldvullend</translation>
-    </message>
-    <message>
         <source>Cannot cleanup database</source>
         <translation>Kan database niet opschonen</translation>
     </message>
     <message>
         <source>Cannot cleanup database, because another critical action is running.</source>
-        <translation>Je kunt database niet opschonenen omdat een andere kritische operatie gaande is.</translation>
-    </message>
-    <message>
-        <source>Feed update started</source>
-        <translation>Bijwerken feed is gestart</translation>
-    </message>
-    <message>
-        <source>Updated feed &apos;%1&apos;</source>
-        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
-        <translation>Feed bijwerken &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Tabs</source>
-        <translation>Tabbladen</translation>
-    </message>
-    <message>
-        <source>&amp;Mark all items as read</source>
-        <translation>&amp;Markeer alle items als gelezen</translation>
+        <translation>De database kan nu niet opgeschoond worden omdat er een kritieke handeling uitgevoerd wordt.</translation>
     </message>
     <message>
         <source>&amp;Restart</source>
-        <translation>&amp;Herstart</translation>
+        <translation>&amp;Herstarten</translation>
     </message>
     <message>
         <source>Go to &amp;next tab</source>
-        <translation>Ga naar &amp;volgende tabblad</translation>
+        <translation>Ga naar &amp;volgend tabblad</translation>
     </message>
     <message>
         <source>Go to &amp;previous tab</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Enable message preview</source>
-        <translation type="unfinished"/>
+        <translation>Ga naar &amp;vorig tab</translation>
     </message>
     <message>
         <source>&amp;Donate...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Copy URLs of selected items</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;read</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;unread</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Show only &amp;unread messages</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Doneren...</translation>
     </message>
     <message>
         <source>Message &amp;filters</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Show tree branches</source>
-        <translation type="unfinished"/>
+        <translation>Bericht&amp;filters</translation>
     </message>
     <message>
         <source>Alternate row colors in lists</source>
-        <translation type="unfinished"/>
+        <translation>Afwisselende achtergrondkleuren in lijsten</translation>
     </message>
     <message>
         <source>Display &amp;documentation</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Automatically &amp;expand items when selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Download all new messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for &amp;selected items</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Stop ongoing downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for items with &amp;custom auto-download policy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Documentatie weergeven</translation>
     </message>
     <message>
         <source>Message viewer toolbars</source>
+        <translation>Werkbalk van berichtweergave</translation>
+    </message>
+    <message>
+        <source>Expand/collapse selected item &amp;recursively</source>
+        <translation>Geselecteerd item &amp;recursief uitvouwen/samenvouwen</translation>
+    </message>
+    <message>
+        <source>&amp;Add item</source>
+        <translation>&amp;Voeg item toe</translation>
+    </message>
+    <message>
+        <source>&amp;Fullscreen</source>
+        <translation>&amp;Beeldvullend</translation>
+    </message>
+    <message>
+        <source>&amp;Fetch all</source>
+        <translation>&amp;Alles ophalen</translation>
+    </message>
+    <message>
+        <source>Fetch all feeds</source>
+        <translation>Alle feeds ophalen</translation>
+    </message>
+    <message>
+        <source>Fetch &amp;selected</source>
+        <translation>Ophalen &amp;geselecteerd </translation>
+    </message>
+    <message>
+        <source>Fetch selected feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;read</source>
+        <translation>Markeer artikelen &amp;gelezen</translation>
+    </message>
+    <message>
+        <source>Mark selected articles read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch &amp;importance</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch importance of selected articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete articles</source>
+        <translation>&amp;Verwijder artikelen</translation>
+    </message>
+    <message>
+        <source>&amp;Clean selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark all read</source>
+        <translation>&amp;Markeer alles als gelezen</translation>
+    </message>
+    <message>
+        <source>View selected item in &amp;newspaper mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch main &amp;window visibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean all</source>
+        <translation>&amp;Alles opschonen</translation>
+    </message>
+    <message>
+        <source>&amp;Next article</source>
+        <translation>&amp;Volgende artikel</translation>
+    </message>
+    <message>
+        <source>&amp;Previous article</source>
+        <translation>&amp;Vorige artikel</translation>
+    </message>
+    <message>
+        <source>&amp;List headers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Backup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch layout</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send via e-mail</source>
+        <translation>Verzenden per e-mail</translation>
+    </message>
+    <message>
+        <source>Send selected articles via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show unread items only</source>
+        <translation>Toon alleen ongelezen items </translation>
+    </message>
+    <message>
+        <source>&amp;Add account</source>
+        <translation>&amp;Account toevoegen</translation>
+    </message>
+    <message>
+        <source>&amp;Restore articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next &amp;unread article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing fetching</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New browser tab</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Enable article preview</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Copy URLs of selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show &amp;unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Show tree expanders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch feeds with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Automatically &amp;expand item when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Close opened modal dialogs first.</source>
+        <translation>Sluit geopende modaalvensters eerst.</translation>
+    </message>
+    <message>
+        <source>F&amp;eeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Art&amp;icles</source>
+        <translation>Art&amp;ikelen</translation>
+    </message>
+    <message>
+        <source>&amp;Web browser &amp;&amp; tabs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ta&amp;bs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching common data</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetched &apos;%1&apos;</source>
+        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormMessageFiltersManager</name>
     <message>
-        <source>Message filters</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Remove selected</source>
-        <translation type="unfinished"/>
+        <translation>Selectie verwijderen</translation>
     </message>
     <message>
         <source>&amp;Check all</source>
-        <translation type="unfinished"/>
+        <translation>Alles sele&amp;cteren</translation>
     </message>
     <message>
         <source>&amp;Uncheck all</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Message filter details</source>
-        <translation type="unfinished"/>
+        <translation>Alles &amp;deselecteren</translation>
     </message>
     <message>
         <source>Title</source>
         <translation>Naam</translation>
     </message>
     <message>
-        <source>Title of message filter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>JavaScript code</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your JavaScript-based message filtering logic</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Sample message</source>
-        <translation type="unfinished"/>
+        <translation>JavaScript-code</translation>
     </message>
     <message>
         <source>Read</source>
-        <translation>Lees</translation>
+        <translation>Gelezen</translation>
     </message>
     <message>
         <source>Important</source>
@@ -1736,112 +1793,133 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Script output</source>
-        <translation type="unfinished"/>
+        <translation>Resultaat</translation>
     </message>
     <message>
         <source>Detailed &amp;help</source>
+        <translation>Gedetailleerde &amp;hulp</translation>
+    </message>
+    <message>
+        <source>ACCEPTED</source>
+        <translation>GEACCEPTEERD</translation>
+    </message>
+    <message>
+        <source>REJECTED</source>
+        <translation>GEWEIGERD</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>ja</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>nee</translation>
+    </message>
+    <message>
+        <source>Cannot find &apos;clang-format&apos;</source>
+        <translation>Kan &apos;clang-formaat&apos; niet vinden</translation>
+    </message>
+    <message>
+        <source>Script was not beautified, because &apos;clang-format&apos; tool was not found.</source>
+        <translation>Script is niet opgeschoond omdat de clang-formaat-applicatie niet is gevonden.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fout</translation>
+    </message>
+    <message>
+        <source>Script was not beautified, because &apos;clang-format&apos; tool thrown error.</source>
+        <translation>Script is niet opgeschoond omdat de clang-formaat-applicatie een foutmelding gaf.</translation>
+    </message>
+    <message>
+        <source>Beautifier was running for too long time</source>
+        <translation>Het duurde te lang om het script op te schonen</translation>
+    </message>
+    <message>
+        <source>Script was not beautified, is &apos;clang-format&apos; installed?</source>
+        <translation>Script is niet opgeschoond. Is het clang-formaat geïnstalleerd?</translation>
+    </message>
+    <message>
+        <source>&amp;New filter</source>
+        <translation>&amp;Nieuw filter</translation>
+    </message>
+    <message>
+        <source>&amp;Test</source>
+        <translation>&amp;Testen</translation>
+    </message>
+    <message>
+        <source>Process checked feeds</source>
+        <translation>Gemarkeerde feeds bewerken</translation>
+    </message>
+    <message>
+        <source>&amp;Beautify</source>
+        <translation>Mooi &amp;maken</translation>
+    </message>
+    <message>
+        <source>Cannot save new filter, error: &apos;%1&apos;.</source>
+        <translation>Nieuw filter kan niet opgeslagen worden. Fout: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Context menu</source>
+        <translation>Contextmenu</translation>
+    </message>
+    <message>
+        <source>Existing articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>New message filter</source>
+        <source>Sample article</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Message will be %1.
+        <source>Filter articles like this</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING articles filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article will be %1.
 
 </source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>ACCEPTED</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>REJECTED</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Output (modified) message is:
+        <source>Output (modified) article is:
   Title = '%1'
   URL = '%2'
   Author = '%3'
   Is read/important = '%4/%5'
   Created on = '%6'
-  Contents = &apos;%7&apos;</source>
+  Contents = '%7'
+  RAW contents = &apos;%8&apos;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>yes</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>no</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Cannot find &apos;clang-format&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Script was not beautified, because &apos;clang-format&apos; tool was not found.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Script was not beautified, because &apos;clang-format&apos; tool thrown error.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Beautifier was running for too long time</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Script was not beautified, is &apos;clang-format&apos; installed?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;New filter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Test</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Process checked feeds</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Beautify</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Existing messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Cannot save new filter, error: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>EXISTING messages filtering error: '%1'.
+        <source>SAMPLE article filtering error: '%1'.
 </source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>SAMPLE message filtering error: '%1'.
-</source>
+        <source>Article filters</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Context menu</source>
+        <source>Article filter details</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Filter messages like this</source>
+        <source>Title of article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your JavaScript-based article filtering logic</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1873,7 +1951,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>You need to restart application for restoration process to finish.</source>
-        <translation>Je moet RssGuard herstarten om de herstel procedure te voltooien.</translation>
+        <translation>Je moet RSS Guard opnieuw starten om de herstelprocedure te voltooien.</translation>
     </message>
     <message>
         <source>Source directory</source>
@@ -1897,7 +1975,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation>Herstart</translation>
+        <translation>Herstarten</translation>
     </message>
 </context>
 <context>
@@ -1914,7 +1992,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
         <source>Changed categories of settings:
 %1.</source>
         <translation>Verander de instellingen categorie:
-%1. </translation>
+%1.</translation>
     </message>
     <message>
         <source>Some settings are changed and will be lost</source>
@@ -1922,7 +2000,7 @@ of omdat deze functie nog niet is geïmplementeerd.</translation>
     </message>
     <message>
         <source>Some settings were changed and by cancelling this dialog, you would lose these changes.</source>
-        <translation>Sommige instellingen zijn veranderd en als je deze dialoog annuleerd,  gaan deze instellingen verloren.</translation>
+        <translation>Sommige instellingen zijn veranderd. Door te annuleren zullen deze instellingen verloren gaan.</translation>
     </message>
     <message>
         <source>Do you really want to close this dialog without saving any settings?</source>
@@ -1942,158 +2020,14 @@ Je moet handmatig herstarten.</translation>
     </message>
 </context>
 <context>
-    <name>FormStandardCategoryDetails</name>
-    <message>
-        <source>Parent category</source>
-        <translation>Oudere categorie</translation>
-    </message>
-    <message>
-        <source>Select parent item for your category.</source>
-        <translation>Kies hoofd item voor je categorie.</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Titel</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Omschrijving</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Pictogram</translation>
-    </message>
-    <message>
-        <source>Select icon for your category.</source>
-        <translation>Selecteer pictogram voor je categorie.</translation>
-    </message>
-    <message>
-        <source>Add new category</source>
-        <translation>Voeg nieuwe categorie toe</translation>
-    </message>
-    <message>
-        <source>Edit existing category</source>
-        <translation>Bewerk bestaande categorie</translation>
-    </message>
-    <message>
-        <source>Cannot add category</source>
-        <translation>Kan geen categorie toevoegen</translation>
-    </message>
-    <message>
-        <source>Category was not added due to error.</source>
-        <translation>Door een fout is de categorie niet toegevoegd.</translation>
-    </message>
-    <message>
-        <source>Cannot edit category</source>
-        <translation>Kan categorie niet bewerken</translation>
-    </message>
-    <message>
-        <source>Category was not edited due to error.</source>
-        <translation>Door een fout is de categorie niet bewerkt.</translation>
-    </message>
-    <message>
-        <source>Category name is ok.</source>
-        <translation>Categorie naam is ok.</translation>
-    </message>
-    <message>
-        <source>Category name is too short.</source>
-        <translation>Categorie naam is te kort.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Omschrijving is leeg.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>Omschrijving is ok.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the category</source>
-        <translation>Kies pictogram bestand voor de categorie</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Afbeeldingen (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Selecteer pictogram</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Annuleer</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
-        <translation>Kijk in:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Pictogram naam:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Type pictogram:</translation>
-    </message>
-    <message>
-        <source>Category title</source>
-        <translation>Titel categorie</translation>
-    </message>
-    <message>
-        <source>Set title for your category.</source>
-        <translation>Stel titel in voor je categorie.</translation>
-    </message>
-    <message>
-        <source>Category description</source>
-        <translation>Categorie omschrijving</translation>
-    </message>
-    <message>
-        <source>Set description for your category.</source>
-        <translation>Stel omschrijving in voor je categorie.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Pictogram selectie</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Laad pictogram uit een bestand...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>FormStandardFeedDetails</name>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Kan geen feed toevoegen</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Door een fout is de feed niet toegevoegd.</translation>
-    </message>
-    <message>
-        <source>Cannot edit feed</source>
-        <translation>Kan feed niet bewerken</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Door een fout is de feed niet bewerkt.</translation>
-    </message>
     <message>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Voeg nieuw feed toe</translation>
+        <translation>Netwerk</translation>
     </message>
 </context>
 <context>
@@ -2101,18 +2035,6 @@ Je moet handmatig herstarten.</translation>
     <message>
         <source>&amp;Select file</source>
         <translation>&amp;Selecteer bestand</translation>
-    </message>
-    <message>
-        <source>&amp;Check all items</source>
-        <translation>&amp;Controleer alle items</translation>
-    </message>
-    <message>
-        <source>&amp;Uncheck all items</source>
-        <translation>&amp;Vinkje bij alle items</translation>
-    </message>
-    <message>
-        <source>Operation results</source>
-        <translation>Resultaten</translation>
     </message>
     <message>
         <source>No file is selected.</source>
@@ -2132,7 +2054,7 @@ Je moet handmatig herstarten.</translation>
     </message>
     <message>
         <source>Export feeds</source>
-        <translation>Exporteer feeds</translation>
+        <translation>Feeds exporteren</translation>
     </message>
     <message>
         <source>Source file</source>
@@ -2144,7 +2066,7 @@ Je moet handmatig herstarten.</translation>
     </message>
     <message>
         <source>Import feeds</source>
-        <translation>Importeer feeds</translation>
+        <translation>Feeds importeren</translation>
     </message>
     <message>
         <source>OPML 2.0 files (*.opml)</source>
@@ -2216,14 +2138,26 @@ Je moet handmatig herstarten.</translation>
     </message>
     <message>
         <source>Do you want to fetch feed metadata online?</source>
-        <translation>Wilt u de feed metadata online ophalen?</translation>
+        <translation>Wil je de metadata van de feed online ophalen?</translation>
     </message>
     <message>
         <source>&amp;Export to file</source>
-        <translation type="unfinished"/>
+        <translation>Naar bestand &amp;exporteren</translation>
     </message>
     <message>
         <source>&amp;Import from file</source>
+        <translation>Van bestand &amp;importeren</translation>
+    </message>
+    <message>
+        <source>&amp;Check all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Uncheck all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Operation result</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2234,28 +2168,20 @@ Je moet handmatig herstarten.</translation>
         <translation>Feed toegevoegd</translation>
     </message>
     <message>
-        <source>Cannot add feed</source>
-        <translation>Kan geen feed toevoegen</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Door een fout is de feed niet toegevoegd.</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>Algemeen</translation>
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Voeg nieuw feed toe</translation>
+        <translation>Netwerk</translation>
     </message>
     <message>
         <source>Feed was added, obtaining new tree of feeds now.</source>
-        <translation type="unfinished"/>
+        <translation>Feed is toegevoegd, nieuwe boomstructuur wordt geladen.</translation>
+    </message>
+    <message>
+        <source>API returned error code %1</source>
+        <translation>API geeft foutcode %1</translation>
     </message>
 </context>
 <context>
@@ -2311,7 +2237,7 @@ de geïnstalleerde.</translation>
     </message>
     <message>
         <source>Cannot update application</source>
-        <translation>Kan RSSguard niet updaten</translation>
+        <translation>Kan RSS Guard niet bijwerken</translation>
     </message>
     <message>
         <source>Downloaded %1% (update size is %2 kB).</source>
@@ -2335,7 +2261,7 @@ de geïnstalleerde.</translation>
     </message>
     <message>
         <source>Go to application website</source>
-        <translation>Ga naar Rssguard website</translation>
+        <translation>Ga naar de RSS Guard-website</translation>
     </message>
     <message>
         <source>This is new version which can be
@@ -2349,7 +2275,7 @@ gedownload worden.</translation>
     </message>
     <message>
         <source>Cannot launch external updater. Update application manually.</source>
-        <translation>Kan externe updater niet starten. Update RSSguard handmatig.</translation>
+        <translation>Kan externe updater niet starten. Voer de update handmatig uit.</translation>
     </message>
     <message>
         <source>Changelog</source>
@@ -2365,11 +2291,11 @@ gedownload worden.</translation>
     </message>
     <message>
         <source>Go to application website to get update packages manually.</source>
-        <translation>Ga naar Rssguard website om update handmatig te verkrijgen</translation>
+        <translation>Ga naar de website van RSS Guard om de update handmatig te verkrijgen.</translation>
     </message>
     <message>
         <source> (size </source>
-        <translation>(grootte</translation>
+        <translation> (grootte </translation>
     </message>
     <message>
         <source>Available update files</source>
@@ -2380,10 +2306,6 @@ gedownload worden.</translation>
 You can install it now.</source>
         <translation>Pakket was succesvol gedownload.
 Installeer het nu.</translation>
-    </message>
-    <message>
-        <source>Cannot navigate to installation file. Download new installation file manually on project website.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2398,11 +2320,11 @@ Installeer het nu.</translation>
     </message>
     <message>
         <source>Client ID</source>
-        <translation type="unfinished"/>
+        <translation>Client-ID</translation>
     </message>
     <message>
         <source>Client secret</source>
-        <translation type="unfinished"/>
+        <translation>Klantgeheim</translation>
     </message>
     <message>
         <source>Redirect URL</source>
@@ -2410,23 +2332,11 @@ Installeer het nu.</translation>
     </message>
     <message>
         <source>Get my credentials</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Download alleen de nieuwste X berichten  van een feed</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>bericht(en)</translation>
+        <translation>Mijn inloggegevens verkrijgen</translation>
     </message>
     <message>
         <source>&amp;Login</source>
         <translation>&amp;Inloggen</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Not tested yet.</source>
@@ -2434,15 +2344,7 @@ Installeer het nu.</translation>
     </message>
     <message>
         <source>User-visible username</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Je bent al ingelogd.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation type="unfinished"/>
+        <translation>Openbare gebruikersnaam</translation>
     </message>
     <message>
         <source>No username entered.</source>
@@ -2454,23 +2356,19 @@ Installeer het nu.</translation>
     </message>
     <message>
         <source>You did not grant access.</source>
-        <translation type="unfinished"/>
+        <translation>Je hebt geen toegang gegeven.</translation>
     </message>
     <message>
         <source>There was error during testing.</source>
-        <translation>Er was een fout tijdens het testen. </translation>
-    </message>
-    <message>
-        <source>There is error. %1 </source>
-        <translation>Er is een fout. %1</translation>
+        <translation>Er was een fout tijdens het testen.</translation>
     </message>
     <message>
         <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation type="unfinished"/>
+        <translation>Met succes getest. Mogelijk wordt nog een keer gevraagd om in te loggen.</translation>
     </message>
     <message>
         <source>Your access was approved.</source>
-        <translation type="unfinished"/>
+        <translation>De toegang is goedgekeurd.</translation>
     </message>
     <message>
         <source>Empty value is entered.</source>
@@ -2480,44 +2378,60 @@ Installeer het nu.</translation>
         <source>Some value is entered.</source>
         <translation>Een waarde is ingevoerd.</translation>
     </message>
+    <message>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as it preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave those fields empty and make sure to leave default value of redirect URL.</source>
+        <translation>Er zijn enkele vooraf geconfigureerde QAuth-tokens, dus u hoeftuw client-ID/geheim niet in tevullen maar het wordt sterk aanbevolen om uw eigen tokens te verkrijgen, aangezien voorgeconfigureerde tokens een beperkt wereldwijd gebruiksquotum hebben. Als u vooraf geconfigureerde tokens wilt gebruiken, laat u deze velden gewoon leeg en laat u de standaardwaarde van de omleidings-URL achter.</translation>
+    </message>
+    <message>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation>U moet uw klant-ID/geheim invullen en ook de juiste omleidings-URL invullen.</translation>
+    </message>
+    <message>
+        <source>There is error: %1</source>
+        <translation>Er is een fout: %1</translation>
+    </message>
+    <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation>Vooraf geconfigureerde client-ID/geheim wordt gebruikt.</translation>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation>Download alleen ongelezen artikelen</translation>
+    </message>
 </context>
 <context>
     <name>GmailNetworkFactory</name>
     <message>
-        <source>Logged in successfully</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your login to Gmail was authorized.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Click this to login again. Error is: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Klik hier om opnieuw in te loggen. Foutmelding is: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Click this to login again.</source>
-        <translation>Klik hier om opnieuw in te loggen</translation>
+        <translation>Klik hier om opnieuw in te loggen.</translation>
     </message>
     <message>
         <source>No subject</source>
-        <translation type="unfinished"/>
+        <translation>Geen onderwerp</translation>
     </message>
     <message>
         <source>Gmail: authentication error</source>
-        <translation>Gmail: verificatie fout</translation>
+        <translation>Gmail: inlogfout</translation>
     </message>
     <message>
         <source>Gmail: authorization denied</source>
-        <translation>Gmail: verificatie geweigerd</translation>
+        <translation>Gmail: inloggegevens geweigerd</translation>
     </message>
     <message>
         <source>you are not logged in</source>
-        <translation type="unfinished"/>
+        <translation>je bent niet ingelogd</translation>
     </message>
     <message>
         <source>failed to get metadata</source>
-        <translation type="unfinished"/>
+        <translation>metadata ophalen mislukt</translation>
     </message>
 </context>
 <context>
@@ -2532,7 +2446,7 @@ Installeer het nu.</translation>
     </message>
     <message>
         <source>Drafts</source>
-        <translation type="unfinished"/>
+        <translation>Concepten</translation>
     </message>
     <message>
         <source>Spam</source>
@@ -2541,19 +2455,20 @@ Installeer het nu.</translation>
     <message>
         <source>Authentication status: %1
 Login tokens expiration: %2</source>
-        <translation type="unfinished"/>
+        <translation>Authenticatiestatus: %1
+Logintoken verloopt: %2</translation>
     </message>
     <message>
         <source>logged-in</source>
-        <translation type="unfinished"/>
+        <translation>ingelogd</translation>
     </message>
     <message>
         <source>NOT logged-in</source>
-        <translation type="unfinished"/>
+        <translation>NIET ingelogd</translation>
     </message>
     <message>
         <source>Select attachment destination file</source>
-        <translation type="unfinished"/>
+        <translation>Selecteer doellocatie voor bijlage</translation>
     </message>
     <message>
         <source>Write new e-mail message</source>
@@ -2561,34 +2476,22 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Reply to this message</source>
-        <translation type="unfinished"/>
+        <translation>Dit bericht beantwoorden</translation>
     </message>
 </context>
 <context>
     <name>GreaderAccountDetails</name>
     <message>
         <source>Service</source>
-        <translation type="unfinished"/>
+        <translation>Service</translation>
     </message>
     <message>
         <source>URL</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Download alleen de nieuwste X berichten  van een feed</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Sommige feeds vereisen verificatie,inclusief GMail feeds. BASIC, NTLM-2 en DIGEST-MD5 verificaties schema&apos;s worden ondersteund.</translation>
-    </message>
-    <message>
         <source>Authentication</source>
-        <translation>Verificatie</translation>
+        <translation>Authenticatie</translation>
     </message>
     <message>
         <source>Username</source>
@@ -2596,11 +2499,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Password</source>
-        <translation>Paswoord</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Toon paswoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -2608,15 +2507,15 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Password for your account</source>
-        <translation type="unfinished"/>
+        <translation>Wachtwoord van account</translation>
     </message>
     <message>
         <source>Username for your account</source>
-        <translation type="unfinished"/>
+        <translation>Gebruikersnaam van account</translation>
     </message>
     <message>
         <source>URL of your server, without any service-specific path</source>
-        <translation type="unfinished"/>
+        <translation>URL van de server zonder pad naar enige service</translation>
     </message>
     <message>
         <source>No test done yet.</source>
@@ -2627,32 +2526,20 @@ Login tokens expiration: %2</source>
         <translation>Hier, worden resultaten van verbinding getoond.</translation>
     </message>
     <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>Berichten</translation>
-    </message>
-    <message>
         <source>Network error: &apos;%1&apos;.</source>
-        <translation>Netwerk fout: &apos;%1&apos;</translation>
+        <translation>Netwerk fout: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation type="unfinished"/>
+        <translation>Netwerkfout. Heb je het juiste eindpunt en wachtwoord voor Nextcloud ingevuld?</translation>
     </message>
     <message>
         <source>You are good to go!</source>
-        <translation type="unfinished"/>
+        <translation>Je bent klaar om te gaan!</translation>
     </message>
     <message>
         <source>Yeah.</source>
-        <translation type="unfinished"/>
+        <translation>Ja.</translation>
     </message>
     <message>
         <source>Username cannot be empty.</source>
@@ -2664,11 +2551,11 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Password cannot be empty.</source>
-        <translation>Paswoord kan niet leeg zijn.</translation>
+        <translation>Wachtwoord kan niet leeg zijn.</translation>
     </message>
     <message>
         <source>Password is okay.</source>
-        <translation>Paswoord is ok.</translation>
+        <translation>Wachtwoord is ok.</translation>
     </message>
     <message>
         <source>URL cannot be empty.</source>
@@ -2678,12 +2565,119 @@ Login tokens expiration: %2</source>
         <source>URL is okay.</source>
         <translation>Url is goed.</translation>
     </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation>Download alleen ongelezen artikelen</translation>
+    </message>
+    <message>
+        <source>Intelligent synchronization algorithm</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles newer than</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>OAuth 2.0 settings</source>
+        <translation>QAuth 2.0 instellingen</translation>
+    </message>
+    <message>
+        <source>App ID</source>
+        <translation>Applicatie-ID</translation>
+    </message>
+    <message>
+        <source>App key</source>
+        <translation>Applicatiesleutel</translation>
+    </message>
+    <message>
+        <source>Redirect URL</source>
+        <translation>URL doorsturen</translation>
+    </message>
+    <message>
+        <source>Get my own App ID</source>
+        <translation>Mijn eigen applicatie-ID verkrijgen</translation>
+    </message>
+    <message>
+        <source>Some feeds might contain tens of thousands of articles and downloading all of them could take great amount of time, so sometimes it is good to download only certain amount of newest messages.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>If you select intelligent synchronization, then only not-yet-fetched or updated articles are downloaded. Network usage is greatly reduced and overall synchronization speed is greatly improved, but first feed fetching could be slow anyway if your feed contains huge number of articles.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave all above fields to their default values even if they are empty.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation>U moet uw klant-ID/geheim invullen en ook de juiste omleidings-URL invullen.</translation>
+    </message>
+    <message>
+        <source>You did not grant access.</source>
+        <translation>Je hebt geen toegang gegeven.</translation>
+    </message>
+    <message>
+        <source>There was error during testing.</source>
+        <translation>Er was een fout tijdens het testen.</translation>
+    </message>
+    <message>
+        <source>There is error. %1</source>
+        <translation>Er is een fout. %1</translation>
+    </message>
+    <message>
+        <source>Tested successfully. You may be prompted to login once more.</source>
+        <translation>Met succes getest. Mogelijk wordt nog een keer gevraagd om in te loggen.</translation>
+    </message>
+    <message>
+        <source>Your access was approved.</source>
+        <translation>De toegang is goedgekeurd.</translation>
+    </message>
+    <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation>Vooraf geconfigureerde client-ID/geheim wordt gebruikt.</translation>
+    </message>
+    <message>
+        <source>Empty value is entered.</source>
+        <translation>Een lege waarde is ingevoerd.</translation>
+    </message>
+    <message>
+        <source>Some value is entered.</source>
+        <translation>Een waarde is ingevoerd.</translation>
+    </message>
 </context>
 <context>
     <name>GreaderNetwork</name>
     <message>
-        <source>Other services</source>
+        <source>login failed</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Inoreader: authentication error</source>
+        <translation>Inoreader: inlogfout</translation>
+    </message>
+    <message>
+        <source>Click this to login again. Error is: &apos;%1&apos;</source>
+        <translation>Klik hier om opnieuw in te loggen. Foutmelding is: &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Inoreader: authorization denied</source>
+        <translation>Inoreader: toegang geweigerd</translation>
+    </message>
+    <message>
+        <source>Click this to login again.</source>
+        <translation>Klik hier om opnieuw in te loggen.</translation>
+    </message>
+</context>
+<context>
+    <name>GreaderServiceRoot</name>
+    <message>
+        <source>Other services</source>
+        <translation>Andere diensten</translation>
     </message>
 </context>
 <context>
@@ -2700,151 +2694,11 @@ Login tokens expiration: %2</source>
 <context>
     <name>ImportantNode</name>
     <message>
-        <source>Important messages</source>
+        <source>Important articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>You can find all important messages here.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>InoreaderAccountDetails</name>
-    <message>
-        <source>Username</source>
-        <translation>Gebruikersnaam</translation>
-    </message>
-    <message>
-        <source>OAuth 2.0 settings</source>
-        <translation>QAuth 2.0 instellingen</translation>
-    </message>
-    <message>
-        <source>App ID</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>App key</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Redirect URL</source>
-        <translation>URL doorsturen</translation>
-    </message>
-    <message>
-        <source>Get my own App ID</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>bericht(en)</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Download alleen de nieuwste X berichten  van een feed</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Inloggen</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Not tested yet.</source>
-        <translation>Nog niet getest.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Je bent al ingelogd.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Geen gebruikersnaam ingevoerd.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Een gebruikersnaam invoeren.</translation>
-    </message>
-    <message>
-        <source>You did not grant access.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>There was error during testing.</source>
-        <translation>Er was een fout tijdens het testen. </translation>
-    </message>
-    <message>
-        <source>There is error. %1</source>
-        <translation>Er is een fout. %1</translation>
-    </message>
-    <message>
-        <source>Tested successfully. You may be prompted to login once more.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your access was approved.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Empty value is entered.</source>
-        <translation>Een lege waarde is ingevoerd.</translation>
-    </message>
-    <message>
-        <source>Some value is entered.</source>
-        <translation>Een waarde is ingevoerd.</translation>
-    </message>
-</context>
-<context>
-    <name>InoreaderNetworkFactory</name>
-    <message>
-        <source>Logged in successfully</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your login to Inoreader was authorized.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Inoreader: authentication error</source>
-        <translation>Inoreader: verificatie fout</translation>
-    </message>
-    <message>
-        <source>Click this to login again. Error is: &apos;%1&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Inoreader: authorization denied</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Click this to login again.</source>
-        <translation>Klik hier om opnieuw in te loggen</translation>
-    </message>
-</context>
-<context>
-    <name>InoreaderServiceRoot</name>
-    <message>
-        <source>Authentication status: %1
-Login tokens expiration: %2</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>logged-in</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>NOT logged-in</source>
+        <source>You can find all important articles here.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2863,19 +2717,19 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>You can see all your labels (tags) here.</source>
-        <translation type="unfinished"/>
+        <translation>Overzicht van al je labels (tags).</translation>
     </message>
     <message>
         <source>New label</source>
-        <translation type="unfinished"/>
+        <translation>Nieuw label</translation>
     </message>
     <message>
         <source>This account does not allow you to create labels.</source>
-        <translation type="unfinished"/>
+        <translation>Dit account staat het aanmaken van labels niet toe.</translation>
     </message>
     <message>
         <source>Not allowed</source>
-        <translation type="unfinished"/>
+        <translation>Niet toegestaan</translation>
     </message>
 </context>
 <context>
@@ -2886,21 +2740,48 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
+    <name>MariaDbDriver</name>
+    <message>
+        <source>MySQL server works as expected.</source>
+        <translation>De MySQL-server werkt zoals verwacht.</translation>
+    </message>
+    <message>
+        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
+        <translation>De geselecteerde databank bestaat (nog) niet. Deze wordt nu aangemaakt - dit is normaal.</translation>
+    </message>
+    <message>
+        <source>No MySQL server is running in the target destination.</source>
+        <translation>Er is geen MySQL-server actief op de doelbestemming.</translation>
+    </message>
+    <message>
+        <source>Access denied. Invalid username or password used.</source>
+        <translation>Toegang geweigerd. Ongeldige gebruikersnaam of wachtwoord ingevoerd.</translation>
+    </message>
+    <message>
+        <source>Unknown error: &apos;%1&apos;.</source>
+        <translation>Onbekende fout: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>MariaDB</source>
+        <translation>MariaDB</translation>
+    </message>
+</context>
+<context>
     <name>MessageBox</name>
     <message>
         <source>Do not show this dialog again.</source>
-        <translation>Laat deze dialoog niet meer zien</translation>
+        <translation>Laat dit dialoogvenster niet weer zien.</translation>
     </message>
 </context>
 <context>
     <name>MessageBrowser</name>
     <message>
         <source>You clicked some link. You can download the link contents or open it in external web browser.</source>
-        <translation>Je klikte op een link. U kunt de koppeling inhoud downloaden of openen in de externe browser.</translation>
+        <translation>Je klikte op een koppeling. Je kunt de inhoud downloaden of de koppeling openen in de externe browser.</translation>
     </message>
     <message>
         <source>What action do you want to take?</source>
-        <translation>Welke actie wilt u nemen?</translation>
+        <translation>Welke actie moet op deze koppeling uitgevoerd worden?</translation>
     </message>
     <message>
         <source>Open in external browser</source>
@@ -2908,11 +2789,11 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation>Downloaden</translation>
     </message>
     <message>
         <source>Always open links in external browser.</source>
-        <translation>Open links altijd in externe browser.</translation>
+        <translation>Koppelingen altijd in externe browser openen.</translation>
     </message>
     <message>
         <source>Incorrect link</source>
@@ -2932,25 +2813,47 @@ Login tokens expiration: %2</source>
     </message>
 </context>
 <context>
+    <name>MessageCountSpinBox</name>
+    <message>
+        <source>= unlimited</source>
+        <translation>= onbeperkt</translation>
+    </message>
+    <message>
+        <source>article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation>Artikelen</translation>
+    </message>
+</context>
+<context>
     <name>MessagePreviewer</name>
     <message>
-        <source>Mark message as read</source>
-        <translation>Markeer bericht als gelezen</translation>
+        <source>Mark article read</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Mark message as unread</source>
-        <translation>Markeer bericht als ongelezen</translation>
+        <source>Mark article unread</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Switch message importance</source>
-        <translation>Verander belang van berichten </translation>
+        <source>Switch article importance</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MessageTextBrowser</name>
+    <message>
+        <source>Open with external tool</source>
+        <translation>Met externe applicatie openen</translation>
     </message>
 </context>
 <context>
     <name>MessagesForFiltersModel</name>
     <message>
         <source>Read</source>
-        <translation>Lees</translation>
+        <translation>Gelezen</translation>
     </message>
     <message>
         <source>Important</source>
@@ -2958,7 +2861,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>In recycle bin</source>
-        <translation type="unfinished"/>
+        <translation>In prullenbak</translation>
     </message>
     <message>
         <source>Title</source>
@@ -2973,8 +2876,12 @@ Login tokens expiration: %2</source>
         <translation>Auteur</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Gemaakt op</translation>
+        <source>Score</source>
+        <translation>Score</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
     </message>
 </context>
 <context>
@@ -2985,11 +2892,11 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Read</source>
-        <translation>Lees</translation>
+        <translation>Gelezen</translation>
     </message>
     <message>
         <source>Deleted</source>
-        <translation>verwijder</translation>
+        <translation>Verwijderd</translation>
     </message>
     <message>
         <source>Important</source>
@@ -3012,60 +2919,12 @@ Login tokens expiration: %2</source>
         <translation>Auteur</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Gemaakt op</translation>
-    </message>
-    <message>
         <source>Contents</source>
         <translation>Inhoud</translation>
     </message>
     <message>
-        <source>Id of the message.</source>
-        <translation>Id van het bericht.</translation>
-    </message>
-    <message>
-        <source>Is message read?</source>
-        <translation>Is bericht gelezen?</translation>
-    </message>
-    <message>
-        <source>Is message deleted?</source>
-        <translation>Is bericht verwijderd?</translation>
-    </message>
-    <message>
-        <source>Is message important?</source>
-        <translation>IS bericht belangrijk?</translation>
-    </message>
-    <message>
-        <source>Id of feed which this message belongs to.</source>
-        <translation>Id van feed waar dit bericht bijhoort.</translation>
-    </message>
-    <message>
-        <source>Title of the message.</source>
-        <translation>Titel van het bericht.</translation>
-    </message>
-    <message>
-        <source>Url of the message.</source>
-        <translation>Url van het bericht.</translation>
-    </message>
-    <message>
-        <source>Author of the message.</source>
-        <translation>De schrijver van het bericht.</translation>
-    </message>
-    <message>
-        <source>Creation date of the message.</source>
-        <translation>Aanmaakdatum van het bericht.</translation>
-    </message>
-    <message>
-        <source>Contents of the message.</source>
-        <translation>Inhoud van het bericht.</translation>
-    </message>
-    <message>
         <source>Permanently deleted</source>
         <translation>Definitief verwijderd</translation>
-    </message>
-    <message>
-        <source>Is message permanently deleted from recycle bin?</source>
-        <translation>Is het bericht definitief verwijderd uit de prullenbak?</translation>
     </message>
     <message>
         <source>Attachments</source>
@@ -3073,128 +2932,180 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>List of attachments.</source>
-        <translation>Bijlagen lijst.</translation>
-    </message>
-    <message>
-        <source>Loading of messages failed, maybe messages could not be downloaded.</source>
-        <translation>Laden van berichten mislukt, misschien konden berichten niet worden gedownload.</translation>
-    </message>
-    <message>
-        <source>Loading of messages from item &apos;%1&apos; failed.</source>
-        <translation>Laden van berichten voor item &apos;%1&apos; mislukt.</translation>
+        <translation>Lijst met bijlagen.</translation>
     </message>
     <message>
         <source>Account ID</source>
-        <translation>Account ID</translation>
+        <translation>Account-ID</translation>
     </message>
     <message>
         <source>Custom ID</source>
         <translation>Aangepaste ID</translation>
     </message>
     <message>
-        <source>Account ID of the message.</source>
-        <translation>Account ID van het bericht.</translation>
-    </message>
-    <message>
-        <source>Custom ID of the message</source>
-        <translation>Aangepaste ID van het bericht</translation>
-    </message>
-    <message>
         <source>Custom hash</source>
         <translation>Aangepaste hash</translation>
     </message>
     <message>
-        <source>Custom hash of the message.</source>
-        <translation>Aangepaste hash van bericht.</translation>
-    </message>
-    <message>
         <source>Feed ID</source>
-        <translation>Feed ID</translation>
-    </message>
-    <message>
-        <source>Custom ID of feed of the message.</source>
-        <translation type="unfinished"/>
+        <translation>Feed-ID</translation>
     </message>
     <message>
         <source>Has enclosures</source>
+        <translation>Heeft bijlages</translation>
+    </message>
+    <message>
+        <source>Score</source>
+        <translation>Score</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Loading of articles from item &apos;%1&apos; failed.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Indication of enclosures presence within the message.</source>
+        <source>Loading of articles failed, maybe messages could not be downloaded.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article read?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article important?</source>
+        <translation>Is artikel belangrijk?</translation>
+    </message>
+    <message>
+        <source>Is article deleted?</source>
+        <translation>Is artikel verwijderd?</translation>
+    </message>
+    <message>
+        <source>Is article permanently deleted from recycle bin?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of feed which this article belongs to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of the article.</source>
+        <translation>Titel van artikel</translation>
+    </message>
+    <message>
+        <source>Url of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Author of the article.</source>
+        <translation>Schrijver van het artikel</translation>
+    </message>
+    <message>
+        <source>Creation date of the article.</source>
+        <translation>Aanmaakdatum van het artikel.</translation>
+    </message>
+    <message>
+        <source>Contents of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Score of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Account ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of the article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom hash of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of feed of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Indication of enclosures presence within the article.</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MessagesToolBar</name>
     <message>
-        <source>Search messages</source>
-        <translation>Zoek berichten</translation>
-    </message>
-    <message>
-        <source>Message search box</source>
-        <translation>Berichten zoek box</translation>
-    </message>
-    <message>
-        <source>Menu for highlighting messages</source>
-        <translation>Menu voor markeren berichten</translation>
-    </message>
-    <message>
         <source>No extra highlighting</source>
         <translation>Niet extra markeren</translation>
     </message>
     <message>
-        <source>Highlight unread messages</source>
-        <translation>Markeer ongelezen berichten</translation>
-    </message>
-    <message>
-        <source>Highlight important messages</source>
-        <translation>Markeer belangrijke berichten</translation>
-    </message>
-    <message>
-        <source>Display all messages</source>
-        <translation>Toon alle berichten</translation>
-    </message>
-    <message>
-        <source>Message highlighter</source>
-        <translation>Bericht markeerder</translation>
-    </message>
-    <message>
         <source>Toolbar spacer</source>
-        <translation>Werkbalk ruimte</translation>
+        <translation>Paneelscheiding op werkbalk</translation>
+    </message>
+    <message>
+        <source>Search articles</source>
+        <translation>Artikel zoeken</translation>
+    </message>
+    <message>
+        <source>Article search box</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Menu for highlighting articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight important articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display all articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article highlighter</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MessagesView</name>
     <message>
-        <source>Context menu for messages</source>
-        <translation>Contextmenu voor berichten</translation>
-    </message>
-    <message>
-        <source>Problem with starting external web browser</source>
-        <translation>Probleem om externe webbrowser te starten</translation>
-    </message>
-    <message>
-        <source>External web browser could not be started.</source>
-        <translation>Externe webbrowser kon niet worden gestart.</translation>
-    </message>
-    <message>
         <source>Problem with starting external e-mail client</source>
-        <translation>Probleem om externe e-mail client te starten</translation>
+        <translation>Probleem bij het starten van de externe e-mailclient</translation>
     </message>
     <message>
         <source>External e-mail client could not be started.</source>
-        <translation>Externe e-mail client kon niet worden gestart.</translation>
+        <translation>Externe e-mailclient kon niet worden gestart.</translation>
     </message>
     <message>
         <source>Open with external tool</source>
-        <translation type="unfinished"/>
+        <translation>Met externe applicatie openen</translation>
     </message>
     <message>
         <source>Cannot run external tool</source>
-        <translation>Kan externe gereedschap niet starten</translation>
+        <translation>Kan externe applicatie niet starten</translation>
     </message>
     <message>
         <source>External tool &apos;%1&apos; could not be started.</source>
+        <translation>Extern programma &apos;%1&apos; kan niet gestart worden.</translation>
+    </message>
+    <message>
+        <source>No external tools activated</source>
+        <translation>Geen externe gereedschappen geactiveerd</translation>
+    </message>
+    <message>
+        <source>Context menu for articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3218,7 +3129,7 @@ Login tokens expiration: %2</source>
     <message>
         <source>connection timed out</source>
         <extracomment>Network status.</extracomment>
-        <translation>Verbindings time-out</translation>
+        <translation>Verbindingstime-out</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
@@ -3228,7 +3139,7 @@ Login tokens expiration: %2</source>
     <message>
         <source>proxy server connection refused</source>
         <extracomment>Network status.</extracomment>
-        <translation>proxy server verbinding geweigerd</translation>
+        <translation>Verbinding met proxyserver geweigerd</translation>
     </message>
     <message>
         <source>temporary failure</source>
@@ -3238,17 +3149,17 @@ Login tokens expiration: %2</source>
     <message>
         <source>authentication failed</source>
         <extracomment>Network status.</extracomment>
-        <translation>verificatie mislukt</translation>
+        <translation>Authenticatie mislukt</translation>
     </message>
     <message>
         <source>proxy authentication required</source>
         <extracomment>Network status.</extracomment>
-        <translation>proxy verificatie vereist</translation>
+        <translation>Authenticatie van proxy vereist</translation>
     </message>
     <message>
         <source>proxy server not found</source>
         <extracomment>Network status.</extracomment>
-        <translation>proxy server niet gevonden</translation>
+        <translation>proxyserver niet gevonden</translation>
     </message>
     <message>
         <source>content not found</source>
@@ -3296,7 +3207,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Hostname or IP of your proxy server</source>
-        <translation>Hostnaam of ip van je proxy server</translation>
+        <translation>Hostnaam of IP van je proxyserver</translation>
     </message>
     <message>
         <source>Port</source>
@@ -3308,19 +3219,15 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Your username for proxy server authentication</source>
-        <translation>Je gebruikersnaam voor proxy server verificatie</translation>
+        <translation>Je gebruikersnaam voor de proxyserver</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Paswoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Your password for proxy server authentication</source>
-        <translation>Je paswoord voor proxy server verificatie</translation>
-    </message>
-    <message>
-        <source>Display password</source>
-        <translation>Toon paswoord</translation>
+        <translation>Je wachtwoord voor de proxyserver</translation>
     </message>
     <message>
         <source>Note that these settings are applied only on newly established connections.</source>
@@ -3332,7 +3239,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>System proxy</source>
-        <translation>Systeem proxy</translation>
+        <translation>Systeemproxy</translation>
     </message>
     <message>
         <source>Socks5</source>
@@ -3350,70 +3257,50 @@ Login tokens expiration: %2</source>
         <translation>Form</translation>
     </message>
     <message numerus="yes">
-        <source>Show more messages (%n remaining)</source>
-        <translation><numerusform>Toon een bericht (%n resterende)</numerusform><numerusform>Toon meer berichten (%n resterende)</numerusform></translation>
+        <source>Show more articles (%n remaining)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>Cannot show more messages</source>
-        <translation>Kan niet meer berichten tonen</translation>
+        <source>Cannot show more articles</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot show more messages because parent feed was removed.</source>
-        <translation>Kan niet meer berichten tonen omdat huidige feed is verwijderd.</translation>
+        <source>Cannot show more articles because parent feed was removed.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>OAuth2Service</name>
     <message>
         <source>Click here to login.</source>
-        <translation type="unfinished"/>
+        <translation>Klik hier om in te loggen.</translation>
     </message>
     <message>
         <source>Logging in via OAuth 2.0...</source>
-        <translation type="unfinished"/>
+        <translation>Inloggen via OAuth 2.0...</translation>
     </message>
     <message>
         <source>Refreshing login tokens for &apos;%1&apos;...</source>
-        <translation type="unfinished"/>
+        <translation>Logintokens voor &apos;%1&apos; worden vernieuwd...</translation>
     </message>
     <message>
         <source>You have to login first</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Navigate to website</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>To login, you need to navigate to this website:</source>
-        <translation type="unfinished"/>
+        <translation>Je moet eerst inloggen</translation>
     </message>
     <message>
         <source>You can close this window now. Go back to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Dit venster kan nu gesloten worden. Ga terug naar %1.</translation>
     </message>
     <message>
         <source>Failed to start OAuth redirection listener. Maybe your rights are not high enough.</source>
-        <translation type="unfinished"/>
+        <translation>Omleiding via OAuth-applicatie kan niet gestart worden. Misschien heb je niet genoeg rechten.</translation>
     </message>
 </context>
 <context>
     <name>OwnCloudAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Dwing het uitvoeren van server-side-update bij het bijwerken van RSS Guard feeds</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Download alleen de nieuwste X berichten  van een feed</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>URL</source>
@@ -3421,11 +3308,11 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Sommige feeds vereisen verificatie,inclusief GMail feeds. BASIC, NTLM-2 en DIGEST-MD5 verificaties schema&apos;s worden ondersteund.</translation>
+        <translation>Sommige feeds vereisen inloggegevens, inclusief feeds van Gmail. Ondersteunde authenticatiemethoden zijn BASIC, NTLM-2 en DIGEST-MD5.</translation>
     </message>
     <message>
         <source>Authentication</source>
-        <translation>Verificatie</translation>
+        <translation>Authenticatie</translation>
     </message>
     <message>
         <source>Username</source>
@@ -3433,11 +3320,7 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Password</source>
-        <translation>Paswoord</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Toon paswoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -3449,15 +3332,15 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Password for your Nextcloud account</source>
-        <translation type="unfinished"/>
+        <translation>Wachtwoord voor je Nextcloud-account</translation>
     </message>
     <message>
         <source>Username for your Nextcloud account</source>
-        <translation type="unfinished"/>
+        <translation>Gebruikersnaam voor je Nextcloud-account</translation>
     </message>
     <message>
         <source>URL of your Nextcloud server, without any API path</source>
-        <translation type="unfinished"/>
+        <translation>URL van de Nextcloud-server zonder pad naar API</translation>
     </message>
     <message>
         <source>No test done yet.</source>
@@ -3468,36 +3351,28 @@ Login tokens expiration: %2</source>
         <translation>Hier, worden resultaten van verbinding getoond.</translation>
     </message>
     <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>= unlimited</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>Berichten</translation>
+        <translation>= onbeperkt</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
-        <translation>Netwerk fout: &apos;%1&apos;</translation>
+        <translation>Netwerk fout: &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>Network error, have you entered correct Nextcloud endpoint and password?</source>
-        <translation type="unfinished"/>
+        <translation>Netwerkfout. Heb je het juiste eindpunt en wachtwoord voor Nextcloud ingevuld?</translation>
     </message>
     <message>
         <source>Installed version: %1, required at least: %2.</source>
-        <translation type="unfinished"/>
+        <translation>Geïnstalleerde versie: %1, ten minste nodig: %2.</translation>
     </message>
     <message>
         <source>Selected Nextcloud News server is running unsupported version.</source>
-        <translation type="unfinished"/>
+        <translation>De geselecteerde Nextcloud News-server draait op een niet-ondersteunde versie.</translation>
     </message>
     <message>
         <source>Nextcloud News server is okay.</source>
-        <translation type="unfinished"/>
+        <translation>De server van Nextcloud News is goed.</translation>
     </message>
     <message>
         <source>Unspecified error, did you enter correct URL?</source>
@@ -3513,11 +3388,11 @@ Login tokens expiration: %2</source>
     </message>
     <message>
         <source>Password cannot be empty.</source>
-        <translation>Paswoord kan niet leeg zijn.</translation>
+        <translation>Wachtwoord kan niet leeg zijn.</translation>
     </message>
     <message>
         <source>Password is okay.</source>
-        <translation>Paswoord is ok.</translation>
+        <translation>Wachtwoord is ok.</translation>
     </message>
     <message>
         <source>URL cannot be empty.</source>
@@ -3526,6 +3401,18 @@ Login tokens expiration: %2</source>
     <message>
         <source>URL is okay.</source>
         <translation>Url is goed.</translation>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation>Download alleen ongelezen artikelen</translation>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation>Artikelen</translation>
     </message>
 </context>
 <context>
@@ -3566,9 +3453,9 @@ Tiny Tiny RSS is an open source web-based news feed (RSS/Atom) reader and aggreg
 At least API level %1 is required.</source>
         <translation>Deze service biedt integratie met TinyTiny RSS.
 
-Tiny Tiny RSS is een open source web-based nieuws-feed (RSS / Atom) lezer en aggregator, ontworpen om u nieuws te laten lezen vanaf elke locatie, terwijl u het gevoel hebt zo dicht mogelijk bij een echte desktop te zijn.
+Tiny Tiny RSS is een open-source web-based nieuwsfeedlezer en -aggregator (RSS/Atom), ontworpen om nieuws te kunnen lezen vanaf elke locatie waarbij het zo veel mogelijk voelt als een echte desktopapplicatie.
 
-Een API niveau van tenminste %1 is vereist.</translation>
+Een API-niveau van tenminste %1 is vereist.</translation>
     </message>
     <message>
         <source>This service offers integration with standard online RSS/RDF/ATOM feeds and podcasts.</source>
@@ -3576,7 +3463,7 @@ Een API niveau van tenminste %1 is vereist.</translation>
     </message>
     <message>
         <source>The News app is an RSS/Atom feed aggregator. It is part of Nextcloud suite. This plugin implements %1 API.</source>
-        <translation type="unfinished"/>
+        <translation>De News-app brengt RSS/Atom-feeds samen en maakt deel uit van de Nextcloud-suite. Deze plug-in gebruikt de API van %1.</translation>
     </message>
     <message>
         <source>New version available</source>
@@ -3588,15 +3475,11 @@ Een API niveau van tenminste %1 is vereist.</translation>
     </message>
     <message>
         <source>Passed external tool representation is not valid.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>This is integration of Inoreader.</source>
-        <translation type="unfinished"/>
+        <translation>Ingevoerde weergave van externe applicatie is niet geldig.</translation>
     </message>
     <message>
         <source>Simple Gmail integration via JSON API. Allows sending e-mails too.</source>
-        <translation type="unfinished"/>
+        <translation>Eenvoudige integratie van Gmail via JSON API. Ondersteunt ook het versturen van e-mails.</translation>
     </message>
     <message>
         <source>Welcome to %1.
@@ -3605,23 +3488,56 @@ Please, check NEW stuff included in this
 version by clicking this popup notification.</source>
         <translation>Welkom bij %1.
 
-Check voor NIEUW materiaal in deze versie
-door te clicken op deze popup melding.</translation>
-    </message>
-    <message>
-        <source>Cannot insert message filter, because current database cannot return last inserted row ID.</source>
-        <translation type="unfinished"/>
+Om te zien wat er NIEUW is in deze versie: klik op deze melding.</translation>
     </message>
     <message>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
+        <translation>Standaard online feeds (RSS/ATOM/JSON)</translation>
+    </message>
+    <message>
+        <source>Keep up with the topics and trends you care about, without the overwhelm.
+
+Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <translation>Blijf op de hoogte van de onderwerpen en trends waar u omgeeft, zonder te overweldigen.
+
+Feedly is een beveiligde ruimte waar u de onderwerpen en trends die voor u van belang zijn, prive kunt organiseren en onderzoeken.</translation>
+    </message>
+    <message>
+        <source>Cannot insert article filter, because current database cannot return last inserted row ID.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <source>Fetching articles right now</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <source>Login data refreshed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New %1 version is available</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Miscellaneous events</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown event</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New (unread) articles fetched</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML problem: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers.
+
+List of supported readers:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3632,47 +3548,47 @@ door te clicken op deze popup melding.</translation>
         <translation>Prullenbak</translation>
     </message>
     <message>
-        <source>Recycle bin contains all deleted messages from all feeds.</source>
-        <translation>De prullenbak bevat alle verwijderde berichten van alle feeds.</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n deleted message(s).</source>
-        <translation><numerusform>%n verwijderde bericht(en).</numerusform><numerusform>%n verwijderde bericht(en).</numerusform></translation>
-    </message>
-    <message>
         <source>Restore recycle bin</source>
-        <translation>Herstel vuilnisbak</translation>
+        <translation>Prullenbak herstellen</translation>
     </message>
     <message>
         <source>Empty recycle bin</source>
-        <translation>Leeg vuilnisbak</translation>
+        <translation>Prullenbak legen</translation>
+    </message>
+    <message>
+        <source>Recycle bin contains all deleted articles from all feeds.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n deleted article(s).</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
     <name>RootItem</name>
     <message numerus="yes">
-        <source>%n unread message(s).</source>
+        <source>%n unread article(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
-        <translation><numerusform>%n ongelezen bericht.</numerusform><numerusform>%n ongelezen berichten.</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
     <name>ScriptException</name>
     <message>
         <source>script line is not well-formed</source>
-        <translation type="unfinished"/>
+        <translation>regel in script is niet juist opgesteld</translation>
     </message>
     <message>
         <source>script threw an error</source>
-        <translation type="unfinished"/>
+        <translation>script geeft een foutmelding</translation>
     </message>
     <message>
         <source>script&apos;s interpreter was not found</source>
-        <translation type="unfinished"/>
+        <translation>interpreter van script niet gevonden</translation>
     </message>
     <message>
         <source>script execution took too long</source>
-        <translation type="unfinished"/>
+        <translation>het uitvoeren van het script duurde te lang</translation>
     </message>
     <message>
         <source>unknown error</source>
@@ -3682,30 +3598,26 @@ door te clicken op deze popup melding.</translation>
 <context>
     <name>SearchTextWidget</name>
     <message>
-        <source>Clear searched phrase</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Seach text</source>
-        <translation>Zoek tekst</translation>
+        <translation>Zoektekst</translation>
     </message>
     <message>
         <source>Find previous occurence</source>
-        <translation type="unfinished"/>
+        <translation>Vorige overeenkomst vinden</translation>
     </message>
     <message>
         <source>Find next occurence</source>
-        <translation type="unfinished"/>
+        <translation>Volgende overeenkomst vinden</translation>
     </message>
 </context>
 <context>
     <name>ServiceRoot</name>
     <message>
         <source>Synchronize folders &amp;&amp; other items</source>
-        <translation type="unfinished"/>
+        <translation>Mappen &amp;&amp; andere items synchroniseren</translation>
     </message>
     <message>
-        <source>Synchronize message cache</source>
+        <source>Synchronize article cache</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3717,7 +3629,7 @@ door te clicken op deze popup melding.</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If unchecked, then default system-wide web browser is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Indien aangevinkt, wordt standaard de systeem  webbrowser gebruikt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Indien aangevinkt, wordt de standaardbrowser van het systeem gebruikt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Use custom external web browser</source>
@@ -3725,7 +3637,7 @@ door te clicken op deze popup melding.</translation>
     </message>
     <message>
         <source>Web browser executable</source>
-        <translation>Webbrowser exe</translation>
+        <translation>Uitvoerbaar bestand van webbrowser</translation>
     </message>
     <message>
         <source>Executable file of web browser</source>
@@ -3733,11 +3645,11 @@ door te clicken op deze popup melding.</translation>
     </message>
     <message>
         <source>&amp;Browse</source>
-        <translation>&amp;Blader</translation>
+        <translation>&amp;Bladeren</translation>
     </message>
     <message>
         <source>Use sample arguments for</source>
-        <translation>Gebruik voorbeeld argumenten voor</translation>
+        <translation>Gebruik voorbeeldargumenten voor</translation>
     </message>
     <message>
         <source>Select browser</source>
@@ -3749,7 +3661,7 @@ door te clicken op deze popup melding.</translation>
     </message>
     <message>
         <source>External e-mail client</source>
-        <translation>Externe e-mail client</translation>
+        <translation>Externe e-mailclient</translation>
     </message>
     <message>
         <source>Use custom external e-mail client</source>
@@ -3761,7 +3673,7 @@ door te clicken op deze popup melding.</translation>
     </message>
     <message>
         <source>Executable file of e-mail client</source>
-        <translation>Uitvoerbaar bestand van e-mail client</translation>
+        <translation>Uitvoerbaar bestand van e-mailclient</translation>
     </message>
     <message>
         <source>Select client</source>
@@ -3773,7 +3685,7 @@ door te clicken op deze popup melding.</translation>
  • %2 - body of selected message.</source>
         <translation>Plaatshouders: 
  •.%1 - titel van het geselecteerde bericht,
- • %2 - body van geselecteerde bericht.</translation>
+ • %2 - inhoud van geselecteerde bericht.</translation>
     </message>
     <message>
         <source>Select web browser executable</source>
@@ -3783,9 +3695,7 @@ door te clicken op deze popup melding.</translation>
         <source>Executables (*)</source>
         <extracomment>File filter for external browser selection dialog.
 ----------
-File filter for external e-mail selection dialog.
-----------
-File filter for external tool selection dialog.</extracomment>
+File filter for external e-mail selection dialog.</extracomment>
         <translation>Uitvoerbare bestanden (*.*)</translation>
     </message>
     <message>
@@ -3806,27 +3716,19 @@ File filter for external tool selection dialog.</extracomment>
     </message>
     <message>
         <source>Web browser &amp; e-mail &amp; proxy</source>
-        <translation>Webbrowser &amp; e-mail &amp; proxy</translation>
+        <translation>Webbrowser, e-mail en proxy</translation>
     </message>
     <message>
         <source>Always open links from simple internal text browser in external web browser</source>
-        <translation>Open links altijd van een simpele interne tekstbrowser in de externe browser.</translation>
+        <translation>Koppelingen in de simpele interne tekstbrowser altijd in externe browser openen</translation>
     </message>
     <message>
         <source>External tools</source>
-        <translation>Extern gereedschap</translation>
+        <translation>Externe applicatie</translation>
     </message>
     <message>
         <source>On this page, you can setup a list of external tools which can open URLs of selected messages.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add external tool</source>
-        <translation>Voeg externe gereedschap toe</translation>
-    </message>
-    <message>
-        <source>Delete selected external tool</source>
-        <translation>Verwijder geselecteerde externe gereedschap</translation>
+        <translation>Op deze pagina kan je externe applicaties instellen waarmee URL&apos;s of berichten geopend kunnen worden.</translation>
     </message>
     <message>
         <source>Executable</source>
@@ -3838,38 +3740,50 @@ File filter for external tool selection dialog.</extracomment>
     </message>
     <message>
         <source>Select external tool</source>
-        <translation>Selecteer extern gereedschap</translation>
+        <translation>Selecteer externe applicatie</translation>
     </message>
     <message>
         <source>Enter parameters</source>
         <translation>Vul parameters in</translation>
     </message>
     <message>
-        <source>Enter (optional) parameters separated by single space to send to executable when opening URLs.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Parameters passed to executable</source>
-        <translation type="unfinished"/>
+        <translation>Toe te voegen parameters voor uitvoerbaar bestand</translation>
     </message>
     <message>
         <source>Network proxy</source>
-        <translation type="unfinished"/>
+        <translation>Netwerkproxy</translation>
+    </message>
+    <message>
+        <source>&amp;Add new external tool</source>
+        <translation>&amp;Voeg externe applicatie toe</translation>
+    </message>
+    <message>
+        <source>&amp;Edit selected external tool</source>
+        <translation>&amp;Bewerk geselecteerde externe applicatie</translation>
+    </message>
+    <message>
+        <source>&amp;Delete selected external tool</source>
+        <translation>&amp;Verwijder geselecteerde externe applicatie</translation>
+    </message>
+    <message>
+        <source>Enter (optional) parameters separated by &quot;%1&quot;:</source>
+        <translation>Voer (optionele) parameters in, gescheiden door &quot;%1&quot;:</translation>
     </message>
 </context>
 <context>
     <name>SettingsDatabase</name>
     <message>
         <source>WARNING: Note that switching to another data storage type will NOT copy existing your data from currently active data storage to newly selected one.</source>
-        <translation>WAARSCHUWING: Let op dat de overstap naar een ander type gegevens opslag NIET bestaande gegevens van dat moment kopiëren naar nieuw geselecteerde gegevens opslag.</translation>
+        <translation>WAARSCHUWING: Let op dat de bij het overstappen naar een nieuw type gegevensopslag de bestaande gegevens NIET worden overgezet naar de nieuwe gekozen gevensopslag.</translation>
     </message>
     <message>
         <source>Database driver</source>
-        <translation>Database driver</translation>
+        <translation>Databasedriver</translation>
     </message>
     <message>
         <source>Use in-memory database as the working database</source>
-        <translation>Gebruik in-geheugen database als de werkende database</translation>
+        <translation>Gebruik de database die in het geheugen geladen is als hoofddatabase</translation>
     </message>
     <message>
         <source>Usage of in-memory working database has several advantages and pitfalls. Make sure that you are familiar with these before you turn this feature on. Advantages:
@@ -3883,18 +3797,18 @@ Disadvantages:
 &lt;li&gt;application startup and shutdown can take little longer (max. 2 seconds).&lt;/li&gt;
 &lt;/ul&gt;
 Authors of this application are NOT responsible for lost data.</source>
-        <translation>Het gebruik van in-geheugen werkende database heeft een aantal voordelen en nadelen.Zorg ervoor dat u er bekend mee bent voordat u deze functie inschakelt.
+        <translation>Het gebruik van een in het geheugen werkende database heeft een aantal voordelen en nadelen. Wees ervan op de hoogte voordat je deze functie inschakelt.
 Voordelen:
 &lt;ul&gt;
-&lt;li&gt;hogere snelheid voor feed/bericht manipulaties (vooral met duizenden berichten weergegeven),&lt;/li&gt;
-&lt;li&gt;gehele database opgeslagen in het RAM geheugen, waardoor uw harde schijf meer rust.&lt;/li&gt;
+&lt;li&gt;hogere snelheid voor manipulaties van feeds/berichten (vooral bij weergave van duizenden berichten).&lt;/li&gt;
+&lt;li&gt;de gehele database wordt opgeslagen in het RAM zodat de harde schijf minder hoeft te doen.&lt;/li&gt;
 &lt;/ul&gt;
 Nadelen:
 &lt;ul&gt;
-&lt;li&gt;als rssguard crasht, gaan wijzigingen van laatste sessie verloren,&lt;/li&gt;
-&lt;li&gt;opstarten en afsluiten van rssguard kan iets langer duren (max. 2 seconden).&lt;/li&gt;
+&lt;li&gt;als RSS Guard crasht, gaan wijzigingen van laatste sessie verloren,&lt;/li&gt;
+&lt;li&gt;opstarten en afsluiten van RSS Guard kan iets langer duren (max. 2 seconden).&lt;/li&gt;
 &lt;/lu&gt;
-Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</translation>
+Auteurs van RSS Guard zijn NIET verantwoordelijk voor verlies van gegevens.</translation>
     </message>
     <message>
         <source>Hostname</source>
@@ -3910,19 +3824,15 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Password</source>
-        <translation>Paswoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Test setup</source>
-        <translation>Test instelling</translation>
+        <translation>Instellingen testen</translation>
     </message>
     <message>
         <source>Note that speed of used MySQL server and latency of used connection medium HEAVILY influences the final performance of this application. Using slow database connections leads to bad performance when browsing feeds or messages.</source>
         <translation>Merk op dat de snelheid van de gebruikte MySQL server en wachttijd van de gebruikte verbinding ZWAAR invloed heeft op de uiteindelijke prestaties van deze toepassing. Met langzame database connecties leidt dit tot slechte prestaties tijdens het browsen feeds of berichten.</translation>
-    </message>
-    <message>
-        <source>&amp;Show password</source>
-        <translation>&amp;Toon paswoord</translation>
     </message>
     <message>
         <source>Working database</source>
@@ -3946,11 +3856,11 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Password is empty.</source>
-        <translation>Paswoord is leeg.</translation>
+        <translation>Wachtwoord is leeg.</translation>
     </message>
     <message>
         <source>Password looks ok.</source>
-        <translation>Paswoord voldoet.</translation>
+        <translation>Wachtwoord lijkt goed.</translation>
     </message>
     <message>
         <source>Working database is empty.</source>
@@ -3978,7 +3888,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Password for your username</source>
-        <translation>Paswoord voor je gebruikersnaam</translation>
+        <translation>Wachtwoord bij je gebruikersnaam</translation>
     </message>
     <message>
         <source>Working database which you have full access to.</source>
@@ -3986,7 +3896,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Data storage</source>
-        <translation>Gegevens opslag</translation>
+        <translation>Gegevensopslag</translation>
     </message>
     <message>
         <source>Note that turning this option ON will make saving of new messages FASTER, but it might rarely cause some issues with messages saving.</source>
@@ -3994,14 +3904,14 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Use DB transactions when storing downloaded messages</source>
-        <translation>Gebruik DB transacties bij het opslaan van gedownloade berichten</translation>
+        <translation>Gebruik databasetransacties bij het opslaan van gedownloade berichten</translation>
     </message>
 </context>
 <context>
     <name>SettingsDownloads</name>
     <message>
         <source>Open download manager when new download is started</source>
-        <translation>Open de download manager wanneer een nieuwe download start</translation>
+        <translation>Open downloadbeheer wanneer een nieuwe download start</translation>
     </message>
     <message>
         <source>Target directory for downloaded files</source>
@@ -4009,7 +3919,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Ask for each individual downloaded file</source>
-        <translation>Vraag voor elk individuele gedownloade bestand</translation>
+        <translation>Voor elk individueel gedownload bestand vragen</translation>
     </message>
     <message>
         <source>Save all downloaded files to</source>
@@ -4021,11 +3931,11 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>&amp;Browse</source>
-        <translation>&amp;Blader</translation>
+        <translation>&amp;Bladeren</translation>
     </message>
     <message>
         <source>Select downloads target directory</source>
-        <translation>Selecteer gedownloade doelmap </translation>
+        <translation>Selecteer doelmap voor downloads</translation>
     </message>
     <message>
         <source>Downloads</source>
@@ -4035,44 +3945,20 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
 <context>
     <name>SettingsFeedsMessages</name>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Feeds &amp;&amp; categorieën</translation>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
-        <translation>Feed verbindings time-out</translation>
+        <translation>Feedverbindingstime-out</translation>
     </message>
     <message>
         <source>Connection timeout is time interval which is reserved for downloading new messages for the feed. If this time interval elapses, then download process is aborted.</source>
-        <translation>Verbinding timeout is tijdsinterval dat wordt gereserveerd voor downloaden van nieuwe berichten voor de feed. Als het tijdsinterval is verstreken, dan wordt het download proces afgebroken.</translation>
+        <translation>Verbindingstime-out is de tijdsinterval die wordt gereserveerd voor het downloaden van nieuwe berichten voor de feed. Als de interval is verstreken, dan wordt het downloadproces afgebroken.</translation>
     </message>
     <message>
         <source> ms</source>
-        <translation>ms</translation>
-    </message>
-    <message>
-        <source>Message count format in feed list</source>
-        <translation>Aantal bericht formaat in feeds lijst</translation>
-    </message>
-    <message>
-        <source>Enter format for count of messages displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) messages.</source>
-        <translation>Voer formaat in voor telling van berichten weergegeven naast elke feed / categorie in feed lijst. Gebruik &quot;%alle&quot; en &quot;%ongelezen&quot; strings die tijdelijke aanduidingen zijn voor de eigenlijke telling van alle (of ongelezen) berichten zijn.</translation>
-    </message>
-    <message>
-        <source>Messages</source>
-        <translation>Berichten</translation>
-    </message>
-    <message>
-        <source>Remove all read messages from all feeds on application exit</source>
-        <translation>Verwijder de gelezen berichten van alle feeds als rssguard sluit</translation>
-    </message>
-    <message>
-        <source>Keep message selection in the middle of the message list viewport</source>
-        <translation>Houd bericht selectie in het midden van de lijst met berichten kijkvenster</translation>
+        <translation> ms</translation>
     </message>
     <message>
         <source>Use custom date/time format (overrides format loaded from active localization)</source>
-        <translation>Gebruik aangepaste datum / tijd opmaak (overschrijft de opmaak van de actieve geladen locatie)</translation>
+        <translation>Gebruik aangepaste datum- en tijdopmaak (overschrijft de standaardopmaak van huidige locatie)</translation>
     </message>
     <message>
         <source>&amp;Change font</source>
@@ -4083,63 +3969,91 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
         <translation>Voorbeeld lettertype</translation>
     </message>
     <message>
-        <source>Feeds &amp; messages</source>
-        <translation>Feeds &amp; berichten</translation>
-    </message>
-    <message>
         <source>Height of image attachments</source>
-        <translation>Hoogte van afbeelding lijst</translation>
+        <translation>Hoogte van bijgesloten afbeeldingen</translation>
     </message>
     <message>
         <source>Height or rows in feed list (-1 = default height)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Height or rows in message list (-1 = default height)</source>
-        <translation type="unfinished"/>
+        <translation>Hoogte of aantal rijen in feedlijst (-1 = standaardhoogte)</translation>
     </message>
     <message>
         <source>Feed list font</source>
-        <translation type="unfinished"/>
+        <translation>Lettertype feedlijst</translation>
     </message>
     <message>
         <source>Display placeholders to indicate locations of pictures</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Message list font</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Internal message browser font</source>
-        <translation type="unfinished"/>
+        <translation>Plaatshouders weergeven met locatie van afbeeldingen</translation>
     </message>
     <message>
         <source>Select new font</source>
+        <translation>Nieuw lettertype selecteren</translation>
+    </message>
+    <message>
+        <source>Feeds</source>
+        <translation>Feeds</translation>
+    </message>
+    <message>
+        <source>Articles</source>
+        <translation>Artikelen</translation>
+    </message>
+    <message>
+        <source>Remove all read articles from all feeds on application exit</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <source>Display real icons of feeds in list of articles instead of read/unread icons</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enable &quot;auto-download started&quot; notification</source>
+        <source>Bring application window to front once article is opened in external web browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Only auto-download messages when application is unfocused</source>
+        <source>Height or rows in article list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-download messages for all feeds every</source>
+        <source>Article list font</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Bring application window to front once message is opened in external web browser</source>
+        <source>Article browser font</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <source>Feeds &amp; articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-fetch articles for all feeds every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-fetch articles if application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article count format in feed list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter format for count of articles displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) articles.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Hide article counts if there are no unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display tooltips for feeds and articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep article selection in the middle of the article list viewport</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4155,7 +4069,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Remove junk Trolltech registry key (HKCU\Software\Trolltech) when application quits (Use at your own risk!)</source>
-        <translation>Verwijder ongewenste Trolltech registersleutel (HKCU\\Software\\Trolltech) wanneer RssGuard wordt afgesloten (Gebruik op eigen risico!)</translation>
+        <translation>Verwijder ongewenste Trolltech registersleutel (HKCU\\Software\\Trolltech) wanneer RSS Guard wordt afgesloten (Gebruik op eigen risico!)</translation>
     </message>
     <message>
         <source> (not supported on this platform)</source>
@@ -4174,11 +4088,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Icon theme</source>
-        <translation>Pictogram thema</translation>
-    </message>
-    <message>
-        <source>Tray area &amp;&amp; notifications</source>
-        <translation>Tray gebied &amp;&amp; meldingen</translation>
+        <translation>Pictogramthema</translation>
     </message>
     <message>
         <source>Tray icon</source>
@@ -4193,16 +4103,12 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
         <translation>Start programma verborgen</translation>
     </message>
     <message>
-        <source>Enable popup balloon tooltips</source>
-        <translation>Zet popup ballon tooltips aan</translation>
-    </message>
-    <message>
         <source>Tabs</source>
         <translation>Tabbladen</translation>
     </message>
     <message>
         <source>Open new tabs with left mouse button double-click on tab bar</source>
-        <translation>Open nieuwe tabbladen met linker muisknop dubbel-klik op tabblad</translation>
+        <translation>Open nieuwe tabs door dubbel te klikken op de tabbladbalk met linkermuisknop</translation>
     </message>
     <message>
         <source>Hide tab bar if just one tab is visible</source>
@@ -4214,7 +4120,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Middle mouse button single-click</source>
-        <translation>Middelste muisknop enkele-klik</translation>
+        <translation>Enkele klik met middelste muisknop</translation>
     </message>
     <message>
         <source>Toolbars</source>
@@ -4222,11 +4128,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Toolbar for feeds list</source>
-        <translation>Welkbalk voor feeds lijst</translation>
-    </message>
-    <message>
-        <source>Toolbar for messages list</source>
-        <translation>Werkbalk voor berichten lijst</translation>
+        <translation>Welkbalk voor feedlijst</translation>
     </message>
     <message>
         <source>Statusbar</source>
@@ -4234,7 +4136,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Toolbar button style</source>
-        <translation>Werkbalkknop stijl</translation>
+        <translation>Werkbalkknopstijl</translation>
     </message>
     <message>
         <source>Select toolbar to edit</source>
@@ -4257,10 +4159,6 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
         <translation>E-mail</translation>
     </message>
     <message>
-        <source>(Tray icon is not available.)</source>
-        <translation>(Pictogram in systeemvak is niet beschikbaar.)</translation>
-    </message>
-    <message>
         <source>Icon only</source>
         <translation>Alleen pictogram</translation>
     </message>
@@ -4278,11 +4176,11 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Follow OS style</source>
-        <translation>Volg OS stijl</translation>
+        <translation>Volg stijl van systeem</translation>
     </message>
     <message>
         <source>User interface</source>
-        <translation>Gebruikers interface</translation>
+        <translation>Uiterlijk</translation>
     </message>
     <message>
         <source>Style</source>
@@ -4294,24 +4192,36 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Use monochrome icon</source>
-        <translation type="unfinished"/>
+        <translation>Monochroom icoon gebruiken</translation>
     </message>
     <message>
         <source>system icon theme</source>
         <extracomment>Label for disabling icon theme.</extracomment>
-        <translation type="unfinished"/>
+        <translation>Systeemicoon gebruiken</translation>
     </message>
     <message>
         <source>no icon theme</source>
-        <translation type="unfinished"/>
+        <translation>Geen icoonthema gebruiken</translation>
     </message>
     <message>
         <source>Left mouse button double-click</source>
-        <translation type="unfinished"/>
+        <translation>Dubbelklik met linkermuisknop</translation>
     </message>
     <message>
         <source>Display count of unread messages</source>
+        <translation>Aantal ongelezen berichten weergeven</translation>
+    </message>
+    <message>
+        <source>(Your OS does not support tray icons at the moment.)</source>
+        <translation>(Je OS ondersteunt momenteel geen systeemvakpictogrammen)</translation>
+    </message>
+    <message>
+        <source>Tray area</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Toolbar for articles list</source>
+        <translation>Werkbalk voor artikelenlijst</translation>
     </message>
 </context>
 <context>
@@ -4328,6 +4238,29 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
         <source>Author</source>
         <translation>Auteur</translation>
     </message>
+    <message>
+        <source>Localization</source>
+        <translation>Lokalisatie</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsNotifications</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation>Meldingen</translation>
+    </message>
+    <message>
+        <source>Enable notifications</source>
+        <translation>Aanzetten van meldingen</translation>
+    </message>
+    <message>
+        <source>You must have &quot;tray icon&quot; activated to have balloon notifications working.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsShortcuts</name>
@@ -4340,7 +4273,7 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     <name>ShortcutCatcher</name>
     <message>
         <source>Reset to original shortcut.</source>
-        <translation>Reset naar standaard sneltoets.</translation>
+        <translation>Herstel naar standaard sneltoets.</translation>
     </message>
     <message>
         <source>Clear current shortcut.</source>
@@ -4348,47 +4281,111 @@ Auteurs van Rssguard zijn NIET verantwoordelijk voor verlies van gegevens.</tran
     </message>
     <message>
         <source>Click and hit new shortcut.</source>
-        <translation>Klik en raak nieuwe sneltoets.</translation>
+        <translation>Klik en kies nieuwe sneltoets.</translation>
+    </message>
+</context>
+<context>
+    <name>SingleNotificationEditor</name>
+    <message>
+        <source>Sound</source>
+        <translation>Geluid</translation>
+    </message>
+    <message>
+        <source>Full path to your WAV sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Browse</source>
+        <translation>&amp;Bladeren</translation>
+    </message>
+    <message>
+        <source>&amp;Play</source>
+        <translation>&amp;Speel</translation>
+    </message>
+    <message>
+        <source>Balloon notification</source>
+        <translation>Ballon meldingen</translation>
+    </message>
+    <message>
+        <source>Select sound file</source>
+        <translation>Selecteer geluidsbestand </translation>
+    </message>
+    <message>
+        <source>WAV files (*.wav)</source>
+        <translation>Wav bestanden (*.wav)</translation>
     </message>
 </context>
 <context>
     <name>SkinFactory</name>
     <message>
         <source>This page was blocked by AdBlock</source>
-        <translation type="unfinished"/>
+        <translation>Deze pagina is door AdBlock geblokkeerd</translation>
     </message>
     <message>
-        <source>Blocked by set: &quot;%1&quot;&lt;br/&gt;Blocked by filter: &quot;%2&quot;</source>
-        <translation type="unfinished"/>
+        <source>Blocked URL: &quot;%1&quot;&lt;br/&gt;Used filter: &quot;%2&quot;</source>
+        <translation>Geblokkeerde URL: &quot;%1&quot;&lt;br/&gt;Gebruikte filter: &quot;%2&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>SqliteDriver</name>
+    <message>
+        <source>SQLite (embedded database)</source>
+        <translation>SQLite (ingesloten databank)</translation>
+    </message>
+    <message>
+        <source>Database file not copied to output directory successfully.</source>
+        <translation>Het databankbestand is niet gekopieerd naar de uitvoermap.</translation>
+    </message>
+</context>
+<context>
+    <name>StandardCategory</name>
+    <message>
+        <source>Error</source>
+        <translation>Fout</translation>
+    </message>
+    <message>
+        <source>Cannot save data for category, detailed information was logged via debug log.</source>
+        <translation>Kan gegevens voor categorie niet opslaan, gedetailleerde informatie is vastgelegd via debug-log.</translation>
     </message>
 </context>
 <context>
     <name>StandardFeed</name>
     <message>
-        <source>Metadata not fetched</source>
-        <translation>Metadata niet opgehaald</translation>
-    </message>
-    <message>
-        <source>
-Network status: %1
-Encoding: %2
-Type: %3</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Script</source>
-        <translation type="unfinished"/>
+        <translation>Script</translation>
     </message>
     <message>
         <source>Local file</source>
-        <translation type="unfinished"/>
+        <translation>Lokaal bestand</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Onbekend</translation>
     </message>
     <message>
-        <source>Metadata was not fetched.</source>
+        <source>Error</source>
+        <translation>Fout</translation>
+    </message>
+    <message>
+        <source>Cannot save data for feed: %1</source>
+        <translation>Kan gegevens voor feed niet opslaan: %1</translation>
+    </message>
+    <message>
+        <source>XML is not well-formed, %1</source>
+        <translation>XML is niet goed gevormd, %1</translation>
+    </message>
+    <message>
+        <source>XML feed file format unrecognized</source>
+        <translation>XML feed bestandsindeling niet herkend</translation>
+    </message>
+    <message>
+        <source>Cannot move feed, detailed information was logged via debug log.</source>
+        <translation>Kan feed niet verplaatsen, gedetailleerde informatie is vastgelegd via debug-log.</translation>
+    </message>
+    <message>
+        <source>
+Encoding: %2
+Type: %3</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4397,10 +4394,6 @@ Type: %3</source>
     <message>
         <source>Form</source>
         <translation>Form</translation>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Oudere categorie</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -4416,7 +4409,7 @@ Type: %3</source>
     </message>
     <message>
         <source>Encoding</source>
-        <translation>Coderen</translation>
+        <translation>Codering</translation>
     </message>
     <message>
         <source>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</source>
@@ -4428,11 +4421,11 @@ Type: %3</source>
     </message>
     <message>
         <source>Description</source>
-        <translation>Omschrijving</translation>
+        <translation>Beschrijving</translation>
     </message>
     <message>
         <source>Fetch metadata</source>
-        <translation>Ophalen van metadata</translation>
+        <translation>Metadata ophalen</translation>
     </message>
     <message>
         <source>Fetch it now</source>
@@ -4448,7 +4441,7 @@ Type: %3</source>
     </message>
     <message>
         <source>Feed title</source>
-        <translation>Feed naam</translation>
+        <translation>Naam van feed</translation>
     </message>
     <message>
         <source>Set title for your feed.</source>
@@ -4456,15 +4449,15 @@ Type: %3</source>
     </message>
     <message>
         <source>Feed description</source>
-        <translation>Feed omschrijving</translation>
+        <translation>Beschrijving van feed</translation>
     </message>
     <message>
         <source>Set description for your feed.</source>
-        <translation>Stel omschrijving voor feed in.</translation>
+        <translation>Stel beschrijving voor de feed in.</translation>
     </message>
     <message>
         <source>Icon selection</source>
-        <translation>Pictogram selectie</translation>
+        <translation>Pictogramselectie</translation>
     </message>
     <message>
         <source>Load icon from file...</source>
@@ -4472,11 +4465,11 @@ Type: %3</source>
     </message>
     <message>
         <source>Use default icon from icon theme</source>
-        <translation type="unfinished"/>
+        <translation>Standaardicoon van systeem gebruiken</translation>
     </message>
     <message>
         <source>Fetch icon from feed</source>
-        <translation>Pictogram opgehaald van feed</translation>
+        <translation>Pictogram van feed gebruiken</translation>
     </message>
     <message>
         <source>No metadata fetched so far.</source>
@@ -4488,11 +4481,7 @@ Type: %3</source>
     </message>
     <message>
         <source>Icon metadata fetched.</source>
-        <translation>Metadata pictogram opgehaald.</translation>
-    </message>
-    <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Metadata pictogram niet opgehaald.</translation>
+        <translation>Pictogram uit metadata opgehaald.</translation>
     </message>
     <message>
         <source>No icon fetched.</source>
@@ -4507,16 +4496,12 @@ Type: %3</source>
         <translation>Metadata opgehaald voor feed en pictogram.</translation>
     </message>
     <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Metadata niet opgehaald voor feed en pictogram.</translation>
-    </message>
-    <message>
         <source>No metadata fetched.</source>
         <translation>Geen metadata opgehaald.</translation>
     </message>
     <message>
         <source>Feed name is ok.</source>
-        <translation>Feed naam is ok.</translation>
+        <translation>Feednaam is ok.</translation>
     </message>
     <message>
         <source>Feed name is too short.</source>
@@ -4524,11 +4509,11 @@ Type: %3</source>
     </message>
     <message>
         <source>Description is empty.</source>
-        <translation>Omschrijving is leeg.</translation>
+        <translation>Beschrijving is leeg.</translation>
     </message>
     <message>
         <source>The description is ok.</source>
-        <translation>Omschrijving is ok.</translation>
+        <translation>Beschrijving is ok.</translation>
     </message>
     <message>
         <source>The URL is ok.</source>
@@ -4536,7 +4521,7 @@ Type: %3</source>
     </message>
     <message>
         <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
-        <translation>De URL voldoet niet aan het standaard patroon. Start je url met &quot;http://&quot; of &quot;https://&quot; prefix.</translation>
+        <translation>De URL voldoet niet aan het standaardpatroon. De URL moet beginnen met &quot;http://&quot; of &quot;https://&quot;.</translation>
     </message>
     <message>
         <source>The URL is empty.</source>
@@ -4544,7 +4529,7 @@ Type: %3</source>
     </message>
     <message>
         <source>Select icon file for the feed</source>
-        <translation>Selecteer pictogram bestand voor je feed</translation>
+        <translation>Selecteer pictogrambestand voor de feed</translation>
     </message>
     <message>
         <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
@@ -4556,7 +4541,7 @@ Type: %3</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Annuleer</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Look in:</source>
@@ -4565,7 +4550,7 @@ Type: %3</source>
     </message>
     <message>
         <source>Icon name:</source>
-        <translation>Pictogram naam:</translation>
+        <translation>Pictogramnaam:</translation>
     </message>
     <message>
         <source>Icon type:</source>
@@ -4573,59 +4558,75 @@ Type: %3</source>
     </message>
     <message>
         <source>Source</source>
-        <translation type="unfinished"/>
+        <translation>Bron</translation>
     </message>
     <message>
         <source>Post-process script</source>
-        <translation type="unfinished"/>
+        <translation>Script na binnenhalen uitvoeren</translation>
     </message>
     <message>
         <source>You can use URL as a source of your feed or you can produce your feed with custom script. Also, you can post-process generated feed data with yet another script if you wish. These are advanced features and make sure to read the documentation before your use them.</source>
-        <translation type="unfinished"/>
+        <translation>De feed kan van een URL worden opgehaald of je kunt zelf een feed genereren met m.b.v. een script. Deze feed kan vervolgens met een ander script worden bewerkt. Dit zijn geavanceerde functies. Lees dus de documentatie voordat je dit gebruikt.</translation>
     </message>
     <message>
         <source>Full feed source identifier</source>
-        <translation type="unfinished"/>
+        <translation>Volledige bron van feed</translation>
     </message>
     <message>
         <source>Full feed source identifier which can be URL.</source>
-        <translation type="unfinished"/>
+        <translation>Volledige bron van feed – dit kan een URL zijn.</translation>
     </message>
     <message>
         <source>Full command to execute</source>
-        <translation type="unfinished"/>
+        <translation>Volledige opdracht om uit te voeren</translation>
     </message>
     <message>
         <source>You can enter full command including interpreter here.</source>
-        <translation type="unfinished"/>
+        <translation>Hier kun je een volledige opdracht inclusief interpreter opgeven.</translation>
     </message>
     <message>
         <source>Here you can enter script executaion line, including interpreter.</source>
-        <translation type="unfinished"/>
+        <translation>Hier kunt u de scriptuitvoeringsregel invoeren, inclusief interpreter.</translation>
     </message>
     <message>
         <source>The source is ok.</source>
-        <translation type="unfinished"/>
+        <translation>De bron is goed.</translation>
     </message>
     <message>
         <source>The source is empty.</source>
-        <translation type="unfinished"/>
+        <translation>De bron is leeg.</translation>
     </message>
     <message>
         <source>The source does not seem to use &quot;#&quot; separator for arguments.</source>
-        <translation type="unfinished"/>
+        <translation>Argumenten van de bron moeten gescheiden zijn met &quot;#&quot;.</translation>
     </message>
     <message>
         <source>Command is ok.</source>
-        <translation type="unfinished"/>
+        <translation>Opdracht is goed.</translation>
     </message>
     <message>
         <source>Command not seem to use &quot;#&quot; separator for arguments.</source>
-        <translation type="unfinished"/>
+        <translation>Argumenten van opdrachten moeten gescheiden zijn met &quot;#&quot;.</translation>
     </message>
     <message>
         <source>Command is empty.</source>
-        <translation type="unfinished"/>
+        <translation>Opdracht is leeg.</translation>
+    </message>
+    <message>
+        <source>Script failed: %1</source>
+        <translation>Script mislukt: %1</translation>
+    </message>
+    <message>
+        <source>Network error: %1</source>
+        <translation>Netwerk fout: %1</translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Fout: %1</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation>Bovenliggende map</translation>
     </message>
 </context>
 <context>
@@ -4644,19 +4645,19 @@ Type: %3</source>
     </message>
     <message>
         <source>Fetch metadata</source>
-        <translation>Ophalen van metadata</translation>
+        <translation>Metadata ophalen</translation>
     </message>
     <message>
         <source>Export feeds</source>
-        <translation>Exporteer feeds</translation>
+        <translation>Feeds exporteren</translation>
     </message>
     <message>
         <source>Import feeds</source>
-        <translation>Importeer feeds</translation>
+        <translation>Feeds importeren</translation>
     </message>
     <message>
         <source>This new account does not include any feeds. You can now add default set of feeds.</source>
-        <translation>Dit nieuwe account bevat geen feeds. U kunt de standaard set van feeds toevoegen.</translation>
+        <translation>Deze nieuwe account bevat geen feeds. De standaard feeds kunnen toegevoegd worden.</translation>
     </message>
     <message>
         <source>Cannot add item</source>
@@ -4675,31 +4676,23 @@ Type: %3</source>
         <translation>Kan geen categorie toevoegen omdat een andere kritieke operatie aan de gang is.</translation>
     </message>
     <message>
-        <source>Import successful, but some feeds/categories were not imported due to error.</source>
-        <translation>Importeren succesvol, maar sommige feeds/categorieën zijn niet goed geïmporteerd door fouten.</translation>
-    </message>
-    <message>
         <source>Import was completely successful.</source>
         <translation>Importeren is helemaal geslaagd.</translation>
+    </message>
+    <message>
+        <source>Some feeds/categories were not imported due to error, check debug log for more details.</source>
+        <translation>Sommige feed/categorieën zijn niet geïmporteerd vanwege een fout, controleer het opsporingslogboek voor mer details.</translation>
     </message>
 </context>
 <context>
     <name>StatusBar</name>
     <message>
         <source>Feed update progress bar</source>
-        <translation>Feed update progresbalk</translation>
-    </message>
-    <message>
-        <source>Feed update label</source>
-        <translation>Feed update label</translation>
+        <translation>Voortgangsbalk bij bijwerken van feeds</translation>
     </message>
     <message>
         <source>File download progress bar</source>
-        <translation>Bestandsdownload progresbar</translation>
-    </message>
-    <message>
-        <source>File download label</source>
-        <translation>Bestandsdownload label</translation>
+        <translation>Voortgangsbalk voor bestandsdownloads</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
@@ -4714,7 +4707,7 @@ Type: %3</source>
     </message>
     <message>
         <source> bytes</source>
-        <translation>bytes</translation>
+        <translation> bytes</translation>
     </message>
 </context>
 <context>
@@ -4725,13 +4718,6 @@ Unread news: %2</source>
         <translation>%1
 
 Ongelezen nieuws: %2</translation>
-    </message>
-</context>
-<context>
-    <name>T</name>
-    <message>
-        <source>Add new account</source>
-        <translation>Account toevoegen</translation>
     </message>
 </context>
 <context>
@@ -4750,10 +4736,6 @@ Ongelezen nieuws: %2</translation>
     <message>
         <source>Feeds</source>
         <translation>Feeds</translation>
-    </message>
-    <message>
-        <source>Browse your feeds and messages</source>
-        <translation>Blader door feeds en berichten</translation>
     </message>
     <message>
         <source>Displays main menu.</source>
@@ -4775,24 +4757,28 @@ Ongelezen nieuws: %2</translation>
         <source>Web browser</source>
         <translation>Webbrowser</translation>
     </message>
+    <message>
+        <source>Browse your feeds and articles</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TimeSpinBox</name>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation><numerusform>%n uur</numerusform><numerusform>%n ur(en)</numerusform></translation>
+        <translation><numerusform>%n uur</numerusform><numerusform>%n uren</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation><numerusform>%n minuut</numerusform><numerusform>%n minut(en)</numerusform></translation>
+        <translation><numerusform>%n minuut</numerusform><numerusform>%n minuten</numerusform></translation>
     </message>
     <message>
         <source> and </source>
-        <translation>en</translation>
+        <translation> en </translation>
     </message>
     <message numerus="yes">
         <source>%n second(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n seconde</numerusform><numerusform>%n seconde(n)</numerusform></translation>
     </message>
 </context>
 <context>
@@ -4811,7 +4797,7 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Insert spacer</source>
-        <translation>Voeg ruimte in</translation>
+        <translation>Ruimte invoegen</translation>
     </message>
     <message>
         <source>Separator</source>
@@ -4819,57 +4805,53 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
-        <translation>Werkbalk ruimte</translation>
+        <translation>Werkbalkruimte</translation>
     </message>
     <message>
         <source>Move action up</source>
-        <translation>Verplaats maatregel omhoog</translation>
+        <translation>Regel omhoog verplaatsen</translation>
     </message>
     <message>
         <source>Move action down</source>
-        <translation>Verplaats maatregel omlaag</translation>
+        <translation>Regel omlaag verplaatsen</translation>
     </message>
     <message>
         <source>Add selected action</source>
-        <translation>Voeg geselecteerde maatregel toe</translation>
+        <translation>Voeg geselecteerde regel toe</translation>
     </message>
     <message>
         <source>Delete selected action</source>
-        <translation>Verwijder geselecteerde maatregel</translation>
+        <translation>Verwijder geselecteerde regel</translation>
     </message>
     <message>
         <source>Delete all actions</source>
-        <translation>Verwijder alle maatregels</translation>
+        <translation>Verwijder alle regels</translation>
     </message>
     <message>
         <source>Reset toolbar</source>
-        <translation type="unfinished"/>
+        <translation>Werkbalk herstellen</translation>
     </message>
 </context>
 <context>
     <name>TrayIconMenu</name>
     <message>
         <source>Close opened modal dialogs first.</source>
-        <translation>Sluit geopende modaal vensters eerst.</translation>
+        <translation>Sluit geopende modaalvensters eerst.</translation>
     </message>
 </context>
 <context>
     <name>TtRssAccountDetails</name>
-    <message>
-        <source>Download only unread messages</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Dwing het uitvoeren van server-side-update bij het bijwerken van RSS Guard feeds</translation>
     </message>
     <message>
         <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Sommige feeds vereisen verificatie,inclusief GMail feeds. BASIC, NTLM-2 en DIGEST-MD5 verificaties schema&apos;s worden ondersteund.</translation>
+        <translation>Sommige feeds vereisen authenticatie, inclusief Gmail feeds. Authenticatiemethodes BASIC, NTLM-2 en DIGEST-MD5 worden ondersteund.</translation>
     </message>
     <message>
         <source>Authentication</source>
-        <translation>Verificatie</translation>
+        <translation>Authenticatie</translation>
     </message>
     <message>
         <source>Username</source>
@@ -4877,19 +4859,15 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Paswoord</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Toon paswoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Requires HTTP authentication</source>
-        <translation>Vereist HTTP verificatie</translation>
+        <translation>Vereist HTTP-authenticatie</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
-        <translation>&amp;Test instelling</translation>
+        <translation>Instellingen &amp;testen</translation>
     </message>
     <message>
         <source>URL</source>
@@ -4901,19 +4879,19 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>HTTP authentication username</source>
-        <translation>HTTP verificatie gebruikersnaam</translation>
+        <translation>Gebruikersnaam HTTP-authenticatie</translation>
     </message>
     <message>
         <source>HTTP authentication password</source>
-        <translation>HTTP verificatie paswoord</translation>
+        <translation>Wachtwoord HTTP-authenticatie</translation>
     </message>
     <message>
         <source>Password for your TT-RSS account</source>
-        <translation>Paswoord voor je TT-RSS account</translation>
+        <translation>Wachtwoord voor je TT-RSS-account</translation>
     </message>
     <message>
         <source>Username for your TT-RSS account</source>
-        <translation>Gebruikersnaam voor je TT-RSS account</translation>
+        <translation>Gebruikersnaam voor je TT-RSS-account</translation>
     </message>
     <message>
         <source>URL of your TT-RSS instance WITHOUT trailing &quot;/api/&quot; string</source>
@@ -4925,23 +4903,23 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Here, results of connection test are shown.</source>
-        <translation>Hier, worden resultaten van verbinding getoond.</translation>
+        <translation>Hier worden resultaten van verbinding getoond.</translation>
     </message>
     <message>
         <source>API access on selected server is not enabled.</source>
-        <translation>API toegang op geselecteerde server staat uit.</translation>
+        <translation>API-toegang op geselecteerde server staat uit.</translation>
     </message>
     <message>
         <source>Entered credentials are incorrect.</source>
-        <translation>Ingevoerde verificatiegegevens zijn onjuist.</translation>
+        <translation>Ingevoerde logingegevens zijn onjuist.</translation>
     </message>
     <message>
         <source>Other error occurred, contact developers.</source>
-        <translation>Andere fout opgetreden, contact ontwikkelaars.</translation>
+        <translation>Andere fout opgetreden, neem contact op met de ontwikkelaars.</translation>
     </message>
     <message>
         <source>Installed version: %1, required at least: %2.</source>
-        <translation type="unfinished"/>
+        <translation>Geïnstalleerde versie: %1, ten minste nodig: %2.</translation>
     </message>
     <message>
         <source>Selected Tiny Tiny RSS server is running unsupported version of API.</source>
@@ -4949,15 +4927,15 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Tiny Tiny RSS server is okay.</source>
-        <translation>Tiny Tiny RSS server is ok.</translation>
+        <translation>Tiny Tiny RSS-server is ok.</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
-        <translation>Netwerk fout: &apos;%1&apos;</translation>
+        <translation>Netwerkfout: &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Network error, have you entered correct Tiny Tiny RSS API endpoint and password?</source>
-        <translation>Netwerk fout, heb je de juiste Tiny Tiny RSS API eindpunt en paswoord?</translation>
+        <translation>Netwerkfout,. Heb je het juiste eindpunt en wachtwoord van de API van Tiny Tiny RSS?</translation>
     </message>
     <message>
         <source>Unspecified error, did you enter correct URL?</source>
@@ -4973,15 +4951,15 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Password cannot be empty.</source>
-        <translation>Paswoord kan niet leeg zijn.</translation>
+        <translation>Wachtwoord kan niet leeg zijn.</translation>
     </message>
     <message>
         <source>Password is okay.</source>
-        <translation>Paswoord is ok.</translation>
+        <translation>Wachtwoord is ok.</translation>
     </message>
     <message>
         <source>Username is ok or it is not needed.</source>
-        <translation>Gebruikersnaam is ok of het is niet nodig.</translation>
+        <translation>Gebruikersnaam is ok of niet nodig.</translation>
     </message>
     <message>
         <source>Username is empty.</source>
@@ -4989,15 +4967,15 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Password is ok or it is not needed.</source>
-        <translation>Paswoord is ok of het is niet nodig.</translation>
+        <translation>Wachtwoord is ok of niet nodig.</translation>
     </message>
     <message>
         <source>Password is empty.</source>
-        <translation>Paswoord is leeg.</translation>
+        <translation>Wachtwoord is leeg.</translation>
     </message>
     <message>
         <source>URL cannot be empty.</source>
-        <translation>Url mag niet leeg zijn.</translation>
+        <translation>URL mag niet leeg zijn.</translation>
     </message>
     <message>
         <source>URL should NOT end with &quot;/api/&quot;.</source>
@@ -5005,7 +4983,15 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>URL is okay.</source>
-        <translation>Url is goed.</translation>
+        <translation>URL is goed.</translation>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation>Download alleen ongelezen artikelen</translation>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5015,12 +5001,8 @@ Ongelezen nieuws: %2</translation>
         <translation>Form</translation>
     </message>
     <message>
-        <source>Parent category</source>
-        <translation>Oudere categorie</translation>
-    </message>
-    <message>
         <source>Select parent item for your feed.</source>
-        <translation>Kies hoofd item voor je feed.</translation>
+        <translation>Kies bovenliggend item voor je feed.</translation>
     </message>
     <message>
         <source>URL</source>
@@ -5032,7 +5014,7 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>Provide URL for your feed.</source>
-        <translation type="unfinished"/>
+        <translation>Geef een URL op voor de feed.</translation>
     </message>
     <message>
         <source>The URL is ok.</source>
@@ -5040,11 +5022,15 @@ Ongelezen nieuws: %2</translation>
     </message>
     <message>
         <source>The URL does not meet standard pattern. Does your URL start with &quot;http://&quot; or &quot;https://&quot; prefix.</source>
-        <translation>De URL voldoet niet aan het standaard patroon. Start je url met &quot;http://&quot; of &quot;https://&quot; prefix.</translation>
+        <translation>De URL voldoet niet aan het standaardpatroon. De URL moet beginnen met &quot;http://&quot; of &quot;https://&quot;.</translation>
     </message>
     <message>
         <source>The URL is empty.</source>
         <translation>De URL is leeg.</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation>Bovenliggende map</translation>
     </message>
 </context>
 <context>
@@ -5062,14 +5048,28 @@ Ongelezen nieuws: %2</translation>
 Server: %2
 Last error: %3
 Last login on: %4</source>
-        <translation type="unfinished"/>
+        <translation>Gebruikersnaam: %1
+Server: %2
+Laaste fout: %3
+Laatste login: %4</translation>
+    </message>
+</context>
+<context>
+    <name>UnreadNode</name>
+    <message>
+        <source>Unread articles</source>
+        <translation>Ongelezen artikelen</translation>
+    </message>
+    <message>
+        <source>You can find all unread articles here.</source>
+        <translation>Je kan alle ongelezen artikelen hier vinden.</translation>
     </message>
 </context>
 <context>
     <name>WebBrowser</name>
     <message>
         <source>Navigation panel</source>
-        <translation>Navigatie venster</translation>
+        <translation>Navigatiepaneel</translation>
     </message>
     <message>
         <source>No title</source>
@@ -5078,42 +5078,34 @@ Last login on: %4</source>
     </message>
     <message>
         <source>Back</source>
-        <translation>Terug</translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation>Vooruit</translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>Reload</source>
-        <translation>Herlaad</translation>
+        <translation>Vernieuwen</translation>
     </message>
     <message>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Stoppen</translation>
     </message>
     <message>
         <source>Open this website in system web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Failed to open URL in web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
-        <translation type="unfinished"/>
+        <translation>Deze website in systeembrowser openen</translation>
     </message>
 </context>
 <context>
     <name>WebFactory</name>
     <message>
         <source>Web engine settings</source>
-        <translation type="unfinished"/>
+        <translation>Instellingen van web-engine</translation>
     </message>
     <message>
         <source>Auto-load images</source>
-        <translation type="unfinished"/>
+        <translation>Afbeeldingen automatisch laden</translation>
     </message>
     <message>
         <source>JS enabled</source>
@@ -5121,7 +5113,7 @@ Last login on: %4</source>
     </message>
     <message>
         <source>JS can open popup windows</source>
-        <translation type="unfinished"/>
+        <translation>JS kan pop-ups openen</translation>
     </message>
     <message>
         <source>JS can access clipboard</source>
@@ -5169,7 +5161,7 @@ Last login on: %4</source>
     </message>
     <message>
         <source>Fullscreen enabled</source>
-        <translation>Beeldvullend aan</translation>
+        <translation>Schermvullend aan</translation>
     </message>
     <message>
         <source>Screen capture enabled</source>
@@ -5185,7 +5177,7 @@ Last login on: %4</source>
     </message>
     <message>
         <source>Print element backgrounds</source>
-        <translation>Print element op achtergrond </translation>
+        <translation>Achtergronden van elementen weergeven</translation>
     </message>
     <message>
         <source>Allow running insecure content</source>
@@ -5194,6 +5186,14 @@ Last login on: %4</source>
     <message>
         <source>Allow geolocation on insecure origins</source>
         <translation>Sta geolocatie op onzekere oorsprong toe</translation>
+    </message>
+    <message>
+        <source>Navigate to website manually</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 was unable to launch your web browser with the given URL, you need to open the below website URL in your web browser manually.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5212,7 +5212,11 @@ Last login on: %4</source>
     </message>
     <message>
         <source>Open link in external browser</source>
-        <translation>Open link in externe browser.</translation>
+        <translation>Open koppeling in externe browser</translation>
+    </message>
+    <message>
+        <source>Open with external tool</source>
+        <translation>Met externe applicatie openen</translation>
     </message>
 </context>
 </TS>

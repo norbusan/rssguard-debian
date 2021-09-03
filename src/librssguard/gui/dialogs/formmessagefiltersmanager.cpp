@@ -9,11 +9,11 @@
 #include "3rd-party/boolinq/boolinq.h"
 #include "core/messagefilter.h"
 #include "core/messagesforfiltersmodel.h"
+#include "database/databasequeries.h"
 #include "exceptions/filteringexception.h"
 #include "gui/guiutilities.h"
 #include "gui/messagebox.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/feedreader.h"
 #include "miscellaneous/iconfactory.h"
 #include "network-web/webfactory.h"
@@ -52,11 +52,12 @@ FormMessageFiltersManager::FormMessageFiltersManager(FeedReader* reader, const Q
   m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_ISDELETED, QHeaderView::ResizeMode::ResizeToContents);
   m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_AUTHOR, QHeaderView::ResizeMode::ResizeToContents);
   m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_CREATED, QHeaderView::ResizeMode::ResizeToContents);
+  m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_SCORE, QHeaderView::ResizeMode::ResizeToContents);
   m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_TITLE, QHeaderView::ResizeMode::Interactive);
   m_ui.m_treeExistingMessages->header()->setSectionResizeMode(MFM_MODEL_URL, QHeaderView::ResizeMode::Interactive);
 
   connect(m_ui.m_btnDetailedHelp, &QPushButton::clicked, this, []() {
-    qApp->web()->openUrlInExternalBrowser(MSG_FILTERING_HELP);
+    qApp->web()->openUrlInExternalBrowser(QSL(MSG_FILTERING_HELP));
   });
   connect(m_ui.m_listFilters, &QListWidget::currentRowChanged,
           this, &FormMessageFiltersManager::loadFilter);
@@ -137,7 +138,7 @@ void FormMessageFiltersManager::showMessageContextMenu(const QPoint& pos) {
   if (msg != nullptr) {
     QMenu menu(tr("Context menu"), m_ui.m_treeExistingMessages);
 
-    menu.addAction(tr("Filter messages like this"), this, [=]() {
+    menu.addAction(tr("Filter articles like this"), this, [=]() {
       filterMessagesLikeThis(*msg);
     });
     menu.exec(m_ui.m_treeExistingMessages->mapToGlobal(pos));
@@ -156,7 +157,9 @@ void FormMessageFiltersManager::removeSelectedFilter() {
 }
 
 void FormMessageFiltersManager::loadFilters() {
-  for (auto* fltr : m_reader->messageFilters()) {
+  auto flt = m_reader->messageFilters();
+
+  for (auto* fltr : qAsConst(flt)) {
     auto* it = new QListWidgetItem(fltr->name(), m_ui.m_listFilters);
 
     it->setData(Qt::ItemDataRole::UserRole, QVariant::fromValue<MessageFilter*>(fltr));
@@ -166,7 +169,7 @@ void FormMessageFiltersManager::loadFilters() {
 void FormMessageFiltersManager::addNewFilter(const QString& filter_script) {
   try {
     auto* fltr = m_reader->addMessageFilter(
-      tr("New message filter"),
+      tr("New article filter"),
       filter_script.isEmpty()
                    ? QSL("function filterMessage() { return MessageObject.Accept; }")
                    : filter_script);
@@ -215,7 +218,7 @@ void FormMessageFiltersManager::testFilter() {
   // Perform per-message filtering.
   auto* selected_fd_cat = selectedCategoryFeed();
   QJSEngine filter_engine;
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+  QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
   MessageObject msg_obj(&database,
                         selected_fd_cat->kind() == RootItem::Kind::Feed
                         ? selected_fd_cat->customId()
@@ -223,7 +226,8 @@ void FormMessageFiltersManager::testFilter() {
                         selectedAccount() != nullptr
                                              ? selectedAccount()->accountId()
                                              : NO_PARENT_CATEGORY,
-                        selected_fd_cat->getParentServiceRoot()->labelsNode()->labels());
+                        selected_fd_cat->getParentServiceRoot()->labelsNode()->labels(),
+                        false);
   auto* fltr = selectedFilter();
 
   MessageFilter::initializeFilteringEngine(filter_engine, &msg_obj);
@@ -234,7 +238,7 @@ void FormMessageFiltersManager::testFilter() {
   }
   catch (const FilteringException& ex) {
     m_ui.m_txtErrors->setTextColor(Qt::GlobalColor::red);
-    m_ui.m_txtErrors->insertPlainText(tr("EXISTING messages filtering error: '%1'.\n").arg(ex.message()));
+    m_ui.m_txtErrors->insertPlainText(tr("EXISTING articles filtering error: '%1'.\n").arg(ex.message()));
 
     // See output.
     m_ui.m_twMessages->setCurrentIndex(2);
@@ -250,27 +254,29 @@ void FormMessageFiltersManager::testFilter() {
 
     m_ui.m_txtErrors->setTextColor(decision == MessageObject::FilteringAction::Accept ? Qt::GlobalColor::darkGreen : Qt::GlobalColor::red);
 
-    QString answer = tr("Message will be %1.\n\n").arg(decision == MessageObject::FilteringAction::Accept
+    QString answer = tr("Article will be %1.\n\n").arg(decision == MessageObject::FilteringAction::Accept
                                                        ? tr("ACCEPTED")
                                                        : tr("REJECTED"));
 
-    answer += tr("Output (modified) message is:\n"
+    answer += tr("Output (modified) article is:\n"
                  "  Title = '%1'\n"
                  "  URL = '%2'\n"
                  "  Author = '%3'\n"
                  "  Is read/important = '%4/%5'\n"
                  "  Created on = '%6'\n"
-                 "  Contents = '%7'").arg(msg.m_title, msg.m_url, msg.m_author,
-                                          msg.m_isRead ? tr("yes") : tr("no"),
-                                          msg.m_isImportant ? tr("yes") : tr("no"),
-                                          QString::number(msg.m_created.toMSecsSinceEpoch()),
-                                          msg.m_contents);
+                 "  Contents = '%7'\n"
+                 "  RAW contents = '%8'").arg(msg.m_title, msg.m_url, msg.m_author,
+                                              msg.m_isRead ? tr("yes") : tr("no"),
+                                              msg.m_isImportant ? tr("yes") : tr("no"),
+                                              QString::number(msg.m_created.toMSecsSinceEpoch()),
+                                              msg.m_contents,
+                                              msg.m_rawContents);
 
     m_ui.m_txtErrors->insertPlainText(answer);
   }
   catch (const FilteringException& ex) {
     m_ui.m_txtErrors->setTextColor(Qt::GlobalColor::red);
-    m_ui.m_txtErrors->insertPlainText(tr("SAMPLE message filtering error: '%1'.\n").arg(ex.message()));
+    m_ui.m_txtErrors->insertPlainText(tr("SAMPLE article filtering error: '%1'.\n").arg(ex.message()));
 
     // See output.
     m_ui.m_twMessages->setCurrentIndex(2);
@@ -291,7 +297,7 @@ void FormMessageFiltersManager::displayMessagesOfFeed() {
 void FormMessageFiltersManager::processCheckedFeeds() {
   QList<RootItem*> checked = m_feedsModel->sourceModel()->checkedItems();
   auto* fltr = selectedFilter();
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+  QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
 
   for (RootItem* it : checked) {
     if (it->kind() == RootItem::Kind::Feed) {
@@ -299,7 +305,8 @@ void FormMessageFiltersManager::processCheckedFeeds() {
       MessageObject msg_obj(&database,
                             it->customId(),
                             selectedAccount()->accountId(),
-                            it->getParentServiceRoot()->labelsNode()->labels());
+                            it->getParentServiceRoot()->labelsNode()->labels(),
+                            false);
 
       MessageFilter::initializeFilteringEngine(filter_engine, &msg_obj);
 
@@ -312,22 +319,35 @@ void FormMessageFiltersManager::processCheckedFeeds() {
 
         // Create backup of message.
         Message* msg = &msgs[i]; msg->m_assignedLabels = labels_in_message;
+
+        msg->m_rawContents = Message::generateRawAtomContents(*msg);
+
         Message msg_backup(*msg);
 
         msg_obj.setMessage(msg);
 
-        MessageObject::FilteringAction result = fltr->filterMessage(&filter_engine);
         bool remove_from_list = false;
 
-        if (result == MessageObject::FilteringAction::Purge) {
-          remove_from_list = true;
+        try {
+          MessageObject::FilteringAction result = fltr->filterMessage(&filter_engine);
 
-          // Purge the message completely and remove leftovers.
-          DatabaseQueries::purgeMessage(database, msg->m_id);
-          DatabaseQueries::purgeLeftoverLabelAssignments(database, msg->m_accountId);
+          if (result == MessageObject::FilteringAction::Purge) {
+            remove_from_list = true;
+
+            // Purge the message completely and remove leftovers.
+            DatabaseQueries::purgeMessage(database, msg->m_id);
+            DatabaseQueries::purgeLeftoverLabelAssignments(database, msg->m_accountId);
+          }
+          else if (result == MessageObject::FilteringAction::Ignore) {
+            remove_from_list = true;
+          }
         }
-        else if (result == MessageObject::FilteringAction::Ignore) {
-          remove_from_list = true;
+        catch (const FilteringException& ex) {
+          qCriticalNN << LOGSEC_CORE
+                      << "Error when running script when processing existing messages:"
+                      << QUOTE_W_SPACE_DOT(ex.message());
+
+          continue;
         }
 
         if (!msg_backup.m_isRead && msg->m_isRead) {
@@ -343,7 +363,7 @@ void FormMessageFiltersManager::processCheckedFeeds() {
         }
 
         // Process changed labels.
-        for (Label* lbl : msg_backup.m_assignedLabels) {
+        for (Label* lbl : qAsConst(msg_backup.m_assignedLabels)) {
           if (!msg->m_assignedLabels.contains(lbl)) {
             // Label is not there anymore, it was deassigned.
             lbl->deassignFromMessage(*msg);
@@ -355,7 +375,7 @@ void FormMessageFiltersManager::processCheckedFeeds() {
           }
         }
 
-        for (Label* lbl : msg->m_assignedLabels) {
+        for (Label* lbl : qAsConst(msg->m_assignedLabels)) {
           if (!msg_backup.m_assignedLabels.contains(lbl)) {
             // Label is in new message, but is not in old message, it
             // was newly assigned.
@@ -404,7 +424,7 @@ void FormMessageFiltersManager::processCheckedFeeds() {
       }
 
       // Update messages in DB and reload selection.
-      it->toFeed()->updateMessages(msgs, false, true);
+      it->getParentServiceRoot()->updateMessages(msgs, it->toFeed(), true);
       displayMessagesOfFeed();
     }
   }
@@ -427,8 +447,9 @@ void FormMessageFiltersManager::loadFilterFeedAssignments(MessageFilter* filter,
   }
 
   m_loadingFilter = true;
+  auto stf = account->getSubTreeFeeds();
 
-  for (auto* feed : account->getSubTreeFeeds()) {
+  for (auto* feed : qAsConst(stf)) {
     if (feed->messageFilters().contains(filter)) {
       m_feedsModel->sourceModel()->setItemChecked(feed, Qt::CheckState::Checked);
     }
@@ -502,10 +523,8 @@ void FormMessageFiltersManager::showFilter(MessageFilter* filter) {
 }
 
 void FormMessageFiltersManager::loadAccounts() {
-  for (auto* acc : m_accounts) {
-    m_ui.m_cmbAccounts->addItem(acc->icon(),
-                                acc->title(),
-                                QVariant::fromValue(acc));
+  for (auto* acc : qAsConst(m_accounts)) {
+    m_ui.m_cmbAccounts->addItem(acc->icon(), acc->title(), QVariant::fromValue(acc));
   }
 }
 
@@ -515,7 +534,7 @@ void FormMessageFiltersManager::beautifyScript() {
   proc_clang_format.setInputChannelMode(QProcess::InputChannelMode::ManagedInputChannel);
   proc_clang_format.setArguments({ "--assume-filename=script.js", "--style=Chromium" });
 
-#if defined (Q_OS_WIN)
+#if defined(Q_OS_WIN)
   proc_clang_format.setProgram(qApp->applicationDirPath() + QDir::separator() +
                                QSL("clang-format") + QDir::separator() +
                                QSL("clang-format.exe"));
@@ -583,6 +602,7 @@ Message FormMessageFiltersManager::testingMessage() const {
   msg.m_isImportant = m_ui.m_cbSampleImportant->isChecked();
   msg.m_created = QDateTime::fromMSecsSinceEpoch(m_ui.m_txtSampleCreatedOn->text().toLongLong());
   msg.m_contents = m_ui.m_txtSampleContents->toPlainText();
+  msg.m_rawContents = Message::generateRawAtomContents(msg);
 
   return msg;
 }

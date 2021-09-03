@@ -2,10 +2,15 @@
 
 #include "network-web/downloader.h"
 
+#include "miscellaneous/application.h"
 #include "miscellaneous/iofactory.h"
+#include "network-web/cookiejar.h"
+#include "network-web/networkfactory.h"
 #include "network-web/silentnetworkaccessmanager.h"
+#include "network-web/webfactory.h"
 
 #include <QHttpMultiPart>
+#include <QNetworkCookie>
 #include <QRegularExpression>
 #include <QTimer>
 
@@ -17,6 +22,9 @@ Downloader::Downloader(QObject* parent)
   m_timer->setInterval(DOWNLOAD_TIMEOUT);
   m_timer->setSingleShot(true);
   connect(m_timer, &QTimer::timeout, this, &Downloader::cancel);
+
+  m_downloadManager->setCookieJar(qApp->web()->cookieJar());
+  qApp->web()->cookieJar()->setParent(nullptr);
 }
 
 Downloader::~Downloader() {
@@ -53,8 +61,14 @@ void Downloader::manipulateData(const QString& url,
                                 bool protected_contents,
                                 const QString& username,
                                 const QString& password) {
+  QString sanitized_url = NetworkFactory::sanitizeUrl(url);
+  auto cookies = CookieJar::extractCookiesFromUrl(sanitized_url);
+
+  if (!cookies.isEmpty()) {
+    qApp->web()->cookieJar()->setCookiesFromUrl(cookies, sanitized_url);
+  }
+
   QNetworkRequest request;
-  QString non_const_url = url;
   QHashIterator<QByteArray, QByteArray> i(m_customHeaders);
 
   while (i.hasNext()) {
@@ -68,15 +82,7 @@ void Downloader::manipulateData(const QString& url,
   // Set url for this request and fire it up.
   m_timer->setInterval(timeout);
 
-  if (non_const_url.startsWith(URI_SCHEME_FEED)) {
-    qDebugNN << LOGSEC_NETWORK
-             << "Replacing URI schemes for"
-             << QUOTE_W_SPACE_DOT(non_const_url);
-    request.setUrl(non_const_url.replace(QRegularExpression(QString('^') + URI_SCHEME_FEED), QString(URI_SCHEME_HTTP)));
-  }
-  else {
-    request.setUrl(non_const_url);
-  }
+  request.setUrl(qApp->web()->processFeedUriScheme(sanitized_url));
 
   m_targetProtected = protected_contents;
   m_targetUsername = username;
@@ -104,25 +110,77 @@ void Downloader::manipulateData(const QString& url,
 void Downloader::finished() {
   auto* reply = qobject_cast<QNetworkReply*>(sender());
 
+  QNetworkAccessManager::Operation reply_operation = reply->operation();
+
   m_timer->stop();
 
-  if (m_inputMultipartData == nullptr) {
-    m_lastOutputData = reply->readAll();
+  // In this phase, some part of downloading process is completed.
+  QUrl redirection_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+
+  if (redirection_url.isValid()) {
+    // Communication indicates that HTTP redirection is needed.
+    // Setup redirection URL and download again.
+    QNetworkRequest request = reply->request();
+
+    qWarningNN << LOGSEC_NETWORK
+               << "Network layer indicates HTTP redirection is needed.";
+    qWarningNN << LOGSEC_NETWORK
+               << "Origin URL:"
+               << QUOTE_W_SPACE_DOT(request.url().toString());
+    qWarningNN << LOGSEC_NETWORK
+               << "Proposed redirection URL:"
+               << QUOTE_W_SPACE_DOT(redirection_url.toString());
+
+    redirection_url = request.url().resolved(redirection_url);
+
+    qWarningNN << LOGSEC_NETWORK
+               << "Resolved redirection URL:"
+               << QUOTE_W_SPACE_DOT(redirection_url.toString());
+
+    request.setUrl(redirection_url);
+
+    m_activeReply->deleteLater();
+    m_activeReply = nullptr;
+
+    if (reply_operation == QNetworkAccessManager::GetOperation) {
+      runGetRequest(request);
+    }
+    else if (reply_operation == QNetworkAccessManager::PostOperation) {
+      if (m_inputMultipartData == nullptr) {
+        runPostRequest(request, m_inputData);
+      }
+      else {
+        runPostRequest(request, m_inputMultipartData);
+      }
+    }
+    else if (reply_operation == QNetworkAccessManager::PutOperation) {
+      runPutRequest(request, m_inputData);
+    }
+    else if (reply_operation == QNetworkAccessManager::DeleteOperation) {
+      runDeleteRequest(request);
+    }
   }
   else {
-    m_lastOutputMultipartData = decodeMultipartAnswer(reply);
+    // No redirection is indicated. Final file is obtained in our "reply" object.
+    // Read the data into output buffer.
+    if (m_inputMultipartData == nullptr) {
+      m_lastOutputData = reply->readAll();
+    }
+    else {
+      m_lastOutputMultipartData = decodeMultipartAnswer(reply);
+    }
+
+    m_lastContentType = reply->header(QNetworkRequest::ContentTypeHeader);
+    m_lastOutputError = reply->error();
+    m_activeReply->deleteLater();
+    m_activeReply = nullptr;
+
+    if (m_inputMultipartData != nullptr) {
+      m_inputMultipartData->deleteLater();
+    }
+
+    emit completed(m_lastOutputError, m_lastOutputData);
   }
-
-  m_lastContentType = reply->header(QNetworkRequest::ContentTypeHeader);
-  m_lastOutputError = reply->error();
-  m_activeReply->deleteLater();
-  m_activeReply = nullptr;
-
-  if (m_inputMultipartData != nullptr) {
-    m_inputMultipartData->deleteLater();
-  }
-
-  emit completed(m_lastOutputError, m_lastOutputData);
 }
 
 void Downloader::progressInternal(qint64 bytes_received, qint64 bytes_total) {
@@ -153,7 +211,7 @@ QList<HttpResponse> Downloader::decodeMultipartAnswer(QNetworkReply* reply) {
 #if QT_VERSION >= 0x050F00 // Qt >= 5.15.0
                                                    Qt::SplitBehaviorFlags::SkipEmptyParts);
 #else
-                                                   QString::SkipEmptyParts);
+                                                   QString::SplitBehavior::SkipEmptyParts);
 #endif
 
   QList<HttpResponse> parts;
@@ -171,17 +229,18 @@ QList<HttpResponse> Downloader::decodeMultipartAnswer(QNetworkReply* reply) {
                                             start_of_body - start_of_headers).replace(QRegularExpression(QSL("[\\n\\r]+")),
                                                                                       QSL("\n"));
 
-    for (const QString& header_line : headers.split(QL1C('\n'),
+    auto header_lines = headers.split(QL1C('\n'),
 #if QT_VERSION >= 0x050F00 // Qt >= 5.15.0
-                                                    Qt::SplitBehaviorFlags::SkipEmptyParts)) {
+                                      Qt::SplitBehaviorFlags::SkipEmptyParts);
 #else
-                                                    QString::SkipEmptyParts)) {
+                                      QString::SplitBehavior::SkipEmptyParts);
 #endif
+
+    for (const QString& header_line : qAsConst(header_lines)) {
       int index_colon = header_line.indexOf(QL1C(':'));
 
       if (index_colon > 0) {
-        new_part.appendHeader(header_line.mid(0, index_colon),
-                              header_line.mid(index_colon + 2));
+        new_part.appendHeader(header_line.mid(0, index_colon), header_line.mid(index_colon + 2));
       }
     }
 
@@ -237,7 +296,11 @@ QVariant Downloader::lastContentType() const {
 }
 
 void Downloader::setProxy(const QNetworkProxy& proxy) {
-  qWarningNN << LOGSEC_NETWORK << "Setting custom proxy:" << QUOTE_W_SPACE_DOT(proxy.hostName());
+  qWarningNN << LOGSEC_NETWORK
+             << "Setting specific downloader proxy, address:"
+             << QUOTE_W_SPACE_COMMA(proxy.hostName())
+             << " type:"
+             << QUOTE_W_SPACE_DOT(proxy.type());
 
   m_downloadManager->setProxy(proxy);
 }

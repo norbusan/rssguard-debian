@@ -29,22 +29,29 @@ class RSSGUARD_DLLSPEC Enclosures {
     static QString encodeEnclosuresToString(const QList<Enclosure>& enclosures);
 };
 
+class Feed;
+
 // Represents single message.
 class RSSGUARD_DLLSPEC Message {
   public:
     explicit Message();
 
-    void sanitize();
+    void sanitize(const Feed* feed);
 
     // Creates Message from given record, which contains
     // row from query SELECT * FROM Messages WHERE ....;
     static Message fromSqlRecord(const QSqlRecord& record, bool* result = nullptr);
+    static QString generateRawAtomContents(const Message& msg);
 
   public:
     QString m_title;
     QString m_url;
     QString m_author;
     QString m_contents;
+    QString m_rawContents;
+
+    // This should be preferably in UTC and should be converted
+    // to localtime when needed.
     QDateTime m_created;
     QString m_feedId;
     int m_accountId;
@@ -54,6 +61,7 @@ class RSSGUARD_DLLSPEC Message {
     bool m_isRead;
     bool m_isImportant;
     bool m_isDeleted;
+    double m_score;
     QList<Enclosure> m_enclosures;
 
     // List of custom IDs of labels assigned to this message.

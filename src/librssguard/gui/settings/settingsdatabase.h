@@ -11,16 +11,12 @@ class SettingsDatabase : public SettingsPanel {
   Q_OBJECT
 
   public:
-    explicit SettingsDatabase(Settings* settings, QWidget* parent = 0);
+    explicit SettingsDatabase(Settings* settings, QWidget* parent = nullptr);
     virtual ~SettingsDatabase();
 
-    inline QString title() const {
-      return tr("Data storage");
-    }
-
-    void loadSettings();
-
-    void saveSettings();
+    virtual QString title() const;
+    virtual void loadSettings();
+    virtual void saveSettings();
 
   private:
     void mysqlTestConnection();
@@ -29,9 +25,12 @@ class SettingsDatabase : public SettingsPanel {
     void onMysqlPasswordChanged(const QString& new_password);
     void onMysqlDatabaseChanged(const QString& new_database);
     void selectSqlBackend(int index);
-    void switchMysqlPasswordVisiblity(bool visible);
 
     Ui::SettingsDatabase* m_ui;
 };
+
+inline QString SettingsDatabase::title() const {
+  return tr("Data storage");
+}
 
 #endif // SETTINGSDATABASE_H

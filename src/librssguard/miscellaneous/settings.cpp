@@ -9,23 +9,29 @@
 #include <QLocale>
 #include <QPointer>
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
 
 // WebEngine.
 DKEY WebEngineAttributes::ID = "web_engine_attributes";
 #endif
 
+// Cookies.
+DKEY Cookies::ID = "cookies";
+
 // AdBlock.
 DKEY AdBlock::ID = "adblock";
-
-DKEY AdBlock::DisabledRules = "disabled_rules";
-DVALUE(QStringList) AdBlock::DisabledRulesDef = QStringList();
 
 DKEY AdBlock::AdBlockEnabled = "enabled";
 DVALUE(bool) AdBlock::AdBlockEnabledDef = false;
 
-DKEY AdBlock::LastUpdatedOn = "last_updated_on";
-DVALUE(QDateTime) AdBlock::LastUpdatedOnDef = QDateTime();
+DKEY AdBlock::FilterLists = "filter_lists";
+DVALUE(QStringList) AdBlock::FilterListsDef = {
+  QSL("https://easylist.to/easylist/easylist.txt"),
+  QSL("https://easylist.to/easylist/easyprivacy.txt")
+};
+
+DKEY AdBlock::CustomFilters = "custom_filters";
+DVALUE(QStringList) AdBlock::CustomFiltersDef = {};
 
 // Feeds.
 DKEY Feeds::ID = "feeds";
@@ -33,11 +39,11 @@ DKEY Feeds::ID = "feeds";
 DKEY Feeds::UpdateTimeout = "feed_update_timeout";
 DVALUE(int) Feeds::UpdateTimeoutDef = DOWNLOAD_TIMEOUT;
 
-DKEY Feeds::EnableAutoUpdateNotification = "enable_auto_update_notification";
-DVALUE(bool) Feeds::EnableAutoUpdateNotificationDef = false;
-
 DKEY Feeds::CountFormat = "count_format";
 DVALUE(char*) Feeds::CountFormatDef = "(%unread)";
+
+DKEY Feeds::EnableTooltipsFeedsMessages = "show_tooltips";
+DVALUE(bool) Feeds::EnableTooltipsFeedsMessagesDef = true;
 
 DKEY Feeds::AutoUpdateInterval = "auto_update_interval";
 DVALUE(int) Feeds::AutoUpdateIntervalDef = DEFAULT_AUTO_UPDATE_INTERVAL;
@@ -60,6 +66,9 @@ DVALUE(bool) Feeds::ShowOnlyUnreadFeedsDef = false;
 DKEY Feeds::ShowTreeBranches = "show_tree_branches";
 DVALUE(bool) Feeds::ShowTreeBranchesDef = true;
 
+DKEY Feeds::HideCountsIfNoUnread = "hide_counts_if_no_unread";
+DVALUE(bool) Feeds::HideCountsIfNoUnreadDef = false;
+
 DKEY Feeds::AutoExpandOnSelection = "auto_expand_on_selection";
 DVALUE(bool) Feeds::AutoExpandOnSelectionDef = false;
 
@@ -70,6 +79,11 @@ DKEY Messages::ID = "messages";
 
 DKEY Messages::MessageHeadImageHeight = "message_head_image_height";
 DVALUE(int) Messages::MessageHeadImageHeightDef = 36;
+
+#if defined (USE_WEBENGINE)
+DKEY Messages::DisplayEnclosuresInMessage = "show_enclosures_in_message";
+DVALUE(bool) Messages::DisplayEnclosuresInMessageDef = false;
+#endif
 
 DKEY Messages::EnableMessagePreview = "enable_message_preview";
 DVALUE(bool) Messages::EnableMessagePreviewDef = true;
@@ -95,7 +109,7 @@ DKEY Messages::DisplayFeedIconsInList = "display_feed_icons_in_message_list";
 DVALUE(bool) Messages::DisplayFeedIconsInListDef = false;
 
 DKEY Messages::BringAppToFrontAfterMessageOpenedExternally = "bring_app_to_front_after_msg_opened";
-DVALUE(bool) Messages::BringAppToFrontAfterMessageOpenedExternallyDef = true;
+DVALUE(bool) Messages::BringAppToFrontAfterMessageOpenedExternallyDef = false;
 
 DKEY Messages::KeepCursorInCenter = "keep_cursor_center";
 DVALUE(bool) Messages::KeepCursorInCenterDef = false;
@@ -130,11 +144,11 @@ DKEY GUI::HeightRowFeeds = "height_row_feeds";
 DVALUE(int) GUI::HeightRowFeedsDef = -1;
 
 DKEY GUI::FeedsToolbarActions = "feeds_toolbar";
-DVALUE(char*) GUI::FeedsToolbarActionsDef = "m_actionUpdateAllItems,m_actionStopRunningItemsUpdate,m_actionMarkAllItemsRead";
+DVALUE(char*) GUI::FeedsToolbarActionsDef = "m_actionUpdateAllItems,m_actionStopRunningItemsUpdate,m_actionMarkAllItemsRead,spacer,search";
 
 DKEY GUI::StatusbarActions = "status_bar";
 DVALUE(char*) GUI::StatusbarActionsDef =
-  "m_lblProgressFeedsAction,m_barProgressFeedsAction,m_actionUpdateAllItems,m_actionUpdateSelectedItems,m_actionStopRunningItemsUpdate,m_actionFullscreen,m_actionQuit";
+  "m_barProgressDownloadAction,m_barProgressFeedsAction,m_actionUpdateAllItems,m_actionUpdateSelectedItems,m_actionStopRunningItemsUpdate,m_actionFullscreen,m_actionQuit";
 
 DKEY GUI::MainWindowInitialSize = "window_size";
 DKEY GUI::MainWindowInitialPosition = "window_position";
@@ -169,6 +183,9 @@ DVALUE(bool) GUI::MessageViewerToolbarsVisibleDef = true;
 DKEY GUI::StatusBarVisible = "enable_status_bar";
 DVALUE(bool) GUI::StatusBarVisibleDef = true;
 
+DKEY GUI::EnableNotifications = "enable_notifications";
+DVALUE(bool) GUI::EnableNotificationsDef = true;
+
 DKEY GUI::HideMainWindowWhenMinimized = "hide_when_minimized";
 DVALUE(bool) GUI::HideMainWindowWhenMinimizedDef = false;
 
@@ -180,9 +197,6 @@ DVALUE(bool) GUI::UnreadNumbersInTrayIconDef = true;
 
 DKEY GUI::UseTrayIcon = "use_tray_icon";
 DVALUE(bool) GUI::UseTrayIconDef = true;
-
-DKEY GUI::EnableNotifications = "enable_notifications";
-DVALUE(bool) GUI::EnableNotificationsDef = true;
 
 DKEY GUI::TabCloseMiddleClick = "tab_close_mid_button";
 DVALUE(bool) GUI::TabCloseMiddleClickDef = true;
@@ -220,9 +234,6 @@ DKEY General::ID = "main";
 
 DKEY General::UpdateOnStartup = "update_on_start";
 DVALUE(bool) General::UpdateOnStartupDef = true;
-
-DKEY General::RemoveTrolltechJunk = "remove_trolltech_junk";
-DVALUE(bool) General::RemoveTrolltechJunkDef = false;
 
 DKEY General::FirstRun = "first_run";
 DVALUE(bool) General::FirstRunDef = true;
@@ -300,6 +311,9 @@ DVALUE(char*) Database::ActiveDriverDef = APP_DB_SQLITE_DRIVER;
 // Keyboard.
 DKEY Keyboard::ID = "keyboard";
 
+// Notifications.
+DKEY Notifications::ID = "notifications";
+
 // Web browser.
 DKEY Browser::ID = "browser";
 
@@ -337,6 +351,19 @@ Settings::Settings(const QString& file_name, Format format, const SettingsProper
   : QSettings(file_name, format, parent), m_initializationStatus(type) {}
 
 Settings::~Settings() = default;
+
+QStringList Settings::allKeys(const QString& section) {
+  if (!section.isEmpty()) {
+    beginGroup(section);
+    auto keys = QSettings::allKeys();
+
+    endGroup();
+    return keys;
+  }
+  else {
+    return QSettings::allKeys();
+  }
+}
 
 QString Settings::pathName() const {
   return QFileInfo(fileName()).absolutePath();
@@ -425,7 +452,7 @@ SettingsProperties Settings::determineProperties() {
   else {
     // We will use PORTABLE settings only and only if it is available and NON-PORTABLE
     // settings was not initialized before.
-#if defined (Q_OS_LINUX) || defined (Q_OS_ANDROID) || defined (Q_OS_MACOSOS)
+#if defined(Q_OS_LINUX) || defined (Q_OS_ANDROID) || defined (Q_OS_MACOSOS)
     // DO NOT use portable settings for Linux, it is really not used on that platform.
     const bool will_we_use_portable_settings = false;
 #else

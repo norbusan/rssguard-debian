@@ -2,17 +2,22 @@
 
 #include "gui/settings/settingsdatabase.h"
 
+#include "database/databasefactory.h"
+#include "database/mariadbdriver.h"
 #include "definitions/definitions.h"
 #include "gui/guiutilities.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasefactory.h"
 
 SettingsDatabase::SettingsDatabase(Settings* settings, QWidget* parent)
   : SettingsPanel(settings, parent), m_ui(new Ui::SettingsDatabase) {
   m_ui->setupUi(this);
+
   GuiUtilities::setLabelAsNotice(*m_ui->m_lblDataStorageWarning, true);
   GuiUtilities::setLabelAsNotice(*m_ui->m_lblMysqlInfo, false);
   GuiUtilities::setLabelAsNotice(*m_ui->m_lblSqliteInMemoryWarnings, true);
+
+  m_ui->m_txtMysqlPassword->lineEdit()->setPasswordMode(true);
+
   connect(m_ui->m_cmbDatabaseDriver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
           &SettingsDatabase::dirtifySettings);
   connect(m_ui->m_checkSqliteUseInMemoryDatabase, &QCheckBox::toggled, this, &SettingsDatabase::dirtifySettings);
@@ -24,7 +29,6 @@ SettingsDatabase::SettingsDatabase(Settings* settings, QWidget* parent)
   connect(m_ui->m_spinMysqlPort, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &SettingsDatabase::dirtifySettings);
   connect(m_ui->m_cmbDatabaseDriver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
           &SettingsDatabase::selectSqlBackend);
-  connect(m_ui->m_checkMysqlShowPassword, &QCheckBox::toggled, this, &SettingsDatabase::switchMysqlPasswordVisiblity);
   connect(m_ui->m_txtMysqlUsername->lineEdit(), &BaseLineEdit::textChanged, this, &SettingsDatabase::onMysqlUsernameChanged);
   connect(m_ui->m_txtMysqlHostname->lineEdit(), &BaseLineEdit::textChanged, this, &SettingsDatabase::onMysqlHostnameChanged);
   connect(m_ui->m_txtMysqlPassword->lineEdit(), &BaseLineEdit::textChanged, this, &SettingsDatabase::onMysqlPasswordChanged);
@@ -44,16 +48,17 @@ SettingsDatabase::~SettingsDatabase() {
 }
 
 void SettingsDatabase::mysqlTestConnection() {
-  const DatabaseFactory::MySQLError error_code = qApp->database()->mysqlTestConnection(m_ui->m_txtMysqlHostname->lineEdit()->text(),
-                                                                                       m_ui->m_spinMysqlPort->value(),
-                                                                                       m_ui->m_txtMysqlDatabase->lineEdit()->text(),
-                                                                                       m_ui->m_txtMysqlUsername->lineEdit()->text(),
-                                                                                       m_ui->m_txtMysqlPassword->lineEdit()->text());
-  const QString interpretation = qApp->database()->mysqlInterpretErrorCode(error_code);
+  MariaDbDriver* driv = static_cast<MariaDbDriver*>(qApp->database()->driver());
+  const MariaDbDriver::MariaDbError error_code = driv->testConnection(m_ui->m_txtMysqlHostname->lineEdit()->text(),
+                                                                      m_ui->m_spinMysqlPort->value(),
+                                                                      m_ui->m_txtMysqlDatabase->lineEdit()->text(),
+                                                                      m_ui->m_txtMysqlUsername->lineEdit()->text(),
+                                                                      m_ui->m_txtMysqlPassword->lineEdit()->text());
+  const QString interpretation = driv->interpretErrorCode(error_code);
 
   switch (error_code) {
-    case DatabaseFactory::MySQLError::Ok:
-    case DatabaseFactory::MySQLError::UnknownDatabase:
+    case MariaDbDriver::MariaDbError::Ok:
+    case MariaDbDriver::MariaDbError::UnknownDatabase:
       m_ui->m_lblMysqlTestResult->setStatus(WidgetWithStatus::StatusType::Ok, interpretation, interpretation);
       break;
 
@@ -116,10 +121,6 @@ void SettingsDatabase::selectSqlBackend(int index) {
   }
 }
 
-void SettingsDatabase::switchMysqlPasswordVisiblity(bool visible) {
-  m_ui->m_txtMysqlPassword->lineEdit()->setEchoMode(visible ? QLineEdit::Normal : QLineEdit::Password);
-}
-
 void SettingsDatabase::loadSettings() {
   onBeginLoadSettings();
   m_ui->m_checkUseTransactions->setChecked(qApp->settings()->value(GROUP(Database), SETTING(Database::UseTransactions)).toBool());
@@ -127,19 +128,23 @@ void SettingsDatabase::loadSettings() {
                                         tr("You did not executed any connection test yet."));
 
   // Load SQLite.
-  m_ui->m_cmbDatabaseDriver->addItem(qApp->database()->humanDriverName(DatabaseFactory::UsedDriver::SQLITE), APP_DB_SQLITE_DRIVER);
+  auto* lite_driver = qApp->database()->driverForType(DatabaseDriver::DriverType::SQLite);
+
+  m_ui->m_cmbDatabaseDriver->addItem(lite_driver->humanDriverType(), lite_driver->qtDriverCode());
 
   // Load in-memory database status.
   m_ui->m_checkSqliteUseInMemoryDatabase->setChecked(settings()->value(GROUP(Database), SETTING(Database::UseInMemory)).toBool());
 
-  if (QSqlDatabase::isDriverAvailable(APP_DB_MYSQL_DRIVER)) {
+  auto* mysq_driver = qApp->database()->driverForType(DatabaseDriver::DriverType::MySQL);
+
+  if (mysq_driver != nullptr) {
     onMysqlHostnameChanged(QString());
     onMysqlUsernameChanged(QString());
     onMysqlPasswordChanged(QString());
     onMysqlDatabaseChanged(QString());
 
     // Load MySQL.
-    m_ui->m_cmbDatabaseDriver->addItem(qApp->database()->humanDriverName(DatabaseFactory::UsedDriver::MYSQL), APP_DB_MYSQL_DRIVER);
+    m_ui->m_cmbDatabaseDriver->addItem(mysq_driver->humanDriverType(), mysq_driver->qtDriverCode());
 
     // Setup placeholders.
     m_ui->m_txtMysqlHostname->lineEdit()->setPlaceholderText(tr("Hostname of your MySQL server"));
@@ -152,7 +157,6 @@ void SettingsDatabase::loadSettings() {
                                                                        SETTING(Database::MySQLPassword)).toString());
     m_ui->m_txtMysqlDatabase->lineEdit()->setText(settings()->value(GROUP(Database), SETTING(Database::MySQLDatabase)).toString());
     m_ui->m_spinMysqlPort->setValue(settings()->value(GROUP(Database), SETTING(Database::MySQLPort)).toInt());
-    m_ui->m_checkMysqlShowPassword->setChecked(false);
   }
 
   int index_current_backend = m_ui->m_cmbDatabaseDriver->findData(settings()->value(GROUP(Database),

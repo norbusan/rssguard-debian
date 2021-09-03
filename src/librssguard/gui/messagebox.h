@@ -6,6 +6,8 @@
 #include <QDialogButtonBox>
 #include <QMessageBox>
 
+#include <functional>
+
 class MessageBox : public QMessageBox {
   Q_OBJECT
 
@@ -28,7 +30,9 @@ class MessageBox : public QMessageBox {
                                             const QString& detailed_text = QString(),
                                             QMessageBox::StandardButtons buttons = QMessageBox::Ok,
                                             QMessageBox::StandardButton default_button = QMessageBox::Ok,
-                                            bool* dont_show_again = nullptr);
+                                            bool* dont_show_again = nullptr,
+                                            const QString& functor_heading = {},
+                                            const std::function<void()>& functor = nullptr);
     static QIcon iconForStatus(QMessageBox::Icon status);
 };
 

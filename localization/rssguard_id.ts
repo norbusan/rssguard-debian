@@ -11,40 +11,6 @@
     </message>
 </context>
 <context>
-    <name>AdBlockAddSubscriptionDialog</name>
-    <message>
-        <source>Add subscription</source>
-        <translation>Tambah langganan</translation>
-    </message>
-    <message>
-        <source>Use predefined subscription</source>
-        <translation>Gunakan langganan yang dikenal</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Judul</translation>
-    </message>
-    <message>
-        <source>Title of subscription</source>
-        <translation>Judul langganan</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Absolute URL to online subscription file</source>
-        <translation>URL penuh untuk berkas langganan daring</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockCustomList</name>
-    <message>
-        <source>Custom rules</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>AdBlockDialog</name>
     <message>
         <source>AdBlock configuration</source>
@@ -55,32 +21,58 @@
         <translation>Nyalakan AdBlock</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation>Opsi</translation>
+        <source>Add your direct links to filter lists here (one URL per line)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add rule</source>
-        <translation>Tambah aturan</translation>
+        <source>Custom filters</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Hapus Aturan</translation>
+        <source>Add your custom filters here (one filter per line)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add subscription</source>
-        <translation>Tambah langganan</translation>
+        <source>&amp;Help</source>
+        <translation>Bant&amp;uan</translation>
     </message>
     <message>
-        <source>Remove subscription</source>
-        <translation>Hapus langganan</translation>
+        <source>&amp;Test configuration</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Update subscriptions</source>
-        <translation>Perbarui langganan</translation>
+        <source>Filter lists</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Learn about writing rules...</source>
-        <translation>Belajar mengenai penulisan aturan...</translation>
+        <source>No test executed yet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot enable AdBlock</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is some error in AdBlock component and it cannot be enabled. Check error message below (or application debug log) for more information.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are good to go.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>OK!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error, check application log for more details and head to online documentation. Also make sure that Node.js is installed.
+
+Error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ERROR!</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -93,47 +85,20 @@
         <source>Show AdBlock &amp;settings</source>
         <translation>Tampilkan &amp;pengaturan AdBlock</translation>
     </message>
-    <message>
-        <source>Disable on %1</source>
-        <translation>Matikan pada %1</translation>
-    </message>
-    <message>
-        <source>Disable only on this page</source>
-        <translation>Matikan hanya pada halaman ini</translation>
-    </message>
 </context>
 <context>
-    <name>AdBlockSubscription</name>
+    <name>AdBlockManager</name>
     <message>
-        <source>Cannot load subscription!</source>
-        <translation>Tidak dapat memuat langganan!</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockTreeWidget</name>
-    <message>
-        <source>Add rule</source>
-        <translation>Tambah aturan</translation>
+        <source>AdBlock needs to be configured</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Hapus aturan</translation>
+        <source>AdBlock component is not configured properly.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add custom rule</source>
-        <translation>Tambah aturan tersuai</translation>
-    </message>
-    <message>
-        <source>Please write your rule here:</source>
-        <translation>Silahkan menuliskan aturan anda disini:</translation>
-    </message>
-    <message>
-        <source>%1 (recently updated)</source>
-        <translation>%1 (diperbarui baru-baru ini)</translation>
-    </message>
-    <message>
-        <source>%1 (error: %2)</source>
-        <translation>%1 (eror: %2)</translation>
+        <source>failed to download filter list &apos;%1&apos;</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -151,10 +116,6 @@
         <translation>Berkas pengaturan tidak berhasil disalin ke direktori keluaran.</translation>
     </message>
     <message>
-        <source>Database file not copied to output directory successfully.</source>
-        <translation>Berkas database tidak berhasil disalin ke direktori keluaran.</translation>
-    </message>
-    <message>
         <source>Database restoration was not initiated. Make sure that output directory is writable.</source>
         <translation>Pemulihan database tidak dapat dimulai. Pastikan direktori keluaran dapat ditulisi.</translation>
     </message>
@@ -167,12 +128,12 @@
         <translation>Tidak dapat menambah feed</translation>
     </message>
     <message>
-        <source>Feed cannot be added because standard RSS/ATOM account is not enabled.</source>
-        <translation>Feed tidak dapat ditambahkan karena akun standar RSS/ATOM tidak dinyalakan.</translation>
+        <source>Feed cannot be added because there is no active account which can add feeds.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>New messages downloaded</source>
-        <translation>Pesan baru terunduh</translation>
+        <source>Unread articles fetched</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -223,6 +184,13 @@
     </message>
 </context>
 <context>
+    <name>BaseLineEdit</name>
+    <message>
+        <source>Show/hide the password</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
@@ -244,75 +212,47 @@
         <translation>Berkas database disusutkan...</translation>
     </message>
     <message>
-        <source>Removing read messages...</source>
-        <translation>Hapus pesan terbaca...</translation>
-    </message>
-    <message>
-        <source>Read messages purged...</source>
-        <translation>Pesan terbaca dibersihkan...</translation>
-    </message>
-    <message>
         <source>Recycle bin purged...</source>
         <translation>Tong sampah dibersihkan...</translation>
-    </message>
-    <message>
-        <source>Removing old messages...</source>
-        <translation>Hapus pesan lama...</translation>
     </message>
     <message>
         <source>Purging recycle bin...</source>
         <translation>Bersihkan tong sampah...</translation>
     </message>
     <message>
-        <source>Old messages purged...</source>
-        <translation>Pesan lama dibersihkan...</translation>
+        <source>Removing read articles...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Removing starred messages...</source>
-        <translation>Menghapus pesan yang telah ditandai bintang...</translation>
+        <source>Read articles purged...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Starred messages purged...</source>
-        <translation>Pesan yang telah ditandai bintang dibersihkan...</translation>
+        <source>Removing old articles...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Old articles purged...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Removing starred articles...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Starred articles purged...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DatabaseFactory</name>
     <message>
-        <source>MySQL server works as expected.</source>
-        <translation>Server MySQL bekerja sesuai yang diharapkan.</translation>
+        <source>Cannot connect to database</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>No MySQL server is running in the target destination.</source>
-        <translation>Tidak ada server MySQL yang sedang berjalan di target tujuan.</translation>
-    </message>
-    <message>
-        <source>Access denied. Invalid username or password used.</source>
-        <translation>Akses ditolak. Nama pengguna atau kata sandi yang digunakan tidak benar.</translation>
-    </message>
-    <message>
-        <source>MySQL/MariaDB (dedicated database)</source>
-        <translation>MySQL/MariaDB (database terdedikasi)</translation>
-    </message>
-    <message>
-        <source>SQLite (embedded database)</source>
-        <translation>SQLite (database tertanam)</translation>
-    </message>
-    <message>
-        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
-        <translation>Database yang dipilih tidak tersedia. Ini akan dibuat. Itu baik-baik saja.</translation>
-    </message>
-    <message>
-        <source>MySQL database not available</source>
-        <translation>Database MySQL tidak tersedia</translation>
-    </message>
-    <message>
-        <source>%1 cannot use MySQL storage, it is not available. %1 is now switching to SQLite database. Start your MySQL server and make adjustments in application settings.</source>
-        <translation>%1 tidak dapat menggunakan penyimpanan MySQL, itu tidak tersedia. %1 serakang berganti ke database SQLite. Jalankan MySQL anda dan buat penyesuaian di pengaturan aplikasi.</translation>
-    </message>
-    <message>
-        <source>Unknown error: &apos;%1&apos;.</source>
-        <translation>Eror tak dikenal:  &apos;%1&apos;.</translation>
+        <source>Connection to your database was not established with error: &apos;%1&apos;. Falling back to SQLite.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -492,19 +432,11 @@ Klik disini untuk membuka direktori induk.</translation>
         <translation>tidak ada eror</translation>
     </message>
     <message>
-        <source>has new messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>authentication error</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>network error</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>unspecified error</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -514,53 +446,65 @@ Status: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>does not use auto-downloading of messages</source>
+        <source>does not use auto-fetching of articles</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <source>uses global settings (%n minute(s) to next auto-fetch of articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <source>uses global settings (global auto-fetching of articles is disabled)</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <source>uses specific settings (%n minute(s) to next auto-fetching of new articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>has new articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>parsing error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>error</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedMessageViewer</name>
     <message>
-        <source>Toolbar for messages</source>
-        <translation>Bilah alat untuk pesan</translation>
-    </message>
-    <message>
         <source>Toolbar for feeds</source>
         <translation>Bilah alat untuk feed</translation>
+    </message>
+    <message>
+        <source>Toolbar for articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedReader</name>
     <message>
-        <source>Cannot update all items</source>
-        <translation>Tidak dapat memperbarui semua item</translation>
-    </message>
-    <message>
-        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Starting auto-download of some feeds&apos; messages</source>
+        <source>Starting auto-download of some feeds&apos; articles</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-download new messages for %n feed(s).</source>
+        <source>I will auto-download new articles for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>Cannot fetch articles at this point</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot fetch new articles now because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -576,14 +520,6 @@ Status: %3</source>
     <message>
         <source>Get token</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>pesan</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Hanya mengunduh X pesan terbaru per feed</translation>
     </message>
     <message>
         <source>&amp;Login</source>
@@ -610,14 +546,6 @@ Status: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>= unlimited</source>
-        <translation>= tak terbatas</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>pesan</translation>
-    </message>
-    <message>
         <source>You did not grant access.</source>
         <translation>Anda tidak diberikan ijin akses.</translation>
     </message>
@@ -638,19 +566,11 @@ Status: %3</source>
         <translation>Akses anda disetujui.</translation>
     </message>
     <message>
-        <source>You are already logged in.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Access granted.</source>
         <translation>Akses diterima.</translation>
     </message>
     <message>
         <source>Login was successful.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -673,6 +593,22 @@ Status: %3</source>
         <source>Access token is okay.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Error: &apos;%1&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Beware of downloading too many articles, because Feedly permanently caches ALL articles of the feed, so you might end up with thousands of articles which you will never read anyway.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FeedlyNetwork</name>
@@ -691,14 +627,6 @@ Status: %3</source>
     <message>
         <source>Click this to login again.</source>
         <translation>Klik ini untuk log masuk kembali.</translation>
-    </message>
-    <message>
-        <source>Logged in successfully</source>
-        <translation>Telah berhasil log masuk</translation>
-    </message>
-    <message>
-        <source>Your login to Feedly was authorized.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -740,6 +668,14 @@ Status: %3</source>
     <message>
         <source>Toolbar spacer</source>
         <translation>Pengatur jarak bilah alat</translation>
+    </message>
+    <message>
+        <source>Search feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feeds search box</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -823,11 +759,11 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Context menu for important messages</source>
+        <source>Context menu for label</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Context menu for label</source>
+        <source>Context menu for important articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -931,6 +867,10 @@ atau fungsi ini belum diimplementasikan.</translation>
     <message>
         <source>Network proxy</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new account</source>
+        <translation>Tambah akun baru</translation>
     </message>
 </context>
 <context>
@@ -1082,30 +1022,126 @@ atau fungsi ini belum diimplementasikan.</translation>
     </message>
 </context>
 <context>
+    <name>FormCategoryDetails</name>
+    <message>
+        <source>Select parent item for your category.</source>
+        <translation>Pilih item induk untuk kategori anda.</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Judul</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Deskripsi</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Ikon</translation>
+    </message>
+    <message>
+        <source>Select icon for your category.</source>
+        <translation>Pilih ikon untuk kategori anda.</translation>
+    </message>
+    <message>
+        <source>Add new category</source>
+        <translation>Tambah kategori baru</translation>
+    </message>
+    <message>
+        <source>Category name is ok.</source>
+        <translation>Nama kategori ok.</translation>
+    </message>
+    <message>
+        <source>Category name is too short.</source>
+        <translation>Nama kategori terlalu pendek.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Deskripsi kosong.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>Deskripsi ok.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the category</source>
+        <translation>Pilih berkas ikon untuk kategori</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Gambar (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Pilih ikon</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Batal</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
+        <translation>Lihat ke dalam:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Nama ikon:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Jenis ikon:</translation>
+    </message>
+    <message>
+        <source>Category title</source>
+        <translation>Judul kategori</translation>
+    </message>
+    <message>
+        <source>Set title for your category.</source>
+        <translation>Setel judul untuk kategori anda.</translation>
+    </message>
+    <message>
+        <source>Category description</source>
+        <translation>Deskripsi kategori</translation>
+    </message>
+    <message>
+        <source>Set description for your category.</source>
+        <translation>Setel deskripsi untuk kategori anda.</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Pilihan ikon</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Memuat ikon dari berkas...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation>Gunakan ikon bawaan dari tema ikon</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Edit &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormDatabaseCleanup</name>
     <message>
         <source>Cleanup database</source>
         <translation>Pembersihan database</translation>
-    </message>
-    <message>
-        <source>Remove all messages older than</source>
-        <translation>Hapus semua pesan lebih tua dari</translation>
     </message>
     <message numerus="yes">
         <source> day(s)</source>
         <translation><numerusform> hari</numerusform></translation>
     </message>
     <message>
-        <source>Shrink database file</source>
-        <translation>Susutkan berkas database</translation>
-    </message>
-    <message>
         <source>Database information</source>
         <translation>Informasi database</translation>
-    </message>
-    <message>
-        <source>Database file size</source>
-        <translation>Ukuran berkas database</translation>
     </message>
     <message>
         <source>Database type</source>
@@ -1132,28 +1168,36 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Pembersihan database gagal.</translation>
     </message>
     <message>
-        <source>Cleanup settings (all checked items are completely erased from database)</source>
-        <translation>Pengaturan pembersihan (semua item tercentang akan benar-benar terhapus dari database)</translation>
-    </message>
-    <message>
-        <source>Remove all read messages (not those from recycle bin)</source>
-        <translation>Hapus semua pesan terbaca (bukan dari tong sampah)</translation>
-    </message>
-    <message>
-        <source>Remove all messages from recycle bin</source>
-        <translation>Hapus semua pesan dari tong sampah</translation>
-    </message>
-    <message>
-        <source>Remove all starred messages (including those from recycle bin)</source>
-        <translation>Hapus semua pesan yang ditandai bintang (termasuk dari tong sampah)</translation>
-    </message>
-    <message>
         <source>unknown</source>
         <translation>Tidak dikenal</translation>
     </message>
     <message>
-        <source>file: %1, data: %2</source>
-        <translation>berkas: %1, data: %2</translation>
+        <source>Total data size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cleanup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Optimize database file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all read articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles from recycle bin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles older than</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all starred articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1189,13 +1233,6 @@ atau fungsi ini belum diimplementasikan.</translation>
     </message>
 </context>
 <context>
-    <name>FormEditInoreaderAccount</name>
-    <message>
-        <source>Server setup</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>FormEditOwnCloudAccount</name>
     <message>
         <source>Server setup</source>
@@ -1212,35 +1249,39 @@ atau fungsi ini belum diimplementasikan.</translation>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Cannot edit feed</source>
-        <translation>Tidak dapat menyunting feed</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Feed tidak disunting disebabkan eror.</translation>
-    </message>
-    <message>
-        <source>Edit &apos;%1&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Auto-downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages using global interval</source>
+        <source>Add new feed</source>
+        <translation>Tambah feed baru</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Eror</translation>
+    </message>
+    <message>
+        <source>Cannot save changes: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages every</source>
+        <source>Auto-downloading of articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Do not download messages at all</source>
+        <source>Edit &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles using global interval</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Disable auto-fetching of articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1269,14 +1310,6 @@ atau fungsi ini belum diimplementasikan.</translation>
     <message>
         <source>&amp;Settings</source>
         <translation>&amp;Pengaturan</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp;Pesan</translation>
-    </message>
-    <message>
-        <source>Switch &amp;importance of selected messages</source>
-        <translation>Ganti nilai &amp;pentingnya pesan yang dipilih</translation>
     </message>
     <message>
         <source>Quit the application.</source>
@@ -1319,28 +1352,8 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Tampilkan info tambahan seputar aplikasi ini.</translation>
     </message>
     <message>
-        <source>&amp;Delete selected messages</source>
-        <translation>&amp;Hapus pesan yang dipilih</translation>
-    </message>
-    <message>
         <source>Hides or displays the main menu.</source>
         <translation>Sembunyikan atau tampilkan menu utama.</translation>
-    </message>
-    <message>
-        <source>Open selected source articles in &amp;external browser</source>
-        <translation>Buka sumber artikel yang dipilih di peramban &amp;eksternal</translation>
-    </message>
-    <message>
-        <source>Open selected messages in &amp;internal browser</source>
-        <translation>Buka pesan yang dipilih di peramban &amp;internal</translation>
-    </message>
-    <message>
-        <source>Select &amp;next message</source>
-        <translation>Pilih pesan se&amp;lanjutnya</translation>
-    </message>
-    <message>
-        <source>Select &amp;previous message</source>
-        <translation>Pilih pesan se&amp;belumnya</translation>
     </message>
     <message>
         <source>Check for &amp;updates</source>
@@ -1359,18 +1372,6 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Menu &amp;utama</translation>
     </message>
     <message>
-        <source>Switch visibility of main &amp;window</source>
-        <translation>Ganti visibilitas dari &amp;jendela utama</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser</source>
-        <translation>Tidak dapat membuka peramban eksternal</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser. Navigate to application website manually.</source>
-        <translation>Tidak bisa membuka peramban eksternal. Arahkan ke situs web aplikasi secara manual.</translation>
-    </message>
-    <message>
         <source>&amp;Toolbars</source>
         <translation>&amp;Bilah alat</translation>
     </message>
@@ -1379,36 +1380,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Ganti visibilitas dari bilah alat utama.</translation>
     </message>
     <message>
-        <source>&amp;Feed/message list headers</source>
-        <translation>Daftar tajuk &amp;feed/pesan</translation>
-    </message>
-    <message>
-        <source>&amp;Restore database/settings</source>
-        <translation>&amp;Pulihkan database/pengaturan</translation>
-    </message>
-    <message>
-        <source>&amp;Backup database/settings</source>
-        <translation>&amp;Backup database/pengaturan</translation>
-    </message>
-    <message>
-        <source>Switch message list layout orientation</source>
-        <translation>Ganti orientasi tata letak daftar pesan</translation>
-    </message>
-    <message>
         <source>&amp;Downloads</source>
         <translation>&amp;Unduhan</translation>
     </message>
     <message>
-        <source>Send selected message via e-mail</source>
-        <translation>Kirim pesan yang dipilih via surel</translation>
-    </message>
-    <message>
         <source>&amp;Cleanup database</source>
         <translation>Pembersihan &amp;database</translation>
-    </message>
-    <message>
-        <source>Add &amp;new item</source>
-        <translation>&amp;Tambah item baru</translation>
     </message>
     <message>
         <source>&amp;Edit selected item</source>
@@ -1419,24 +1396,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>&amp;Hapus item yang dipilih</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as read</source>
-        <translation>Tandai item yang &amp;dipilih sebagai terbaca</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as read.</source>
         <translation>Tandai semua pesan (tanpa penyaring pesan) dari item yang dipilih sebagai terbaca.</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as unread</source>
-        <translation>Tandai item yang di&amp;pilih sebagai belum terbaca</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as unread.</source>
         <translation>Tandai semua pesan (tanpa penyaring pesan) dari item yang dipilih sebagai belum terbaca.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean selected items</source>
-        <translation>&amp;Bersihkan item yang dipilih</translation>
     </message>
     <message>
         <source>Deletes all messages from selected items.</source>
@@ -1447,16 +1412,8 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Tandai semua pesan di semua item terbaca. Ini tidak mengambil penyaring pesan ke akun.</translation>
     </message>
     <message>
-        <source>View selected items in &amp;newspaper mode</source>
-        <translation>Tampilkan item yang dipilih ke dalam mode &amp;koran</translation>
-    </message>
-    <message>
         <source>Displays all messages from selected item in a new &quot;newspaper mode&quot; tab. Note that messages are not set as read automatically.</source>
         <translation>Tampilkan semua pesan dari item yang dipilih ke dalam tab &quot;mode koran&quot; baru. Perhatikan bahwa pesan tidak disetel sebagai terbaca secara otomatis.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean all items</source>
-        <translation>Ber&amp;sihkan semua item</translation>
     </message>
     <message>
         <source>Deletes all messages from all items.</source>
@@ -1471,16 +1428,8 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Pilih item s&amp;ebelumnya</translation>
     </message>
     <message>
-        <source>Show only unread items</source>
-        <translation>Hanya menampilkan item belum terbaca</translation>
-    </message>
-    <message>
         <source>&amp;Expand/collapse selected item</source>
         <translation>Per&amp;lebar/persempit item yang dipilih</translation>
-    </message>
-    <message>
-        <source>&amp;Restore selected messages</source>
-        <translation>&amp;Pulihkan pesan yang dipilih</translation>
     </message>
     <message>
         <source>No possible actions</source>
@@ -1499,24 +1448,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>K&amp;osongkan semua tong sampah</translation>
     </message>
     <message>
-        <source>Select next &amp;unread message</source>
-        <translation>Pilih pesan be&amp;lum terbaca selanjutnya</translation>
-    </message>
-    <message>
         <source>No recycle bin</source>
         <translation>Tidak ada tong sampah</translation>
     </message>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Feed &amp;&amp; kategori</translation>
-    </message>
-    <message>
         <source>&amp;Accounts</source>
         <translation>&amp;Akun</translation>
-    </message>
-    <message>
-        <source>&amp;Add new account</source>
-        <translation>&amp;Tambah akun baru</translation>
     </message>
     <message>
         <source>Status bar</source>
@@ -1543,16 +1480,8 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Tidak ada aksi yang mungkin</translation>
     </message>
     <message>
-        <source>Web browser &amp;&amp; tabs</source>
-        <translation>Peramban web &amp;&amp; tabs</translation>
-    </message>
-    <message>
         <source>Report a &amp;bug...</source>
         <translation>Laporkan &amp;bug...</translation>
-    </message>
-    <message>
-        <source>New web browser tab</source>
-        <translation>Tab peramban web baru</translation>
     </message>
     <message>
         <source>Close all tabs</source>
@@ -1563,33 +1492,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Tutup semua tab kecuali ini</translation>
     </message>
     <message>
-        <source>View &amp;fullscreen</source>
-        <translation>Tampilkan &amp;layar penuh</translation>
-    </message>
-    <message>
         <source>Cannot cleanup database</source>
         <translation>Tidak dapat membersihkan database</translation>
     </message>
     <message>
         <source>Cannot cleanup database, because another critical action is running.</source>
         <translation>Tidak dapat membersihkan database, karena aksi genting lain sedang berjalan.</translation>
-    </message>
-    <message>
-        <source>Feed update started</source>
-        <translation>Pembaruan feed dimulai</translation>
-    </message>
-    <message>
-        <source>Updated feed &apos;%1&apos;</source>
-        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
-        <translation>Feed diperbarui &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Tabs</source>
-        <translation>Tab</translation>
-    </message>
-    <message>
-        <source>&amp;Mark all items as read</source>
-        <translation>&amp;Tandai semua item sebagai terbaca</translation>
     </message>
     <message>
         <source>&amp;Restart</source>
@@ -1604,36 +1512,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Ke tab se&amp;belumnya</translation>
     </message>
     <message>
-        <source>&amp;Enable message preview</source>
-        <translation>&amp;Nyalakan pratinjau pesan</translation>
-    </message>
-    <message>
         <source>&amp;Donate...</source>
         <translation>&amp;Donasi...</translation>
     </message>
     <message>
-        <source>&amp;Copy URLs of selected items</source>
-        <translation>&amp;Salin URL dari item terpilih</translation>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;read</source>
-        <translation>Tandai pesan terpilih sebagai &amp;terbaca</translation>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;unread</source>
-        <translation>Tandai pesan terpilih sebagai &amp;belum terbaca</translation>
-    </message>
-    <message>
-        <source>Show only &amp;unread messages</source>
-        <translation>Tampilkan hanya pesan &amp;belum terbaca</translation>
-    </message>
-    <message>
         <source>Message &amp;filters</source>
         <translation>&amp;Penyaring pesan</translation>
-    </message>
-    <message>
-        <source>&amp;Show tree branches</source>
-        <translation>&amp;Tampilkan cabang pohon</translation>
     </message>
     <message>
         <source>Alternate row colors in lists</source>
@@ -1644,36 +1528,221 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Tampilkan &amp;dokumentasi</translation>
     </message>
     <message>
-        <source>Automatically &amp;expand items when selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Download all new messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for &amp;selected items</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Stop ongoing downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for items with &amp;custom auto-download policy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Message viewer toolbars</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Expand/collapse selected item &amp;recursively</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Fullscreen</source>
+        <translation>&amp;Layar penuh</translation>
+    </message>
+    <message>
+        <source>&amp;Fetch all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch &amp;selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch selected feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch &amp;importance</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch importance of selected articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark all read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>View selected item in &amp;newspaper mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch main &amp;window visibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Next article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Previous article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;List headers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Backup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch layout</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send selected articles via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show unread items only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next &amp;unread article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing fetching</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New browser tab</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Enable article preview</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Copy URLs of selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show &amp;unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Show tree expanders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch feeds with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Automatically &amp;expand item when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Close opened modal dialogs first.</source>
+        <translation>Tutup dialog modal yang terbuka lebih dulu.</translation>
+    </message>
+    <message>
+        <source>F&amp;eeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Art&amp;icles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Web browser &amp;&amp; tabs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ta&amp;bs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching common data</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetched &apos;%1&apos;</source>
+        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormMessageFiltersManager</name>
-    <message>
-        <source>Message filters</source>
-        <translation>Penyaring pesan</translation>
-    </message>
     <message>
         <source>Remove selected</source>
         <translation>Hapus yang terpilih</translation>
@@ -1687,28 +1756,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>Tidak tandai sem&amp;ua</translation>
     </message>
     <message>
-        <source>Message filter details</source>
-        <translation>Detil penyaring pesan</translation>
-    </message>
-    <message>
         <source>Title</source>
         <translation>Judul</translation>
     </message>
     <message>
-        <source>Title of message filter</source>
-        <translation>Judul dari penyaring pesan</translation>
-    </message>
-    <message>
         <source>JavaScript code</source>
         <translation>Kode JavaScript</translation>
-    </message>
-    <message>
-        <source>Your JavaScript-based message filtering logic</source>
-        <translation>Logika penyaring pesan anda yang berbasis JavaScript</translation>
-    </message>
-    <message>
-        <source>Sample message</source>
-        <translation>Contoh pesan</translation>
     </message>
     <message>
         <source>Read</source>
@@ -1743,34 +1796,12 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation>&amp;Bantuan yang didetilkan</translation>
     </message>
     <message>
-        <source>New message filter</source>
-        <translation>Penyaring pesan baru</translation>
-    </message>
-    <message>
-        <source>Message will be %1.
-
-</source>
-        <translation>Pesan akan menjadi %1.
-
-</translation>
-    </message>
-    <message>
         <source>ACCEPTED</source>
         <translation>DITERIMA</translation>
     </message>
     <message>
         <source>REJECTED</source>
         <translation>DITOLAK</translation>
-    </message>
-    <message>
-        <source>Output (modified) message is:
-  Title = '%1'
-  URL = '%2'
-  Author = '%3'
-  Is read/important = '%4/%5'
-  Created on = '%6'
-  Contents = &apos;%7&apos;</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>yes</source>
@@ -1821,21 +1852,7 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Existing messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cannot save new filter, error: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>EXISTING messages filtering error: '%1'.
-</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>SAMPLE message filtering error: '%1'.
-</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1843,7 +1860,62 @@ atau fungsi ini belum diimplementasikan.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Filter messages like this</source>
+        <source>Existing articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sample article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Filter articles like this</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING articles filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article will be %1.
+
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Output (modified) article is:
+  Title = '%1'
+  URL = '%2'
+  Author = '%3'
+  Is read/important = '%4/%5'
+  Created on = '%6'
+  Contents = '%7'
+  RAW contents = &apos;%8&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>SAMPLE article filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article filters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article filter details</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your JavaScript-based article filtering logic</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1944,147 +2016,7 @@ Anda harus me-restart secara manual.</translation>
     </message>
 </context>
 <context>
-    <name>FormStandardCategoryDetails</name>
-    <message>
-        <source>Parent category</source>
-        <translation>Kategori induk</translation>
-    </message>
-    <message>
-        <source>Select parent item for your category.</source>
-        <translation>Pilih item induk untuk kategori anda.</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Judul</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Deskripsi</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Ikon</translation>
-    </message>
-    <message>
-        <source>Select icon for your category.</source>
-        <translation>Pilih ikon untuk kategori anda.</translation>
-    </message>
-    <message>
-        <source>Add new category</source>
-        <translation>Tambah kategori baru</translation>
-    </message>
-    <message>
-        <source>Edit existing category</source>
-        <translation>Sunting kategori yang ada</translation>
-    </message>
-    <message>
-        <source>Cannot add category</source>
-        <translation>Tidak dapat menambah kategori</translation>
-    </message>
-    <message>
-        <source>Category was not added due to error.</source>
-        <translation>Kategori tidak ditambahkan disebabkan eror.</translation>
-    </message>
-    <message>
-        <source>Cannot edit category</source>
-        <translation>Tidak dapat menyunting kategori</translation>
-    </message>
-    <message>
-        <source>Category was not edited due to error.</source>
-        <translation>Kategori tidak disunting disebabkan eror.</translation>
-    </message>
-    <message>
-        <source>Category name is ok.</source>
-        <translation>Nama kategori ok.</translation>
-    </message>
-    <message>
-        <source>Category name is too short.</source>
-        <translation>Nama kategori terlalu pendek.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Deskripsi kosong.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>Deskripsi ok.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the category</source>
-        <translation>Pilih berkas ikon untuk kategori</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Gambar (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Pilih ikon</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
-        <translation>Lihat ke dalam:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Nama ikon:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Jenis ikon:</translation>
-    </message>
-    <message>
-        <source>Category title</source>
-        <translation>Judul kategori</translation>
-    </message>
-    <message>
-        <source>Set title for your category.</source>
-        <translation>Setel judul untuk kategori anda.</translation>
-    </message>
-    <message>
-        <source>Category description</source>
-        <translation>Deskripsi kategori</translation>
-    </message>
-    <message>
-        <source>Set description for your category.</source>
-        <translation>Setel deskripsi untuk kategori anda.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Pilihan ikon</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Memuat ikon dari berkas...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation>Gunakan ikon bawaan dari tema ikon</translation>
-    </message>
-</context>
-<context>
     <name>FormStandardFeedDetails</name>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Tidak dapat menambah feed</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Feed tidak ditambahkan disebabkan eror.</translation>
-    </message>
-    <message>
-        <source>Cannot edit feed</source>
-        <translation>Tidak dapat menyunting feed</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Feed tidak disunting disebabkan eror.</translation>
-    </message>
     <message>
         <source>General</source>
         <translation>Umum</translation>
@@ -2093,28 +2025,12 @@ Anda harus me-restart secara manual.</translation>
         <source>Network</source>
         <translation type="unfinished"/>
     </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Tambah feed baru</translation>
-    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
     <message>
         <source>&amp;Select file</source>
         <translation>&amp;Pilih berkas</translation>
-    </message>
-    <message>
-        <source>&amp;Check all items</source>
-        <translation>&amp;Centang semua item</translation>
-    </message>
-    <message>
-        <source>&amp;Uncheck all items</source>
-        <translation>&amp;Hapus centang semua item</translation>
-    </message>
-    <message>
-        <source>Operation results</source>
-        <translation>Hasil operasi</translation>
     </message>
     <message>
         <source>No file is selected.</source>
@@ -2228,20 +2144,24 @@ Anda harus me-restart secara manual.</translation>
         <source>&amp;Import from file</source>
         <translation>&amp;Impor dari berkas</translation>
     </message>
+    <message>
+        <source>&amp;Check all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Uncheck all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Operation result</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FormTtRssFeedDetails</name>
     <message>
         <source>Feed added</source>
         <translation>Feed ditambahkan</translation>
-    </message>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Tidak dapat menambah feed</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Feed tidak ditambahkan disebabkan eror.</translation>
     </message>
     <message>
         <source>General</source>
@@ -2252,11 +2172,11 @@ Anda harus me-restart secara manual.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add new feed</source>
-        <translation>Tambah feed baru</translation>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <source>API returned error code %1</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2382,10 +2302,6 @@ diunduh.</translation>
 You can install it now.</source>
         <translation>Paket telah berhasil diunduh. Anda dapat instal sekarang.</translation>
     </message>
-    <message>
-        <source>Cannot navigate to installation file. Download new installation file manually on project website.</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>GmailAccountDetails</name>
@@ -2414,20 +2330,8 @@ You can install it now.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Hanya mengunduh X pesan terbaru per feed</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>pesan</translation>
-    </message>
-    <message>
         <source>&amp;Login</source>
         <translation>&amp;Log masuk</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Not tested yet.</source>
@@ -2436,14 +2340,6 @@ You can install it now.</source>
     <message>
         <source>User-visible username</source>
         <translation>Nama pengguna yang terlihat</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Akses diterima.</translation>
     </message>
     <message>
         <source>No username entered.</source>
@@ -2462,10 +2358,6 @@ You can install it now.</source>
         <translation>Ada eror ketika pengujian.</translation>
     </message>
     <message>
-        <source>There is error. %1 </source>
-        <translation>Ada eror. %1 </translation>
-    </message>
-    <message>
         <source>Tested successfully. You may be prompted to login once more.</source>
         <translation>Pengujian berhasil. Anda mungkin disarankan untuk log masuk sekali lagi.</translation>
     </message>
@@ -2481,17 +2373,33 @@ You can install it now.</source>
         <source>Some value is entered.</source>
         <translation>Beberapa nilai dimasukkan.</translation>
     </message>
+    <message>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as it preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave those fields empty and make sure to leave default value of redirect URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>GmailNetworkFactory</name>
-    <message>
-        <source>Logged in successfully</source>
-        <translation>Telah berhasil log masuk</translation>
-    </message>
-    <message>
-        <source>Your login to Gmail was authorized.</source>
-        <translation>Log masuk anda ke Gmail disahkan.</translation>
-    </message>
     <message>
         <source>Click this to login again. Error is: &apos;%1&apos;</source>
         <translation>Klik ini untuk log masuk kembali. Eror adalah: &apos;%1&apos;</translation>
@@ -2577,18 +2485,6 @@ Waktu berakhir log masuk: %2</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Hanya mengunduh X pesan terbaru per feed</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation> = tak terbatas</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Beberapa feed butuh autentikasi, termasuk feed GMail. Skema autentikasi BASIC, NTLM-2 and DIGEST-MD5 didukung.</translation>
-    </message>
-    <message>
         <source>Authentication</source>
         <translation>Autentikasi</translation>
     </message>
@@ -2599,10 +2495,6 @@ Waktu berakhir log masuk: %2</translation>
     <message>
         <source>Password</source>
         <translation>Kata sandi</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Tampilkan kata sandi</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -2627,18 +2519,6 @@ Waktu berakhir log masuk: %2</translation>
     <message>
         <source>Here, results of connection test are shown.</source>
         <translation>Ini, hasil dari tes koneksi ditampilkan.</translation>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= tak terbatas</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>pesan</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
@@ -2680,41 +2560,21 @@ Waktu berakhir log masuk: %2</translation>
         <source>URL is okay.</source>
         <translation>URL ok.</translation>
     </message>
-</context>
-<context>
-    <name>GreaderNetwork</name>
     <message>
-        <source>Other services</source>
+        <source>Only download newest X articles per feed</source>
         <translation type="unfinished"/>
     </message>
-</context>
-<context>
-    <name>IOFactory</name>
     <message>
-        <source>Cannot open file &apos;%1&apos; for reading.</source>
-        <translation>Tidak dapat membuka berkas &apos;%1&apos; untuk membaca.</translation>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot open file &apos;%1&apos; for writting.</source>
-        <translation>Tidak dapat membuka berkas &apos;%1&apos; untuk menulis.</translation>
-    </message>
-</context>
-<context>
-    <name>ImportantNode</name>
-    <message>
-        <source>Important messages</source>
-        <translation>Pesan penting</translation>
+        <source>Intelligent synchronization algorithm</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>You can find all important messages here.</source>
-        <translation>Anda dapat menemukan semua pesan penting disini.</translation>
-    </message>
-</context>
-<context>
-    <name>InoreaderAccountDetails</name>
-    <message>
-        <source>Username</source>
-        <translation>Nama pengguna</translation>
+        <source>Fetch articles newer than</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OAuth 2.0 settings</source>
@@ -2737,46 +2597,20 @@ Waktu berakhir log masuk: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source> message(s)</source>
-        <translation>pesan</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Hanya mengunduh X pesan terbaru per feed</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Log masuk</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <source>Some feeds might contain tens of thousands of articles and downloading all of them could take great amount of time, so sometimes it is good to download only certain amount of newest messages.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Not tested yet.</source>
-        <translation>Belum teruji.</translation>
-    </message>
-    <message>
-        <source>User-visible username</source>
-        <translation>Nama pengguna yang terlihat</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
+        <source>If you select intelligent synchronization, then only not-yet-fetched or updated articles are downloaded. Network usage is greatly reduced and overall synchronization speed is greatly improved, but first feed fetching could be slow anyway if your feed contains huge number of articles.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Access granted.</source>
-        <translation>Akses diterima.</translation>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave all above fields to their default values even if they are empty.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>No username entered.</source>
-        <translation>Tak ada nama pengguna dimasukkan.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Beberapa nama pengguna dimasukkan.</translation>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>You did not grant access.</source>
@@ -2799,6 +2633,10 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
         <translation>Akses anda disetujui.</translation>
     </message>
     <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Empty value is entered.</source>
         <translation>Nilai kosong dimasukkan.</translation>
     </message>
@@ -2808,14 +2646,10 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
     </message>
 </context>
 <context>
-    <name>InoreaderNetworkFactory</name>
+    <name>GreaderNetwork</name>
     <message>
-        <source>Logged in successfully</source>
-        <translation>Telah berhasil log masuk</translation>
-    </message>
-    <message>
-        <source>Your login to Inoreader was authorized.</source>
-        <translation>Log masuk anda ke Inoreader disahkan.</translation>
+        <source>login failed</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Inoreader: authentication error</source>
@@ -2835,20 +2669,32 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
     </message>
 </context>
 <context>
-    <name>InoreaderServiceRoot</name>
+    <name>GreaderServiceRoot</name>
     <message>
-        <source>Authentication status: %1
-Login tokens expiration: %2</source>
-        <translation>Status pengesahan: %1
-Waktu berakhir log masuk: %2</translation>
+        <source>Other services</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>IOFactory</name>
+    <message>
+        <source>Cannot open file &apos;%1&apos; for reading.</source>
+        <translation>Tidak dapat membuka berkas &apos;%1&apos; untuk membaca.</translation>
     </message>
     <message>
-        <source>logged-in</source>
-        <translation>telah log masuk</translation>
+        <source>Cannot open file &apos;%1&apos; for writting.</source>
+        <translation>Tidak dapat membuka berkas &apos;%1&apos; untuk menulis.</translation>
+    </message>
+</context>
+<context>
+    <name>ImportantNode</name>
+    <message>
+        <source>Important articles</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>NOT logged-in</source>
-        <translation>BELUM log masuk</translation>
+        <source>You can find all important articles here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2886,6 +2732,33 @@ Waktu berakhir log masuk: %2</translation>
     <message>
         <source>Website address goes here</source>
         <translation>Alamat situs web menuju kesini</translation>
+    </message>
+</context>
+<context>
+    <name>MariaDbDriver</name>
+    <message>
+        <source>MySQL server works as expected.</source>
+        <translation>Server MySQL bekerja sesuai yang diharapkan.</translation>
+    </message>
+    <message>
+        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
+        <translation>Database yang dipilih tidak tersedia. Ini akan dibuat. Itu baik-baik saja.</translation>
+    </message>
+    <message>
+        <source>No MySQL server is running in the target destination.</source>
+        <translation>Tidak ada server MySQL yang sedang berjalan di target tujuan.</translation>
+    </message>
+    <message>
+        <source>Access denied. Invalid username or password used.</source>
+        <translation>Akses ditolak. Nama pengguna atau kata sandi yang digunakan tidak benar.</translation>
+    </message>
+    <message>
+        <source>Unknown error: &apos;%1&apos;.</source>
+        <translation>Eror tak dikenal:  &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>MariaDB</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2935,18 +2808,40 @@ Waktu berakhir log masuk: %2</translation>
     </message>
 </context>
 <context>
+    <name>MessageCountSpinBox</name>
+    <message>
+        <source>= unlimited</source>
+        <translation>= tak terbatas</translation>
+    </message>
+    <message>
+        <source>article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>MessagePreviewer</name>
     <message>
-        <source>Mark message as read</source>
-        <translation>Tandai pesan sebagai terbaca</translation>
+        <source>Mark article read</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Mark message as unread</source>
-        <translation>Tandai pesan sebagai belum terbaca</translation>
+        <source>Mark article unread</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Switch message importance</source>
-        <translation>Ganti pentingnya pesan</translation>
+        <source>Switch article importance</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MessageTextBrowser</name>
+    <message>
+        <source>Open with external tool</source>
+        <translation>Buka dengan alat eksternal</translation>
     </message>
 </context>
 <context>
@@ -2976,8 +2871,12 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Penulis</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Dibuat pada</translation>
+        <source>Score</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3015,60 +2914,12 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Penulis</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Dibuat pada</translation>
-    </message>
-    <message>
         <source>Contents</source>
         <translation>Konten</translation>
     </message>
     <message>
-        <source>Id of the message.</source>
-        <translation>Id dari pesan.</translation>
-    </message>
-    <message>
-        <source>Is message read?</source>
-        <translation>Apakah pesan terbaca?</translation>
-    </message>
-    <message>
-        <source>Is message deleted?</source>
-        <translation>Apakah pesan terhapus?</translation>
-    </message>
-    <message>
-        <source>Is message important?</source>
-        <translation>Apakah pesan penting?</translation>
-    </message>
-    <message>
-        <source>Id of feed which this message belongs to.</source>
-        <translation>Id dari feed dimana pesan ini dimiliki.</translation>
-    </message>
-    <message>
-        <source>Title of the message.</source>
-        <translation>Judul dari pesan.</translation>
-    </message>
-    <message>
-        <source>Url of the message.</source>
-        <translation>Url dari pesan.</translation>
-    </message>
-    <message>
-        <source>Author of the message.</source>
-        <translation>Penulis dari pesan.</translation>
-    </message>
-    <message>
-        <source>Creation date of the message.</source>
-        <translation>Tanggal pembuatan pesan.</translation>
-    </message>
-    <message>
-        <source>Contents of the message.</source>
-        <translation>Konten dari pesan.</translation>
-    </message>
-    <message>
         <source>Permanently deleted</source>
         <translation>Terhapus permanen</translation>
-    </message>
-    <message>
-        <source>Is message permanently deleted from recycle bin?</source>
-        <translation>Apakah pesan terhapus permanen dari tong sampah?</translation>
     </message>
     <message>
         <source>Attachments</source>
@@ -3079,14 +2930,6 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Daftar dari lampiran.</translation>
     </message>
     <message>
-        <source>Loading of messages failed, maybe messages could not be downloaded.</source>
-        <translation>Memuat pesan gagal, mungkin pesan tidak dapat diunduh.</translation>
-    </message>
-    <message>
-        <source>Loading of messages from item &apos;%1&apos; failed.</source>
-        <translation>Memuat pesan dari item &apos;%1&apos; gagal.</translation>
-    </message>
-    <message>
         <source>Account ID</source>
         <translation>ID akun</translation>
     </message>
@@ -3095,91 +2938,143 @@ Waktu berakhir log masuk: %2</translation>
         <translation>ID tersuai</translation>
     </message>
     <message>
-        <source>Account ID of the message.</source>
-        <translation>ID akun dari pesan.</translation>
-    </message>
-    <message>
-        <source>Custom ID of the message</source>
-        <translation>ID tersuai dari pesan</translation>
-    </message>
-    <message>
         <source>Custom hash</source>
         <translation>Hash tersuai</translation>
-    </message>
-    <message>
-        <source>Custom hash of the message.</source>
-        <translation>Hash tersuai dari pesan.</translation>
     </message>
     <message>
         <source>Feed ID</source>
         <translation>ID feed</translation>
     </message>
     <message>
-        <source>Custom ID of feed of the message.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Has enclosures</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Indication of enclosures presence within the message.</source>
+        <source>Score</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Loading of articles from item &apos;%1&apos; failed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Loading of articles failed, maybe messages could not be downloaded.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article read?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article important?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article deleted?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article permanently deleted from recycle bin?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of feed which this article belongs to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Url of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Author of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Creation date of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Contents of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Score of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Account ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of the article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom hash of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of feed of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Indication of enclosures presence within the article.</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MessagesToolBar</name>
     <message>
-        <source>Search messages</source>
-        <translation>Pencarian pesan</translation>
-    </message>
-    <message>
-        <source>Message search box</source>
-        <translation>Kotak pencarian pesan</translation>
-    </message>
-    <message>
-        <source>Menu for highlighting messages</source>
-        <translation>Menu untuk menyoroti pesan</translation>
-    </message>
-    <message>
         <source>No extra highlighting</source>
         <translation>Tanpa penyorotan ekstra</translation>
-    </message>
-    <message>
-        <source>Highlight unread messages</source>
-        <translation>Menyoroti pesan belum terbaca</translation>
-    </message>
-    <message>
-        <source>Highlight important messages</source>
-        <translation>Menyoroti pesan penting</translation>
-    </message>
-    <message>
-        <source>Display all messages</source>
-        <translation>Tampilkan semua pesan</translation>
-    </message>
-    <message>
-        <source>Message highlighter</source>
-        <translation>Penyorot pesan</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
         <translation>Pengatur jarak bilah alat</translation>
     </message>
+    <message>
+        <source>Search articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article search box</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Menu for highlighting articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight important articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display all articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article highlighter</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MessagesView</name>
-    <message>
-        <source>Context menu for messages</source>
-        <translation>Menu konteks untuk pesan</translation>
-    </message>
-    <message>
-        <source>Problem with starting external web browser</source>
-        <translation>Masalah dengan memulai peramban web eksternal</translation>
-    </message>
-    <message>
-        <source>External web browser could not be started.</source>
-        <translation>Peramban web eksternal tidak dapat dimulai.</translation>
-    </message>
     <message>
         <source>Problem with starting external e-mail client</source>
         <translation>Masalah dengan memulai klien surel eksternal</translation>
@@ -3199,6 +3094,14 @@ Waktu berakhir log masuk: %2</translation>
     <message>
         <source>External tool &apos;%1&apos; could not be started.</source>
         <translation>Alat eksternal &apos;%1&apos; tidak dapat dijalankan.</translation>
+    </message>
+    <message>
+        <source>No external tools activated</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Context menu for articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3322,10 +3225,6 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Kata sandi anda untuk autentikasi server proxy</translation>
     </message>
     <message>
-        <source>Display password</source>
-        <translation>Tampilkan kata sandi</translation>
-    </message>
-    <message>
         <source>Note that these settings are applied only on newly established connections.</source>
         <translation>Perhatikan bahwa pengaturan ini berlaku hanya pada koneksi yang baru dibentuk.</translation>
     </message>
@@ -3353,16 +3252,16 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Formulir</translation>
     </message>
     <message numerus="yes">
-        <source>Show more messages (%n remaining)</source>
-        <translation><numerusform>Tampilkan lebih banyak pesan (%n tersisa)</numerusform></translation>
+        <source>Show more articles (%n remaining)</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>Cannot show more messages</source>
-        <translation>Tidak dapat menampilkan lebih banyak pesan</translation>
+        <source>Cannot show more articles</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot show more messages because parent feed was removed.</source>
-        <translation>Tidak dapat menampilkan lebih banyak pesan karena induk feed telah dihapus.</translation>
+        <source>Cannot show more articles because parent feed was removed.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3384,14 +3283,6 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Anda harus log masuk terlebih dulu</translation>
     </message>
     <message>
-        <source>Navigate to website</source>
-        <translation>Navigasi ke situs web</translation>
-    </message>
-    <message>
-        <source>To login, you need to navigate to this website:</source>
-        <translation>Untuk log masuk, anda perlu navigasi ke situs web ini:</translation>
-    </message>
-    <message>
         <source>You can close this window now. Go back to %1.</source>
         <translation type="unfinished"/>
     </message>
@@ -3403,20 +3294,8 @@ Waktu berakhir log masuk: %2</translation>
 <context>
     <name>OwnCloudAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation>Mengunduh hanya pesan belum terbaca</translation>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Eksekusi paksa pembaruan dari sisi server ketika memperbarui feed dari RSS Guard</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Hanya mengunduh X pesan terbaru per feed</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation> = tak terbatas</translation>
     </message>
     <message>
         <source>URL</source>
@@ -3437,10 +3316,6 @@ Waktu berakhir log masuk: %2</translation>
     <message>
         <source>Password</source>
         <translation>Kata sandi</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Tampilkan kata sandi</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -3471,16 +3346,8 @@ Waktu berakhir log masuk: %2</translation>
         <translation>Ini, hasil dari tes koneksi ditampilkan.</translation>
     </message>
     <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>= unlimited</source>
         <translation>= tak terbatas</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>pesan</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
@@ -3529,6 +3396,18 @@ Waktu berakhir log masuk: %2</translation>
     <message>
         <source>URL is okay.</source>
         <translation>URL ok.</translation>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3591,10 +3470,6 @@ Setidaknya API level %1 dibutuhkan.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>This is integration of Inoreader.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Simple Gmail integration via JSON API. Allows sending e-mails too.</source>
         <translation type="unfinished"/>
     </message>
@@ -3609,19 +3484,51 @@ Silahkan, memeriksa hal BARU yang termasuk
 di versi ini dengan meng-klik popup notifikasi ini.</translation>
     </message>
     <message>
-        <source>Cannot insert message filter, because current database cannot return last inserted row ID.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <source>Keep up with the topics and trends you care about, without the overwhelm.
+
+Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <source>Cannot insert article filter, because current database cannot return last inserted row ID.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching articles right now</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Login data refreshed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New %1 version is available</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Miscellaneous events</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown event</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New (unread) articles fetched</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML problem: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers.
+
+List of supported readers:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3632,14 +3539,6 @@ di versi ini dengan meng-klik popup notifikasi ini.</translation>
         <translation>Tong sampah</translation>
     </message>
     <message>
-        <source>Recycle bin contains all deleted messages from all feeds.</source>
-        <translation>Tong sampah berisi semua pesan terhapus dari semua feed.</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n deleted message(s).</source>
-        <translation><numerusform>%n pesan terhapus.</numerusform></translation>
-    </message>
-    <message>
         <source>Restore recycle bin</source>
         <translation>Pulihkan tong sampah</translation>
     </message>
@@ -3647,13 +3546,21 @@ di versi ini dengan meng-klik popup notifikasi ini.</translation>
         <source>Empty recycle bin</source>
         <translation>Kosongkan tong sampah</translation>
     </message>
+    <message>
+        <source>Recycle bin contains all deleted articles from all feeds.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n deleted article(s).</source>
+        <translation type="unfinished"><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>RootItem</name>
     <message numerus="yes">
-        <source>%n unread message(s).</source>
+        <source>%n unread article(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
-        <translation><numerusform>%n pesan belum dibaca.</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -3682,10 +3589,6 @@ di versi ini dengan meng-klik popup notifikasi ini.</translation>
 <context>
     <name>SearchTextWidget</name>
     <message>
-        <source>Clear searched phrase</source>
-        <translation>Bersihkan frasa pencarian</translation>
-    </message>
-    <message>
         <source>Seach text</source>
         <translation>Cari teks</translation>
     </message>
@@ -3705,7 +3608,7 @@ di versi ini dengan meng-klik popup notifikasi ini.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Synchronize message cache</source>
+        <source>Synchronize article cache</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3783,9 +3686,7 @@ di versi ini dengan meng-klik popup notifikasi ini.</translation>
         <source>Executables (*)</source>
         <extracomment>File filter for external browser selection dialog.
 ----------
-File filter for external e-mail selection dialog.
-----------
-File filter for external tool selection dialog.</extracomment>
+File filter for external e-mail selection dialog.</extracomment>
         <translation>Yang dapat dijalankan (*)</translation>
     </message>
     <message>
@@ -3821,14 +3722,6 @@ File filter for external tool selection dialog.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add external tool</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Delete selected external tool</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Executable</source>
         <translation type="unfinished"/>
     </message>
@@ -3845,15 +3738,27 @@ File filter for external tool selection dialog.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter (optional) parameters separated by single space to send to executable when opening URLs.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Parameters passed to executable</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Network proxy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add new external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Edit selected external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete selected external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter (optional) parameters separated by &quot;%1&quot;:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3918,10 +3823,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
     <message>
         <source>Note that speed of used MySQL server and latency of used connection medium HEAVILY influences the final performance of this application. Using slow database connections leads to bad performance when browsing feeds or messages.</source>
         <translation>Perhatikan bahwa kecepatan dari server MySQL yang digunakan dan latensi dari media koneksi yang digunakan sangat mempengaruhi kinerja akhir dari aplikasi ini. Menggunakan koneksi database lamban menyebabkan kinerja buruk ketika menilik feed dari pesan.</translation>
-    </message>
-    <message>
-        <source>&amp;Show password</source>
-        <translation>Tampilkan kata &amp;sandi</translation>
     </message>
     <message>
         <source>Working database</source>
@@ -4034,10 +3935,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
 <context>
     <name>SettingsFeedsMessages</name>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Feed &amp;&amp; kategori</translation>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
         <translation>Batas waktu koneksi feed</translation>
     </message>
@@ -4048,26 +3945,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
     <message>
         <source> ms</source>
         <translation> ms</translation>
-    </message>
-    <message>
-        <source>Message count format in feed list</source>
-        <translation>Format hitungan pesan di daftar feed</translation>
-    </message>
-    <message>
-        <source>Enter format for count of messages displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) messages.</source>
-        <translation>Masukkan format untuk hitungan dari pesan yang ditampilkan di samping setiap feed/kategori di daftar feed. Gunakan rangkaian &quot;%all&quot; dan &quot;%unread&quot; yang merupakan tempat untuk hitungan sesungguhnya dari pesan seluruhnya (atau belum terbaca).</translation>
-    </message>
-    <message>
-        <source>Messages</source>
-        <translation>Pesan</translation>
-    </message>
-    <message>
-        <source>Remove all read messages from all feeds on application exit</source>
-        <translation>Hapus semua pesan dari semua feed ketika aplikasi keluar</translation>
-    </message>
-    <message>
-        <source>Keep message selection in the middle of the message list viewport</source>
-        <translation>Jaga pilihan pesan di tengah area pandang daftar pesan</translation>
     </message>
     <message>
         <source>Use custom date/time format (overrides format loaded from active localization)</source>
@@ -4082,19 +3959,11 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
         <translation>Pratinjau fon</translation>
     </message>
     <message>
-        <source>Feeds &amp; messages</source>
-        <translation>Feed &amp; pesan</translation>
-    </message>
-    <message>
         <source>Height of image attachments</source>
         <translation>Tinggi dari gambar lampiran</translation>
     </message>
     <message>
         <source>Height or rows in feed list (-1 = default height)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Height or rows in message list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -4106,39 +3975,75 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Message list font</source>
-        <translation>Fon daftar pesan</translation>
-    </message>
-    <message>
-        <source>Internal message browser font</source>
-        <translation>Fon perambah pesan internal</translation>
-    </message>
-    <message>
         <source>Select new font</source>
         <translation>Pilih fon baru</translation>
     </message>
     <message>
-        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <source>Feeds</source>
+        <translation>Feed</translation>
+    </message>
+    <message>
+        <source>Articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enable &quot;auto-download started&quot; notification</source>
+        <source>Remove all read articles from all feeds on application exit</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Only auto-download messages when application is unfocused</source>
+        <source>Display real icons of feeds in list of articles instead of read/unread icons</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-download messages for all feeds every</source>
+        <source>Bring application window to front once article is opened in external web browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Bring application window to front once message is opened in external web browser</source>
+        <source>Height or rows in article list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <source>Article list font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article browser font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feeds &amp; articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-fetch articles for all feeds every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-fetch articles if application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article count format in feed list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter format for count of articles displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) articles.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Hide article counts if there are no unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display tooltips for feeds and articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep article selection in the middle of the article list viewport</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4176,10 +4081,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
         <translation>Tema ikon</translation>
     </message>
     <message>
-        <source>Tray area &amp;&amp; notifications</source>
-        <translation>Area baki &amp;&amp; notifikasi</translation>
-    </message>
-    <message>
         <source>Tray icon</source>
         <translation>Ikon baki</translation>
     </message>
@@ -4190,10 +4091,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
     <message>
         <source>Start application hidden</source>
         <translation>Mulai aplikasi secara sembunyi</translation>
-    </message>
-    <message>
-        <source>Enable popup balloon tooltips</source>
-        <translation>Nyalakan balon popup keterangan alat</translation>
     </message>
     <message>
         <source>Tabs</source>
@@ -4224,10 +4121,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
         <translation>Bilah alat untuk daftar feed</translation>
     </message>
     <message>
-        <source>Toolbar for messages list</source>
-        <translation>Bilah alat untuk daftar pesan</translation>
-    </message>
-    <message>
         <source>Statusbar</source>
         <translation>Bilah status</translation>
     </message>
@@ -4254,10 +4147,6 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
     <message>
         <source>E-mail</source>
         <translation>Surel</translation>
-    </message>
-    <message>
-        <source>(Tray icon is not available.)</source>
-        <translation>(Ikon baki tidak tersedia.)</translation>
     </message>
     <message>
         <source>Icon only</source>
@@ -4312,6 +4201,18 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
         <source>Display count of unread messages</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>(Your OS does not support tray icons at the moment.)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tray area</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Toolbar for articles list</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4326,6 +4227,29 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
     <message>
         <source>Author</source>
         <translation>Penulis</translation>
+    </message>
+    <message>
+        <source>Localization</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SettingsNotifications</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulir</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enable notifications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You must have &quot;tray icon&quot; activated to have balloon notifications working.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4351,29 +4275,71 @@ Penulis aplikasi ini tidak bertanggung jawab untuk data yang hilang.</translatio
     </message>
 </context>
 <context>
+    <name>SingleNotificationEditor</name>
+    <message>
+        <source>Sound</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full path to your WAV sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Browse</source>
+        <translation>&amp;Telisik</translation>
+    </message>
+    <message>
+        <source>&amp;Play</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Balloon notification</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Select sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>WAV files (*.wav)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>SkinFactory</name>
     <message>
         <source>This page was blocked by AdBlock</source>
         <translation>Halaman ini dihalangi oleh AdBlock</translation>
     </message>
     <message>
-        <source>Blocked by set: &quot;%1&quot;&lt;br/&gt;Blocked by filter: &quot;%2&quot;</source>
+        <source>Blocked URL: &quot;%1&quot;&lt;br/&gt;Used filter: &quot;%2&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SqliteDriver</name>
+    <message>
+        <source>SQLite (embedded database)</source>
+        <translation>SQLite (database tertanam)</translation>
+    </message>
+    <message>
+        <source>Database file not copied to output directory successfully.</source>
+        <translation>Berkas database tidak berhasil disalin ke direktori keluaran.</translation>
+    </message>
+</context>
+<context>
+    <name>StandardCategory</name>
+    <message>
+        <source>Error</source>
+        <translation>Eror</translation>
+    </message>
+    <message>
+        <source>Cannot save data for category, detailed information was logged via debug log.</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>StandardFeed</name>
-    <message>
-        <source>Metadata not fetched</source>
-        <translation>Metadata tidak terambil</translation>
-    </message>
-    <message>
-        <source>
-Network status: %1
-Encoding: %2
-Type: %3</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Script</source>
         <translation type="unfinished"/>
@@ -4387,7 +4353,29 @@ Type: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Metadata was not fetched.</source>
+        <source>Error</source>
+        <translation>Eror</translation>
+    </message>
+    <message>
+        <source>Cannot save data for feed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML is not well-formed, %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML feed file format unrecognized</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot move feed, detailed information was logged via debug log.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>
+Encoding: %2
+Type: %3</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4396,10 +4384,6 @@ Type: %3</source>
     <message>
         <source>Form</source>
         <translation>Formulir</translation>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Kategori induk</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -4490,10 +4474,6 @@ Type: %3</source>
         <translation>Metadata ikon diambil.</translation>
     </message>
     <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Metadata ikon tidak diambil.</translation>
-    </message>
-    <message>
         <source>No icon fetched.</source>
         <translation>Tidak ada ikon yang diambil.</translation>
     </message>
@@ -4504,10 +4484,6 @@ Type: %3</source>
     <message>
         <source>Feed and icon metadata fetched.</source>
         <translation>Metadata feed dan ikon diambil.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Metadata feed atau ikon tidak diambil.</translation>
     </message>
     <message>
         <source>No metadata fetched.</source>
@@ -4626,6 +4602,22 @@ Type: %3</source>
         <source>Command is empty.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Script failed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Eror: %1</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>StandardServiceRoot</name>
@@ -4674,12 +4666,12 @@ Type: %3</source>
         <translation>Tidak dapat menambah kategori karena operasi genting lain sedang berlangsung.</translation>
     </message>
     <message>
-        <source>Import successful, but some feeds/categories were not imported due to error.</source>
-        <translation>Impor berhasil, tetapi beberapa feed/kategori tidak diimpor disebabkan eror.</translation>
-    </message>
-    <message>
         <source>Import was completely successful.</source>
         <translation>Impor benar-benar berhasil.</translation>
+    </message>
+    <message>
+        <source>Some feeds/categories were not imported due to error, check debug log for more details.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4689,16 +4681,8 @@ Type: %3</source>
         <translation>Bilah perkembangan pembaruan feed</translation>
     </message>
     <message>
-        <source>Feed update label</source>
-        <translation>Label pembaruan feed</translation>
-    </message>
-    <message>
         <source>File download progress bar</source>
         <translation>Bilah perkembangan pengunduhan berkas</translation>
-    </message>
-    <message>
-        <source>File download label</source>
-        <translation>Label pengunduhan berkas</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
@@ -4726,13 +4710,6 @@ Berita belum terbaca:%2</translation>
     </message>
 </context>
 <context>
-    <name>T</name>
-    <message>
-        <source>Add new account</source>
-        <translation>Tambah akun baru</translation>
-    </message>
-</context>
-<context>
     <name>TabBar</name>
     <message>
         <source>Close this tab.</source>
@@ -4748,10 +4725,6 @@ Berita belum terbaca:%2</translation>
     <message>
         <source>Feeds</source>
         <translation>Feed</translation>
-    </message>
-    <message>
-        <source>Browse your feeds and messages</source>
-        <translation>Menelisik feed dan pesan anda</translation>
     </message>
     <message>
         <source>Displays main menu.</source>
@@ -4772,6 +4745,10 @@ Berita belum terbaca:%2</translation>
     <message>
         <source>Web browser</source>
         <translation>Peramban web</translation>
+    </message>
+    <message>
+        <source>Browse your feeds and articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4854,10 +4831,6 @@ Berita belum terbaca:%2</translation>
 <context>
     <name>TtRssAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation>Mengunduh hanya pesan belum terbaca</translation>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Eksekusi paksa pembaruan dari sisi server ketika memperbarui feed dari RSS Guard</translation>
     </message>
@@ -4876,10 +4849,6 @@ Berita belum terbaca:%2</translation>
     <message>
         <source>Password</source>
         <translation>Kata sandi</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Tampilkan kata sandi</translation>
     </message>
     <message>
         <source>Requires HTTP authentication</source>
@@ -5005,16 +4974,20 @@ Berita belum terbaca:%2</translation>
         <source>URL is okay.</source>
         <translation>URL ok.</translation>
     </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
         <translation>Formulir</translation>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Kategori induk</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -5044,6 +5017,10 @@ Berita belum terbaca:%2</translation>
         <source>The URL is empty.</source>
         <translation>URL kosong.</translation>
     </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TtRssServiceRoot</name>
@@ -5064,6 +5041,17 @@ Last login on: %4</source>
 Server: %2
 Eror terakhir: %3
 Log masuk terakhir pada: %4</translation>
+    </message>
+</context>
+<context>
+    <name>UnreadNode</name>
+    <message>
+        <source>Unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can find all unread articles here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5095,14 +5083,6 @@ Log masuk terakhir pada: %4</translation>
     </message>
     <message>
         <source>Open this website in system web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Failed to open URL in web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5196,6 +5176,14 @@ Log masuk terakhir pada: %4</translation>
         <source>Allow geolocation on insecure origins</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Navigate to website manually</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 was unable to launch your web browser with the given URL, you need to open the below website URL in your web browser manually.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>WebViewer</name>
@@ -5214,6 +5202,10 @@ Log masuk terakhir pada: %4</translation>
     <message>
         <source>Open link in external browser</source>
         <translation>Buka tautan di perambah ekstenal</translation>
+    </message>
+    <message>
+        <source>Open with external tool</source>
+        <translation>Buka dengan alat eksternal</translation>
     </message>
 </context>
 </TS>

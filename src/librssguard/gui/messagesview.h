@@ -24,6 +24,9 @@ class MessagesView : public QTreeView {
 
     void reloadFontSettings();
 
+    QByteArray saveHeaderState() const;
+    void restoreHeaderState(const QByteArray& dta);
+
   public slots:
     void keyboardSearch(const QString& search);
 
@@ -80,7 +83,8 @@ class MessagesView : public QTreeView {
     void willReselectSameMessage();
 
   private:
-    void sort(int column, Qt::SortOrder order, bool repopulate_data, bool change_header, bool emit_changed_from_header);
+    void sort(int column, Qt::SortOrder order, bool repopulate_data,
+              bool change_header, bool emit_changed_from_header, bool ignore_multicolumn_sorting);
 
     // Creates needed connections.
     void createConnections();
@@ -103,6 +107,7 @@ class MessagesView : public QTreeView {
     MessagesProxyModel* m_proxyModel;
     MessagesModel* m_sourceModel;
     bool m_columnsAdjusted;
+    bool m_processingMouse;
 };
 
 inline MessagesProxyModel* MessagesView::model() const {

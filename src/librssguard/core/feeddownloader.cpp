@@ -5,7 +5,9 @@
 #include "3rd-party/boolinq/boolinq.h"
 #include "core/feedsmodel.h"
 #include "core/messagefilter.h"
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
+#include "exceptions/feedfetchexception.h"
 #include "exceptions/filteringexception.h"
 #include "miscellaneous/application.h"
 #include "services/abstract/cacheforserviceroot.h"
@@ -36,31 +38,7 @@ bool FeedDownloader::isUpdateRunning() const {
   return !m_feeds.isEmpty();
 }
 
-void FeedDownloader::updateAvailableFeeds() {
-  for (const Feed* feed : m_feeds) {
-    auto* cache = dynamic_cast<CacheForServiceRoot*>(feed->getParentServiceRoot());
-
-    if (cache != nullptr) {
-      qDebugNN << LOGSEC_FEEDDOWNLOADER
-               << "Saving cache for feed with DB ID '" << feed->id()
-               << "' and title '" << feed->title() << "'.";
-      cache->saveAllCachedData(false);
-    }
-
-    if (m_stopCacheSynchronization) {
-      qWarningNN << LOGSEC_FEEDDOWNLOADER << "Aborting cache synchronization.";
-
-      m_stopCacheSynchronization = false;
-      break;
-    }
-  }
-
-  while (!m_feeds.isEmpty()) {
-    updateOneFeed(m_feeds.takeFirst());
-  }
-}
-
-void FeedDownloader::synchronizeAccountCaches(const QList<CacheForServiceRoot*>& caches) {
+void FeedDownloader::synchronizeAccountCaches(const QList<CacheForServiceRoot*>& caches, bool emit_signals) {
   m_isCacheSynchronizationRunning = true;
 
   for (CacheForServiceRoot* cache : caches) {
@@ -78,7 +56,10 @@ void FeedDownloader::synchronizeAccountCaches(const QList<CacheForServiceRoot*>&
 
   m_isCacheSynchronizationRunning = false;
   qDebugNN << LOGSEC_FEEDDOWNLOADER << "All caches synchronized.";
-  emit cachesSynchronized();
+
+  if (emit_signals) {
+    emit cachesSynchronized();
+  }
 }
 
 void FeedDownloader::updateFeeds(const QList<Feed*>& feeds) {
@@ -98,8 +79,82 @@ void FeedDownloader::updateFeeds(const QList<Feed*>& feeds) {
 
     // Job starts now.
     emit updateStarted();
+    QSet<CacheForServiceRoot*> caches;
+    QMultiHash<ServiceRoot*, Feed*> feeds_per_root;
 
-    updateAvailableFeeds();
+    // 1. key - account.
+    // 2. key - feed custom ID.
+    // 3. key - msg state.
+    QHash<ServiceRoot*, QHash<QString, QHash<ServiceRoot::BagOfMessages, QStringList>>> stated_messages;
+
+    // 1. key - account.
+    // 2. key - label custom ID.
+    QHash<ServiceRoot*, QHash<QString, QStringList>> tagged_messages;
+
+    for (auto* fd : feeds) {
+      CacheForServiceRoot* fd_cache = fd->getParentServiceRoot()->toCache();
+
+      if (fd_cache != nullptr) {
+        caches.insert(fd_cache);
+      }
+
+      feeds_per_root.insert(fd->getParentServiceRoot(), fd);
+    }
+
+    synchronizeAccountCaches(caches.values(), false);
+
+    auto roots = feeds_per_root.uniqueKeys();
+    bool is_main_thread = QThread::currentThread() == qApp->thread();
+    QSqlDatabase database = is_main_thread ?
+                            qApp->database()->driver()->connection(metaObject()->className()) :
+                            qApp->database()->driver()->connection(QSL("feed_upd"));
+
+    for (auto* rt : roots) {
+      // Obtain lists of local IDs.
+      if (rt->wantsBaggedIdsOfExistingMessages()) {
+        // Tagged messages for the account.
+        tagged_messages.insert(rt, DatabaseQueries::bagsOfMessages(database, rt->labelsNode()->labels()));
+
+        QHash<QString, QHash<ServiceRoot::BagOfMessages, QStringList>> per_acc_states;
+
+        // This account has activated intelligent downloading of messages.
+        // Prepare bags.
+        auto fds = feeds_per_root.values(rt);
+
+        for (Feed* fd : fds) {
+          QHash<ServiceRoot::BagOfMessages, QStringList> per_feed_states;
+
+          per_feed_states.insert(ServiceRoot::BagOfMessages::Read,
+                                 DatabaseQueries::bagOfMessages(database,
+                                                                ServiceRoot::BagOfMessages::Read,
+                                                                fd));
+          per_feed_states.insert(ServiceRoot::BagOfMessages::Unread,
+                                 DatabaseQueries::bagOfMessages(database,
+                                                                ServiceRoot::BagOfMessages::Unread,
+                                                                fd));
+          per_feed_states.insert(ServiceRoot::BagOfMessages::Starred,
+                                 DatabaseQueries::bagOfMessages(database,
+                                                                ServiceRoot::BagOfMessages::Starred,
+                                                                fd));
+          per_acc_states.insert(fd->customId(), per_feed_states);
+        }
+
+        stated_messages.insert(rt, per_acc_states);
+      }
+
+      rt->aboutToBeginFeedFetching(feeds_per_root.values(rt),
+                                   stated_messages.value(rt),
+                                   tagged_messages.value(rt));
+    }
+
+    while (!m_feeds.isEmpty()) {
+      auto n_f = m_feeds.takeFirst();
+
+      updateOneFeed(n_f->getParentServiceRoot(),
+                    n_f,
+                    stated_messages.value(n_f->getParentServiceRoot()).value(n_f->customId()),
+                    tagged_messages.value(n_f->getParentServiceRoot()));
+    }
   }
 
   finalizeUpdate();
@@ -111,197 +166,232 @@ void FeedDownloader::stopRunningUpdate() {
   m_feedsOriginalCount = m_feedsUpdated = 0;
 }
 
-void FeedDownloader::updateOneFeed(Feed* feed) {
+void FeedDownloader::updateOneFeed(ServiceRoot* acc,
+                                   Feed* feed,
+                                   const QHash<ServiceRoot::BagOfMessages, QStringList>& stated_messages,
+                                   const QHash<QString, QStringList>& tagged_messages) {
   qDebugNN << LOGSEC_FEEDDOWNLOADER
            << "Downloading new messages for feed ID '"
-           << feed->customId() << "' URL: '" << feed->url() << "' title: '" << feed->title() << "' in thread: '"
+           << feed->customId() << "' URL: '" << feed->source() << "' title: '" << feed->title() << "' in thread: '"
            << QThread::currentThreadId() << "'.";
 
-  bool error_during_obtaining = false;
   int acc_id = feed->getParentServiceRoot()->accountId();
   QElapsedTimer tmr; tmr.start();
-  QList<Message> msgs = feed->obtainNewMessages(&error_during_obtaining);
 
-  qDebugNN << LOGSEC_FEEDDOWNLOADER << "Downloaded " << msgs.size() << " messages for feed ID '"
-           << feed->customId() << "' URL: '" << feed->url() << "' title: '" << feed->title() << "' in thread: '"
-           << QThread::currentThreadId() << "'. Operation took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
-
-  // Now, sanitize messages (tweak encoding etc.).
-  for (auto& msg : msgs) {
-    msg.m_accountId = acc_id;
-    msg.sanitize();
-  }
-
-  if (!feed->messageFilters().isEmpty()) {
-    tmr.restart();
-
+  try {
     bool is_main_thread = QThread::currentThread() == qApp->thread();
     QSqlDatabase database = is_main_thread ?
-                            qApp->database()->connection(metaObject()->className()) :
-                            qApp->database()->connection(QSL("feed_upd"));
+                            qApp->database()->driver()->connection(metaObject()->className()) :
+                            qApp->database()->driver()->connection(QSL("feed_upd"));
+    QList<Message> msgs = feed->getParentServiceRoot()->obtainNewMessages(feed,
+                                                                          stated_messages,
+                                                                          tagged_messages);
 
-    // Perform per-message filtering.
-    QJSEngine filter_engine;
+    qDebugNN << LOGSEC_FEEDDOWNLOADER << "Downloaded " << msgs.size() << " messages for feed ID '"
+             << feed->customId() << "' URL: '" << feed->source() << "' title: '" << feed->title() << "' in thread: '"
+             << QThread::currentThreadId() << "'. Operation took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
 
-    // Create JavaScript communication wrapper for the message.
-    MessageObject msg_obj(&database,
-                          feed->customId(),
-                          feed->getParentServiceRoot()->accountId(),
-                          feed->getParentServiceRoot()->labelsNode()->labels());
+    // Now, sanitize messages (tweak encoding etc.).
+    for (auto& msg : msgs) {
+      msg.m_accountId = acc_id;
+      msg.sanitize(feed);
+    }
 
-    MessageFilter::initializeFilteringEngine(filter_engine, &msg_obj);
-
-    qDebugNN << LOGSEC_FEEDDOWNLOADER << "Setting up JS evaluation took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
-
-    QList<Message> read_msgs, important_msgs;
-
-    for (int i = 0; i < msgs.size(); i++) {
-      Message msg_backup(msgs[i]);
-      Message* msg_orig = &msgs[i];
-
-      // Attach live message object to wrapper.
+    if (!feed->messageFilters().isEmpty()) {
       tmr.restart();
-      msg_obj.setMessage(msg_orig);
-      qDebugNN << LOGSEC_FEEDDOWNLOADER << "Hooking message took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
 
-      auto feed_filters = feed->messageFilters();
-      bool remove_msg = false;
+      // Perform per-message filtering.
+      QJSEngine filter_engine;
 
-      for (int j = 0; j < feed_filters.size(); j++) {
-        QPointer<MessageFilter> filter = feed_filters.at(j);
+      // Create JavaScript communication wrapper for the message.
+      MessageObject msg_obj(&database,
+                            feed->customId(),
+                            feed->getParentServiceRoot()->accountId(),
+                            feed->getParentServiceRoot()->labelsNode()->labels(),
+                            true);
 
-        if (filter.isNull()) {
-          qCriticalNN << LOGSEC_FEEDDOWNLOADER
-                      << "Message filter was probably deleted, removing its pointer from list of filters.";
-          feed_filters.removeAt(j--);
-          continue;
+      MessageFilter::initializeFilteringEngine(filter_engine, &msg_obj);
+
+      qDebugNN << LOGSEC_FEEDDOWNLOADER << "Setting up JS evaluation took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
+
+      QList<Message> read_msgs, important_msgs;
+
+      for (int i = 0; i < msgs.size(); i++) {
+        Message msg_backup(msgs[i]);
+        Message* msg_orig = &msgs[i];
+
+        // Attach live message object to wrapper.
+        tmr.restart();
+        msg_obj.setMessage(msg_orig);
+        qDebugNN << LOGSEC_FEEDDOWNLOADER << "Hooking message took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
+
+        auto feed_filters = feed->messageFilters();
+        bool remove_msg = false;
+
+        for (int j = 0; j < feed_filters.size(); j++) {
+          QPointer<MessageFilter> filter = feed_filters.at(j);
+
+          if (filter.isNull()) {
+            qCriticalNN << LOGSEC_FEEDDOWNLOADER
+                        << "Article filter was probably deleted, removing its pointer from list of filters.";
+            feed_filters.removeAt(j--);
+            continue;
+          }
+
+          MessageFilter* msg_filter = filter.data();
+
+          tmr.restart();
+
+          try {
+            MessageObject::FilteringAction decision = msg_filter->filterMessage(&filter_engine);
+
+            qDebugNN << LOGSEC_FEEDDOWNLOADER
+                     << "Running filter script, it took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
+
+            switch (decision) {
+              case MessageObject::FilteringAction::Accept:
+                // Message is normally accepted, it could be tweaked by the filter.
+                continue;
+
+              case MessageObject::FilteringAction::Ignore:
+              case MessageObject::FilteringAction::Purge:
+              default:
+                // Remove the message, we do not want it.
+                remove_msg = true;
+                break;
+            }
+          }
+          catch (const FilteringException& ex) {
+            qCriticalNN << LOGSEC_FEEDDOWNLOADER
+                        << "Error when evaluating filtering JS function: "
+                        << QUOTE_W_SPACE_DOT(ex.message())
+                        << " Accepting message.";
+            continue;
+          }
+
+          // If we reach this point. Then we ignore the message which is by now
+          // already removed, go to next message.
+          break;
         }
 
-        MessageFilter* msg_filter = filter.data();
+        if (!msg_backup.m_isRead && msg_orig->m_isRead) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER << "Message with custom ID: '" << msg_backup.m_customId << "' was marked as read by message scripts.";
 
-        tmr.restart();
+          read_msgs << *msg_orig;
+        }
 
-        try {
-          MessageObject::FilteringAction decision = msg_filter->filterMessage(&filter_engine);
+        if (!msg_backup.m_isImportant && msg_orig->m_isImportant) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER << "Message with custom ID: '" << msg_backup.m_customId << "' was marked as important by message scripts.";
 
-          qDebugNN << LOGSEC_FEEDDOWNLOADER
-                   << "Running filter script, it took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
+          important_msgs << *msg_orig;
+        }
 
-          switch (decision) {
-            case MessageObject::FilteringAction::Accept:
-              // Message is normally accepted, it could be tweaked by the filter.
-              continue;
+        // Process changed labels.
+        for (Label* lbl : qAsConst(msg_backup.m_assignedLabels)) {
+          if (!msg_orig->m_assignedLabels.contains(lbl)) {
+            // Label is not there anymore, it was deassigned.
+            lbl->deassignFromMessage(*msg_orig);
 
-            case MessageObject::FilteringAction::Ignore:
-            case MessageObject::FilteringAction::Purge:
-            default:
-              // Remove the message, we do not want it.
-              remove_msg = true;
-              break;
+            qDebugNN << LOGSEC_FEEDDOWNLOADER
+                     << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
+                     << "was DEASSIGNED from message" << QUOTE_W_SPACE(msg_orig->m_customId)
+                     << "by message filter(s).";
           }
         }
-        catch (const FilteringException& ex) {
+
+        for (Label* lbl : qAsConst(msg_orig->m_assignedLabels)) {
+          if (!msg_backup.m_assignedLabels.contains(lbl)) {
+            // Label is in new message, but is not in old message, it
+            // was newly assigned.
+            lbl->assignToMessage(*msg_orig);
+
+            qDebugNN << LOGSEC_FEEDDOWNLOADER
+                     << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
+                     << "was ASSIGNED to message" << QUOTE_W_SPACE(msg_orig->m_customId)
+                     << "by message filter(s).";
+          }
+        }
+
+        if (remove_msg) {
+          msgs.removeAt(i--);
+        }
+      }
+
+      if (!read_msgs.isEmpty()) {
+        // Now we push new read states to the service.
+        if (feed->getParentServiceRoot()->onBeforeSetMessagesRead(feed, read_msgs, RootItem::ReadStatus::Read)) {
+          qDebugNN << LOGSEC_FEEDDOWNLOADER
+                   << "Notified services about messages marked as read by message filters.";
+        }
+        else {
           qCriticalNN << LOGSEC_FEEDDOWNLOADER
-                      << "Error when evaluating filtering JS function: '"
-                      << ex.message()
-                      << "'. Accepting message.";
-          continue;
+                      << "Notification of services about messages marked as read by message filters FAILED.";
         }
-
-        // If we reach this point. Then we ignore the message which is by now
-        // already removed, go to next message.
-        break;
       }
 
-      if (!msg_backup.m_isRead && msg_orig->m_isRead) {
-        qDebugNN << LOGSEC_FEEDDOWNLOADER << "Message with custom ID: '" << msg_backup.m_customId << "' was marked as read by message scripts.";
+      if (!important_msgs.isEmpty()) {
+        // Now we push new read states to the service.
+        auto list = boolinq::from(important_msgs).select([](const Message& msg) {
+          return ImportanceChange(msg, RootItem::Importance::Important);
+        }).toStdList();
+        QList<ImportanceChange> chngs = FROM_STD_LIST(QList<ImportanceChange>, list);
 
-        read_msgs << *msg_orig;
-      }
-
-      if (!msg_backup.m_isImportant && msg_orig->m_isImportant) {
-        qDebugNN << LOGSEC_FEEDDOWNLOADER << "Message with custom ID: '" << msg_backup.m_customId << "' was marked as important by message scripts.";
-
-        important_msgs << *msg_orig;
-      }
-
-      // Process changed labels.
-      for (Label* lbl : msg_backup.m_assignedLabels) {
-        if (!msg_orig->m_assignedLabels.contains(lbl)) {
-          // Label is not there anymore, it was deassigned.
-          lbl->deassignFromMessage(*msg_orig);
-
+        if (feed->getParentServiceRoot()->onBeforeSwitchMessageImportance(feed, chngs)) {
           qDebugNN << LOGSEC_FEEDDOWNLOADER
-                   << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
-                   << "was DEASSIGNED from message" << QUOTE_W_SPACE(msg_orig->m_customId)
-                   << "by message filter(s).";
+                   << "Notified services about messages marked as important by message filters.";
         }
-      }
-
-      for (Label* lbl : msg_orig->m_assignedLabels) {
-        if (!msg_backup.m_assignedLabels.contains(lbl)) {
-          // Label is in new message, but is not in old message, it
-          // was newly assigned.
-          lbl->assignToMessage(*msg_orig);
-
-          qDebugNN << LOGSEC_FEEDDOWNLOADER
-                   << "It was detected that label" << QUOTE_W_SPACE(lbl->customId())
-                   << "was ASSIGNED to message" << QUOTE_W_SPACE(msg_orig->m_customId)
-                   << "by message filter(s).";
+        else {
+          qCriticalNN << LOGSEC_FEEDDOWNLOADER
+                      << "Notification of services about messages marked as important by message filters FAILED.";
         }
-      }
-
-      if (remove_msg) {
-        msgs.removeAt(i--);
       }
     }
 
-    if (!read_msgs.isEmpty()) {
-      // Now we push new read states to the service.
-      if (feed->getParentServiceRoot()->onBeforeSetMessagesRead(feed, read_msgs, RootItem::ReadStatus::Read)) {
-        qDebugNN << LOGSEC_FEEDDOWNLOADER
-                 << "Notified services about messages marked as read by message filters.";
-      }
-      else {
-        qCriticalNN << LOGSEC_FEEDDOWNLOADER
-                    << "Notification of services about messages marked as read by message filters FAILED.";
-      }
-    }
+    // Now make sure, that messages are actually stored to SQL in a locked state.
+    qDebugNN << LOGSEC_FEEDDOWNLOADER << "Saving messages of feed ID '"
+             << feed->customId() << "' URL: '" << feed->source() << "' title: '" << feed->title() << "' in thread: '"
+             << QThread::currentThreadId() << "'.";
 
-    if (!important_msgs.isEmpty()) {
-      // Now we push new read states to the service.
-      auto list = boolinq::from(important_msgs).select([](const Message& msg) {
-        return ImportanceChange(msg, RootItem::Importance::Important);
-      }).toStdList();
-      QList<ImportanceChange> chngs = FROM_STD_LIST(QList<ImportanceChange>, list);
+    tmr.restart();
+    auto updated_messages = acc->updateMessages(msgs, feed, false);
 
-      if (feed->getParentServiceRoot()->onBeforeSwitchMessageImportance(feed, chngs)) {
-        qDebugNN << LOGSEC_FEEDDOWNLOADER
-                 << "Notified services about messages marked as important by message filters.";
-      }
-      else {
-        qCriticalNN << LOGSEC_FEEDDOWNLOADER
-                    << "Notification of services about messages marked as important by message filters FAILED.";
-      }
+    qDebugNN << LOGSEC_FEEDDOWNLOADER
+             << "Updating messages in DB took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
+
+    feed->setStatus(updated_messages.first > 0 || updated_messages.second > 0
+                ? Feed::Status::NewMessages
+                : Feed::Status::Normal);
+
+    qDebugNN << LOGSEC_FEEDDOWNLOADER
+             << updated_messages << " messages for feed "
+             << feed->customId() << " stored in DB.";
+
+    if (updated_messages.first > 0) {
+      m_results.appendUpdatedFeed(QPair<QString, int>(feed->title(), updated_messages.first));
     }
   }
+  catch (const FeedFetchException& feed_ex) {
+    qCriticalNN << LOGSEC_NETWORK
+                << "Error when fetching feed:"
+                << QUOTE_W_SPACE(feed_ex.feedStatus())
+                << "message:"
+                << QUOTE_W_SPACE_DOT(feed_ex.message());
+
+    feed->setStatus(feed_ex.feedStatus(), feed_ex.message());
+  }
+
+  catch (const ApplicationException& app_ex) {
+    qCriticalNN << LOGSEC_NETWORK
+                << "Unknown error when fetching feed:"
+                << "message:"
+                << QUOTE_W_SPACE_DOT(app_ex.message());
+
+    feed->setStatus(Feed::Status::OtherError, app_ex.message());
+  }
+
+  feed->getParentServiceRoot()->itemChanged({ feed });
 
   m_feedsUpdated++;
-
-  // Now make sure, that messages are actually stored to SQL in a locked state.
-  qDebugNN << LOGSEC_FEEDDOWNLOADER << "Saving messages of feed ID '"
-           << feed->customId() << "' URL: '" << feed->url() << "' title: '" << feed->title() << "' in thread: '"
-           << QThread::currentThreadId() << "'.";
-
-  int updated_messages = feed->updateMessages(msgs, error_during_obtaining);
-
-  qDebugNN << LOGSEC_FEEDDOWNLOADER
-           << updated_messages << " messages for feed "
-           << feed->customId() << " stored in DB.";
-
-  if (updated_messages > 0) {
-    m_results.appendUpdatedFeed(QPair<QString, int>(feed->title(), updated_messages));
-  }
 
   qDebugNN << LOGSEC_FEEDDOWNLOADER
            << "Made progress in feed updates, total feeds count "

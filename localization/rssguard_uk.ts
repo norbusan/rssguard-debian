@@ -11,40 +11,6 @@
     </message>
 </context>
 <context>
-    <name>AdBlockAddSubscriptionDialog</name>
-    <message>
-        <source>Add subscription</source>
-        <translation>Додати підписку</translation>
-    </message>
-    <message>
-        <source>Use predefined subscription</source>
-        <translation>Застосувати заздалегідь визначену підписку</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Назва</translation>
-    </message>
-    <message>
-        <source>Title of subscription</source>
-        <translation>Назва підписки</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Absolute URL to online subscription file</source>
-        <translation>Абсолютний URL на файл online підписки</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockCustomList</name>
-    <message>
-        <source>Custom rules</source>
-        <translation>Спеціальні правила</translation>
-    </message>
-</context>
-<context>
     <name>AdBlockDialog</name>
     <message>
         <source>AdBlock configuration</source>
@@ -55,32 +21,58 @@
         <translation>Активувати AdBlock</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation>Опції</translation>
+        <source>Add your direct links to filter lists here (one URL per line)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add rule</source>
-        <translation>Додати правило</translation>
+        <source>Custom filters</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Видалити правило</translation>
+        <source>Add your custom filters here (one filter per line)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add subscription</source>
-        <translation>Додати підписку</translation>
+        <source>&amp;Help</source>
+        <translation>Допомога</translation>
     </message>
     <message>
-        <source>Remove subscription</source>
-        <translation>Видалити підписку</translation>
+        <source>&amp;Test configuration</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Update subscriptions</source>
-        <translation>Оновити підписку</translation>
+        <source>Filter lists</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Learn about writing rules...</source>
-        <translation>Довідатися про написання правил...</translation>
+        <source>No test executed yet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot enable AdBlock</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is some error in AdBlock component and it cannot be enabled. Check error message below (or application debug log) for more information.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are good to go.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>OK!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error, check application log for more details and head to online documentation. Also make sure that Node.js is installed.
+
+Error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ERROR!</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -93,47 +85,20 @@
         <source>Show AdBlock &amp;settings</source>
         <translation>Показати налаштування AdBlock</translation>
     </message>
-    <message>
-        <source>Disable on %1</source>
-        <translation>Вимкнути для %1</translation>
-    </message>
-    <message>
-        <source>Disable only on this page</source>
-        <translation>Відключити тільки на цій сторінці</translation>
-    </message>
 </context>
 <context>
-    <name>AdBlockSubscription</name>
+    <name>AdBlockManager</name>
     <message>
-        <source>Cannot load subscription!</source>
-        <translation>Неможливо завантажити підписку</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockTreeWidget</name>
-    <message>
-        <source>Add rule</source>
-        <translation>Додати правило</translation>
+        <source>AdBlock needs to be configured</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Видалити правило</translation>
+        <source>AdBlock component is not configured properly.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add custom rule</source>
-        <translation>Додати своє правило</translation>
-    </message>
-    <message>
-        <source>Please write your rule here:</source>
-        <translation>Введіть правило:</translation>
-    </message>
-    <message>
-        <source>%1 (recently updated)</source>
-        <translation>%1 (оновлено)</translation>
-    </message>
-    <message>
-        <source>%1 (error: %2)</source>
-        <translation>%1 (помилка: %2)</translation>
+        <source>failed to download filter list &apos;%1&apos;</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -151,10 +116,6 @@
         <translation>Файл налаштувань не було скопійовано у цільовий каталог.</translation>
     </message>
     <message>
-        <source>Database file not copied to output directory successfully.</source>
-        <translation>Файл бази не було скопійовано у цільовий каталог.</translation>
-    </message>
-    <message>
         <source>Database restoration was not initiated. Make sure that output directory is writable.</source>
         <translation>Невдале відновлення бази. Перевірте можливість запису в цільовий каталог.</translation>
     </message>
@@ -167,12 +128,12 @@
         <translation>Неможливо додати підписку</translation>
     </message>
     <message>
-        <source>Feed cannot be added because standard RSS/ATOM account is not enabled.</source>
-        <translation>Потік не може бути доданий через те, що не активовано обліковий запис RSS/ATOM</translation>
+        <source>Feed cannot be added because there is no active account which can add feeds.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>New messages downloaded</source>
-        <translation>Завантажено нові повідомлення</translation>
+        <source>Unread articles fetched</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -223,6 +184,13 @@
     </message>
 </context>
 <context>
+    <name>BaseLineEdit</name>
+    <message>
+        <source>Show/hide the password</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
@@ -244,74 +212,46 @@
         <translation>Файл бази стиснуто...</translation>
     </message>
     <message>
-        <source>Removing read messages...</source>
-        <translation>Видалення прочитаних повідомлень...</translation>
-    </message>
-    <message>
-        <source>Read messages purged...</source>
-        <translation>Прочитані повідомлення видалено...</translation>
-    </message>
-    <message>
         <source>Recycle bin purged...</source>
         <translation>Спорожнити кошик...</translation>
-    </message>
-    <message>
-        <source>Removing old messages...</source>
-        <translation>Видаляються старі повідомлення...</translation>
     </message>
     <message>
         <source>Purging recycle bin...</source>
         <translation>Спорожнюється кошик...</translation>
     </message>
     <message>
-        <source>Old messages purged...</source>
-        <translation>Старі повідомлення видалені...</translation>
-    </message>
-    <message>
-        <source>Removing starred messages...</source>
+        <source>Removing read articles...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Starred messages purged...</source>
+        <source>Read articles purged...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Removing old articles...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Old articles purged...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Removing starred articles...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Starred articles purged...</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DatabaseFactory</name>
     <message>
-        <source>MySQL server works as expected.</source>
-        <translation>Сервер MySQL працює згідно очікувань.</translation>
+        <source>Cannot connect to database</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>No MySQL server is running in the target destination.</source>
-        <translation>На цільовій системі не знайдено працюючого сервера MySQL.</translation>
-    </message>
-    <message>
-        <source>Access denied. Invalid username or password used.</source>
-        <translation>Відмовлено в доступі. Невірне імя користувача або пароль.</translation>
-    </message>
-    <message>
-        <source>MySQL/MariaDB (dedicated database)</source>
-        <translation>MySQL/MariaDB (окрема база)</translation>
-    </message>
-    <message>
-        <source>SQLite (embedded database)</source>
-        <translation>SQLite ( вбудована база )</translation>
-    </message>
-    <message>
-        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
-        <translation>Вказана база не існує. Базу буде створено. ( Це не є помилкою. )</translation>
-    </message>
-    <message>
-        <source>MySQL database not available</source>
-        <translation>Нема доступу до бази MySQL</translation>
-    </message>
-    <message>
-        <source>%1 cannot use MySQL storage, it is not available. %1 is now switching to SQLite database. Start your MySQL server and make adjustments in application settings.</source>
-        <translation>Сховище MySQL не може бути використано. %1 буде використовувати SQLite базу. Стартуйте MySQL сервер та зробіть відповідні зміни в налаштуваннях.</translation>
-    </message>
-    <message>
-        <source>Unknown error: &apos;%1&apos;.</source>
+        <source>Connection to your database was not established with error: &apos;%1&apos;. Falling back to SQLite.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -492,10 +432,6 @@ Click here to open parent directory.</source>
         <translation>успішно</translation>
     </message>
     <message>
-        <source>has new messages</source>
-        <translation>є нові повідомлення</translation>
-    </message>
-    <message>
         <source>authentication error</source>
         <translation>помилка аутентіфікації</translation>
     </message>
@@ -504,63 +440,71 @@ Click here to open parent directory.</source>
         <translation>мережева помилка</translation>
     </message>
     <message>
-        <source>unspecified error</source>
-        <translation>невизначена помилка</translation>
-    </message>
-    <message>
         <source>Auto-update status: %1
 Active message filters: %2
 Status: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>does not use auto-downloading of messages</source>
+        <source>does not use auto-fetching of articles</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <source>uses global settings (%n minute(s) to next auto-fetch of articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>uses global settings (global auto-downloading of messages is disabled)</source>
+        <source>uses global settings (global auto-fetching of articles is disabled)</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <source>uses specific settings (%n minute(s) to next auto-fetching of new articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>has new articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>parsing error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>error</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedMessageViewer</name>
     <message>
-        <source>Toolbar for messages</source>
-        <translation>Панель інструментів для повідомлень</translation>
-    </message>
-    <message>
         <source>Toolbar for feeds</source>
         <translation>Панель інструментів для потоків</translation>
+    </message>
+    <message>
+        <source>Toolbar for articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedReader</name>
     <message>
-        <source>Cannot update all items</source>
-        <translation>Неможливо оновити всі елементи</translation>
-    </message>
-    <message>
-        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Starting auto-download of some feeds&apos; messages</source>
+        <source>Starting auto-download of some feeds&apos; articles</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-download new messages for %n feed(s).</source>
+        <source>I will auto-download new articles for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>Cannot fetch articles at this point</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot fetch new articles now because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -576,14 +520,6 @@ Status: %3</source>
     <message>
         <source>Get token</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>повідомлення(повідомлень)</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Завантажувати тільки X нових повідомлень на потік.</translation>
     </message>
     <message>
         <source>&amp;Login</source>
@@ -610,14 +546,6 @@ Status: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>= unlimited</source>
-        <translation>= необмежено</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>повідомлень</translation>
-    </message>
-    <message>
         <source>You did not grant access.</source>
         <translation>Вам не надано доступ.</translation>
     </message>
@@ -638,19 +566,11 @@ Status: %3</source>
         <translation>Доступ надано</translation>
     </message>
     <message>
-        <source>You are already logged in.</source>
-        <translation>Ви вже увійшли.</translation>
-    </message>
-    <message>
         <source>Access granted.</source>
         <translation>Доступ надано.</translation>
     </message>
     <message>
         <source>Login was successful.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -673,6 +593,22 @@ Status: %3</source>
         <source>Access token is okay.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Error: &apos;%1&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Beware of downloading too many articles, because Feedly permanently caches ALL articles of the feed, so you might end up with thousands of articles which you will never read anyway.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FeedlyNetwork</name>
@@ -691,14 +627,6 @@ Status: %3</source>
     <message>
         <source>Click this to login again.</source>
         <translation>Натисніть ще раз для повторного входу.</translation>
-    </message>
-    <message>
-        <source>Logged in successfully</source>
-        <translation>Вхід виконано успішно</translation>
-    </message>
-    <message>
-        <source>Your login to Feedly was authorized.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -740,6 +668,14 @@ Status: %3</source>
     <message>
         <source>Toolbar spacer</source>
         <translation>Розподілювач панелі інструментів</translation>
+    </message>
+    <message>
+        <source>Search feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feeds search box</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -823,11 +759,11 @@ or this functionality is not implemented yet.</source>
         <translation>Контекстне меню для облікових записів</translation>
     </message>
     <message>
-        <source>Context menu for important messages</source>
+        <source>Context menu for label</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Context menu for label</source>
+        <source>Context menu for important articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -931,6 +867,10 @@ or this functionality is not implemented yet.</source>
     <message>
         <source>Network proxy</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new account</source>
+        <translation>Додати новий обліковий запис</translation>
     </message>
 </context>
 <context>
@@ -1082,30 +1022,126 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormCategoryDetails</name>
+    <message>
+        <source>Select parent item for your category.</source>
+        <translation>Обрати юатьківскьий елемент для категорії</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Опис</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Значок</translation>
+    </message>
+    <message>
+        <source>Select icon for your category.</source>
+        <translation>Обрати значок для категорії</translation>
+    </message>
+    <message>
+        <source>Add new category</source>
+        <translation>Додати нову категорію</translation>
+    </message>
+    <message>
+        <source>Category name is ok.</source>
+        <translation>З ім&apos;ям категорії все гаразд.</translation>
+    </message>
+    <message>
+        <source>Category name is too short.</source>
+        <translation>Ім&apos;я категорії занадто коротке.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Опис пустий.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>З описом все гаразд.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the category</source>
+        <translation>Оберіть значок для категорії</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Зображення (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Оберіть значок</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Скасувати</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
+        <translation>Шукати в:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Ім&apos;я значку:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Тип значку:</translation>
+    </message>
+    <message>
+        <source>Category title</source>
+        <translation>Назва категорії</translation>
+    </message>
+    <message>
+        <source>Set title for your category.</source>
+        <translation>Вкажіть назву категорії</translation>
+    </message>
+    <message>
+        <source>Category description</source>
+        <translation>Опис категорії</translation>
+    </message>
+    <message>
+        <source>Set description for your category.</source>
+        <translation>Вкажіть опис категорії</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Обрати значок</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Завантажити значок з файлу...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Edit &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormDatabaseCleanup</name>
     <message>
         <source>Cleanup database</source>
         <translation>Очистити базу</translation>
-    </message>
-    <message>
-        <source>Remove all messages older than</source>
-        <translation>Видалити всі повідомлення, старіші за</translation>
     </message>
     <message numerus="yes">
         <source> day(s)</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>Shrink database file</source>
-        <translation>Стиснути файл бази</translation>
-    </message>
-    <message>
         <source>Database information</source>
         <translation>Інформаця про базу</translation>
-    </message>
-    <message>
-        <source>Database file size</source>
-        <translation>Розмір файлу бази</translation>
     </message>
     <message>
         <source>Database type</source>
@@ -1132,28 +1168,36 @@ or this functionality is not implemented yet.</source>
         <translation>Очищення бази завершено невдало.</translation>
     </message>
     <message>
-        <source>Cleanup settings (all checked items are completely erased from database)</source>
-        <translation>Налаштування очищення ( усі відмічені позиції будуть повністю видалені з бази ) </translation>
-    </message>
-    <message>
-        <source>Remove all read messages (not those from recycle bin)</source>
-        <translation>Видалити усі прочитані повідомлення ( не ті, що знаходяться у кошику )</translation>
-    </message>
-    <message>
-        <source>Remove all messages from recycle bin</source>
-        <translation>Видалити всі повідомлення з кошику</translation>
-    </message>
-    <message>
-        <source>Remove all starred messages (including those from recycle bin)</source>
-        <translation>Видалити усі помічені повідомлення ( включаючи й ті, що знаходяться у кошику )</translation>
-    </message>
-    <message>
         <source>unknown</source>
         <translation>невідомо</translation>
     </message>
     <message>
-        <source>file: %1, data: %2</source>
-        <translation>файл: %1, дані: %2</translation>
+        <source>Total data size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cleanup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Optimize database file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all read articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles from recycle bin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles older than</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all starred articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1189,13 +1233,6 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
-    <name>FormEditInoreaderAccount</name>
-    <message>
-        <source>Server setup</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>FormEditOwnCloudAccount</name>
     <message>
         <source>Server setup</source>
@@ -1212,35 +1249,39 @@ or this functionality is not implemented yet.</source>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Cannot edit feed</source>
-        <translation>Неможливо редагувати потік</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Потік не було додано через помилку</translation>
-    </message>
-    <message>
-        <source>Edit &apos;%1&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Auto-downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages using global interval</source>
+        <source>Add new feed</source>
+        <translation>Додати новий потік</translation>
+    </message>
+    <message>
+        <source>Error</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages every</source>
+        <source>Cannot save changes: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Do not download messages at all</source>
+        <source>Auto-downloading of articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Edit &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles using global interval</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Disable auto-fetching of articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1269,14 +1310,6 @@ or this functionality is not implemented yet.</source>
     <message>
         <source>&amp;Settings</source>
         <translation>&amp;Налаштування</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp;Повідомлення</translation>
-    </message>
-    <message>
-        <source>Switch &amp;importance of selected messages</source>
-        <translation>Переключити важливість обраних повідомлень</translation>
     </message>
     <message>
         <source>Quit the application.</source>
@@ -1319,28 +1352,8 @@ or this functionality is not implemented yet.</source>
         <translation>Показати додаткову інформацію про програму.</translation>
     </message>
     <message>
-        <source>&amp;Delete selected messages</source>
-        <translation>Видалити обрані повідомлення.</translation>
-    </message>
-    <message>
         <source>Hides or displays the main menu.</source>
         <translation>Ховає або показує головне меню.</translation>
-    </message>
-    <message>
-        <source>Open selected source articles in &amp;external browser</source>
-        <translation>Відкрити обрану статтю-джерело в &amp;зовнішньому браузері</translation>
-    </message>
-    <message>
-        <source>Open selected messages in &amp;internal browser</source>
-        <translation>Відкрити обрані повідомлення у &amp;вбудованому браузері</translation>
-    </message>
-    <message>
-        <source>Select &amp;next message</source>
-        <translation>Обрати &amp;наступне повідомлення.</translation>
-    </message>
-    <message>
-        <source>Select &amp;previous message</source>
-        <translation>Обрати &amp;попереднє повідомлення.</translation>
     </message>
     <message>
         <source>Check for &amp;updates</source>
@@ -1359,18 +1372,6 @@ or this functionality is not implemented yet.</source>
         <translation>Головне меню</translation>
     </message>
     <message>
-        <source>Switch visibility of main &amp;window</source>
-        <translation>Переключити видимість головного вікна</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser</source>
-        <translation>Неможливо відкрити зовнішній браузер</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser. Navigate to application website manually.</source>
-        <translation>Неможливо відкрити зовнішній браузер. Перейдіть до сайту програми вручну.</translation>
-    </message>
-    <message>
         <source>&amp;Toolbars</source>
         <translation>Панелі інструментів</translation>
     </message>
@@ -1379,36 +1380,12 @@ or this functionality is not implemented yet.</source>
         <translation>Переключити видимість головної панелі інструментів.</translation>
     </message>
     <message>
-        <source>&amp;Feed/message list headers</source>
-        <translation>Перелік заголовків потоків/повідомлень</translation>
-    </message>
-    <message>
-        <source>&amp;Restore database/settings</source>
-        <translation>Відновити базу/налаштування</translation>
-    </message>
-    <message>
-        <source>&amp;Backup database/settings</source>
-        <translation>Створити резервну копію базі/налаштувань</translation>
-    </message>
-    <message>
-        <source>Switch message list layout orientation</source>
-        <translation>Переключити орієнтацію списку повідомлень</translation>
-    </message>
-    <message>
         <source>&amp;Downloads</source>
         <translation>&amp;Завантаження</translation>
     </message>
     <message>
-        <source>Send selected message via e-mail</source>
-        <translation>Переслати обрані повідомлення з використанням e-mail</translation>
-    </message>
-    <message>
         <source>&amp;Cleanup database</source>
         <translation>Очистити базу</translation>
-    </message>
-    <message>
-        <source>Add &amp;new item</source>
-        <translation>Додати новий елемент</translation>
     </message>
     <message>
         <source>&amp;Edit selected item</source>
@@ -1419,24 +1396,12 @@ or this functionality is not implemented yet.</source>
         <translation>&amp;Видалити елемент</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as read</source>
-        <translation>&amp;Помітити елемент як прочитаний</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as read.</source>
         <translation>Помітити всі повідомлення ( без накладання фільтрів ) з обраних елементів як прочитані.</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as unread</source>
-        <translation>&amp;Відмітити обрані елементи як непрочитані</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as unread.</source>
         <translation>Помітити всі повідомлення ( без накладання фільтрів ) з обраних елементів як непрочитані.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean selected items</source>
-        <translation>&amp;Очистити обрані елементи</translation>
     </message>
     <message>
         <source>Deletes all messages from selected items.</source>
@@ -1447,16 +1412,8 @@ or this functionality is not implemented yet.</source>
         <translation>Помітити усі повідомлення в усіх елементах я прочитані. При цьому не будуть братися до уваги фільтри повідомлень.</translation>
     </message>
     <message>
-        <source>View selected items in &amp;newspaper mode</source>
-        <translation>Переглянути обрані елементи в режимі &quot;газети&quot;</translation>
-    </message>
-    <message>
         <source>Displays all messages from selected item in a new &quot;newspaper mode&quot; tab. Note that messages are not set as read automatically.</source>
         <translation>Відображати всі повідомлення з обраних елементів у новій вкладці з &quot;газетним виглядом&quot;. Майте на увазі, що повідомлення не помічаються як прочитані в автоматичному режимі.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean all items</source>
-        <translation>Очистити усі елементи</translation>
     </message>
     <message>
         <source>Deletes all messages from all items.</source>
@@ -1471,16 +1428,8 @@ or this functionality is not implemented yet.</source>
         <translation>Вибрати попередній елемент</translation>
     </message>
     <message>
-        <source>Show only unread items</source>
-        <translation>Відображати тільки непрочитані елементи</translation>
-    </message>
-    <message>
         <source>&amp;Expand/collapse selected item</source>
         <translation>Розгорнути/згорнути відмічені елементи</translation>
-    </message>
-    <message>
-        <source>&amp;Restore selected messages</source>
-        <translation>&amp;Відновити обрані повідомлення</translation>
     </message>
     <message>
         <source>No possible actions</source>
@@ -1499,24 +1448,12 @@ or this functionality is not implemented yet.</source>
         <translation>&amp;Спорожнити всі кошики.</translation>
     </message>
     <message>
-        <source>Select next &amp;unread message</source>
-        <translation>Вибрати наступне енпрочитане повідомлення</translation>
-    </message>
-    <message>
         <source>No recycle bin</source>
         <translation>Немає кошиків</translation>
     </message>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Потоки та категорії</translation>
-    </message>
-    <message>
         <source>&amp;Accounts</source>
         <translation>&amp;Облікові записи</translation>
-    </message>
-    <message>
-        <source>&amp;Add new account</source>
-        <translation>&amp;Додати новий облыковий запис</translation>
     </message>
     <message>
         <source>Status bar</source>
@@ -1543,16 +1480,8 @@ or this functionality is not implemented yet.</source>
         <translation>Дії недоступні</translation>
     </message>
     <message>
-        <source>Web browser &amp;&amp; tabs</source>
-        <translation>Браузер та вкладинки</translation>
-    </message>
-    <message>
         <source>Report a &amp;bug...</source>
         <translation>Сповістити про &amp;помилку</translation>
-    </message>
-    <message>
-        <source>New web browser tab</source>
-        <translation>Нова вкладинка браузера</translation>
     </message>
     <message>
         <source>Close all tabs</source>
@@ -1563,33 +1492,12 @@ or this functionality is not implemented yet.</source>
         <translation>Закрити усі вкладки окрім поточної</translation>
     </message>
     <message>
-        <source>View &amp;fullscreen</source>
-        <translation>Розгорнути на весь екран</translation>
-    </message>
-    <message>
         <source>Cannot cleanup database</source>
         <translation>Неможливо очистити базу</translation>
     </message>
     <message>
         <source>Cannot cleanup database, because another critical action is running.</source>
         <translation>Неможливо очистити базу, тому що виконується інша важлива операція.</translation>
-    </message>
-    <message>
-        <source>Feed update started</source>
-        <translation>Стартовано оновлення потоку</translation>
-    </message>
-    <message>
-        <source>Updated feed &apos;%1&apos;</source>
-        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
-        <translation>Оноволено потік &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Tabs</source>
-        <translation>Вкладинки</translation>
-    </message>
-    <message>
-        <source>&amp;Mark all items as read</source>
-        <translation>&amp;Помітити всі елементи як прочитані</translation>
     </message>
     <message>
         <source>&amp;Restart</source>
@@ -1604,35 +1512,11 @@ or this functionality is not implemented yet.</source>
         <translation>Перейти до &amp;попередньої вкладинки</translation>
     </message>
     <message>
-        <source>&amp;Enable message preview</source>
-        <translation>&amp;Активувати попередній перегляд повідомлення</translation>
-    </message>
-    <message>
         <source>&amp;Donate...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>&amp;Copy URLs of selected items</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;read</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;unread</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Show only &amp;unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Message &amp;filters</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Show tree branches</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1644,36 +1528,221 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Automatically &amp;expand items when selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Download all new messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for &amp;selected items</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Stop ongoing downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for items with &amp;custom auto-download policy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Message viewer toolbars</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Expand/collapse selected item &amp;recursively</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Fullscreen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Fetch all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch &amp;selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch selected feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch &amp;importance</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch importance of selected articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark all read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>View selected item in &amp;newspaper mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch main &amp;window visibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Next article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Previous article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;List headers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Backup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch layout</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send selected articles via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show unread items only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next &amp;unread article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing fetching</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New browser tab</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Enable article preview</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Copy URLs of selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show &amp;unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Show tree expanders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch feeds with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Automatically &amp;expand item when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Close opened modal dialogs first.</source>
+        <translation>Сперше закрийте відкрити модальні діалогові вікна.</translation>
+    </message>
+    <message>
+        <source>F&amp;eeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Art&amp;icles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Web browser &amp;&amp; tabs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ta&amp;bs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching common data</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetched &apos;%1&apos;</source>
+        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormMessageFiltersManager</name>
-    <message>
-        <source>Message filters</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Remove selected</source>
         <translation type="unfinished"/>
@@ -1687,27 +1756,11 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Message filter details</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Title</source>
         <translation>Назва</translation>
     </message>
     <message>
-        <source>Title of message filter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>JavaScript code</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Your JavaScript-based message filtering logic</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Sample message</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1743,31 +1796,11 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>New message filter</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Message will be %1.
-
-</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>ACCEPTED</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>REJECTED</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Output (modified) message is:
-  Title = '%1'
-  URL = '%2'
-  Author = '%3'
-  Is read/important = '%4/%5'
-  Created on = '%6'
-  Contents = &apos;%7&apos;</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1819,21 +1852,7 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Existing messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cannot save new filter, error: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>EXISTING messages filtering error: '%1'.
-</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>SAMPLE message filtering error: '%1'.
-</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1841,7 +1860,62 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Filter messages like this</source>
+        <source>Existing articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sample article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Filter articles like this</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING articles filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article will be %1.
+
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Output (modified) article is:
+  Title = '%1'
+  URL = '%2'
+  Author = '%3'
+  Is read/important = '%4/%5'
+  Created on = '%6'
+  Contents = '%7'
+  RAW contents = &apos;%8&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>SAMPLE article filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article filters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article filter details</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your JavaScript-based article filtering logic</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1942,147 +2016,7 @@ You have to restart manually.</source>
     </message>
 </context>
 <context>
-    <name>FormStandardCategoryDetails</name>
-    <message>
-        <source>Parent category</source>
-        <translation>Батьківська категорія</translation>
-    </message>
-    <message>
-        <source>Select parent item for your category.</source>
-        <translation>Обрати юатьківскьий елемент для категорії</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Назва</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Опис</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Значок</translation>
-    </message>
-    <message>
-        <source>Select icon for your category.</source>
-        <translation>Обрати значок для категорії</translation>
-    </message>
-    <message>
-        <source>Add new category</source>
-        <translation>Додати нову категорію</translation>
-    </message>
-    <message>
-        <source>Edit existing category</source>
-        <translation>Редагувати існуючу категорію</translation>
-    </message>
-    <message>
-        <source>Cannot add category</source>
-        <translation>Неможилво додати категорію</translation>
-    </message>
-    <message>
-        <source>Category was not added due to error.</source>
-        <translation>Категорію не було додано через помилку</translation>
-    </message>
-    <message>
-        <source>Cannot edit category</source>
-        <translation>Неможливо редагувати категорію</translation>
-    </message>
-    <message>
-        <source>Category was not edited due to error.</source>
-        <translation>Категорію не було відредаговано через помилку</translation>
-    </message>
-    <message>
-        <source>Category name is ok.</source>
-        <translation>З ім&apos;ям категорії все гаразд.</translation>
-    </message>
-    <message>
-        <source>Category name is too short.</source>
-        <translation>Ім&apos;я категорії занадто коротке.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Опис пустий.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>З описом все гаразд.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the category</source>
-        <translation>Оберіть значок для категорії</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Зображення (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Оберіть значок</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
-        <translation>Шукати в:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Ім&apos;я значку:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Тип значку:</translation>
-    </message>
-    <message>
-        <source>Category title</source>
-        <translation>Назва категорії</translation>
-    </message>
-    <message>
-        <source>Set title for your category.</source>
-        <translation>Вкажіть назву категорії</translation>
-    </message>
-    <message>
-        <source>Category description</source>
-        <translation>Опис категорії</translation>
-    </message>
-    <message>
-        <source>Set description for your category.</source>
-        <translation>Вкажіть опис категорії</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Обрати значок</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Завантажити значок з файлу...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>FormStandardFeedDetails</name>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Неможливо додати підписку</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Потік не було додано через помилку</translation>
-    </message>
-    <message>
-        <source>Cannot edit feed</source>
-        <translation>Неможливо редагувати потік</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Потік не було додано через помилку</translation>
-    </message>
     <message>
         <source>General</source>
         <translation>Загальні</translation>
@@ -2091,28 +2025,12 @@ You have to restart manually.</source>
         <source>Network</source>
         <translation type="unfinished"/>
     </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Додати новий потік</translation>
-    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
     <message>
         <source>&amp;Select file</source>
         <translation>&amp;Обрати файл</translation>
-    </message>
-    <message>
-        <source>&amp;Check all items</source>
-        <translation>&amp;Відмітити усі елементи</translation>
-    </message>
-    <message>
-        <source>&amp;Uncheck all items</source>
-        <translation>&amp;Зняти відмітку з усіх елементів</translation>
-    </message>
-    <message>
-        <source>Operation results</source>
-        <translation>Результати виконання</translation>
     </message>
     <message>
         <source>No file is selected.</source>
@@ -2226,20 +2144,24 @@ You have to restart manually.</source>
         <source>&amp;Import from file</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>&amp;Check all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Uncheck all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Operation result</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FormTtRssFeedDetails</name>
     <message>
         <source>Feed added</source>
         <translation>Потік додано</translation>
-    </message>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Неможливо додати підписку</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Потік не було додано через помилку</translation>
     </message>
     <message>
         <source>General</source>
@@ -2250,11 +2172,11 @@ You have to restart manually.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add new feed</source>
-        <translation>Додати новий потік</translation>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <source>API returned error code %1</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2380,10 +2302,6 @@ You can install it now.</source>
         <translation>Пакет успішно завантажено.
 Можна починати встановлення.</translation>
     </message>
-    <message>
-        <source>Cannot navigate to installation file. Download new installation file manually on project website.</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>GmailAccountDetails</name>
@@ -2412,20 +2330,8 @@ You can install it now.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Завантажувати тільки X нових повідомлень на потік.</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation>повідомлення(повідомлень)</translation>
-    </message>
-    <message>
         <source>&amp;Login</source>
         <translation>&amp;Логін</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Not tested yet.</source>
@@ -2434,14 +2340,6 @@ You can install it now.</source>
     <message>
         <source>User-visible username</source>
         <translation>Ім&apos;я користувача, яке бачить користувач</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Ви вже увійшли.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Доступ надано.</translation>
     </message>
     <message>
         <source>No username entered.</source>
@@ -2460,10 +2358,6 @@ You can install it now.</source>
         <translation>Під час перевірки виникла помилка.</translation>
     </message>
     <message>
-        <source>There is error. %1 </source>
-        <translation>Виникла помилка. %1</translation>
-    </message>
-    <message>
         <source>Tested successfully. You may be prompted to login once more.</source>
         <translation>Тест успішний. Можлийи потоврний запит для підключення.</translation>
     </message>
@@ -2479,17 +2373,33 @@ You can install it now.</source>
         <source>Some value is entered.</source>
         <translation>Введено значення.</translation>
     </message>
+    <message>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as it preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave those fields empty and make sure to leave default value of redirect URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>GmailNetworkFactory</name>
-    <message>
-        <source>Logged in successfully</source>
-        <translation>Вхід виконано успішно</translation>
-    </message>
-    <message>
-        <source>Your login to Gmail was authorized.</source>
-        <translation>Ваш вхід в Gmail було авторизовано.</translation>
-    </message>
     <message>
         <source>Click this to login again. Error is: &apos;%1&apos;</source>
         <translation>Натисніть ще раз для повторного входу. Помилка: &apos;%1&apos;</translation>
@@ -2575,18 +2485,6 @@ Login tokens expiration: %2</source>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Завантажувати тільки X нових повідомлень на потік.</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation>= необмежено</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Деякі потоки потребують аутентифікації, включаючи потоки GMail. Підтримуються BASIC, NTLM-2 та DIGEST-MD5 схеми аутентифікації.</translation>
-    </message>
-    <message>
         <source>Authentication</source>
         <translation>Аутентифікація</translation>
     </message>
@@ -2597,10 +2495,6 @@ Login tokens expiration: %2</source>
     <message>
         <source>Password</source>
         <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Показати пароль</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -2625,18 +2519,6 @@ Login tokens expiration: %2</source>
     <message>
         <source>Here, results of connection test are shown.</source>
         <translation>Результат перевірки підключення.</translation>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= необмежено</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>повідомлень</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
@@ -2678,41 +2560,21 @@ Login tokens expiration: %2</source>
         <source>URL is okay.</source>
         <translation>URL принято</translation>
     </message>
-</context>
-<context>
-    <name>GreaderNetwork</name>
     <message>
-        <source>Other services</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>IOFactory</name>
-    <message>
-        <source>Cannot open file &apos;%1&apos; for reading.</source>
-        <translation>Неможливо відкрити &apos;%1&apos; для читання</translation>
-    </message>
-    <message>
-        <source>Cannot open file &apos;%1&apos; for writting.</source>
-        <translation>Неможливо відкрити &apos;%1&apos; для запису</translation>
-    </message>
-</context>
-<context>
-    <name>ImportantNode</name>
-    <message>
-        <source>Important messages</source>
+        <source>Only download newest X articles per feed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>You can find all important messages here.</source>
+        <source>Download unread articles only</source>
         <translation type="unfinished"/>
     </message>
-</context>
-<context>
-    <name>InoreaderAccountDetails</name>
     <message>
-        <source>Username</source>
-        <translation>Ім’я користувача</translation>
+        <source>Intelligent synchronization algorithm</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles newer than</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OAuth 2.0 settings</source>
@@ -2735,46 +2597,20 @@ Login tokens expiration: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source> message(s)</source>
-        <translation>повідомлення(повідомлень)</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Завантажувати тільки X нових повідомлень на потік.</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Логін</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <source>Some feeds might contain tens of thousands of articles and downloading all of them could take great amount of time, so sometimes it is good to download only certain amount of newest messages.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Not tested yet.</source>
-        <translation>Ще не протестовано.</translation>
+        <source>If you select intelligent synchronization, then only not-yet-fetched or updated articles are downloaded. Network usage is greatly reduced and overall synchronization speed is greatly improved, but first feed fetching could be slow anyway if your feed contains huge number of articles.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>User-visible username</source>
-        <translation>Ім&apos;я користувача, яке бачить користувач</translation>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave all above fields to their default values even if they are empty.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>You are already logged in.</source>
-        <translation>Ви вже увійшли.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Доступ надано.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Не вказано ім&apos;я користувача.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Введено ім&apos;я користувача.</translation>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>You did not grant access.</source>
@@ -2797,6 +2633,10 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
         <translation>Доступ надано</translation>
     </message>
     <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Empty value is entered.</source>
         <translation>Введено пусте значення</translation>
     </message>
@@ -2806,14 +2646,10 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
     </message>
 </context>
 <context>
-    <name>InoreaderNetworkFactory</name>
+    <name>GreaderNetwork</name>
     <message>
-        <source>Logged in successfully</source>
-        <translation>Вхід виконано успішно</translation>
-    </message>
-    <message>
-        <source>Your login to Inoreader was authorized.</source>
-        <translation>Ваш вхід до Inoreader авторизований</translation>
+        <source>login failed</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Inoreader: authentication error</source>
@@ -2833,20 +2669,32 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
     </message>
 </context>
 <context>
-    <name>InoreaderServiceRoot</name>
+    <name>GreaderServiceRoot</name>
     <message>
-        <source>Authentication status: %1
-Login tokens expiration: %2</source>
-        <translation>Статус аутентифікації: %1
-Login tokens expiration: %2</translation>
+        <source>Other services</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>IOFactory</name>
+    <message>
+        <source>Cannot open file &apos;%1&apos; for reading.</source>
+        <translation>Неможливо відкрити &apos;%1&apos; для читання</translation>
     </message>
     <message>
-        <source>logged-in</source>
-        <translation>виконано вхід</translation>
+        <source>Cannot open file &apos;%1&apos; for writting.</source>
+        <translation>Неможливо відкрити &apos;%1&apos; для запису</translation>
+    </message>
+</context>
+<context>
+    <name>ImportantNode</name>
+    <message>
+        <source>Important articles</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>NOT logged-in</source>
-        <translation>вхід НЕ виконано</translation>
+        <source>You can find all important articles here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2884,6 +2732,33 @@ Login tokens expiration: %2</translation>
     <message>
         <source>Website address goes here</source>
         <translation>Адреса веб сайту</translation>
+    </message>
+</context>
+<context>
+    <name>MariaDbDriver</name>
+    <message>
+        <source>MySQL server works as expected.</source>
+        <translation>Сервер MySQL працює згідно очікувань.</translation>
+    </message>
+    <message>
+        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
+        <translation>Вказана база не існує. Базу буде створено. ( Це не є помилкою. )</translation>
+    </message>
+    <message>
+        <source>No MySQL server is running in the target destination.</source>
+        <translation>На цільовій системі не знайдено працюючого сервера MySQL.</translation>
+    </message>
+    <message>
+        <source>Access denied. Invalid username or password used.</source>
+        <translation>Відмовлено в доступі. Невірне імя користувача або пароль.</translation>
+    </message>
+    <message>
+        <source>Unknown error: &apos;%1&apos;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>MariaDB</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2933,18 +2808,40 @@ Login tokens expiration: %2</translation>
     </message>
 </context>
 <context>
+    <name>MessageCountSpinBox</name>
+    <message>
+        <source>= unlimited</source>
+        <translation>= необмежено</translation>
+    </message>
+    <message>
+        <source>article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>MessagePreviewer</name>
     <message>
-        <source>Mark message as read</source>
-        <translation>Помітити повідомлення як прочитане</translation>
+        <source>Mark article read</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Mark message as unread</source>
-        <translation>Помітити повідомлення як непрочитане</translation>
+        <source>Mark article unread</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Switch message importance</source>
-        <translation>Змінити ступінь важливості повідомлення</translation>
+        <source>Switch article importance</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MessageTextBrowser</name>
+    <message>
+        <source>Open with external tool</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2974,8 +2871,12 @@ Login tokens expiration: %2</translation>
         <translation>Автор</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Дата створення</translation>
+        <source>Score</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3013,60 +2914,12 @@ Login tokens expiration: %2</translation>
         <translation>Автор</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Дата створення</translation>
-    </message>
-    <message>
         <source>Contents</source>
         <translation>Вміст</translation>
     </message>
     <message>
-        <source>Id of the message.</source>
-        <translation>Id повідомлення</translation>
-    </message>
-    <message>
-        <source>Is message read?</source>
-        <translation>Чи прочитане повідомлення?</translation>
-    </message>
-    <message>
-        <source>Is message deleted?</source>
-        <translation>Чи видалене повідомлення?</translation>
-    </message>
-    <message>
-        <source>Is message important?</source>
-        <translation>Повідомлення важливе?</translation>
-    </message>
-    <message>
-        <source>Id of feed which this message belongs to.</source>
-        <translation>Id потоку, до якого належить повідомлення.</translation>
-    </message>
-    <message>
-        <source>Title of the message.</source>
-        <translation>Заголовок повідомлення.</translation>
-    </message>
-    <message>
-        <source>Url of the message.</source>
-        <translation>URL повідомлення.</translation>
-    </message>
-    <message>
-        <source>Author of the message.</source>
-        <translation>Автор повідомлення.</translation>
-    </message>
-    <message>
-        <source>Creation date of the message.</source>
-        <translation>Дата створення повідомлення.</translation>
-    </message>
-    <message>
-        <source>Contents of the message.</source>
-        <translation>Вміст повідомлення.</translation>
-    </message>
-    <message>
         <source>Permanently deleted</source>
         <translation>Видалено назавжди</translation>
-    </message>
-    <message>
-        <source>Is message permanently deleted from recycle bin?</source>
-        <translation>Чи видалене повідомлення з кошику назавжди?</translation>
     </message>
     <message>
         <source>Attachments</source>
@@ -3077,14 +2930,6 @@ Login tokens expiration: %2</translation>
         <translation>Перелік прикріплень.</translation>
     </message>
     <message>
-        <source>Loading of messages failed, maybe messages could not be downloaded.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Loading of messages from item &apos;%1&apos; failed.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Account ID</source>
         <translation type="unfinished"/>
     </message>
@@ -3093,19 +2938,7 @@ Login tokens expiration: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Account ID of the message.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Custom ID of the message</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Custom hash</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Custom hash of the message.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3113,71 +2946,135 @@ Login tokens expiration: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Custom ID of feed of the message.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Has enclosures</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Indication of enclosures presence within the message.</source>
+        <source>Score</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Loading of articles from item &apos;%1&apos; failed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Loading of articles failed, maybe messages could not be downloaded.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article read?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article important?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article deleted?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article permanently deleted from recycle bin?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of feed which this article belongs to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Url of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Author of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Creation date of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Contents of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Score of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Account ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of the article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom hash of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of feed of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Indication of enclosures presence within the article.</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MessagesToolBar</name>
     <message>
-        <source>Search messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Message search box</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Menu for highlighting messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>No extra highlighting</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Highlight unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Highlight important messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Display all messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Message highlighter</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Toolbar spacer</source>
         <translation>Розподілювач панелі інструментів</translation>
     </message>
+    <message>
+        <source>Search articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article search box</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Menu for highlighting articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight important articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display all articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article highlighter</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MessagesView</name>
-    <message>
-        <source>Context menu for messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Problem with starting external web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>External web browser could not be started.</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Problem with starting external e-mail client</source>
         <translation type="unfinished"/>
@@ -3196,6 +3093,14 @@ Login tokens expiration: %2</translation>
     </message>
     <message>
         <source>External tool &apos;%1&apos; could not be started.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>No external tools activated</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Context menu for articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3320,10 +3225,6 @@ Login tokens expiration: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Display password</source>
-        <translation>Показувати пароль</translation>
-    </message>
-    <message>
         <source>Note that these settings are applied only on newly established connections.</source>
         <translation type="unfinished"/>
     </message>
@@ -3351,15 +3252,15 @@ Login tokens expiration: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>Show more messages (%n remaining)</source>
+        <source>Show more articles (%n remaining)</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>Cannot show more messages</source>
+        <source>Cannot show more articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot show more messages because parent feed was removed.</source>
+        <source>Cannot show more articles because parent feed was removed.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3382,14 +3283,6 @@ Login tokens expiration: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Navigate to website</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>To login, you need to navigate to this website:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>You can close this window now. Go back to %1.</source>
         <translation type="unfinished"/>
     </message>
@@ -3401,20 +3294,8 @@ Login tokens expiration: %2</translation>
 <context>
     <name>OwnCloudAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Примусово запускати оновлення на боці серверу під час оновлення потоків з RSS Guard.</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Завантажувати тільки X нових повідомлень на потік.</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation>= необмежено</translation>
     </message>
     <message>
         <source>URL</source>
@@ -3435,10 +3316,6 @@ Login tokens expiration: %2</translation>
     <message>
         <source>Password</source>
         <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Показати пароль</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -3469,16 +3346,8 @@ Login tokens expiration: %2</translation>
         <translation>Результат перевірки підключення.</translation>
     </message>
     <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation>Обмеження кількості завантажених повідомлень на потік робить оновлення потоку швидшим, але деякі повідомлення можеть бути не завантажені, якщо ваш потік має велику кількість повідомлень.</translation>
-    </message>
-    <message>
         <source>= unlimited</source>
         <translation>= необмежено</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>повідомлень</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
@@ -3527,6 +3396,18 @@ Login tokens expiration: %2</translation>
     <message>
         <source>URL is okay.</source>
         <translation>URL принято</translation>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3584,10 +3465,6 @@ At least API level %1 is required.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>This is integration of Inoreader.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Simple Gmail integration via JSON API. Allows sending e-mails too.</source>
         <translation type="unfinished"/>
     </message>
@@ -3599,19 +3476,51 @@ version by clicking this popup notification.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot insert message filter, because current database cannot return last inserted row ID.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <source>Keep up with the topics and trends you care about, without the overwhelm.
+
+Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <source>Cannot insert article filter, because current database cannot return last inserted row ID.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching articles right now</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Login data refreshed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New %1 version is available</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Miscellaneous events</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown event</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New (unread) articles fetched</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML problem: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers.
+
+List of supported readers:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3622,14 +3531,6 @@ version by clicking this popup notification.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Recycle bin contains all deleted messages from all feeds.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message numerus="yes">
-        <source>%n deleted message(s).</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message>
         <source>Restore recycle bin</source>
         <translation type="unfinished"/>
     </message>
@@ -3637,11 +3538,19 @@ version by clicking this popup notification.</source>
         <source>Empty recycle bin</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Recycle bin contains all deleted articles from all feeds.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n deleted article(s).</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>RootItem</name>
     <message numerus="yes">
-        <source>%n unread message(s).</source>
+        <source>%n unread article(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
@@ -3672,10 +3581,6 @@ version by clicking this popup notification.</source>
 <context>
     <name>SearchTextWidget</name>
     <message>
-        <source>Clear searched phrase</source>
-        <translation>Очистити пошукову фразу</translation>
-    </message>
-    <message>
         <source>Seach text</source>
         <translation>Текст для пошуку</translation>
     </message>
@@ -3695,7 +3600,7 @@ version by clicking this popup notification.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Synchronize message cache</source>
+        <source>Synchronize article cache</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3771,9 +3676,7 @@ version by clicking this popup notification.</source>
         <source>Executables (*)</source>
         <extracomment>File filter for external browser selection dialog.
 ----------
-File filter for external e-mail selection dialog.
-----------
-File filter for external tool selection dialog.</extracomment>
+File filter for external e-mail selection dialog.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3809,14 +3712,6 @@ File filter for external tool selection dialog.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add external tool</source>
-        <translation>Додати зовнішній інструмент</translation>
-    </message>
-    <message>
-        <source>Delete selected external tool</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Executable</source>
         <translation type="unfinished"/>
     </message>
@@ -3833,15 +3728,27 @@ File filter for external tool selection dialog.</extracomment>
         <translation>Редагувати параметри</translation>
     </message>
     <message>
-        <source>Enter (optional) parameters separated by single space to send to executable when opening URLs.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Parameters passed to executable</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Network proxy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add new external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Edit selected external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete selected external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter (optional) parameters separated by &quot;%1&quot;:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3895,10 +3802,6 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
     <message>
         <source>Note that speed of used MySQL server and latency of used connection medium HEAVILY influences the final performance of this application. Using slow database connections leads to bad performance when browsing feeds or messages.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Show password</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -4012,10 +3915,6 @@ Authors of this application are NOT responsible for lost data.</source>
 <context>
     <name>SettingsFeedsMessages</name>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Потоки та категорії</translation>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
         <translation type="unfinished"/>
     </message>
@@ -4026,26 +3925,6 @@ Authors of this application are NOT responsible for lost data.</source>
     <message>
         <source> ms</source>
         <translation>мс</translation>
-    </message>
-    <message>
-        <source>Message count format in feed list</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Enter format for count of messages displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) messages.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Messages</source>
-        <translation>Повідомлення</translation>
-    </message>
-    <message>
-        <source>Remove all read messages from all feeds on application exit</source>
-        <translation>Видаляти усі повідомлення з усіх потоків при виході з програми</translation>
-    </message>
-    <message>
-        <source>Keep message selection in the middle of the message list viewport</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Use custom date/time format (overrides format loaded from active localization)</source>
@@ -4060,19 +3939,11 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feeds &amp; messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Height of image attachments</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Height or rows in feed list (-1 = default height)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Height or rows in message list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -4084,39 +3955,75 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Message list font</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Internal message browser font</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Select new font</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <source>Feeds</source>
+        <translation>Підписки</translation>
+    </message>
+    <message>
+        <source>Articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enable &quot;auto-download started&quot; notification</source>
+        <source>Remove all read articles from all feeds on application exit</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Only auto-download messages when application is unfocused</source>
+        <source>Display real icons of feeds in list of articles instead of read/unread icons</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-download messages for all feeds every</source>
+        <source>Bring application window to front once article is opened in external web browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Bring application window to front once message is opened in external web browser</source>
+        <source>Height or rows in article list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <source>Article list font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article browser font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feeds &amp; articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-fetch articles for all feeds every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-fetch articles if application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article count format in feed list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter format for count of articles displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) articles.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Hide article counts if there are no unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display tooltips for feeds and articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep article selection in the middle of the article list viewport</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4154,10 +4061,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Tray area &amp;&amp; notifications</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Tray icon</source>
         <translation type="unfinished"/>
     </message>
@@ -4167,10 +4070,6 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
     <message>
         <source>Start application hidden</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Enable popup balloon tooltips</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -4202,10 +4101,6 @@ Authors of this application are NOT responsible for lost data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Toolbar for messages list</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Statusbar</source>
         <translation type="unfinished"/>
     </message>
@@ -4232,10 +4127,6 @@ Authors of this application are NOT responsible for lost data.</source>
     <message>
         <source>E-mail</source>
         <translation>E-mail</translation>
-    </message>
-    <message>
-        <source>(Tray icon is not available.)</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <source>Icon only</source>
@@ -4290,6 +4181,18 @@ Authors of this application are NOT responsible for lost data.</source>
         <source>Display count of unread messages</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>(Your OS does not support tray icons at the moment.)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tray area</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Toolbar for articles list</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4304,6 +4207,29 @@ Authors of this application are NOT responsible for lost data.</source>
     <message>
         <source>Author</source>
         <translation>Автор</translation>
+    </message>
+    <message>
+        <source>Localization</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SettingsNotifications</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enable notifications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You must have &quot;tray icon&quot; activated to have balloon notifications working.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4329,29 +4255,71 @@ Authors of this application are NOT responsible for lost data.</source>
     </message>
 </context>
 <context>
+    <name>SingleNotificationEditor</name>
+    <message>
+        <source>Sound</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full path to your WAV sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Browse</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Play</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Balloon notification</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Select sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>WAV files (*.wav)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>SkinFactory</name>
     <message>
         <source>This page was blocked by AdBlock</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Blocked by set: &quot;%1&quot;&lt;br/&gt;Blocked by filter: &quot;%2&quot;</source>
+        <source>Blocked URL: &quot;%1&quot;&lt;br/&gt;Used filter: &quot;%2&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SqliteDriver</name>
+    <message>
+        <source>SQLite (embedded database)</source>
+        <translation>SQLite ( вбудована база )</translation>
+    </message>
+    <message>
+        <source>Database file not copied to output directory successfully.</source>
+        <translation>Файл бази не було скопійовано у цільовий каталог.</translation>
+    </message>
+</context>
+<context>
+    <name>StandardCategory</name>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot save data for category, detailed information was logged via debug log.</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>StandardFeed</name>
-    <message>
-        <source>Metadata not fetched</source>
-        <translation>Метадані не завантажено</translation>
-    </message>
-    <message>
-        <source>
-Network status: %1
-Encoding: %2
-Type: %3</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <source>Script</source>
         <translation type="unfinished"/>
@@ -4365,7 +4333,29 @@ Type: %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Metadata was not fetched.</source>
+        <source>Error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot save data for feed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML is not well-formed, %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML feed file format unrecognized</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot move feed, detailed information was logged via debug log.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>
+Encoding: %2
+Type: %3</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4374,10 +4364,6 @@ Type: %3</source>
     <message>
         <source>Form</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Батьківська категорія</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -4468,10 +4454,6 @@ Type: %3</source>
         <translation>Метадані значку завантажено.</translation>
     </message>
     <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Метадані значку не завантажено.</translation>
-    </message>
-    <message>
         <source>No icon fetched.</source>
         <translation>Значок не завантажено.</translation>
     </message>
@@ -4482,10 +4464,6 @@ Type: %3</source>
     <message>
         <source>Feed and icon metadata fetched.</source>
         <translation>Потік та метадані завантажено.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Потік або метадані значку не завантажено.</translation>
     </message>
     <message>
         <source>No metadata fetched.</source>
@@ -4604,6 +4582,22 @@ Type: %3</source>
         <source>Command is empty.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Script failed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Помилка: %1</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>StandardServiceRoot</name>
@@ -4652,12 +4646,12 @@ Type: %3</source>
         <translation>Неможливо додати катгорію, тому що триває інша важлива операція.</translation>
     </message>
     <message>
-        <source>Import successful, but some feeds/categories were not imported due to error.</source>
-        <translation>Імпорт завершено успішно, проте деякі потоки/категорії не було імопртовано через помилку.</translation>
-    </message>
-    <message>
         <source>Import was completely successful.</source>
         <translation>Імпортування успішно закінчено.</translation>
+    </message>
+    <message>
+        <source>Some feeds/categories were not imported due to error, check debug log for more details.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4667,16 +4661,8 @@ Type: %3</source>
         <translation>Прогрес індикатор оновлення потоку</translation>
     </message>
     <message>
-        <source>Feed update label</source>
-        <translation>Ярлик оновлення потоку</translation>
-    </message>
-    <message>
         <source>File download progress bar</source>
         <translation>Прогрес індикатор завантаження файлу</translation>
-    </message>
-    <message>
-        <source>File download label</source>
-        <translation>Ярлик завантаження файлу</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
@@ -4704,13 +4690,6 @@ Unread news: %2</source>
     </message>
 </context>
 <context>
-    <name>T</name>
-    <message>
-        <source>Add new account</source>
-        <translation>Додати новий обліковий запис</translation>
-    </message>
-</context>
-<context>
     <name>TabBar</name>
     <message>
         <source>Close this tab.</source>
@@ -4726,10 +4705,6 @@ Unread news: %2</source>
     <message>
         <source>Feeds</source>
         <translation>Підписки</translation>
-    </message>
-    <message>
-        <source>Browse your feeds and messages</source>
-        <translation>Перегляд ваших потоків та повідомлень</translation>
     </message>
     <message>
         <source>Displays main menu.</source>
@@ -4750,6 +4725,10 @@ Unread news: %2</source>
     <message>
         <source>Web browser</source>
         <translation>Браузер</translation>
+    </message>
+    <message>
+        <source>Browse your feeds and articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4832,10 +4811,6 @@ Unread news: %2</source>
 <context>
     <name>TtRssAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Примусово запускати оновлення на боці серверу під час оновлення потоків з RSS Guard.</translation>
     </message>
@@ -4854,10 +4829,6 @@ Unread news: %2</source>
     <message>
         <source>Password</source>
         <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Показати пароль</translation>
     </message>
     <message>
         <source>Requires HTTP authentication</source>
@@ -4983,16 +4954,20 @@ Unread news: %2</source>
         <source>URL is okay.</source>
         <translation>URL принято</translation>
     </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Батьківська категорія</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -5022,6 +4997,10 @@ Unread news: %2</source>
         <source>The URL is empty.</source>
         <translation>URL пустий.</translation>
     </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TtRssServiceRoot</name>
@@ -5042,6 +5021,17 @@ Last login on: %4</source>
 Сервер: %2
 Остання помилка: %3
 Останній вхід: %4</translation>
+    </message>
+</context>
+<context>
+    <name>UnreadNode</name>
+    <message>
+        <source>Unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can find all unread articles here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5073,14 +5063,6 @@ Last login on: %4</source>
     </message>
     <message>
         <source>Open this website in system web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Failed to open URL in web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5174,6 +5156,14 @@ Last login on: %4</source>
         <source>Allow geolocation on insecure origins</source>
         <translation>Дозволити геолокацію у небезпечних витоках</translation>
     </message>
+    <message>
+        <source>Navigate to website manually</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 was unable to launch your web browser with the given URL, you need to open the below website URL in your web browser manually.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>WebViewer</name>
@@ -5192,6 +5182,10 @@ Last login on: %4</source>
     <message>
         <source>Open link in external browser</source>
         <translation>Відкрити посилання у зовнішньому браузері</translation>
+    </message>
+    <message>
+        <source>Open with external tool</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

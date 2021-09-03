@@ -2,18 +2,18 @@
 
 #include "gui/messagepreviewer.h"
 
+#include "database/databasequeries.h"
 #include "gui/dialogs/formmain.h"
 #include "gui/messagebox.h"
-#include "gui/plaintoolbutton.h"
-#include "gui/searchtextwidget.h"
+#include "gui/reusable/plaintoolbutton.h"
+#include "gui/reusable/searchtextwidget.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "network-web/webfactory.h"
 #include "services/abstract/label.h"
 #include "services/abstract/labelsnode.h"
 #include "services/abstract/serviceroot.h"
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
 #include "gui/webbrowser.h"
 #include "gui/webviewer.h"
 #else
@@ -31,24 +31,24 @@
 void MessagePreviewer::createConnections() {
   installEventFilter(this);
 
-  connect(m_actionMarkRead = m_toolBar->addAction(qApp->icons()->fromTheme("mail-mark-read"), tr("Mark message as read")),
+  connect(m_actionMarkRead = m_toolBar->addAction(qApp->icons()->fromTheme(QSL("mail-mark-read")), tr("Mark article read")),
           &QAction::triggered,
           this,
           &MessagePreviewer::markMessageAsRead);
-  connect(m_actionMarkUnread = m_toolBar->addAction(qApp->icons()->fromTheme("mail-mark-unread"), tr("Mark message as unread")),
+  connect(m_actionMarkUnread = m_toolBar->addAction(qApp->icons()->fromTheme(QSL("mail-mark-unread")), tr("Mark article unread")),
           &QAction::triggered,
           this,
           &MessagePreviewer::markMessageAsUnread);
-  connect(m_actionSwitchImportance = m_toolBar->addAction(qApp->icons()->fromTheme("mail-mark-important"), tr("Switch message importance")),
+  connect(m_actionSwitchImportance = m_toolBar->addAction(qApp->icons()->fromTheme(QSL("mail-mark-important")), tr("Switch article importance")),
           &QAction::triggered,
           this,
           &MessagePreviewer::switchMessageImportance);
 }
 
 MessagePreviewer::MessagePreviewer(bool should_resize_to_fit, QWidget* parent)
-  : QWidget(parent), m_layout(new QGridLayout(this)), m_toolBar(new QToolBar(this)), m_verticalScrollBarPosition(0.0),
+  : QWidget(parent), m_layout(new QGridLayout(this)), m_toolBar(new QToolBar(this)),
   m_separator(nullptr), m_btnLabels(QList<QPair<LabelButton*, QAction*>>()) {
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
   m_txtMessage = new WebBrowser(this);
 
   if (should_resize_to_fit) {
@@ -71,7 +71,7 @@ MessagePreviewer::MessagePreviewer(bool should_resize_to_fit, QWidget* parent)
   createConnections();
   m_actionSwitchImportance->setCheckable(true);
 
-  reloadFontSettings();
+  //reloadFontSettings();
   clear();
 }
 
@@ -82,14 +82,14 @@ void MessagePreviewer::reloadFontSettings() {
 void MessagePreviewer::setToolbarsVisible(bool visible) {
   m_toolBar->setVisible(visible);
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
   m_txtMessage->setNavigationBarVisible(visible);
 #endif
 
   qApp->settings()->setValue(GROUP(GUI), GUI::MessageViewerToolbarsVisible, visible);
 }
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
 
 WebBrowser* MessagePreviewer::webBrowser() const {
   return m_txtMessage;
@@ -102,7 +102,6 @@ void MessagePreviewer::clear() {
   m_txtMessage->clear();
   hide();
 
-  m_verticalScrollBarPosition = 0.0;
   m_root.clear();
   m_message = Message();
 }
@@ -114,13 +113,6 @@ void MessagePreviewer::hideToolbar() {
 void MessagePreviewer::loadMessage(const Message& message, RootItem* root) {
   bool same_message = message.m_id == m_message.m_id && m_root == root;
 
-  if (same_message) {
-    m_verticalScrollBarPosition = m_txtMessage->verticalScrollBarPosition();
-  }
-  else {
-    m_verticalScrollBarPosition = 0.0;
-  }
-
   m_message = message;
   m_root = root;
 
@@ -129,10 +121,10 @@ void MessagePreviewer::loadMessage(const Message& message, RootItem* root) {
     updateLabels(false);
     show();
     m_actionSwitchImportance->setChecked(m_message.m_isImportant);
-    m_txtMessage->loadMessage(message, m_root);
 
-    if (same_message) {
-      m_txtMessage->setVerticalScrollBarPosition(m_verticalScrollBarPosition);
+    if (!same_message) {
+      m_txtMessage->setVerticalScrollBarPosition(0.0);
+      m_txtMessage->loadMessage(message, m_root);
     }
   }
 }
@@ -165,7 +157,8 @@ void MessagePreviewer::markMessageAsReadUnread(RootItem::ReadStatus read) {
     if (m_root->getParentServiceRoot()->onBeforeSetMessagesRead(m_root.data(),
                                                                 QList<Message>() << m_message,
                                                                 read)) {
-      DatabaseQueries::markMessagesReadUnread(qApp->database()->connection(objectName(), DatabaseFactory::DesiredType::FromSettings),
+      DatabaseQueries::markMessagesReadUnread(qApp->database()->driver()->connection(objectName(),
+                                                                                     DatabaseDriver::DesiredStorageType::FromSettings),
                                               QStringList() << QString::number(m_message.m_id),
                                               read);
       m_root->getParentServiceRoot()->onAfterSetMessagesRead(m_root.data(),
@@ -188,7 +181,7 @@ void MessagePreviewer::switchMessageImportance(bool checked) {
                                                                                             m_isImportant
                                                                                             ? RootItem::Importance::NotImportant
                                                                                             : RootItem::Importance::Important))) {
-      DatabaseQueries::switchMessagesImportance(qApp->database()->connection(objectName(), DatabaseFactory::DesiredType::FromSettings),
+      DatabaseQueries::switchMessagesImportance(qApp->database()->driver()->connection(objectName(), DatabaseDriver::DesiredStorageType::FromSettings),
                                                 QStringList() << QString::number(m_message.m_id));
       m_root->getParentServiceRoot()->onAfterSwitchMessageImportance(m_root.data(),
                                                                      QList<ImportanceChange>()
@@ -229,9 +222,10 @@ void MessagePreviewer::updateLabels(bool only_clear) {
 
   if (m_root.data() != nullptr && !m_root.data()->getParentServiceRoot()->labelsNode()->labels().isEmpty()) {
     m_separator = m_toolBar->addSeparator();
-    QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+    QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
+    auto lbls = m_root.data()->getParentServiceRoot()->labelsNode()->labels();
 
-    for (auto* label : m_root.data()->getParentServiceRoot()->labelsNode()->labels()) {
+    for (auto* label : lbls) {
       LabelButton* btn_label = new LabelButton(this);
 
       btn_label->setLabel(label);

@@ -5,7 +5,7 @@
 #include "gui/guiutilities.h"
 #include "network-web/networkfactory.h"
 #include "services/tt-rss/definitions.h"
-#include "services/tt-rss/network/ttrssnetworkfactory.h"
+#include "services/tt-rss/ttrssnetworkfactory.h"
 
 TtRssAccountDetails::TtRssAccountDetails(QWidget* parent) : QWidget(parent) {
   m_ui.setupUi(this);
@@ -25,17 +25,18 @@ TtRssAccountDetails::TtRssAccountDetails(QWidget* parent) : QWidget(parent) {
   GuiUtilities::setLabelAsNotice(*m_ui.m_lblServerSideUpdateInformation, true);
 
   setTabOrder(m_ui.m_txtUrl->lineEdit(), m_ui.m_checkDownloadOnlyUnreadMessages);
-  setTabOrder(m_ui.m_checkDownloadOnlyUnreadMessages, m_ui.m_checkServerSideUpdate);
+  setTabOrder(m_ui.m_checkDownloadOnlyUnreadMessages, m_ui.m_spinLimitMessages);
+  setTabOrder(m_ui.m_spinLimitMessages, m_ui.m_checkServerSideUpdate);
   setTabOrder(m_ui.m_checkServerSideUpdate, m_ui.m_txtUsername->lineEdit());
   setTabOrder(m_ui.m_txtUsername->lineEdit(), m_ui.m_txtPassword->lineEdit());
-  setTabOrder(m_ui.m_txtPassword->lineEdit(), m_ui.m_checkShowPassword);
-  setTabOrder(m_ui.m_checkShowPassword, m_ui.m_gbHttpAuthentication);
+  setTabOrder(m_ui.m_txtPassword->lineEdit(), m_ui.m_gbHttpAuthentication);
   setTabOrder(m_ui.m_gbHttpAuthentication, m_ui.m_txtHttpUsername->lineEdit());
   setTabOrder(m_ui.m_txtHttpUsername->lineEdit(), m_ui.m_txtHttpPassword->lineEdit());
-  setTabOrder(m_ui.m_txtHttpPassword->lineEdit(), m_ui.m_checkShowHttpPassword);
-  setTabOrder(m_ui.m_checkShowHttpPassword, m_ui.m_btnTestSetup);
+  setTabOrder(m_ui.m_txtHttpPassword->lineEdit(), m_ui.m_btnTestSetup);
 
-  connect(m_ui.m_checkShowPassword, &QCheckBox::toggled, this, &TtRssAccountDetails::displayPassword);
+  m_ui.m_txtHttpPassword->lineEdit()->setPasswordMode(true);
+  m_ui.m_txtPassword->lineEdit()->setPasswordMode(true);
+
   connect(m_ui.m_txtPassword->lineEdit(), &BaseLineEdit::textChanged, this, &TtRssAccountDetails::onPasswordChanged);
   connect(m_ui.m_txtUsername->lineEdit(), &BaseLineEdit::textChanged, this, &TtRssAccountDetails::onUsernameChanged);
   connect(m_ui.m_txtHttpPassword->lineEdit(), &BaseLineEdit::textChanged, this, &TtRssAccountDetails::onHttpPasswordChanged);
@@ -43,23 +44,12 @@ TtRssAccountDetails::TtRssAccountDetails(QWidget* parent) : QWidget(parent) {
   connect(m_ui.m_txtUrl->lineEdit(), &BaseLineEdit::textChanged, this, &TtRssAccountDetails::onUrlChanged);
   connect(m_ui.m_gbHttpAuthentication, &QGroupBox::toggled, this, &TtRssAccountDetails::onHttpPasswordChanged);
   connect(m_ui.m_gbHttpAuthentication, &QGroupBox::toggled, this, &TtRssAccountDetails::onHttpUsernameChanged);
-  connect(m_ui.m_checkShowHttpPassword, &QCheckBox::toggled, this, &TtRssAccountDetails::displayHttpPassword);
 
   onPasswordChanged();
   onUsernameChanged();
   onUrlChanged();
   onHttpPasswordChanged();
   onHttpUsernameChanged();
-  displayPassword(false);
-  displayHttpPassword(false);
-}
-
-void TtRssAccountDetails::displayPassword(bool display) {
-  m_ui.m_txtPassword->lineEdit()->setEchoMode(display ? QLineEdit::Normal : QLineEdit::Password);
-}
-
-void TtRssAccountDetails::displayHttpPassword(bool display) {
-  m_ui.m_txtHttpPassword->lineEdit()->setEchoMode(display ? QLineEdit::Normal : QLineEdit::Password);
 }
 
 void TtRssAccountDetails::performTest(const QNetworkProxy& proxy) {
@@ -72,6 +62,7 @@ void TtRssAccountDetails::performTest(const QNetworkProxy& proxy) {
   factory.setAuthUsername(m_ui.m_txtHttpUsername->lineEdit()->text());
   factory.setAuthPassword(m_ui.m_txtHttpPassword->lineEdit()->text());
   factory.setForceServerSideUpdate(m_ui.m_checkServerSideUpdate->isChecked());
+  factory.setBatchSize(m_ui.m_spinLimitMessages->value());
 
   TtRssLoginResponse result = factory.login(proxy);
 

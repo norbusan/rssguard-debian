@@ -8,21 +8,19 @@
 #include "core/feedsproxymodel.h"
 #include "core/messagesmodel.h"
 #include "core/messagesproxymodel.h"
+#include "database/databasequeries.h"
 #include "gui/dialogs/formmessagefiltersmanager.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/mutex.h"
 #include "services/abstract/cacheforserviceroot.h"
 #include "services/abstract/serviceroot.h"
 #include "services/feedly/feedlyentrypoint.h"
 #include "services/gmail/gmailentrypoint.h"
 #include "services/greader/greaderentrypoint.h"
-#include "services/inoreader/inoreaderentrypoint.h"
 #include "services/owncloud/owncloudserviceentrypoint.h"
 #include "services/standard/standardserviceentrypoint.h"
 #include "services/tt-rss/ttrssserviceentrypoint.h"
 
-#include <QtConcurrent/QtConcurrentRun>
 #include <QThread>
 #include <QTimer>
 
@@ -43,7 +41,9 @@ FeedReader::FeedReader(QObject* parent)
              << "Requesting update for all feeds on application startup.";
     QTimer::singleShot(qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::FeedsUpdateStartupDelay)).toDouble() * 1000,
                        this,
-                       &FeedReader::updateAllFeeds);
+                       [this]() {
+      updateFeeds(m_feedsModel->rootItem()->getSubAutoFetchingEnabledFeeds());
+    });
   }
 }
 
@@ -59,7 +59,6 @@ QList<ServiceEntryPoint*> FeedReader::feedServices() {
     m_feedServices.append(new FeedlyEntryPoint());
     m_feedServices.append(new GmailEntryPoint());
     m_feedServices.append(new GreaderEntryPoint());
-    m_feedServices.append(new InoreaderEntryPoint());
     m_feedServices.append(new OwnCloudServiceEntryPoint());
     m_feedServices.append(new StandardServiceEntryPoint());
     m_feedServices.append(new TtRssServiceEntryPoint());
@@ -70,10 +69,11 @@ QList<ServiceEntryPoint*> FeedReader::feedServices() {
 
 void FeedReader::updateFeeds(const QList<Feed*>& feeds) {
   if (!qApp->feedUpdateLock()->tryLock()) {
-    qApp->showGuiMessage(tr("Cannot update all items"),
-                         tr("You cannot download new messages for your items "
-                            "because another critical operation is ongoing."),
-                         QSystemTrayIcon::MessageIcon::Warning, qApp->mainFormWidget(), true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent,
+                         tr("Cannot fetch articles at this point"),
+                         tr("You cannot fetch new articles now because another critical operation is ongoing."),
+                         QSystemTrayIcon::MessageIcon::Warning,
+                         true);
     return;
   }
 
@@ -85,7 +85,8 @@ void FeedReader::updateFeeds(const QList<Feed*>& feeds) {
 void FeedReader::synchronizeMessageData(const QList<CacheForServiceRoot*>& caches) {
   QMetaObject::invokeMethod(m_feedDownloader, "synchronizeAccountCaches",
                             Qt::ConnectionType::QueuedConnection,
-                            Q_ARG(QList<CacheForServiceRoot*>, caches));
+                            Q_ARG(QList<CacheForServiceRoot*>, caches),
+                            Q_ARG(bool, true));
 }
 
 void FeedReader::initializeFeedDownloader() {
@@ -162,15 +163,15 @@ void FeedReader::loadSavedMessageFilters() {
   // Load all message filters from database.
   // All plugin services will hook active filters to
   // all feeds.
-  m_messageFilters = DatabaseQueries::getMessageFilters(qApp->database()->connection(metaObject()->className()));
+  m_messageFilters = DatabaseQueries::getMessageFilters(qApp->database()->driver()->connection(metaObject()->className()));
 
-  for (auto* filter : m_messageFilters) {
+  for (auto* filter : qAsConst(m_messageFilters)) {
     filter->setParent(this);
   }
 }
 
 MessageFilter* FeedReader::addMessageFilter(const QString& title, const QString& script) {
-  auto* fltr = DatabaseQueries::addMessageFilter(qApp->database()->connection(metaObject()->className()), title, script);
+  auto* fltr = DatabaseQueries::addMessageFilter(qApp->database()->driver()->connection(metaObject()->className()), title, script);
 
   m_messageFilters.append(fltr);
   return fltr;
@@ -187,20 +188,20 @@ void FeedReader::removeMessageFilter(MessageFilter* filter) {
   }
 
   // Remove from DB.
-  DatabaseQueries::removeMessageFilterAssignments(qApp->database()->connection(metaObject()->className()), filter->id());
-  DatabaseQueries::removeMessageFilter(qApp->database()->connection(metaObject()->className()), filter->id());
+  DatabaseQueries::removeMessageFilterAssignments(qApp->database()->driver()->connection(metaObject()->className()), filter->id());
+  DatabaseQueries::removeMessageFilter(qApp->database()->driver()->connection(metaObject()->className()), filter->id());
 
   // Free from memory as last step.
   filter->deleteLater();
 }
 
 void FeedReader::updateMessageFilter(MessageFilter* filter) {
-  DatabaseQueries::updateMessageFilter(qApp->database()->connection(metaObject()->className()), filter);
+  DatabaseQueries::updateMessageFilter(qApp->database()->driver()->connection(metaObject()->className()), filter);
 }
 
 void FeedReader::assignMessageFilterToFeed(Feed* feed, MessageFilter* filter) {
   feed->appendMessageFilter(filter);
-  DatabaseQueries::assignMessageFilterToFeed(qApp->database()->connection(metaObject()->className()),
+  DatabaseQueries::assignMessageFilterToFeed(qApp->database()->driver()->connection(metaObject()->className()),
                                              feed->customId(),
                                              filter->id(),
                                              feed->getParentServiceRoot()->accountId());
@@ -208,7 +209,7 @@ void FeedReader::assignMessageFilterToFeed(Feed* feed, MessageFilter* filter) {
 
 void FeedReader::removeMessageFilterToFeedAssignment(Feed* feed, MessageFilter* filter) {
   feed->removeMessageFilter(filter);
-  DatabaseQueries::removeMessageFilterFromFeed(qApp->database()->connection(metaObject()->className()),
+  DatabaseQueries::removeMessageFilterFromFeed(qApp->database()->driver()->connection(metaObject()->className()),
                                                feed->customId(),
                                                filter->id(),
                                                feed->getParentServiceRoot()->accountId());
@@ -219,7 +220,7 @@ void FeedReader::updateAllFeeds() {
 }
 
 void FeedReader::updateManuallyIntervaledFeeds() {
-  updateFeeds(m_feedsModel->rootItem()->getSubTreeManuallyIntervaledFeeds());
+  updateFeeds(m_feedsModel->rootItem()->getSubTreeAutoFetchingWithManualIntervalsFeeds());
 }
 
 void FeedReader::stopRunningFeedUpdate() {
@@ -314,11 +315,10 @@ void FeedReader::executeNextAutoUpdate() {
     updateFeeds(feeds_for_update);
 
     // NOTE: OSD/bubble informing about performing of scheduled update can be shown now.
-    if (qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::EnableAutoUpdateNotification)).toBool()) {
-      qApp->showGuiMessage(tr("Starting auto-download of some feeds' messages"),
-                           tr("I will auto-download new messages for %n feed(s).", nullptr, feeds_for_update.size()),
-                           QSystemTrayIcon::MessageIcon::Information);
-    }
+    qApp->showGuiMessage(Notification::Event::ArticlesFetchingStarted,
+                         tr("Starting auto-download of some feeds' articles"),
+                         tr("I will auto-download new articles for %n feed(s).", nullptr, feeds_for_update.size()),
+                         QSystemTrayIcon::MessageIcon::Information);
   }
 }
 

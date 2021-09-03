@@ -8,6 +8,7 @@
 #include "miscellaneous/iconfactory.h"
 #include "miscellaneous/settings.h"
 
+#include "gui/guiutilities.h"
 #include "gui/settings/settingsbrowsermail.h"
 #include "gui/settings/settingsdatabase.h"
 #include "gui/settings/settingsdownloads.h"
@@ -15,6 +16,7 @@
 #include "gui/settings/settingsgeneral.h"
 #include "gui/settings/settingsgui.h"
 #include "gui/settings/settingslocalization.h"
+#include "gui/settings/settingsnotifications.h"
 #include "gui/settings/settingsshortcuts.h"
 
 FormSettings::FormSettings(QWidget& parent)
@@ -22,23 +24,27 @@ FormSettings::FormSettings(QWidget& parent)
   m_ui.setupUi(this);
 
   // Set flags and attributes.
-  setWindowFlags(Qt::MSWindowsFixedSizeDialogHint | Qt::Dialog | Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
-  setWindowIcon(qApp->icons()->fromTheme(QSL("emblem-system")));
-  m_btnApply = m_ui.m_buttonBox->button(QDialogButtonBox::Apply);
+  GuiUtilities::applyDialogProperties(*this, qApp->icons()->fromTheme(QSL("emblem-system")));
+
+  m_btnApply = m_ui.m_buttonBox->button(QDialogButtonBox::StandardButton::Apply);
+
   m_btnApply->setEnabled(false);
 
   // Establish needed connections.
   connect(m_ui.m_buttonBox, &QDialogButtonBox::accepted, this, &FormSettings::saveSettings);
   connect(m_ui.m_buttonBox, &QDialogButtonBox::rejected, this, &FormSettings::cancelSettings);
   connect(m_btnApply, &QPushButton::clicked, this, &FormSettings::applySettings);
+
   addSettingsPanel(new SettingsGeneral(&m_settings, this));
   addSettingsPanel(new SettingsDatabase(&m_settings, this));
   addSettingsPanel(new SettingsGui(&m_settings, this));
+  addSettingsPanel(new SettingsNotifications(&m_settings, this));
   addSettingsPanel(new SettingsLocalization(&m_settings, this));
   addSettingsPanel(new SettingsShortcuts(&m_settings, this));
   addSettingsPanel(new SettingsBrowserMail(&m_settings, this));
   addSettingsPanel(new SettingsDownloads(&m_settings, this));
   addSettingsPanel(new SettingsFeedsMessages(&m_settings, this));
+
   m_ui.m_listSettings->setCurrentRow(0);
 }
 
@@ -56,7 +62,7 @@ void FormSettings::applySettings() {
   m_settings.checkSettings();
   QStringList panels_for_restart;
 
-  for (SettingsPanel* panel : m_panels) {
+  for (SettingsPanel* panel : qAsConst(m_panels)) {
     if (panel->isDirty()) {
       panel->saveSettings();
     }
@@ -69,7 +75,7 @@ void FormSettings::applySettings() {
 
   if (!panels_for_restart.isEmpty()) {
     const QStringList changed_settings_description = panels_for_restart.replaceInStrings(QRegularExpression(QSL("^")),
-                                                                                         QString::fromUtf8(" • "));
+                                                                                         QString::fromUtf8(QByteArray(" • ")));
     const QMessageBox::StandardButton clicked_button = MessageBox::show(this,
                                                                         QMessageBox::Icon::Question,
                                                                         tr("Critical settings were changed"),
@@ -94,7 +100,7 @@ void FormSettings::applySettings() {
 void FormSettings::cancelSettings() {
   QStringList changed_panels;
 
-  for (SettingsPanel* panel : m_panels) {
+  for (SettingsPanel* panel : qAsConst(m_panels)) {
     if (panel->isDirty()) {
       changed_panels.append(panel->title().toLower());
     }
@@ -105,7 +111,7 @@ void FormSettings::cancelSettings() {
   }
   else {
     const QStringList changed_settings_description = changed_panels.replaceInStrings(QRegularExpression(QSL("^")),
-                                                                                     QString::fromUtf8(" • "));
+                                                                                     QString::fromUtf8(QByteArray(" • ")));
 
     if (MessageBox::show(this,
                          QMessageBox::Icon::Critical,

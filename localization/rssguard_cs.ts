@@ -11,40 +11,6 @@
     </message>
 </context>
 <context>
-    <name>AdBlockAddSubscriptionDialog</name>
-    <message>
-        <source>Add subscription</source>
-        <translation>Přidat seznam</translation>
-    </message>
-    <message>
-        <source>Use predefined subscription</source>
-        <translation>Použit předdefinovaný seznam</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Nadpis</translation>
-    </message>
-    <message>
-        <source>Title of subscription</source>
-        <translation>Název seznamu</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation>URL</translation>
-    </message>
-    <message>
-        <source>Absolute URL to online subscription file</source>
-        <translation>URL k online umístění souboru seznamu</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockCustomList</name>
-    <message>
-        <source>Custom rules</source>
-        <translation>Vlastní pravidla</translation>
-    </message>
-</context>
-<context>
     <name>AdBlockDialog</name>
     <message>
         <source>AdBlock configuration</source>
@@ -55,32 +21,58 @@
         <translation>Povolit AdBlock</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation>Možnosti</translation>
+        <source>Add your direct links to filter lists here (one URL per line)</source>
+        <translation>Zde přidávejte přímé odkazy na seznamy filtrů (jeden odkaz na řádek)</translation>
     </message>
     <message>
-        <source>Add rule</source>
-        <translation>Přidat pravidlo</translation>
+        <source>Custom filters</source>
+        <translation>Vlastní filtry</translation>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Odstranit pravidlo</translation>
+        <source>Add your custom filters here (one filter per line)</source>
+        <translation>Zde přidávejte vlastní filtry (jeden filtr na řádek)</translation>
     </message>
     <message>
-        <source>Add subscription</source>
-        <translation>Přidat seznam</translation>
+        <source>&amp;Help</source>
+        <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <source>Remove subscription</source>
-        <translation>Smazat seznam</translation>
+        <source>&amp;Test configuration</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Update subscriptions</source>
-        <translation>Aktualizovat seznam</translation>
+        <source>Filter lists</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Learn about writing rules...</source>
-        <translation>Naučit se psát vlastní pravidla...</translation>
+        <source>No test executed yet.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot enable AdBlock</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is some error in AdBlock component and it cannot be enabled. Check error message below (or application debug log) for more information.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You are good to go.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>OK!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error, check application log for more details and head to online documentation. Also make sure that Node.js is installed.
+
+Error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ERROR!</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -93,47 +85,20 @@
         <source>Show AdBlock &amp;settings</source>
         <translation>Zobrazit nastavení &amp;AdBlocku</translation>
     </message>
-    <message>
-        <source>Disable on %1</source>
-        <translation>Zakázat na %1</translation>
-    </message>
-    <message>
-        <source>Disable only on this page</source>
-        <translation>Zakázat pouze na této stránce</translation>
-    </message>
 </context>
 <context>
-    <name>AdBlockSubscription</name>
+    <name>AdBlockManager</name>
     <message>
-        <source>Cannot load subscription!</source>
-        <translation>Nelze načíst seznam!</translation>
-    </message>
-</context>
-<context>
-    <name>AdBlockTreeWidget</name>
-    <message>
-        <source>Add rule</source>
-        <translation>Přidat pravidlo</translation>
+        <source>AdBlock needs to be configured</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Remove rule</source>
-        <translation>Smazat pravidlo</translation>
+        <source>AdBlock component is not configured properly.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add custom rule</source>
-        <translation>Přidat vlastní pravidlo</translation>
-    </message>
-    <message>
-        <source>Please write your rule here:</source>
-        <translation>Zadejte nové pravidlo sem:</translation>
-    </message>
-    <message>
-        <source>%1 (recently updated)</source>
-        <translation>%1 (nedávno aktualizováno)</translation>
-    </message>
-    <message>
-        <source>%1 (error: %2)</source>
-        <translation>%1 (chyba: %2)</translation>
+        <source>failed to download filter list &apos;%1&apos;</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -151,10 +116,6 @@
         <translation>Soubor nastavení nebyl zkopírován do cílového adresáře.</translation>
     </message>
     <message>
-        <source>Database file not copied to output directory successfully.</source>
-        <translation>Soubor databáze nebyl zkopírován do cílového adresáře.</translation>
-    </message>
-    <message>
         <source>Database restoration was not initiated. Make sure that output directory is writable.</source>
         <translation>Obnovení databáze nebylo spuštěno. Ujistěte se, že cílový adresář je zapisovatelný.</translation>
     </message>
@@ -167,12 +128,12 @@
         <translation>Nelze přidat kanál</translation>
     </message>
     <message>
-        <source>Feed cannot be added because standard RSS/ATOM account is not enabled.</source>
-        <translation>Kanál nelze přidat, protože standardní RSS/ATOM účet není povolen.</translation>
+        <source>Feed cannot be added because there is no active account which can add feeds.</source>
+        <translation>Kanál nemůže být přidán, protože nemáte aktivovaný žádný účet který umí přidávat kanály.</translation>
     </message>
     <message>
-        <source>New messages downloaded</source>
-        <translation>Staženy nové zprávy</translation>
+        <source>Unread articles fetched</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -223,6 +184,13 @@
     </message>
 </context>
 <context>
+    <name>BaseLineEdit</name>
+    <message>
+        <source>Show/hide the password</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ColorToolButton</name>
     <message>
         <source>Click me to change color!</source>
@@ -244,75 +212,47 @@
         <translation>Databázový soubor minimalizován...</translation>
     </message>
     <message>
-        <source>Removing read messages...</source>
-        <translation>Mažu přečtené zprávy...</translation>
-    </message>
-    <message>
-        <source>Read messages purged...</source>
-        <translation>Přečtené zprávy smazány...</translation>
-    </message>
-    <message>
         <source>Recycle bin purged...</source>
         <translation>Koš vyčištěn...</translation>
-    </message>
-    <message>
-        <source>Removing old messages...</source>
-        <translation>Mažu staré zprávy...</translation>
     </message>
     <message>
         <source>Purging recycle bin...</source>
         <translation>Čistím koš...</translation>
     </message>
     <message>
-        <source>Old messages purged...</source>
-        <translation>Staré zprávy smazány...</translation>
+        <source>Removing read articles...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Removing starred messages...</source>
-        <translation>Mažu důležité zprávy...</translation>
+        <source>Read articles purged...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Starred messages purged...</source>
-        <translation>Důležité zprávy smazány...</translation>
+        <source>Removing old articles...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Old articles purged...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Removing starred articles...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Starred articles purged...</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DatabaseFactory</name>
     <message>
-        <source>MySQL server works as expected.</source>
-        <translation>MySQL server pracuje v pořádku.</translation>
+        <source>Cannot connect to database</source>
+        <translation>K databází se nelze připojit</translation>
     </message>
     <message>
-        <source>No MySQL server is running in the target destination.</source>
-        <translation>V daném umístění neběží žádný MySQL server.</translation>
-    </message>
-    <message>
-        <source>Access denied. Invalid username or password used.</source>
-        <translation>Přístup zamítnut. Nesprávne jméno či heslo.</translation>
-    </message>
-    <message>
-        <source>MySQL/MariaDB (dedicated database)</source>
-        <translation>MySQL/MariaDB (dedikovaná database)</translation>
-    </message>
-    <message>
-        <source>SQLite (embedded database)</source>
-        <translation>SQLite (embedded databáze)</translation>
-    </message>
-    <message>
-        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
-        <translation>Vybraná databáze doposud neexistuje, ale bude vytvořena při prvním použití.</translation>
-    </message>
-    <message>
-        <source>MySQL database not available</source>
-        <translation>MySQL databáze není k dispozici</translation>
-    </message>
-    <message>
-        <source>%1 cannot use MySQL storage, it is not available. %1 is now switching to SQLite database. Start your MySQL server and make adjustments in application settings.</source>
-        <translation>%1 nemůže použít MySQL databází, není k dispozici. %1 se nyní přepne pro použití SQLite databáze. Pokud chcete opět použít MySQL, přepněte si to v nastavení.</translation>
-    </message>
-    <message>
-        <source>Unknown error: &apos;%1&apos;.</source>
-        <translation>Neznámá chyba: &apos;%1&apos;.</translation>
+        <source>Connection to your database was not established with error: &apos;%1&apos;. Falling back to SQLite.</source>
+        <translation>Připojení k databázi nebylo navázáno kvůli chybě: &apos;%1&apos;. Aktivuji SQLite.</translation>
     </message>
 </context>
 <context>
@@ -492,20 +432,12 @@ Klikněte sem pro otevření nadřazeného adresáře.</translation>
         <translation>žádné chyby</translation>
     </message>
     <message>
-        <source>has new messages</source>
-        <translation>má nové zprávy</translation>
-    </message>
-    <message>
         <source>authentication error</source>
         <translation>chyba autentifikace</translation>
     </message>
     <message>
         <source>network error</source>
         <translation>chyba sítě</translation>
-    </message>
-    <message>
-        <source>unspecified error</source>
-        <translation>nespecifikovaná chyba</translation>
     </message>
     <message>
         <source>Auto-update status: %1
@@ -516,53 +448,65 @@ Počet aktivních filtrů zpráv: %2
 Stav: %3</translation>
     </message>
     <message>
-        <source>does not use auto-downloading of messages</source>
+        <source>does not use auto-fetching of articles</source>
         <extracomment>Describes feed auto-update status.</extracomment>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses global settings (%n minute(s) to next auto-download of messages)</source>
+        <source>uses global settings (%n minute(s) to next auto-fetch of articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
-        <translation><numerusform>dle globálního nastavení (%n minuta do dalšího automatického stažení zpráv)</numerusform><numerusform>dle globálního nastavení (%n minuty do dalšího automatického stažení zpráv)</numerusform><numerusform>dle globálního nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform><numerusform>dle globálního nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>uses global settings (global auto-downloading of messages is disabled)</source>
-        <translation>dle globálního nastavení (globální automatické stahování zpráv je zakázáno)</translation>
+        <source>uses global settings (global auto-fetching of articles is disabled)</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>uses specific settings (%n minute(s) to next auto-downloading of new messages)</source>
+        <source>uses specific settings (%n minute(s) to next auto-fetching of new articles)</source>
         <extracomment>Describes feed auto-update status.</extracomment>
-        <translation><numerusform>specifické nastavení (%n minuta do dalšího automatického stažení zpráv)</numerusform><numerusform>specifické nastavení (%n minuty do dalšího automatického stažení zpráv)</numerusform><numerusform>specifické nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform><numerusform>specifické nastavení (%n minut do dalšího automatického stažení zpráv)</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>has new articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>parsing error</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>error</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedMessageViewer</name>
     <message>
-        <source>Toolbar for messages</source>
-        <translation>Panel zpráv</translation>
-    </message>
-    <message>
         <source>Toolbar for feeds</source>
         <translation>Panel kanálů</translation>
+    </message>
+    <message>
+        <source>Toolbar for articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FeedReader</name>
     <message>
-        <source>Cannot update all items</source>
-        <translation>Nelze aktualizovat všechny položky</translation>
-    </message>
-    <message>
-        <source>You cannot download new messages for your items because another critical operation is ongoing.</source>
-        <translation>Nelze stáhnout nové zprávy, protože právě běží jiná kritická operace.</translation>
-    </message>
-    <message>
-        <source>Starting auto-download of some feeds&apos; messages</source>
-        <translation>Spouštím stahování zpráv pro některé kanály.</translation>
+        <source>Starting auto-download of some feeds&apos; articles</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <source>I will auto-download new messages for %n feed(s).</source>
+        <source>I will auto-download new articles for %n feed(s).</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
+    <message>
+        <source>Cannot fetch articles at this point</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You cannot fetch new articles now because another critical operation is ongoing.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -573,19 +517,11 @@ Stav: %3</translation>
     </message>
     <message>
         <source>Developer access token</source>
-        <translation type="unfinished"/>
+        <translation>Vývojový přístupový token (DAC)</translation>
     </message>
     <message>
         <source>Get token</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation> zpráv</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
+        <translation>Získat token</translation>
     </message>
     <message>
         <source>&amp;Login</source>
@@ -593,7 +529,7 @@ Stav: %3</translation>
     </message>
     <message>
         <source>Username for your account</source>
-        <translation type="unfinished"/>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <source>No test done yet.</source>
@@ -605,19 +541,11 @@ Stav: %3</translation>
     </message>
     <message>
         <source>Your %1 build has official Feedly support. You do not have to use &quot;developer acess token&quot;. You can therefore leave corresponding field empty.</source>
-        <translation type="unfinished"/>
+        <translation>Vaše verze programu %1 má oficiální podporu Feedly. Nemusíte tedy používat DAC, a tak můžete nechat odpovídající políčko prázdné.</translation>
     </message>
     <message>
         <source>Your %1 does not offer official Feedly support, thus you must authorize via special authorization code called &quot;developer access token&quot;. These tokens are usually valid only for 1 month and allow only 250 API calls each day.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= neomezeno</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>zpráv</translation>
+        <translation>Vaše verze programu %1 NEMÁ oficiální podporu Feedly. Musíte tedy zadat DAC. Mějte taky na paměti, že tato verze Feedly dovoluje maximálně 250 API volání denně.</translation>
     </message>
     <message>
         <source>You did not grant access.</source>
@@ -640,19 +568,11 @@ Stav: %3</translation>
         <translation>Přístup byl povolen.</translation>
     </message>
     <message>
-        <source>You are already logged in.</source>
-        <translation>Již jste přihlášen.</translation>
-    </message>
-    <message>
         <source>Access granted.</source>
         <translation>Přístup povolen.</translation>
     </message>
     <message>
         <source>Login was successful.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Make sure your &quot;development access token&quot; is correct and your internet works.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -675,6 +595,22 @@ Stav: %3</translation>
         <source>Access token is okay.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Error: &apos;%1&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Beware of downloading too many articles, because Feedly permanently caches ALL articles of the feed, so you might end up with thousands of articles which you will never read anyway.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FeedlyNetwork</name>
@@ -693,14 +629,6 @@ Stav: %3</translation>
     <message>
         <source>Click this to login again.</source>
         <translation>Klikně sem pro opětovné přihlášení.</translation>
-    </message>
-    <message>
-        <source>Logged in successfully</source>
-        <translation>Přihlášeno úspěšně.</translation>
-    </message>
-    <message>
-        <source>Your login to Feedly was authorized.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -742,6 +670,14 @@ Stav: %3</translation>
     <message>
         <source>Toolbar spacer</source>
         <translation>Mezera</translation>
+    </message>
+    <message>
+        <source>Search feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feeds search box</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -825,12 +761,12 @@ or this functionality is not implemented yet.</source>
         <translation>Kontextové menu pro účty</translation>
     </message>
     <message>
-        <source>Context menu for important messages</source>
-        <translation>Kontextové menu pro důležité zprávy</translation>
-    </message>
-    <message>
         <source>Context menu for label</source>
         <translation>Kontextové menu pro štítek</translation>
+    </message>
+    <message>
+        <source>Context menu for important articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -928,11 +864,15 @@ or this functionality is not implemented yet.</source>
     <name>FormAccountDetails</name>
     <message>
         <source>Edit account &apos;%1&apos;</source>
-        <translation>Updavit účet &apos;%1&apos;</translation>
+        <translation>Upravit účet &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Network proxy</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Add new account</source>
+        <translation>Přidat nový účet</translation>
     </message>
 </context>
 <context>
@@ -1084,30 +1024,126 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
+    <name>FormCategoryDetails</name>
+    <message>
+        <source>Select parent item for your category.</source>
+        <translation>Zvolte nadřazenou kategorii pro Vaši kategorii.</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Nadpis</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Icon</source>
+        <translation>Ikona</translation>
+    </message>
+    <message>
+        <source>Select icon for your category.</source>
+        <translation>Zvolte ikonu pro Vaši kategorii.</translation>
+    </message>
+    <message>
+        <source>Add new category</source>
+        <translation>Přidat novou kategorii</translation>
+    </message>
+    <message>
+        <source>Category name is ok.</source>
+        <translation>Název kategorie je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Category name is too short.</source>
+        <translation>Název kategorie je příliš krátký.</translation>
+    </message>
+    <message>
+        <source>Description is empty.</source>
+        <translation>Popis je prázdný.</translation>
+    </message>
+    <message>
+        <source>The description is ok.</source>
+        <translation>Popis je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Select icon file for the category</source>
+        <translation>Zvolte ikonu pro Vaši kategorii</translation>
+    </message>
+    <message>
+        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
+        <translation>Obrázky (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
+    </message>
+    <message>
+        <source>Select icon</source>
+        <translation>Vybrat ikonu</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušit</translation>
+    </message>
+    <message>
+        <source>Look in:</source>
+        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
+        <translation>Hledat v:</translation>
+    </message>
+    <message>
+        <source>Icon name:</source>
+        <translation>Název ikony:</translation>
+    </message>
+    <message>
+        <source>Icon type:</source>
+        <translation>Typ ikony:</translation>
+    </message>
+    <message>
+        <source>Category title</source>
+        <translation>Název kategorie</translation>
+    </message>
+    <message>
+        <source>Set title for your category.</source>
+        <translation>Zvolte název pro Vaši kategorii.</translation>
+    </message>
+    <message>
+        <source>Category description</source>
+        <translation>Popis kategorie</translation>
+    </message>
+    <message>
+        <source>Set description for your category.</source>
+        <translation>Zvolte popis Vaší kategorie.</translation>
+    </message>
+    <message>
+        <source>Icon selection</source>
+        <translation>Vybrat ikonu</translation>
+    </message>
+    <message>
+        <source>Load icon from file...</source>
+        <translation>Načíst ikonu ze souboru...</translation>
+    </message>
+    <message>
+        <source>Use default icon from icon theme</source>
+        <translation>Použít výchozí ikonu z tématu</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Edit &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FormDatabaseCleanup</name>
     <message>
         <source>Cleanup database</source>
         <translation>Čištění databáze</translation>
-    </message>
-    <message>
-        <source>Remove all messages older than</source>
-        <translation>Smazat zprávy starší než</translation>
     </message>
     <message numerus="yes">
         <source> day(s)</source>
         <translation><numerusform> den</numerusform><numerusform> dny</numerusform><numerusform> dnů</numerusform><numerusform> dnů</numerusform></translation>
     </message>
     <message>
-        <source>Shrink database file</source>
-        <translation>Smrsknout databázový soubor</translation>
-    </message>
-    <message>
         <source>Database information</source>
         <translation>Informace o databázi</translation>
-    </message>
-    <message>
-        <source>Database file size</source>
-        <translation>Velikost databázového souboru</translation>
     </message>
     <message>
         <source>Database type</source>
@@ -1134,28 +1170,36 @@ or this functionality is not implemented yet.</source>
         <translation>Čištění databáze selhalo.</translation>
     </message>
     <message>
-        <source>Cleanup settings (all checked items are completely erased from database)</source>
-        <translation>Nastavení vyčištění (všechny vybrané položky jsou z databáze kompletně vymazány)</translation>
-    </message>
-    <message>
-        <source>Remove all read messages (not those from recycle bin)</source>
-        <translation>Vymazat všechny přečtené zprávy (ne ty z koše)</translation>
-    </message>
-    <message>
-        <source>Remove all messages from recycle bin</source>
-        <translation>Vymazat všechny zprávy z koše</translation>
-    </message>
-    <message>
-        <source>Remove all starred messages (including those from recycle bin)</source>
-        <translation>Vymazat všechny důležité zprávy (včetně těch z koše)</translation>
-    </message>
-    <message>
         <source>unknown</source>
         <translation>neznámá</translation>
     </message>
     <message>
-        <source>file: %1, data: %2</source>
-        <translation>soubor: %1, data: %2</translation>
+        <source>Total data size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cleanup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Optimize database file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all read articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles from recycle bin</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all articles older than</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Remove all starred articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1191,13 +1235,6 @@ or this functionality is not implemented yet.</source>
     </message>
 </context>
 <context>
-    <name>FormEditInoreaderAccount</name>
-    <message>
-        <source>Server setup</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>FormEditOwnCloudAccount</name>
     <message>
         <source>Server setup</source>
@@ -1214,35 +1251,39 @@ or this functionality is not implemented yet.</source>
 <context>
     <name>FormFeedDetails</name>
     <message>
-        <source>Cannot edit feed</source>
-        <translation>Nelze upravit kanál</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Kanál nebyl upraven kvůli chybě.</translation>
-    </message>
-    <message>
-        <source>Edit &apos;%1&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Auto-downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Select the auto-download strategy for messages of this feed. Default auto-download strategy means that new messges of this feed will be downloaded in time intervals set in application settings.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages using global interval</source>
+        <source>Add new feed</source>
+        <translation>Přidat nový kanál</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <source>Cannot save changes: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Download messages every</source>
+        <source>Auto-downloading of articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Do not download messages at all</source>
+        <source>Edit &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles using global interval</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Disable auto-fetching of articles</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1271,14 +1312,6 @@ or this functionality is not implemented yet.</source>
     <message>
         <source>&amp;Settings</source>
         <translation>Na&amp;stavení</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp;Zprávy</translation>
-    </message>
-    <message>
-        <source>Switch &amp;importance of selected messages</source>
-        <translation>Přepnout &amp;důležitost vybraných zpráv</translation>
     </message>
     <message>
         <source>Quit the application.</source>
@@ -1321,28 +1354,8 @@ or this functionality is not implemented yet.</source>
         <translation>Zobrazí dodatečné informace o této aplikaci.</translation>
     </message>
     <message>
-        <source>&amp;Delete selected messages</source>
-        <translation>Sma&amp;zat vybrané zprávy</translation>
-    </message>
-    <message>
         <source>Hides or displays the main menu.</source>
         <translation>Skryje či zobrazí hlavní menu.</translation>
-    </message>
-    <message>
-        <source>Open selected source articles in &amp;external browser</source>
-        <translation>&amp;Otevřít vybrané zdrojové články v externím prohlížeči</translation>
-    </message>
-    <message>
-        <source>Open selected messages in &amp;internal browser</source>
-        <translation>&amp;Otevřít vybrané krátké články v interním prohlížeči</translation>
-    </message>
-    <message>
-        <source>Select &amp;next message</source>
-        <translation>Vybrat &amp;další zprávu</translation>
-    </message>
-    <message>
-        <source>Select &amp;previous message</source>
-        <translation>Vybrat &amp;předchozí zprávu</translation>
     </message>
     <message>
         <source>Check for &amp;updates</source>
@@ -1361,18 +1374,6 @@ or this functionality is not implemented yet.</source>
         <translation>Hlavní &amp;menu</translation>
     </message>
     <message>
-        <source>Switch visibility of main &amp;window</source>
-        <translation>Přepnout &amp;hlavní okno</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser</source>
-        <translation>Nelze otevřít externí prohlížeč webu</translation>
-    </message>
-    <message>
-        <source>Cannot open external browser. Navigate to application website manually.</source>
-        <translation>Externí webový prohlížeč nelze otevřít. Zkontrolujte aktualizace ručně na webu programu.</translation>
-    </message>
-    <message>
         <source>&amp;Toolbars</source>
         <translation>&amp;Nástrojové lišty</translation>
     </message>
@@ -1381,36 +1382,12 @@ or this functionality is not implemented yet.</source>
         <translation>Přepnout viditelnost hlavnich nástrojových lišet.</translation>
     </message>
     <message>
-        <source>&amp;Feed/message list headers</source>
-        <translation>&amp;Hlavičky seznamů zpráv/kanálů</translation>
-    </message>
-    <message>
-        <source>&amp;Restore database/settings</source>
-        <translation>&amp;Obnovit databázi/nastavení</translation>
-    </message>
-    <message>
-        <source>&amp;Backup database/settings</source>
-        <translation>&amp;Zálohovat databázi/nastavení</translation>
-    </message>
-    <message>
-        <source>Switch message list layout orientation</source>
-        <translation>Přepnout orientaci rozložení seznamu zpráv</translation>
-    </message>
-    <message>
         <source>&amp;Downloads</source>
         <translation>&amp;Stahování</translation>
     </message>
     <message>
-        <source>Send selected message via e-mail</source>
-        <translation>Odeslat vybranou zprávu přes e-mail</translation>
-    </message>
-    <message>
         <source>&amp;Cleanup database</source>
         <translation>&amp;Vyčistit databázi</translation>
-    </message>
-    <message>
-        <source>Add &amp;new item</source>
-        <translation>Přidat &amp;novou položku</translation>
     </message>
     <message>
         <source>&amp;Edit selected item</source>
@@ -1421,24 +1398,12 @@ or this functionality is not implemented yet.</source>
         <translation>&amp;Smazat vybranou položku</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as read</source>
-        <translation>&amp;Označit vybrané položky jako přečtené</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as read.</source>
         <translation>Označit všechny zprávy (bez filtrů) z vybraných položek jako přečtené.</translation>
     </message>
     <message>
-        <source>&amp;Mark selected items as unread</source>
-        <translation>&amp;Označit vybrané položky jako nepřečtené</translation>
-    </message>
-    <message>
         <source>Mark all messages (without message filters) from selected items as unread.</source>
         <translation>Označit všechny zprávy (bez filtrů) z vybraných položek jako nepřečtené.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean selected items</source>
-        <translation>&amp;Vyčistit vybrané položky</translation>
     </message>
     <message>
         <source>Deletes all messages from selected items.</source>
@@ -1449,16 +1414,8 @@ or this functionality is not implemented yet.</source>
         <translation>Označí úplně všechny zprávy jako přečtené.</translation>
     </message>
     <message>
-        <source>View selected items in &amp;newspaper mode</source>
-        <translation>Zobrazit vybrané položky v &amp;novinovém náhledu</translation>
-    </message>
-    <message>
         <source>Displays all messages from selected item in a new &quot;newspaper mode&quot; tab. Note that messages are not set as read automatically.</source>
         <translation>Zobrazit všechny zprávy z vybraných položek v &quot;novinovém náhledu&quot;. Zprávy jsou následně označené jako přečtené.</translation>
-    </message>
-    <message>
-        <source>&amp;Clean all items</source>
-        <translation>&amp;Vyčistit všechny položky</translation>
     </message>
     <message>
         <source>Deletes all messages from all items.</source>
@@ -1473,16 +1430,8 @@ or this functionality is not implemented yet.</source>
         <translation>Vybrat &amp;předchozí položku</translation>
     </message>
     <message>
-        <source>Show only unread items</source>
-        <translation>Zobrazit použe nepřečtené položky</translation>
-    </message>
-    <message>
         <source>&amp;Expand/collapse selected item</source>
         <translation>&amp;Expandovat/složit vybranou položku</translation>
-    </message>
-    <message>
-        <source>&amp;Restore selected messages</source>
-        <translation>&amp;Obnovit vybrané zprávy</translation>
     </message>
     <message>
         <source>No possible actions</source>
@@ -1501,24 +1450,12 @@ or this functionality is not implemented yet.</source>
         <translation>&amp;Vysypat všechny koše</translation>
     </message>
     <message>
-        <source>Select next &amp;unread message</source>
-        <translation>Vybrat další &amp;nepřečtenou zprávu</translation>
-    </message>
-    <message>
         <source>No recycle bin</source>
         <translation>Žádný koš</translation>
     </message>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Kanály &amp;&amp; kategorie</translation>
-    </message>
-    <message>
         <source>&amp;Accounts</source>
         <translation>&amp;Účty</translation>
-    </message>
-    <message>
-        <source>&amp;Add new account</source>
-        <translation>&amp;Přidat nový účet</translation>
     </message>
     <message>
         <source>Status bar</source>
@@ -1545,16 +1482,8 @@ or this functionality is not implemented yet.</source>
         <translation>Žádná možná akce</translation>
     </message>
     <message>
-        <source>Web browser &amp;&amp; tabs</source>
-        <translation>Webový prohlížeč a záložky</translation>
-    </message>
-    <message>
         <source>Report a &amp;bug...</source>
         <translation>Nahlásit &amp;chybu programu...</translation>
-    </message>
-    <message>
-        <source>New web browser tab</source>
-        <translation>Nová záložka webového prohlížeče</translation>
     </message>
     <message>
         <source>Close all tabs</source>
@@ -1565,33 +1494,12 @@ or this functionality is not implemented yet.</source>
         <translation>Zavřít ostatní záložky</translation>
     </message>
     <message>
-        <source>View &amp;fullscreen</source>
-        <translation>Zobrazit na &amp;celou obrazovku</translation>
-    </message>
-    <message>
         <source>Cannot cleanup database</source>
         <translation>Nelze vyčistit databázi</translation>
     </message>
     <message>
         <source>Cannot cleanup database, because another critical action is running.</source>
         <translation>Databázi nelze v současné době vyčistit, protože běží jiná kritická akce. Zkuste to později.</translation>
-    </message>
-    <message>
-        <source>Feed update started</source>
-        <translation>Spuštěna aktualizace kanálů</translation>
-    </message>
-    <message>
-        <source>Updated feed &apos;%1&apos;</source>
-        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
-        <translation>Aktualizován kanál &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Tabs</source>
-        <translation>Panely</translation>
-    </message>
-    <message>
-        <source>&amp;Mark all items as read</source>
-        <translation>&amp;Označit všechny zprávy jako přečtené</translation>
     </message>
     <message>
         <source>&amp;Restart</source>
@@ -1606,36 +1514,12 @@ or this functionality is not implemented yet.</source>
         <translation>Přejít na &amp;předchozí tab</translation>
     </message>
     <message>
-        <source>&amp;Enable message preview</source>
-        <translation>&amp;Povolit náhled zprávy</translation>
-    </message>
-    <message>
         <source>&amp;Donate...</source>
         <translation>&amp;Podpořit autora...</translation>
     </message>
     <message>
-        <source>&amp;Copy URLs of selected items</source>
-        <translation>&amp;Kopírovat URL adresy vybraných položek</translation>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;read</source>
-        <translation>Označit vybrané zprávy jako &amp;přečtené</translation>
-    </message>
-    <message>
-        <source>Mark selected messages as &amp;unread</source>
-        <translation>Označit vybrané zprávy jako &amp;nepřečtené</translation>
-    </message>
-    <message>
-        <source>Show only &amp;unread messages</source>
-        <translation>Zobrazit pouze &amp;nepřečtené zprávy</translation>
-    </message>
-    <message>
         <source>Message &amp;filters</source>
         <translation>&amp;Filtry zpráv</translation>
-    </message>
-    <message>
-        <source>&amp;Show tree branches</source>
-        <translation>Zobrazit &amp;stromové šipky</translation>
     </message>
     <message>
         <source>Alternate row colors in lists</source>
@@ -1646,36 +1530,221 @@ or this functionality is not implemented yet.</source>
         <translation>Zobrazit &amp;dokumentaci</translation>
     </message>
     <message>
-        <source>Automatically &amp;expand items when selected</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>&amp;Download all new messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for &amp;selected items</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Stop ongoing downloading of messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Download messages for items with &amp;custom auto-download policy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Message viewer toolbars</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Expand/collapse selected item &amp;recursively</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Fullscreen</source>
+        <translation>Přes celou &amp;obrazovku</translation>
+    </message>
+    <message>
+        <source>&amp;Fetch all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch &amp;selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch selected feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark articles &amp;unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Mark selected articles unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch &amp;importance</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch importance of selected articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark selected item unread</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in external browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open in &amp;internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open selected articles in internal browser</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Mark all read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>View selected item in &amp;newspaper mode</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch main &amp;window visibility</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Clean all</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Next article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Previous article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;List headers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Backup settings</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Switch layout</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Send selected articles via e-mail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show unread items only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Restore articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next &amp;unread article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Stop ongoing fetching</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New browser tab</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Enable article preview</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Copy URLs of selected item</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Show &amp;unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Show tree expanders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch feeds with &amp;custom auto-download policy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Automatically &amp;expand item when selected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Close opened modal dialogs first.</source>
+        <translation>Nejdříve ukončete otevřené modální dialogy.</translation>
+    </message>
+    <message>
+        <source>F&amp;eeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Art&amp;icles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Web browser &amp;&amp; tabs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Ta&amp;bs</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching common data</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetched &apos;%1&apos;</source>
+        <extracomment>Text display in status bar when particular feed is updated.</extracomment>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FormMessageFiltersManager</name>
-    <message>
-        <source>Message filters</source>
-        <translation>Filtry zpráv</translation>
-    </message>
     <message>
         <source>Remove selected</source>
         <translation>Smazat vybrané</translation>
@@ -1689,28 +1758,12 @@ or this functionality is not implemented yet.</source>
         <translation>&amp;Odškrtnout vše</translation>
     </message>
     <message>
-        <source>Message filter details</source>
-        <translation>Detaily filtru</translation>
-    </message>
-    <message>
         <source>Title</source>
         <translation>Nadpis</translation>
     </message>
     <message>
-        <source>Title of message filter</source>
-        <translation>Název filtru</translation>
-    </message>
-    <message>
         <source>JavaScript code</source>
         <translation>Kód JavaScript</translation>
-    </message>
-    <message>
-        <source>Your JavaScript-based message filtering logic</source>
-        <translation>Sem umístěte JavaScript kód vašeho filtru</translation>
-    </message>
-    <message>
-        <source>Sample message</source>
-        <translation>Ukázková zpráva</translation>
     </message>
     <message>
         <source>Read</source>
@@ -1745,40 +1798,12 @@ or this functionality is not implemented yet.</source>
         <translation>Detailní &amp;návod</translation>
     </message>
     <message>
-        <source>New message filter</source>
-        <translation>Nový filtr zpráv</translation>
-    </message>
-    <message>
-        <source>Message will be %1.
-
-</source>
-        <translation>Zpráva bude %1.
-
-</translation>
-    </message>
-    <message>
         <source>ACCEPTED</source>
         <translation>PŘIJATA</translation>
     </message>
     <message>
         <source>REJECTED</source>
         <translation>ZAMÍTNUTA</translation>
-    </message>
-    <message>
-        <source>Output (modified) message is:
-  Title = '%1'
-  URL = '%2'
-  Author = '%3'
-  Is read/important = '%4/%5'
-  Created on = '%6'
-  Contents = &apos;%7&apos;</source>
-        <translation>Výstupní zpráva je:
-  Nadpis = &apos;%1&apos;
-  URL = &apos;%2&apos;
-  Autor = &apos;%3&apos;
-  Je přečtená/důležitá = &apos;%4/%5&apos;
-  Vytvořena = &apos;%6&apos;
-  Tělo = &apos;%7&apos;</translation>
     </message>
     <message>
         <source>yes</source>
@@ -1829,21 +1854,7 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Existing messages</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cannot save new filter, error: &apos;%1&apos;.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>EXISTING messages filtering error: '%1'.
-</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>SAMPLE message filtering error: '%1'.
-</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1851,7 +1862,62 @@ or this functionality is not implemented yet.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Filter messages like this</source>
+        <source>Existing articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Sample article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Filter articles like this</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>EXISTING articles filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article will be %1.
+
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Output (modified) article is:
+  Title = '%1'
+  URL = '%2'
+  Author = '%3'
+  Is read/important = '%4/%5'
+  Created on = '%6'
+  Contents = '%7'
+  RAW contents = &apos;%8&apos;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>SAMPLE article filtering error: '%1'.
+</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article filters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article filter details</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of article filter</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Your JavaScript-based article filtering logic</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1952,147 +2018,7 @@ Musíte restartovat manuálně.</translation>
     </message>
 </context>
 <context>
-    <name>FormStandardCategoryDetails</name>
-    <message>
-        <source>Parent category</source>
-        <translation>Nadřazená kategorie</translation>
-    </message>
-    <message>
-        <source>Select parent item for your category.</source>
-        <translation>Zvolte nadřazenou kategorii pro Vaši kategorii.</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Nadpis</translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation>Popis</translation>
-    </message>
-    <message>
-        <source>Icon</source>
-        <translation>Ikona</translation>
-    </message>
-    <message>
-        <source>Select icon for your category.</source>
-        <translation>Zvolte ikonu pro Vaši kategorii.</translation>
-    </message>
-    <message>
-        <source>Add new category</source>
-        <translation>Přidat novou kategorii</translation>
-    </message>
-    <message>
-        <source>Edit existing category</source>
-        <translation>Upravit existující kategorii</translation>
-    </message>
-    <message>
-        <source>Cannot add category</source>
-        <translation>Nelze přidat kategorii</translation>
-    </message>
-    <message>
-        <source>Category was not added due to error.</source>
-        <translation>Kategorie nebyla přidána kvůli chybě.</translation>
-    </message>
-    <message>
-        <source>Cannot edit category</source>
-        <translation>Nelze upravit kategorii</translation>
-    </message>
-    <message>
-        <source>Category was not edited due to error.</source>
-        <translation>Kategorie nebyla upravena kvůli chybě.</translation>
-    </message>
-    <message>
-        <source>Category name is ok.</source>
-        <translation>Název kategorie je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Category name is too short.</source>
-        <translation>Název kategorie je příliš krátký.</translation>
-    </message>
-    <message>
-        <source>Description is empty.</source>
-        <translation>Popis je prázdný.</translation>
-    </message>
-    <message>
-        <source>The description is ok.</source>
-        <translation>Popis je v pořádku.</translation>
-    </message>
-    <message>
-        <source>Select icon file for the category</source>
-        <translation>Zvolte ikonu pro Vaši kategorii</translation>
-    </message>
-    <message>
-        <source>Images (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</source>
-        <translation>Obrázky (*.bmp *.jpg *.jpeg *.png *.svg *.tga)</translation>
-    </message>
-    <message>
-        <source>Select icon</source>
-        <translation>Vybrat ikonu</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Zrušit</translation>
-    </message>
-    <message>
-        <source>Look in:</source>
-        <extracomment>Label to describe the folder for icon file selection dialog.</extracomment>
-        <translation>Hledat v:</translation>
-    </message>
-    <message>
-        <source>Icon name:</source>
-        <translation>Název ikony:</translation>
-    </message>
-    <message>
-        <source>Icon type:</source>
-        <translation>Typ ikony:</translation>
-    </message>
-    <message>
-        <source>Category title</source>
-        <translation>Název kategorie</translation>
-    </message>
-    <message>
-        <source>Set title for your category.</source>
-        <translation>Zvolte název pro Vaši kategorii.</translation>
-    </message>
-    <message>
-        <source>Category description</source>
-        <translation>Popis kategorie</translation>
-    </message>
-    <message>
-        <source>Set description for your category.</source>
-        <translation>Zvolte popis Vaší kategorie.</translation>
-    </message>
-    <message>
-        <source>Icon selection</source>
-        <translation>Vybrat ikonu</translation>
-    </message>
-    <message>
-        <source>Load icon from file...</source>
-        <translation>Načíst ikonu ze souboru...</translation>
-    </message>
-    <message>
-        <source>Use default icon from icon theme</source>
-        <translation>Použít výchozí ikonu z tématu</translation>
-    </message>
-</context>
-<context>
     <name>FormStandardFeedDetails</name>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Nelze přidat kanál</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Kanál nepřidán kvůli chybě.</translation>
-    </message>
-    <message>
-        <source>Cannot edit feed</source>
-        <translation>Nelze upravit kanál</translation>
-    </message>
-    <message>
-        <source>Feed was not edited due to error.</source>
-        <translation>Kanál nebyl upraven kvůli chybě.</translation>
-    </message>
     <message>
         <source>General</source>
         <translation>Obecné</translation>
@@ -2101,28 +2027,12 @@ Musíte restartovat manuálně.</translation>
         <source>Network</source>
         <translation type="unfinished"/>
     </message>
-    <message>
-        <source>Add new feed</source>
-        <translation>Přidat nový kanál</translation>
-    </message>
 </context>
 <context>
     <name>FormStandardImportExport</name>
     <message>
         <source>&amp;Select file</source>
         <translation>&amp;Zvolit soubor</translation>
-    </message>
-    <message>
-        <source>&amp;Check all items</source>
-        <translation>&amp;Označit vše</translation>
-    </message>
-    <message>
-        <source>&amp;Uncheck all items</source>
-        <translation>O&amp;dznačit vše</translation>
-    </message>
-    <message>
-        <source>Operation results</source>
-        <translation>Výsledky operací</translation>
     </message>
     <message>
         <source>No file is selected.</source>
@@ -2236,20 +2146,24 @@ Musíte restartovat manuálně.</translation>
         <source>&amp;Import from file</source>
         <translation>&amp;Importovat ze souboru</translation>
     </message>
+    <message>
+        <source>&amp;Check all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Uncheck all feeds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Operation result</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>FormTtRssFeedDetails</name>
     <message>
         <source>Feed added</source>
         <translation>Kanál přidán</translation>
-    </message>
-    <message>
-        <source>Cannot add feed</source>
-        <translation>Nelze přidat kanál</translation>
-    </message>
-    <message>
-        <source>Feed was not added due to error.</source>
-        <translation>Kanál nepřidán kvůli chybě.</translation>
     </message>
     <message>
         <source>General</source>
@@ -2260,11 +2174,11 @@ Musíte restartovat manuálně.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Add new feed</source>
-        <translation>Přidat nový kanál</translation>
+        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Feed was added, obtaining new tree of feeds now.</source>
+        <source>API returned error code %1</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -2389,10 +2303,6 @@ You can install it now.</source>
         <translation>Balíček byl úspěšně stažen.
 Nyní ho můžete nainstalovat.</translation>
     </message>
-    <message>
-        <source>Cannot navigate to installation file. Download new installation file manually on project website.</source>
-        <translation>Nelze přejít k instalačnímu souboru. Stáhněte instalační soubor ručně na stránkách projektu.</translation>
-    </message>
 </context>
 <context>
     <name>GmailAccountDetails</name>
@@ -2421,20 +2331,8 @@ Nyní ho můžete nainstalovat.</translation>
         <translation>Získat přihlašovací údaje</translation>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
-    </message>
-    <message>
-        <source> message(s)</source>
-        <translation> zpráv</translation>
-    </message>
-    <message>
         <source>&amp;Login</source>
         <translation>&amp;Přihlásit se</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.</source>
-        <translation>Přesměrovávací URL musí být nastaveno na řetězec začínající na &quot;http://localhost&quot;.</translation>
     </message>
     <message>
         <source>Not tested yet.</source>
@@ -2443,14 +2341,6 @@ Nyní ho můžete nainstalovat.</translation>
     <message>
         <source>User-visible username</source>
         <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <source>You are already logged in.</source>
-        <translation>Již jste přihlášen.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Přístup povolen.</translation>
     </message>
     <message>
         <source>No username entered.</source>
@@ -2469,10 +2359,6 @@ Nyní ho můžete nainstalovat.</translation>
         <translation>Byla chyba během testování.</translation>
     </message>
     <message>
-        <source>There is error. %1 </source>
-        <translation>Chyba. %1</translation>
-    </message>
-    <message>
         <source>Tested successfully. You may be prompted to login once more.</source>
         <translation>Otestováno úspěšně.</translation>
     </message>
@@ -2488,17 +2374,33 @@ Nyní ho můžete nainstalovat.</translation>
         <source>Some value is entered.</source>
         <translation>Zadána nějaká hodnota.</translation>
     </message>
+    <message>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as it preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave those fields empty and make sure to leave default value of redirect URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>There is error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>GmailNetworkFactory</name>
-    <message>
-        <source>Logged in successfully</source>
-        <translation>Přihlášeno úspěšně.</translation>
-    </message>
-    <message>
-        <source>Your login to Gmail was authorized.</source>
-        <translation>Přístup na Gmail byl povolen.</translation>
-    </message>
     <message>
         <source>Click this to login again. Error is: &apos;%1&apos;</source>
         <translation>Pro opětovné přihlášení klikněte zde.</translation>
@@ -2584,18 +2486,6 @@ Tokeny vyprší: %2</translation>
         <translation>URL</translation>
     </message>
     <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation>= neomezeno</translation>
-    </message>
-    <message>
-        <source>Some feeds require authentication, including GMail feeds. BASIC, NTLM-2 and DIGEST-MD5 authentication schemes are supported.</source>
-        <translation>Některé kanály vyžadují autentizaci, a to včetně kanálů pro GMail. Je podporována autentizace BASIC, NTLM-2 a DIGEST-MD5.</translation>
-    </message>
-    <message>
         <source>Authentication</source>
         <translation>Autentizace</translation>
     </message>
@@ -2608,10 +2498,6 @@ Tokeny vyprší: %2</translation>
         <translation>Heslo</translation>
     </message>
     <message>
-        <source>Show password</source>
-        <translation>Zobrazit heslo</translation>
-    </message>
-    <message>
         <source>&amp;Test setup</source>
         <translation>&amp;Otestovat nastavení</translation>
     </message>
@@ -2621,7 +2507,7 @@ Tokeny vyprší: %2</translation>
     </message>
     <message>
         <source>Username for your account</source>
-        <translation type="unfinished"/>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <source>URL of your server, without any service-specific path</source>
@@ -2634,18 +2520,6 @@ Tokeny vyprší: %2</translation>
     <message>
         <source>Here, results of connection test are shown.</source>
         <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
-    </message>
-    <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster, but if your feed contains bigger number of messages than specified limit, then some older messages might not be downloaded during feed update.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>= unlimited</source>
-        <translation>= neomezeno</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>zpráv</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
@@ -2687,41 +2561,21 @@ Tokeny vyprší: %2</translation>
         <source>URL is okay.</source>
         <translation>URL je v pořádku.</translation>
     </message>
-</context>
-<context>
-    <name>GreaderNetwork</name>
     <message>
-        <source>Other services</source>
+        <source>Only download newest X articles per feed</source>
         <translation type="unfinished"/>
     </message>
-</context>
-<context>
-    <name>IOFactory</name>
     <message>
-        <source>Cannot open file &apos;%1&apos; for reading.</source>
-        <translation>Soubor &apos;%1&apos; nelze otevřít pro čtení.</translation>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot open file &apos;%1&apos; for writting.</source>
-        <translation>Nelze otevřít soubor &apos;%1&apos; pro zápis.</translation>
-    </message>
-</context>
-<context>
-    <name>ImportantNode</name>
-    <message>
-        <source>Important messages</source>
-        <translation>Důležité zprávy</translation>
+        <source>Intelligent synchronization algorithm</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>You can find all important messages here.</source>
-        <translation>Zde najdete všechny zprávy označené jako důležité.</translation>
-    </message>
-</context>
-<context>
-    <name>InoreaderAccountDetails</name>
-    <message>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
+        <source>Fetch articles newer than</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OAuth 2.0 settings</source>
@@ -2744,46 +2598,20 @@ Tokeny vyprší: %2</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source> message(s)</source>
-        <translation> zpráv</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
-    </message>
-    <message>
-        <source>&amp;Login</source>
-        <translation>&amp;Přihlásit se</translation>
-    </message>
-    <message>
-        <source>Specified redirect URL must start with &quot;http://localhost&quot; and must be configured in your OAuth &quot;application&quot;.
-
-It is highly recommended to create your own &quot;App ID&quot;. Because predefined one may be limited due to usage quotas if used by too many users simultaneously.</source>
+        <source>Some feeds might contain tens of thousands of articles and downloading all of them could take great amount of time, so sometimes it is good to download only certain amount of newest messages.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Not tested yet.</source>
-        <translation>Neotestováno.</translation>
+        <source>If you select intelligent synchronization, then only not-yet-fetched or updated articles are downloaded. Network usage is greatly reduced and overall synchronization speed is greatly improved, but first feed fetching could be slow anyway if your feed contains huge number of articles.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>User-visible username</source>
-        <translation>Uživatelské jméno</translation>
+        <source>There are some preconfigured OAuth tokens so you do not have to fill in your client ID/secret, but it is strongly recommended to obtain your own as preconfigured tokens have limited global usage quota. If you wish to use preconfigured tokens, simply leave all above fields to their default values even if they are empty.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>You are already logged in.</source>
-        <translation>Již jste přihlášen.</translation>
-    </message>
-    <message>
-        <source>Access granted.</source>
-        <translation>Přístup povolen.</translation>
-    </message>
-    <message>
-        <source>No username entered.</source>
-        <translation>Nezadáno uživ. jméno.</translation>
-    </message>
-    <message>
-        <source>Some username entered.</source>
-        <translation>Nějaké uživ. jméno zadáno.</translation>
+        <source>You have to fill in your client ID/secret and also fill in correct redirect URL.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>You did not grant access.</source>
@@ -2806,6 +2634,10 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
         <translation>Přístup byl povolen.</translation>
     </message>
     <message>
+        <source>Preconfigured client ID/secret will be used.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Empty value is entered.</source>
         <translation>Zadána prázdná hodnota.</translation>
     </message>
@@ -2815,14 +2647,10 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
     </message>
 </context>
 <context>
-    <name>InoreaderNetworkFactory</name>
+    <name>GreaderNetwork</name>
     <message>
-        <source>Logged in successfully</source>
-        <translation>Přihlášeno úspěšně.</translation>
-    </message>
-    <message>
-        <source>Your login to Inoreader was authorized.</source>
-        <translation>Přihlášení bylo potvrzeno.</translation>
+        <source>login failed</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Inoreader: authentication error</source>
@@ -2842,20 +2670,32 @@ It is highly recommended to create your own &quot;App ID&quot;. Because predefin
     </message>
 </context>
 <context>
-    <name>InoreaderServiceRoot</name>
+    <name>GreaderServiceRoot</name>
     <message>
-        <source>Authentication status: %1
-Login tokens expiration: %2</source>
-        <translation>Status autentizace: %1
-Tokeny vyprší: %2</translation>
+        <source>Other services</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>IOFactory</name>
+    <message>
+        <source>Cannot open file &apos;%1&apos; for reading.</source>
+        <translation>Soubor &apos;%1&apos; nelze otevřít pro čtení.</translation>
     </message>
     <message>
-        <source>logged-in</source>
-        <translation>přihlášen</translation>
+        <source>Cannot open file &apos;%1&apos; for writting.</source>
+        <translation>Nelze otevřít soubor &apos;%1&apos; pro zápis.</translation>
+    </message>
+</context>
+<context>
+    <name>ImportantNode</name>
+    <message>
+        <source>Important articles</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>NOT logged-in</source>
-        <translation>NEpřihlášen</translation>
+        <source>You can find all important articles here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2893,6 +2733,33 @@ Tokeny vyprší: %2</translation>
     <message>
         <source>Website address goes here</source>
         <translation>Adresu webové stránky zadejte sem</translation>
+    </message>
+</context>
+<context>
+    <name>MariaDbDriver</name>
+    <message>
+        <source>MySQL server works as expected.</source>
+        <translation>MySQL server pracuje v pořádku.</translation>
+    </message>
+    <message>
+        <source>Selected database does not exist (yet). It will be created. It&apos;s okay.</source>
+        <translation>Vybraná databáze doposud neexistuje, ale bude vytvořena při prvním použití.</translation>
+    </message>
+    <message>
+        <source>No MySQL server is running in the target destination.</source>
+        <translation>V daném umístění neběží žádný MySQL server.</translation>
+    </message>
+    <message>
+        <source>Access denied. Invalid username or password used.</source>
+        <translation>Přístup zamítnut. Nesprávne jméno či heslo.</translation>
+    </message>
+    <message>
+        <source>Unknown error: &apos;%1&apos;.</source>
+        <translation>Neznámá chyba: &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>MariaDB</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2942,18 +2809,40 @@ Tokeny vyprší: %2</translation>
     </message>
 </context>
 <context>
+    <name>MessageCountSpinBox</name>
+    <message>
+        <source>= unlimited</source>
+        <translation>= neomezeno</translation>
+    </message>
+    <message>
+        <source>article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>MessagePreviewer</name>
     <message>
-        <source>Mark message as read</source>
-        <translation>Označit zprávu jako přečtenou</translation>
+        <source>Mark article read</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Mark message as unread</source>
-        <translation>Označit zprávu jako nepřečtenou</translation>
+        <source>Mark article unread</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Switch message importance</source>
-        <translation>Nastavit důležitost zprávy</translation>
+        <source>Switch article importance</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>MessageTextBrowser</name>
+    <message>
+        <source>Open with external tool</source>
+        <translation>Otevřít s externím nástrojem</translation>
     </message>
 </context>
 <context>
@@ -2983,8 +2872,12 @@ Tokeny vyprší: %2</translation>
         <translation>Autor</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Vytvořeno</translation>
+        <source>Score</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3022,60 +2915,12 @@ Tokeny vyprší: %2</translation>
         <translation>Autor</translation>
     </message>
     <message>
-        <source>Created on</source>
-        <translation>Vytvořeno</translation>
-    </message>
-    <message>
         <source>Contents</source>
         <translation>Obsah</translation>
     </message>
     <message>
-        <source>Id of the message.</source>
-        <translation>Id zprávy.</translation>
-    </message>
-    <message>
-        <source>Is message read?</source>
-        <translation>Je zpráva přečtená?</translation>
-    </message>
-    <message>
-        <source>Is message deleted?</source>
-        <translation>Je zpráva smazaná?</translation>
-    </message>
-    <message>
-        <source>Is message important?</source>
-        <translation>Je zpráva důležitá?</translation>
-    </message>
-    <message>
-        <source>Id of feed which this message belongs to.</source>
-        <translation>Id kanálu, ke kterému zpráva náleží.</translation>
-    </message>
-    <message>
-        <source>Title of the message.</source>
-        <translation>Nadpis zprávy.</translation>
-    </message>
-    <message>
-        <source>Url of the message.</source>
-        <translation>Url zprávy.</translation>
-    </message>
-    <message>
-        <source>Author of the message.</source>
-        <translation>Autor zprávy.</translation>
-    </message>
-    <message>
-        <source>Creation date of the message.</source>
-        <translation>Datum vytvoření zprávy.</translation>
-    </message>
-    <message>
-        <source>Contents of the message.</source>
-        <translation>Obsah zprávy.</translation>
-    </message>
-    <message>
         <source>Permanently deleted</source>
         <translation>Permanentně smazáno</translation>
-    </message>
-    <message>
-        <source>Is message permanently deleted from recycle bin?</source>
-        <translation>Je zpráva permanentně vysypána z koše?</translation>
     </message>
     <message>
         <source>Attachments</source>
@@ -3086,14 +2931,6 @@ Tokeny vyprší: %2</translation>
         <translation>Seznam příloh.</translation>
     </message>
     <message>
-        <source>Loading of messages failed, maybe messages could not be downloaded.</source>
-        <translation>Načtení zpráv selhalo, možná zprávy nemohly být staženy.</translation>
-    </message>
-    <message>
-        <source>Loading of messages from item &apos;%1&apos; failed.</source>
-        <translation>Načtení zpráv pro položku &apos;%1&apos; selhalo.</translation>
-    </message>
-    <message>
         <source>Account ID</source>
         <translation>ID účtu</translation>
     </message>
@@ -3102,91 +2939,143 @@ Tokeny vyprší: %2</translation>
         <translation>Zvláštní ID</translation>
     </message>
     <message>
-        <source>Account ID of the message.</source>
-        <translation>Account ID zprávy.</translation>
-    </message>
-    <message>
-        <source>Custom ID of the message</source>
-        <translation>Custom ID of the message</translation>
-    </message>
-    <message>
         <source>Custom hash</source>
         <translation>Zvláštní hash</translation>
-    </message>
-    <message>
-        <source>Custom hash of the message.</source>
-        <translation>Zvlášnní hash zprávy</translation>
     </message>
     <message>
         <source>Feed ID</source>
         <translation>ID kanálu</translation>
     </message>
     <message>
-        <source>Custom ID of feed of the message.</source>
-        <translation>Zvláštní ID kanálu zprávy.</translation>
-    </message>
-    <message>
         <source>Has enclosures</source>
         <translation>Má přílohy</translation>
     </message>
     <message>
-        <source>Indication of enclosures presence within the message.</source>
-        <translation>Indikuje, zda zpráva obsahuje přílohy.</translation>
+        <source>Score</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Loading of articles from item &apos;%1&apos; failed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Loading of articles failed, maybe messages could not be downloaded.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article read?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article important?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article deleted?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Is article permanently deleted from recycle bin?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>ID of feed which this article belongs to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Title of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Url of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Author of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Creation date of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Contents of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Score of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Account ID of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of the article</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom hash of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Custom ID of feed of the article.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Indication of enclosures presence within the article.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MessagesToolBar</name>
     <message>
-        <source>Search messages</source>
-        <translation>Hledat zprávy</translation>
-    </message>
-    <message>
-        <source>Message search box</source>
-        <translation>Hledací panel zpráv</translation>
-    </message>
-    <message>
-        <source>Menu for highlighting messages</source>
-        <translation>Menu pro zvýrazňování zpráv</translation>
-    </message>
-    <message>
         <source>No extra highlighting</source>
         <translation>Nic nezvýrazňovat</translation>
-    </message>
-    <message>
-        <source>Highlight unread messages</source>
-        <translation>Zvýraznit nepřečtené zprávy</translation>
-    </message>
-    <message>
-        <source>Highlight important messages</source>
-        <translation>Zvýraznit důležité zprávy</translation>
-    </message>
-    <message>
-        <source>Display all messages</source>
-        <translation>Zobrazit všechny zprávy</translation>
-    </message>
-    <message>
-        <source>Message highlighter</source>
-        <translation>Zvýrazňovač zpráv</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
         <translation>Mezera</translation>
     </message>
+    <message>
+        <source>Search articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article search box</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Menu for highlighting articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Highlight important articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display all articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article highlighter</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>MessagesView</name>
-    <message>
-        <source>Context menu for messages</source>
-        <translation>Kontextové menu pro zprávy</translation>
-    </message>
-    <message>
-        <source>Problem with starting external web browser</source>
-        <translation>PRoblém s externím webovým prohlížečem</translation>
-    </message>
-    <message>
-        <source>External web browser could not be started.</source>
-        <translation>Externí webový prohlížeč nebyl úspěšně spuštěn.</translation>
-    </message>
     <message>
         <source>Problem with starting external e-mail client</source>
         <translation>Problém se spuštěním externího e-mailového klienta</translation>
@@ -3206,6 +3095,14 @@ Tokeny vyprší: %2</translation>
     <message>
         <source>External tool &apos;%1&apos; could not be started.</source>
         <translation>Externí nástroj &apos;%1&apos; nelze spustit.</translation>
+    </message>
+    <message>
+        <source>No external tools activated</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Context menu for articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3329,10 +3226,6 @@ Tokeny vyprší: %2</translation>
         <translation>Vaše heslo pro autentifikaci</translation>
     </message>
     <message>
-        <source>Display password</source>
-        <translation>Zobrazit heslo</translation>
-    </message>
-    <message>
         <source>Note that these settings are applied only on newly established connections.</source>
         <translation>Tato nastavení se projeví pouze na nově vytvořených spojeních.</translation>
     </message>
@@ -3360,16 +3253,16 @@ Tokeny vyprší: %2</translation>
         <translation>Formulář</translation>
     </message>
     <message numerus="yes">
-        <source>Show more messages (%n remaining)</source>
-        <translation><numerusform>Zobrazit další zprávy (zbývá %n)</numerusform><numerusform>Zobrazit další zprávy (zbývá %n)</numerusform><numerusform>Zobrazit další zprávy (zbývá %n)</numerusform><numerusform>Zobrazit další zprávy (zbývá %n)</numerusform></translation>
+        <source>Show more articles (%n remaining)</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <source>Cannot show more messages</source>
-        <translation>Nelze zobrazit více zpráv</translation>
+        <source>Cannot show more articles</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot show more messages because parent feed was removed.</source>
-        <translation>Nelze zobrazit zprávy protože kanál byl odebrán.</translation>
+        <source>Cannot show more articles because parent feed was removed.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3391,14 +3284,6 @@ Tokeny vyprší: %2</translation>
         <translation>Je třeba se nejdříve přihlásit.</translation>
     </message>
     <message>
-        <source>Navigate to website</source>
-        <translation>Přejít na web</translation>
-    </message>
-    <message>
-        <source>To login, you need to navigate to this website:</source>
-        <translation>Pro přihlášení přejděte na tento web:</translation>
-    </message>
-    <message>
         <source>You can close this window now. Go back to %1.</source>
         <translation type="unfinished"/>
     </message>
@@ -3410,20 +3295,8 @@ Tokeny vyprší: %2</translation>
 <context>
     <name>OwnCloudAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation>Stahovat pouze nepřečtené zprávy</translation>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Vynutit aktualizace kanálů na straně serveru</translation>
-    </message>
-    <message>
-        <source>Only download newest X messages per feed</source>
-        <translation>Stahovat pouze X nejnovějších zpráv z kanálu</translation>
-    </message>
-    <message>
-        <source> = unlimited</source>
-        <translation>= neomezeno</translation>
     </message>
     <message>
         <source>URL</source>
@@ -3444,10 +3317,6 @@ Tokeny vyprší: %2</translation>
     <message>
         <source>Password</source>
         <translation>Heslo</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Zobrazit heslo</translation>
     </message>
     <message>
         <source>&amp;Test setup</source>
@@ -3478,16 +3347,8 @@ Tokeny vyprší: %2</translation>
         <translation>Zde jsou zobrazeny výsledky testu spojení.</translation>
     </message>
     <message>
-        <source>Limiting number of downloaded messages per feed makes updating of feeds faster but if your feed contains bigger number of messages than specified limit, then some messages might not be downloaded during feed update.</source>
-        <translation>Omezení počtu stahovaných zpráv na kanál udělá aktualizaci kanálů rychleší, ale pokud váš kanál obsahuje více zpráv než je limit, tak se může stát, že některé zprávy se z kanálu nebudou stahovat.</translation>
-    </message>
-    <message>
         <source>= unlimited</source>
         <translation>= neomezeno</translation>
-    </message>
-    <message>
-        <source>messages</source>
-        <translation>zpráv</translation>
     </message>
     <message>
         <source>Network error: &apos;%1&apos;.</source>
@@ -3536,6 +3397,18 @@ Tokeny vyprší: %2</translation>
     <message>
         <source>URL is okay.</source>
         <translation>URL je v pořádku.</translation>
+    </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3605,10 +3478,6 @@ Je vyžadování verze API minimálně %1.</translation>
         <translation>Reprezentace externího nástroje není správná.</translation>
     </message>
     <message>
-        <source>This is integration of Inoreader.</source>
-        <translation>Integrace Inoreaderu.</translation>
-    </message>
-    <message>
         <source>Simple Gmail integration via JSON API. Allows sending e-mails too.</source>
         <translation>Posílání a přijímaní e-mailů přes Gmail.</translation>
     </message>
@@ -3623,19 +3492,51 @@ Prosím, zkontrolujte novinky kliknutím
 na tuto bublinu.</translation>
     </message>
     <message>
-        <source>Cannot insert message filter, because current database cannot return last inserted row ID.</source>
-        <translation>Nelze vložit filtr zpráv, protože databáze neumí vrátit ID.</translation>
-    </message>
-    <message>
         <source>Standard online feeds (RSS/ATOM/JSON)</source>
         <translation>Standardní kanály (RSS/ATOM/JSON)</translation>
     </message>
     <message>
-        <source>Google Reader API is used by many online RSS readers. This is here to support</source>
+        <source>Keep up with the topics and trends you care about, without the overwhelm.
+
+Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Keep up with the topics and trends you care about, without the overwhelm. Feedly is a secure space where you can privately organize and research the topics and trends that matter to you.</source>
+        <source>Cannot insert article filter, because current database cannot return last inserted row ID.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetching articles right now</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Login data refreshed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New %1 version is available</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Miscellaneous events</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Unknown event</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>New (unread) articles fetched</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML problem: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Google Reader API is used by many online RSS readers.
+
+List of supported readers:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3646,14 +3547,6 @@ na tuto bublinu.</translation>
         <translation>Koš</translation>
     </message>
     <message>
-        <source>Recycle bin contains all deleted messages from all feeds.</source>
-        <translation>Koš obsahuje všechny smazané zprávy ze všech kanálů.</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n deleted message(s).</source>
-        <translation><numerusform>%n smazaná zpráva.</numerusform><numerusform>%n smazané zprávy.</numerusform><numerusform>%n smazaných zpráv.</numerusform><numerusform>%n smazaných zpráv.</numerusform></translation>
-    </message>
-    <message>
         <source>Restore recycle bin</source>
         <translation>Obnovit koš</translation>
     </message>
@@ -3661,13 +3554,21 @@ na tuto bublinu.</translation>
         <source>Empty recycle bin</source>
         <translation>Vysypat koš</translation>
     </message>
+    <message>
+        <source>Recycle bin contains all deleted articles from all feeds.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message numerus="yes">
+        <source>%n deleted article(s).</source>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+    </message>
 </context>
 <context>
     <name>RootItem</name>
     <message numerus="yes">
-        <source>%n unread message(s).</source>
+        <source>%n unread article(s).</source>
         <extracomment>Tooltip for &quot;unread&quot; column of feed list.</extracomment>
-        <translation><numerusform>%n nepřečtená zpráva.</numerusform><numerusform>%n nepřečtené zprávy.</numerusform><numerusform>%n nepřečtených zpráv.</numerusform><numerusform>%n nepřečtených zpráv.</numerusform></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
 </context>
 <context>
@@ -3696,10 +3597,6 @@ na tuto bublinu.</translation>
 <context>
     <name>SearchTextWidget</name>
     <message>
-        <source>Clear searched phrase</source>
-        <translation>Smazat hledanou frázi</translation>
-    </message>
-    <message>
         <source>Seach text</source>
         <translation type="unfinished"/>
     </message>
@@ -3719,7 +3616,7 @@ na tuto bublinu.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Synchronize message cache</source>
+        <source>Synchronize article cache</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3797,9 +3694,7 @@ na tuto bublinu.</translation>
         <source>Executables (*)</source>
         <extracomment>File filter for external browser selection dialog.
 ----------
-File filter for external e-mail selection dialog.
-----------
-File filter for external tool selection dialog.</extracomment>
+File filter for external e-mail selection dialog.</extracomment>
         <translation>Spustitelné soubory (*)</translation>
     </message>
     <message>
@@ -3835,14 +3730,6 @@ File filter for external tool selection dialog.</extracomment>
         <translation>Na této stránce si můžete nakonfigurovat seznam externích nástrojů pro otevírání URL ze zpráv.</translation>
     </message>
     <message>
-        <source>Add external tool</source>
-        <translation>Přidat ext. nástroj</translation>
-    </message>
-    <message>
-        <source>Delete selected external tool</source>
-        <translation>Smazat vybraný ext. nástroj</translation>
-    </message>
-    <message>
         <source>Executable</source>
         <translation>Spouštěč</translation>
     </message>
@@ -3859,15 +3746,27 @@ File filter for external tool selection dialog.</extracomment>
         <translation>Zadat parametry ext. nástroje</translation>
     </message>
     <message>
-        <source>Enter (optional) parameters separated by single space to send to executable when opening URLs.</source>
-        <translation>Zadejte (volitelné) parametry oddělené jednou mezerou, které budou předány nástroji při otevírání URL adres.</translation>
-    </message>
-    <message>
         <source>Parameters passed to executable</source>
         <translation>Parametry předávané programu</translation>
     </message>
     <message>
         <source>Network proxy</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Add new external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Edit selected external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Delete selected external tool</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter (optional) parameters separated by &quot;%1&quot;:</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3932,10 +3831,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
     <message>
         <source>Note that speed of used MySQL server and latency of used connection medium HEAVILY influences the final performance of this application. Using slow database connections leads to bad performance when browsing feeds or messages.</source>
         <translation>Mějte na paměti, že rychlost a latence použitého MySQL serveru těžce ovlivňuje svižnost aplikace. Použití pomalého databázového spojení může vést ke špatnému výkonu aplikace např. při prohlížení zpráv.</translation>
-    </message>
-    <message>
-        <source>&amp;Show password</source>
-        <translation>&amp;Zobrazit heslo</translation>
     </message>
     <message>
         <source>Working database</source>
@@ -4048,10 +3943,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
 <context>
     <name>SettingsFeedsMessages</name>
     <message>
-        <source>Feeds &amp;&amp; categories</source>
-        <translation>Kanály &amp;&amp; kategorie</translation>
-    </message>
-    <message>
         <source>Feed connection timeout</source>
         <translation>Časový limit stažení souboru kanálu</translation>
     </message>
@@ -4062,26 +3953,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
     <message>
         <source> ms</source>
         <translation>ms</translation>
-    </message>
-    <message>
-        <source>Message count format in feed list</source>
-        <translation>Formát čítače zpráv v seznamu kanálů</translation>
-    </message>
-    <message>
-        <source>Enter format for count of messages displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) messages.</source>
-        <translation>Zadejte formát pro čítače zpráv, které jsou zobrazeny u každého kanálu/kategorie. Použijte zástupné symboly &quot;%all&quot; a &quot;%unread&quot;, které představují aktuální hodnoty čítačů.</translation>
-    </message>
-    <message>
-        <source>Messages</source>
-        <translation>Zprávy</translation>
-    </message>
-    <message>
-        <source>Remove all read messages from all feeds on application exit</source>
-        <translation>Vymazat všechny přečtené zprávy, když se aplikace vypíná</translation>
-    </message>
-    <message>
-        <source>Keep message selection in the middle of the message list viewport</source>
-        <translation>Držet vybranou zprávu uprostřed seznamu zpráv při jejich procházení</translation>
     </message>
     <message>
         <source>Use custom date/time format (overrides format loaded from active localization)</source>
@@ -4096,19 +3967,11 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <translation>Náhled písma</translation>
     </message>
     <message>
-        <source>Feeds &amp; messages</source>
-        <translation>Kanály &amp; zprávy</translation>
-    </message>
-    <message>
         <source>Height of image attachments</source>
         <translation>Výška obrázkových příloh</translation>
     </message>
     <message>
         <source>Height or rows in feed list (-1 = default height)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Height or rows in message list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -4120,39 +3983,75 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <translation>Na pozicích obrázků zobrazovat zástupné symboly</translation>
     </message>
     <message>
-        <source>Message list font</source>
-        <translation>Písmo seznamu zpráv</translation>
-    </message>
-    <message>
-        <source>Internal message browser font</source>
-        <translation>Písmo zabudovaného zobrazovače zpráv</translation>
-    </message>
-    <message>
         <source>Select new font</source>
         <translation>Vybrat písmo</translation>
     </message>
     <message>
-        <source>Download messages for all feeds on application startup with initial delay of</source>
+        <source>Feeds</source>
+        <translation>Kanály</translation>
+    </message>
+    <message>
+        <source>Articles</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enable &quot;auto-download started&quot; notification</source>
+        <source>Remove all read articles from all feeds on application exit</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Only auto-download messages when application is unfocused</source>
+        <source>Display real icons of feeds in list of articles instead of read/unread icons</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Auto-download messages for all feeds every</source>
+        <source>Bring application window to front once article is opened in external web browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Bring application window to front once message is opened in external web browser</source>
+        <source>Height or rows in article list (-1 = default height)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Display real icons of feeds in list of messages instead of read/unread icons</source>
+        <source>Article list font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article browser font</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Feeds &amp; articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fetch articles for all feeds on application startup with initial delay of</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Auto-fetch articles for all feeds every</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only auto-fetch articles if application is unfocused</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Article count format in feed list</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enter format for count of articles displayed next to each feed/category in feed list. Use &quot;%all&quot; and &quot;%unread&quot; strings which are placeholders for the actual count of all (or unread) articles.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Hide article counts if there are no unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Display tooltips for feeds and articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Keep article selection in the middle of the article list viewport</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4190,10 +4089,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <translation>Téma ikon</translation>
     </message>
     <message>
-        <source>Tray area &amp;&amp; notifications</source>
-        <translation>Notifikační oblast</translation>
-    </message>
-    <message>
         <source>Tray icon</source>
         <translation>Notifikační ikona</translation>
     </message>
@@ -4204,10 +4099,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
     <message>
         <source>Start application hidden</source>
         <translation>Spouštět aplikaci skrytou</translation>
-    </message>
-    <message>
-        <source>Enable popup balloon tooltips</source>
-        <translation>Povolit vyskakovací notifikační bubliny</translation>
     </message>
     <message>
         <source>Tabs</source>
@@ -4238,10 +4129,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <translation>Lišta seznamu kanálů</translation>
     </message>
     <message>
-        <source>Toolbar for messages list</source>
-        <translation>Lišta seznamu zpráv</translation>
-    </message>
-    <message>
         <source>Statusbar</source>
         <translation>Stavový pruh</translation>
     </message>
@@ -4268,10 +4155,6 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
     <message>
         <source>E-mail</source>
         <translation>E-mail</translation>
-    </message>
-    <message>
-        <source>(Tray icon is not available.)</source>
-        <translation>(Tray ikona není dostupná.)</translation>
     </message>
     <message>
         <source>Icon only</source>
@@ -4326,6 +4209,18 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
         <source>Display count of unread messages</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>(Your OS does not support tray icons at the moment.)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tray area</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Toolbar for articles list</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>SettingsLocalization</name>
@@ -4340,6 +4235,29 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
     <message>
         <source>Author</source>
         <translation>Autor</translation>
+    </message>
+    <message>
+        <source>Localization</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SettingsNotifications</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulář</translation>
+    </message>
+    <message>
+        <source>Notifications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Enable notifications</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You must have &quot;tray icon&quot; activated to have balloon notifications working.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4365,32 +4283,71 @@ Autoři této aplikace nenesou žádnou odpovědnost za ztrátu Vašich dat.</tr
     </message>
 </context>
 <context>
+    <name>SingleNotificationEditor</name>
+    <message>
+        <source>Sound</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Full path to your WAV sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Browse</source>
+        <translation>&amp;Procházet</translation>
+    </message>
+    <message>
+        <source>&amp;Play</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Balloon notification</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Select sound file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>WAV files (*.wav)</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>SkinFactory</name>
     <message>
         <source>This page was blocked by AdBlock</source>
         <translation>Tato stránka byla zablokována AdBlockem</translation>
     </message>
     <message>
-        <source>Blocked by set: &quot;%1&quot;&lt;br/&gt;Blocked by filter: &quot;%2&quot;</source>
-        <translation>Zablokováno seznamem: &quot;%1&quot;&lt;br/&gt;Zablokováno filtrem: &quot;%2&quot;</translation>
+        <source>Blocked URL: &quot;%1&quot;&lt;br/&gt;Used filter: &quot;%2&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>SqliteDriver</name>
+    <message>
+        <source>SQLite (embedded database)</source>
+        <translation>SQLite (embedded databáze)</translation>
+    </message>
+    <message>
+        <source>Database file not copied to output directory successfully.</source>
+        <translation>Soubor databáze nebyl zkopírován do cílového adresáře.</translation>
+    </message>
+</context>
+<context>
+    <name>StandardCategory</name>
+    <message>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <source>Cannot save data for category, detailed information was logged via debug log.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>StandardFeed</name>
-    <message>
-        <source>Metadata not fetched</source>
-        <translation>Metadata nezískána</translation>
-    </message>
-    <message>
-        <source>
-Network status: %1
-Encoding: %2
-Type: %3</source>
-        <translation>
-Síťový stav: %1
-Kódování: %2
-Typ: %3</translation>
-    </message>
     <message>
         <source>Script</source>
         <translation type="unfinished"/>
@@ -4404,7 +4361,29 @@ Typ: %3</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Metadata was not fetched.</source>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <source>Cannot save data for feed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML is not well-formed, %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>XML feed file format unrecognized</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cannot move feed, detailed information was logged via debug log.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>
+Encoding: %2
+Type: %3</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4413,10 +4392,6 @@ Typ: %3</translation>
     <message>
         <source>Form</source>
         <translation>Formulář</translation>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Nadřazená kategorie</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -4507,10 +4482,6 @@ Typ: %3</translation>
         <translation>Metadata ikony načtena.</translation>
     </message>
     <message>
-        <source>Icon metadata not fetched.</source>
-        <translation>Metadata ikony nebyla načtena.</translation>
-    </message>
-    <message>
         <source>No icon fetched.</source>
         <translation>Ikona nestažena.</translation>
     </message>
@@ -4521,10 +4492,6 @@ Typ: %3</translation>
     <message>
         <source>Feed and icon metadata fetched.</source>
         <translation>Metadata a ikona staženy.</translation>
-    </message>
-    <message>
-        <source>Feed or icon metadata not fetched.</source>
-        <translation>Metadata a ikona nebyly staženy.</translation>
     </message>
     <message>
         <source>No metadata fetched.</source>
@@ -4643,6 +4610,22 @@ Typ: %3</translation>
         <source>Command is empty.</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Script failed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Network error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Chyba: %1</translation>
+    </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>StandardServiceRoot</name>
@@ -4691,12 +4674,12 @@ Typ: %3</translation>
         <translation>Nelze přidat kategorii, protože probíhá jiná kritická operace.</translation>
     </message>
     <message>
-        <source>Import successful, but some feeds/categories were not imported due to error.</source>
-        <translation>Import byl úspěšný, ale některé kanály či kategorie nebyly importovány kvůli chybě.</translation>
-    </message>
-    <message>
         <source>Import was completely successful.</source>
         <translation>Import byl úspěšný.</translation>
+    </message>
+    <message>
+        <source>Some feeds/categories were not imported due to error, check debug log for more details.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4706,16 +4689,8 @@ Typ: %3</translation>
         <translation>Průběhový pruh aktualizace kanálů</translation>
     </message>
     <message>
-        <source>Feed update label</source>
-        <translation>Popisek průběhového pruhu aktualizace kanálů</translation>
-    </message>
-    <message>
         <source>File download progress bar</source>
         <translation>Průběhový pruh stahování souboru</translation>
-    </message>
-    <message>
-        <source>File download label</source>
-        <translation>Popisek stahování souboru</translation>
     </message>
     <message>
         <source>Toolbar spacer</source>
@@ -4743,13 +4718,6 @@ Nepřečtené zprávy: %2</translation>
     </message>
 </context>
 <context>
-    <name>T</name>
-    <message>
-        <source>Add new account</source>
-        <translation>Přidat nový účet</translation>
-    </message>
-</context>
-<context>
     <name>TabBar</name>
     <message>
         <source>Close this tab.</source>
@@ -4765,10 +4733,6 @@ Nepřečtené zprávy: %2</translation>
     <message>
         <source>Feeds</source>
         <translation>Kanály</translation>
-    </message>
-    <message>
-        <source>Browse your feeds and messages</source>
-        <translation>Procházet kanály a zprávy</translation>
     </message>
     <message>
         <source>Displays main menu.</source>
@@ -4789,6 +4753,10 @@ Nepřečtené zprávy: %2</translation>
     <message>
         <source>Web browser</source>
         <translation>Webový prohlížeč</translation>
+    </message>
+    <message>
+        <source>Browse your feeds and articles</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4871,10 +4839,6 @@ Nepřečtené zprávy: %2</translation>
 <context>
     <name>TtRssAccountDetails</name>
     <message>
-        <source>Download only unread messages</source>
-        <translation>Stahovat pouze nepřečtené zprávy</translation>
-    </message>
-    <message>
         <source>Force execution of server-side update when updating feeds from RSS Guard</source>
         <translation>Vynutit aktualizace kanálů na straně serveru</translation>
     </message>
@@ -4893,10 +4857,6 @@ Nepřečtené zprávy: %2</translation>
     <message>
         <source>Password</source>
         <translation>Heslo</translation>
-    </message>
-    <message>
-        <source>Show password</source>
-        <translation>Zobrazit heslo</translation>
     </message>
     <message>
         <source>Requires HTTP authentication</source>
@@ -5022,16 +4982,20 @@ Nepřečtené zprávy: %2</translation>
         <source>URL is okay.</source>
         <translation>URL je v pořádku.</translation>
     </message>
+    <message>
+        <source>Download unread articles only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Only download newest X articles per feed</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TtRssFeedDetails</name>
     <message>
         <source>Form</source>
         <translation>Formulář</translation>
-    </message>
-    <message>
-        <source>Parent category</source>
-        <translation>Nadřazená kategorie</translation>
     </message>
     <message>
         <source>Select parent item for your feed.</source>
@@ -5061,6 +5025,10 @@ Nepřečtené zprávy: %2</translation>
         <source>The URL is empty.</source>
         <translation>URL je prázdná.</translation>
     </message>
+    <message>
+        <source>Parent folder</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>TtRssServiceRoot</name>
@@ -5081,6 +5049,17 @@ Last login on: %4</source>
 Server: %2
 Poslední chyba: %3
 Poslední čas přihlášení: %4</translation>
+    </message>
+</context>
+<context>
+    <name>UnreadNode</name>
+    <message>
+        <source>Unread articles</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>You can find all unread articles here.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5112,14 +5091,6 @@ Poslední čas přihlášení: %4</translation>
     </message>
     <message>
         <source>Open this website in system web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Failed to open URL in web browser</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>URL &apos;%1&apos; could not be opened in system&apos;s web browser.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5213,6 +5184,14 @@ Poslední čas přihlášení: %4</translation>
         <source>Allow geolocation on insecure origins</source>
         <translation>Povolit geolokaci nezabezpečeného původu</translation>
     </message>
+    <message>
+        <source>Navigate to website manually</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>%1 was unable to launch your web browser with the given URL, you need to open the below website URL in your web browser manually.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>WebViewer</name>
@@ -5231,6 +5210,10 @@ Poslední čas přihlášení: %4</translation>
     <message>
         <source>Open link in external browser</source>
         <translation>Otevřít odkaz v externím prohlížeči</translation>
+    </message>
+    <message>
+        <source>Open with external tool</source>
+        <translation>Otevřít s externím nástrojem</translation>
     </message>
 </context>
 </TS>

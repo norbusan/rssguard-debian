@@ -14,7 +14,7 @@
 class QGridLayout;
 class QToolBar;
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
 class WebBrowser;
 #else
 class MessageBrowser;
@@ -41,7 +41,7 @@ class MessagePreviewer : public QWidget {
 
     void reloadFontSettings();
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
     WebBrowser* webBrowser() const;
 #endif
 
@@ -72,13 +72,12 @@ class MessagePreviewer : public QWidget {
     QGridLayout* m_layout;
     QToolBar* m_toolBar;
 
-#if defined (USE_WEBENGINE)
+#if defined(USE_WEBENGINE)
     WebBrowser* m_txtMessage;
 #else
     MessageBrowser* m_txtMessage;
 #endif
 
-    double m_verticalScrollBarPosition;
     Message m_message;
     QPointer<RootItem> m_root;
     QAction* m_actionMarkRead;

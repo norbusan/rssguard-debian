@@ -20,7 +20,7 @@ if [ $is_linux = true ]; then
   sudo add-apt-repository ppa:beineri/opt-qt-5.14.2-xenial -y
 
   sudo apt-get update
-  sudo apt-get -y install gcc-7 g++-7 qt514tools qt514base qt514webengine qt514svg
+  sudo apt-get -y install gcc-7 g++-7 qt514tools qt514base qt514webengine qt514svg qt514multimedia 
   sudo apt-get -y install openssl libssl-dev libgl1-mesa-dev 
 
   sudo update-alternatives --remove-all gcc 
@@ -39,7 +39,7 @@ else
   echo "Qt bin directory is: $QTBIN"
   echo "Qt will be installed to: $QTPATH"
 
-  aqt install -O "$QTPATH" 5.15.2 mac desktop clang_64 -m qtwebengine
+  aqt install -O "$QTPATH" "5.15.2" "mac" "desktop" "clang_64" -m "qtwebengine" "qtmultimedia"
 
   export QT_PLUGIN_PATH="$QTPATH/$QTVERSION/clang_64/plugins"
   export PATH="$QTBIN:$PATH"
@@ -52,7 +52,7 @@ git_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 git_revision=$(git rev-parse --short HEAD)
 
 mkdir rssguard-build && cd rssguard-build
-qmake .. "USE_WEBENGINE=$webengine"
+qmake .. "USE_WEBENGINE=$webengine" "FEEDLY_CLIENT_ID=$FEEDLY_CLIENT_ID" "FEEDLY_CLIENT_SECRET=$FEEDLY_CLIENT_SECRET" "GMAIL_CLIENT_ID=$GMAIL_CLIENT_ID" "GMAIL_CLIENT_SECRET=$GMAIL_CLIENT_SECRET" "INOREADER_CLIENT_ID=$INOREADER_CLIENT_ID" "INOREADER_CLIENT_SECRET=$INOREADER_CLIENT_SECRET"
 make
 make install
 cd "src/rssguard"

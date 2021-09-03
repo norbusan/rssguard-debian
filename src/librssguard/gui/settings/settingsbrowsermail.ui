@@ -32,8 +32,15 @@
       <attribute name="title">
        <string>External web browser</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout_17">
-       <item row="1" column="0" colspan="2">
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="m_checkOpenLinksInExternal">
+         <property name="text">
+          <string>Always open links from simple internal text browser in external web browser</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
         <widget class="QGroupBox" name="m_grpCustomExternalBrowser">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If unchecked, then default system-wide web browser is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -128,12 +135,18 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="m_checkOpenLinksInExternal">
-         <property name="text">
-          <string>Always open links from simple internal text browser in external web browser</string>
+       <item row="2" column="0" colspan="2">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -156,7 +169,7 @@
          <property name="checkable">
           <bool>true</bool>
          </property>
-         <layout class="QFormLayout" name="formLayout_21">
+         <layout class="QFormLayout" name="_2">
           <item row="0" column="0">
            <widget class="QLabel" name="m_lblExternalEmailExecutable">
             <property name="text">
@@ -262,27 +275,6 @@
        <string>External tools</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="m_btnAddTool">
-           <property name="text">
-            <string>Add external tool</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="m_btnDeleteTool">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Delete selected external tool</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="m_lblToolInfo">
          <property name="text">
@@ -330,6 +322,37 @@
          </property>
         </spacer>
        </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="m_btnAddTool">
+           <property name="text">
+            <string>&amp;Add new external tool</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="m_btnEditTool">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>&amp;Edit selected external tool</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="m_btnDeleteTool">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>&amp;Delete selected external tool</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -338,7 +361,6 @@
  </widget>
  <tabstops>
   <tabstop>m_tabBrowserProxy</tabstop>
-  <tabstop>m_checkOpenLinksInExternal</tabstop>
   <tabstop>m_grpCustomExternalBrowser</tabstop>
   <tabstop>m_txtExternalBrowserExecutable</tabstop>
   <tabstop>m_btnExternalBrowserExecutable</tabstop>
@@ -351,6 +373,7 @@
   <tabstop>m_cmbExternalEmailPreset</tabstop>
   <tabstop>m_listTools</tabstop>
   <tabstop>m_btnAddTool</tabstop>
+  <tabstop>m_btnEditTool</tabstop>
   <tabstop>m_btnDeleteTool</tabstop>
  </tabstops>
  <resources/>

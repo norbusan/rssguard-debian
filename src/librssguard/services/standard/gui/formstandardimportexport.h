@@ -24,8 +24,7 @@ class FormStandardImportExport : public QDialog {
       TxtUrlPerLine = 1
     };
 
-    // Constructors.
-    explicit FormStandardImportExport(StandardServiceRoot* service_root, QWidget* parent = 0);
+    explicit FormStandardImportExport(StandardServiceRoot* service_root, QWidget* parent = nullptr);
     virtual ~FormStandardImportExport();
 
     void setMode(const FeedsImportExportModel::Mode& mode);
@@ -39,7 +38,7 @@ class FormStandardImportExport : public QDialog {
     void onParsingProgress(int completed, int total);
 
   private:
-    void selectExportFile();
+    void selectExportFile(bool without_dialog);
     void selectImportFile();
     void parseImportFile(const QString& file_name, bool fetch_metadata_online);
 

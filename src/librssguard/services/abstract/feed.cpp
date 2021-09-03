@@ -2,9 +2,9 @@
 
 #include "services/abstract/feed.h"
 
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasequeries.h"
 #include "miscellaneous/feedreader.h"
 #include "miscellaneous/iconfactory.h"
 #include "miscellaneous/mutex.h"
@@ -15,50 +15,21 @@
 #include "services/abstract/labelsnode.h"
 #include "services/abstract/recyclebin.h"
 #include "services/abstract/serviceroot.h"
+#include "services/abstract/unreadnode.h"
 
 #include <QThread>
 
 Feed::Feed(RootItem* parent)
-  : RootItem(parent), m_url(QString()), m_status(Status::Normal), m_autoUpdateType(AutoUpdateType::DefaultAutoUpdate),
+  : RootItem(parent), m_source(QString()), m_status(Status::Normal), m_statusString(QString()), m_autoUpdateType(AutoUpdateType::DefaultAutoUpdate),
   m_autoUpdateInitialInterval(DEFAULT_AUTO_UPDATE_INTERVAL), m_autoUpdateRemainingInterval(DEFAULT_AUTO_UPDATE_INTERVAL),
   m_messageFilters(QList<QPointer<MessageFilter>>()) {
-
-  m_passwordProtected = false;
-  m_username = QString();
-  m_password = QString();
-
   setKind(RootItem::Kind::Feed);
 }
 
-Feed::Feed(const QSqlRecord& record) : Feed(nullptr) {
-  setTitle(record.value(FDS_DB_TITLE_INDEX).toString());
-  setId(record.value(FDS_DB_ID_INDEX).toInt());
-  setUrl(record.value(FDS_DB_URL_INDEX).toString());
-  setCustomId(record.value(FDS_DB_CUSTOM_ID_INDEX).toString());
-
-  if (customId().isEmpty()) {
-    setCustomId(QString::number(id()));
-  }
-
-  setDescription(QString::fromUtf8(record.value(FDS_DB_DESCRIPTION_INDEX).toByteArray()));
-  setCreationDate(TextFactory::parseDateTime(record.value(FDS_DB_DCREATED_INDEX).value<qint64>()).toLocalTime());
-  setIcon(qApp->icons()->fromByteArray(record.value(FDS_DB_ICON_INDEX).toByteArray()));
-  setAutoUpdateType(static_cast<Feed::AutoUpdateType>(record.value(FDS_DB_UPDATE_TYPE_INDEX).toInt()));
-  setAutoUpdateInitialInterval(record.value(FDS_DB_UPDATE_INTERVAL_INDEX).toInt());
-
-  setPasswordProtected(record.value(FDS_DB_PROTECTED_INDEX).toBool());
-  setUsername(record.value(FDS_DB_USERNAME_INDEX).toString());
-
-  if (record.value(FDS_DB_PASSWORD_INDEX).toString().isEmpty()) {
-    setPassword(record.value(FDS_DB_PASSWORD_INDEX).toString());
-  }
-  else {
-    setPassword(TextFactory::decrypt(record.value(FDS_DB_PASSWORD_INDEX).toString()));
-  }
-
-  qDebugNN << LOGSEC_CORE
-           << "Custom ID of feed when loading from DB is"
-           << QUOTE_W_SPACE_DOT(customId());
+Feed::Feed(const QString& title, const QString& custom_id, const QIcon& icon, RootItem* parent) : Feed(parent) {
+  setTitle(title);
+  setCustomId(custom_id);
+  setIcon(icon);
 }
 
 Feed::Feed(const Feed& other) : RootItem(other) {
@@ -66,53 +37,23 @@ Feed::Feed(const Feed& other) : RootItem(other) {
 
   setCountOfAllMessages(other.countOfAllMessages());
   setCountOfUnreadMessages(other.countOfUnreadMessages());
-  setUrl(other.url());
-  setStatus(other.status());
+  setSource(other.source());
+  setStatus(other.status(), other.statusString());
   setAutoUpdateType(other.autoUpdateType());
   setAutoUpdateInitialInterval(other.autoUpdateInitialInterval());
   setAutoUpdateRemainingInterval(other.autoUpdateRemainingInterval());
   setMessageFilters(other.messageFilters());
-
-  setPasswordProtected(other.passwordProtected());
-  setUsername(other.username());
-  setPassword(other.password());
 }
 
-Feed::~Feed() = default;
-
 QList<Message> Feed::undeletedMessages() const {
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
+  QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
 
   return DatabaseQueries::getUndeletedMessagesForFeed(database, customId(), getParentServiceRoot()->accountId());
 }
 
-bool Feed::passwordProtected() const {
-  return m_passwordProtected;
-}
-
-void Feed::setPasswordProtected(bool passwordProtected) {
-  m_passwordProtected = passwordProtected;
-}
-
-QString Feed::username() const {
-  return m_username;
-}
-
-void Feed::setUsername(const QString& username) {
-  m_username = username;
-}
-
-QString Feed::password() const {
-  return m_password;
-}
-
-void Feed::setPassword(const QString& password) {
-  m_password = password;
-}
-
 QVariant Feed::data(int column, int role) const {
   switch (role) {
-    case Qt::ForegroundRole:
+    case Qt::ItemDataRole::ForegroundRole:
       switch (status()) {
         case Status::NewMessages:
           return qApp->skins()->currentSkin().m_colorPalette[Skin::PaletteColors::Highlight];
@@ -144,12 +85,20 @@ int Feed::countOfUnreadMessages() const {
   return m_unreadCount;
 }
 
+QVariantHash Feed::customDatabaseData() const {
+  return {};
+}
+
+void Feed::setCustomDatabaseData(const QVariantHash& data) {
+  Q_UNUSED(data)
+}
+
 void Feed::setCountOfAllMessages(int count_all_messages) {
   m_totalCount = count_all_messages;
 }
 
 void Feed::setCountOfUnreadMessages(int count_unread_messages) {
-  if (status() == Status::NewMessages && count_unread_messages < countOfUnreadMessages()) {
+  if (status() == Status::NewMessages && count_unread_messages < m_unreadCount) {
     setStatus(Status::Normal);
   }
 
@@ -163,28 +112,8 @@ bool Feed::canBeEdited() const {
 bool Feed::editViaGui() {
   QScopedPointer<FormFeedDetails> form_pointer(new FormFeedDetails(getParentServiceRoot(), qApp->mainFormWidget()));
 
-  form_pointer->editBaseFeed(this);
+  form_pointer->addEditFeed(this);
   return false;
-}
-
-bool Feed::editItself(Feed* new_feed_data) {
-  QSqlDatabase database = qApp->database()->connection(metaObject()->className());
-
-  if (DatabaseQueries::editBaseFeed(database, id(), new_feed_data->autoUpdateType(),
-                                    new_feed_data->autoUpdateInitialInterval(),
-                                    new_feed_data->passwordProtected(),
-                                    new_feed_data->username(),
-                                    new_feed_data->password())) {
-    setPasswordProtected(new_feed_data->passwordProtected());
-    setUsername(new_feed_data->username());
-    setPassword(new_feed_data->password());
-    setAutoUpdateType(new_feed_data->autoUpdateType());
-    setAutoUpdateInitialInterval(new_feed_data->autoUpdateInitialInterval());
-    return true;
-  }
-  else {
-    return false;
-  }
 }
 
 void Feed::setAutoUpdateInitialInterval(int auto_update_interval) {
@@ -214,16 +143,17 @@ Feed::Status Feed::status() const {
   return m_status;
 }
 
-void Feed::setStatus(const Feed::Status& status) {
+void Feed::setStatus(const Feed::Status& status, const QString& status_text) {
   m_status = status;
+  m_statusString = status_text;
 }
 
-QString Feed::url() const {
-  return m_url;
+QString Feed::source() const {
+  return m_source;
 }
 
-void Feed::setUrl(const QString& url) {
-  m_url = url;
+void Feed::setSource(const QString& source) {
+  m_source = source;
 }
 
 void Feed::appendMessageFilter(MessageFilter* filter) {
@@ -233,8 +163,8 @@ void Feed::appendMessageFilter(MessageFilter* filter) {
 void Feed::updateCounts(bool including_total_count) {
   bool is_main_thread = QThread::currentThread() == qApp->thread();
   QSqlDatabase database = is_main_thread ?
-                          qApp->database()->connection(metaObject()->className()) :
-                          qApp->database()->connection(QSL("feed_upd"));
+                          qApp->database()->driver()->connection(metaObject()->className()) :
+                          qApp->database()->driver()->connection(QSL("feed_upd"));
   int account_id = getParentServiceRoot()->accountId();
 
   if (including_total_count) {
@@ -248,12 +178,6 @@ bool Feed::cleanMessages(bool clean_read_only) {
   return getParentServiceRoot()->cleanFeeds(QList<Feed*>() << this, clean_read_only);
 }
 
-QList<Message> Feed::obtainNewMessages(bool* error_during_obtaining) {
-  Q_UNUSED(error_during_obtaining)
-
-  return {};
-}
-
 bool Feed::markAsReadUnread(RootItem::ReadStatus status) {
   ServiceRoot* service = getParentServiceRoot();
   auto* cache = dynamic_cast<CacheForServiceRoot*>(service);
@@ -265,70 +189,6 @@ bool Feed::markAsReadUnread(RootItem::ReadStatus status) {
   return service->markFeedsReadUnread(QList<Feed*>() << this, status);
 }
 
-int Feed::updateMessages(const QList<Message>& messages, bool error_during_obtaining, bool force_update) {
-  QList<RootItem*> items_to_update;
-  int updated_messages = 0;
-
-  if (!error_during_obtaining) {
-    bool is_main_thread = QThread::currentThread() == qApp->thread();
-
-    qDebugNN << LOGSEC_CORE
-             << "Updating messages in DB. Main thread:"
-             << QUOTE_W_SPACE_DOT(is_main_thread ? "true" : "false");
-
-    bool anything_updated = false;
-    bool ok = true;
-
-    if (!messages.isEmpty()) {
-      qDebugNN << LOGSEC_CORE
-               << "There are some messages to be updated/added to DB.";
-
-      QString custom_id = customId();
-      int account_id = getParentServiceRoot()->accountId();
-      QSqlDatabase database = is_main_thread ?
-                              qApp->database()->connection(metaObject()->className()) :
-                              qApp->database()->connection(QSL("feed_upd"));
-
-      updated_messages = DatabaseQueries::updateMessages(database, messages, custom_id, account_id,
-                                                         url(), force_update, &anything_updated, &ok);
-    }
-    else {
-      qDebugNN << LOGSEC_CORE
-               << "There are no messages for update.";
-    }
-
-    if (ok) {
-      setStatus(updated_messages > 0 ? Status::NewMessages : Status::Normal);
-      updateCounts(true);
-
-      if (getParentServiceRoot()->recycleBin() != nullptr && anything_updated) {
-        getParentServiceRoot()->recycleBin()->updateCounts(true);
-        items_to_update.append(getParentServiceRoot()->recycleBin());
-      }
-
-      if (getParentServiceRoot()->importantNode() != nullptr && anything_updated) {
-        getParentServiceRoot()->importantNode()->updateCounts(true);
-        items_to_update.append(getParentServiceRoot()->importantNode());
-      }
-
-      if (getParentServiceRoot()->labelsNode() != nullptr) {
-        getParentServiceRoot()->labelsNode()->updateCounts(true);
-        items_to_update.append(getParentServiceRoot()->labelsNode());
-      }
-    }
-  }
-  else {
-    qCriticalNN << LOGSEC_CORE
-                << "There is indication that there was error during messages obtaining.";
-  }
-
-  // Some messages were really added to DB, reload feed in model.
-  items_to_update.append(this);
-  getParentServiceRoot()->itemChanged(items_to_update);
-
-  return updated_messages;
-}
-
 QString Feed::getAutoUpdateStatusDescription() const {
   QString auto_update_string;
 
@@ -336,24 +196,24 @@ QString Feed::getAutoUpdateStatusDescription() const {
     case AutoUpdateType::DontAutoUpdate:
 
       //: Describes feed auto-update status.
-      auto_update_string = tr("does not use auto-downloading of messages");
+      auto_update_string = tr("does not use auto-fetching of articles");
       break;
 
     case AutoUpdateType::DefaultAutoUpdate:
 
       //: Describes feed auto-update status.
       auto_update_string = qApp->feedReader()->autoUpdateEnabled()
-              ? tr("uses global settings (%n minute(s) to next auto-download of messages)",
+              ? tr("uses global settings (%n minute(s) to next auto-fetch of articles)",
                    nullptr,
                    qApp->feedReader()->autoUpdateRemainingInterval())
-              : tr("uses global settings (global auto-downloading of messages is disabled)");
+              : tr("uses global settings (global auto-fetching of articles is disabled)");
       break;
 
     case AutoUpdateType::SpecificAutoUpdate:
     default:
 
       //: Describes feed auto-update status.
-      auto_update_string = tr("uses specific settings (%n minute(s) to next auto-downloading of new messages)", nullptr, autoUpdateRemainingInterval());
+      auto_update_string = tr("uses specific settings (%n minute(s) to next auto-fetching of new articles)", nullptr, autoUpdateRemainingInterval());
       break;
   }
 
@@ -366,7 +226,7 @@ QString Feed::getStatusDescription() const {
       return tr("no errors");
 
     case Status::NewMessages:
-      return tr("has new messages");
+      return tr("has new articles");
 
     case Status::AuthError:
       return tr("authentication error");
@@ -374,9 +234,16 @@ QString Feed::getStatusDescription() const {
     case Status::NetworkError:
       return tr("network error");
 
+    case Status::ParsingError:
+      return tr("parsing error");
+
     default:
-      return tr("unspecified error");
+      return tr("error");
   }
+}
+
+QString Feed::statusString() const {
+  return m_statusString;
 }
 
 QList<QPointer<MessageFilter>> Feed::messageFilters() const {
@@ -396,9 +263,15 @@ void Feed::removeMessageFilter(MessageFilter* filter) {
 }
 
 QString Feed::additionalTooltip() const {
+  QString stat = getStatusDescription();
+
+  if (!m_statusString.simplified().isEmpty()) {
+    stat += QSL(" (%1)").arg(m_statusString);
+  }
+
   return tr("Auto-update status: %1\n"
             "Active message filters: %2\n"
             "Status: %3").arg(getAutoUpdateStatusDescription(),
                               QString::number(m_messageFilters.size()),
-                              getStatusDescription());
+                              stat);
 }

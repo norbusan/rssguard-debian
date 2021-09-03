@@ -2,9 +2,10 @@
 
 #include "gui/dialogs/formdatabasecleanup.h"
 
+#include "database/databasefactory.h"
+#include "definitions/definitions.h"
 #include "gui/guiutilities.h"
 #include "miscellaneous/application.h"
-#include "miscellaneous/databasefactory.h"
 #include "miscellaneous/iconfactory.h"
 
 #include <QCloseEvent>
@@ -14,10 +15,12 @@
 FormDatabaseCleanup::FormDatabaseCleanup(QWidget* parent) : QDialog(parent), m_ui(new Ui::FormDatabaseCleanup), m_cleaner(nullptr) {
   m_ui->setupUi(this);
 
+  setObjectName(QSL("form_db_cleanup"));
+
   GuiUtilities::applyDialogProperties(*this, qApp->icons()->fromTheme(QSL("edit-clear")));
 
   connect(m_ui->m_spinDays, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &FormDatabaseCleanup::updateDaysSuffix);
-  connect(m_ui->m_btnBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &FormDatabaseCleanup::startPurging);
+  connect(m_ui->m_btnBox->button(QDialogButtonBox::StandardButton::Ok), &QPushButton::clicked, this, &FormDatabaseCleanup::startPurging);
   connect(this, &FormDatabaseCleanup::purgeRequested, &m_cleaner, &DatabaseCleaner::purgeDatabaseData);
   connect(&m_cleaner, &DatabaseCleaner::purgeStarted, this, &FormDatabaseCleanup::onPurgeStarted);
   connect(&m_cleaner, &DatabaseCleaner::purgeProgress, this, &FormDatabaseCleanup::onPurgeProgress);
@@ -27,10 +30,13 @@ FormDatabaseCleanup::FormDatabaseCleanup(QWidget* parent) : QDialog(parent), m_u
   m_ui->m_lblResult->setStatus(WidgetWithStatus::StatusType::Information, tr("I am ready."), tr("I am ready."));
 
   loadDatabaseInfo();
+
+  GuiUtilities::restoreState(this,
+                             qApp->settings()->value(GROUP(GUI), objectName(), QByteArray()).toByteArray());
 }
 
 void FormDatabaseCleanup::closeEvent(QCloseEvent* event) {
-  if (m_ui->m_progressBar->isEnabled()) {
+  if (!m_ui->m_btnBox->isEnabled()) {
     event->ignore();
   }
   else {
@@ -39,7 +45,7 @@ void FormDatabaseCleanup::closeEvent(QCloseEvent* event) {
 }
 
 void FormDatabaseCleanup::keyPressEvent(QKeyEvent* event) {
-  if (m_ui->m_progressBar->isEnabled()) {
+  if (!m_ui->m_btnBox->isEnabled()) {
     event->ignore();
   }
   else {
@@ -66,7 +72,6 @@ void FormDatabaseCleanup::startPurging() {
 
 void FormDatabaseCleanup::onPurgeStarted() {
   m_ui->m_progressBar->setValue(0);
-  m_ui->m_progressBar->setEnabled(true);
   m_ui->m_btnBox->setEnabled(false);
   m_ui->m_lblResult->setStatus(WidgetWithStatus::StatusType::Information, tr("Database cleanup is running."),
                                tr("Database cleanup is running."));
@@ -78,8 +83,7 @@ void FormDatabaseCleanup::onPurgeProgress(int progress, const QString& descripti
 }
 
 void FormDatabaseCleanup::onPurgeFinished(bool finished) {
-  m_ui->m_progressBar->setEnabled(false);
-  m_ui->m_progressBar->setValue(0);
+  m_ui->m_progressBar->setValue(100);
   m_ui->m_btnBox->setEnabled(true);
 
   if (finished) {
@@ -95,12 +99,16 @@ void FormDatabaseCleanup::onPurgeFinished(bool finished) {
 }
 
 void FormDatabaseCleanup::loadDatabaseInfo() {
-  qint64 file_size = qApp->database()->getDatabaseFileSize();
-  qint64 data_size = qApp->database()->getDatabaseDataSize();
-  QString file_size_str = file_size > 0 ? QString::number(file_size / 1000000.0) + QL1S(" MB") : tr("unknown");
+  qint64 data_size = qApp->database()->driver()->databaseDataSize();
   QString data_size_str = data_size > 0 ? QString::number(data_size / 1000000.0) + QL1S(" MB") : tr("unknown");
 
-  m_ui->m_txtFileSize->setText(tr("file: %1, data: %2").arg(file_size_str, data_size_str));
-  m_ui->m_txtDatabaseType->setText(qApp->database()->humanDriverName(qApp->database()->activeDatabaseDriver()));
-  m_ui->m_checkShrink->setChecked(m_ui->m_checkShrink->isEnabled());
+  m_ui->m_txtFileSize->setText(data_size_str);
+  m_ui->m_txtDatabaseType->setText(qApp->database()->driver()->humanDriverType());
+}
+
+void FormDatabaseCleanup::hideEvent(QHideEvent* event) {
+  QByteArray state = GuiUtilities::saveState(this);
+
+  qApp->settings()->setValue(GROUP(GUI), objectName(), state);
+  QDialog::hideEvent(event);
 }
