@@ -3,6 +3,7 @@ Upstream-Name: RSS Guard
 Upstream-Contact: Martin Rotter <rotter.martinos@gmail.com>
 Source: https://github.com/martinrotter/rssguard
 Files-Excluded: resources/scripts/clang-format/clang-format.exe
+                resources/scripts/redist/*
 
 Files: *
 Copyright: 2013-2020, Martin Rotter <rotter.martinos@gmail.com>
