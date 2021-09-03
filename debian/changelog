@@ -2,6 +2,7 @@ rssguard (4.0.1+dfsg-1~) UNRELEASED; urgency=medium
 
   * Drop more files from rssguard 4.0
   * New upstream version 4.0.1+dfsg
+  * Add qtmultimedia5-dev to B-D.
 
  -- Norbert Preining <norbert@preining.info>  Fri, 03 Sep 2021 23:08:50 +0900
 

@@ -5,6 +5,7 @@ Priority: optional
 Build-Depends: qt5-qmake,
                debhelper-compat (= 13),
                qtdeclarative5-dev,
+               qtmultimedia5-dev,
                qtbase5-dev,
                qttools5-dev-tools,
                qtwebengine5-dev,
