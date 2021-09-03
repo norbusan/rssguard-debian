@@ -1,3 +1,10 @@
+rssguard (4.0.1+dfsg-1~) UNRELEASED; urgency=medium
+
+  * Drop more files from rssguard 4.0
+  * New upstream version 4.0.1+dfsg
+
+ -- Norbert Preining <norbert@preining.info>  Fri, 03 Sep 2021 23:08:50 +0900
+
 rssguard (3.9.2+dfsg-1) unstable; urgency=medium
 
   * New upstream version 3.9.2+dfsg
