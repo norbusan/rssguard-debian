@@ -1,0 +1,7 @@
+rssguard (4.0.2+dfsg-1) unstable; urgency=medium
+
+  * Version 4 of RSS Guard require new configuration. For those interested
+    in manual transfer of settings, the documentation in
+    /usr/share/doc/rssguard provides directions.
+
+ -- Norbert Preining <norbert@preining.info>  Wed, 08 Sep 2021 18:25:15 +0900
