@@ -11,4 +11,3 @@ override_dh_auto_configure:
 execute_before_dh_install:
 	mkdir -p debian/rssguard$(PRIVATE_LIB_DIR)
 	mv debian/rssguard/usr/lib/librssguard.so debian/rssguard$(PRIVATE_LIB_DIR)
-
