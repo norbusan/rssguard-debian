@@ -1,3 +1,15 @@
+rssguard (4.0.3+dfsg-1) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Trim trailing whitespace.
+  * Use secure copyright file specification URI.
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository, Repository-Browse.
+
+  [ Norbert Preining ]
+  * New upstream version 4.0.3+dfsg
+
+ -- Norbert Preining <norbert@preining.info>  Mon, 27 Sep 2021 14:25:19 +0900
+
 rssguard (4.0.2+dfsg-1) unstable; urgency=medium
 
   * Drop more files from rssguard 4.0
