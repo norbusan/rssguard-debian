@@ -89,6 +89,9 @@ namespace Feeds {
   KEY AutoExpandOnSelection;
   VALUE(bool) AutoExpandOnSelectionDef;
 
+  KEY OnlyBasicShortcutsInLists;
+  VALUE(bool) OnlyBasicShortcutsInListsDef;
+
   KEY ListFont;
 }
 
@@ -168,6 +171,7 @@ namespace GUI {
   KEY StatusbarActions;
   VALUE(char*) StatusbarActionsDef;
 
+  KEY SettingsWindowInitialSize;
   KEY MainWindowInitialSize;
   KEY MainWindowInitialPosition;
 
@@ -449,7 +453,7 @@ class Settings : public QSettings {
   private:
 
     // Constructor.
-    explicit Settings(const QString& file_name, Format format, const SettingsProperties::SettingsType& type, QObject* parent = nullptr);
+    explicit Settings(const QString& file_name, Format format, SettingsProperties::SettingsType type, QObject* parent = nullptr);
 
     SettingsProperties::SettingsType m_initializationStatus;
 };

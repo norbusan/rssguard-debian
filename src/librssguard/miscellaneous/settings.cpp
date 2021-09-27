@@ -72,6 +72,9 @@ DVALUE(bool) Feeds::HideCountsIfNoUnreadDef = false;
 DKEY Feeds::AutoExpandOnSelection = "auto_expand_on_selection";
 DVALUE(bool) Feeds::AutoExpandOnSelectionDef = false;
 
+DKEY Feeds::OnlyBasicShortcutsInLists = "only_basic_shortcuts_in_lists";
+DVALUE(bool) Feeds::OnlyBasicShortcutsInListsDef = false;
+
 DKEY Feeds::ListFont = "list_font";
 
 // Messages.
@@ -153,6 +156,7 @@ DKEY GUI::StatusbarActions = "status_bar";
 DVALUE(char*) GUI::StatusbarActionsDef =
   "m_barProgressDownloadAction,m_barProgressFeedsAction,m_actionUpdateAllItems,m_actionUpdateSelectedItems,m_actionStopRunningItemsUpdate,m_actionFullscreen,m_actionQuit";
 
+DKEY GUI::SettingsWindowInitialSize = "settings_window_size";
 DKEY GUI::MainWindowInitialSize = "window_size";
 DKEY GUI::MainWindowInitialPosition = "window_position";
 
@@ -350,7 +354,7 @@ DVALUE(QStringList) Browser::ExternalToolsDef = QStringList();
 // Categories.
 DKEY CategoriesExpandStates::ID = "categories_expand_states";
 
-Settings::Settings(const QString& file_name, Format format, const SettingsProperties::SettingsType& type, QObject* parent)
+Settings::Settings(const QString& file_name, Format format, SettingsProperties::SettingsType type, QObject* parent)
   : QSettings(file_name, format, parent), m_initializationStatus(type) {}
 
 Settings::~Settings() = default;

@@ -136,10 +136,13 @@ void WebBrowser::resetZoom() {
   m_webView->resetWebPageZoom(true);
 }
 
-void WebBrowser::clear() {
+void WebBrowser::clear(bool also_hide) {
   m_webView->clear();
   m_messages.clear();
-  hide();
+
+  if (also_hide) {
+    hide();
+  }
 }
 
 void WebBrowser::loadUrl(const QString& url) {
@@ -181,7 +184,7 @@ bool WebBrowser::eventFilter(QObject* watched, QEvent* event) {
 void WebBrowser::openCurrentSiteInSystemBrowser() {
   auto url = m_webView->url();
 
-  if (!url.isValid() || url.host().contains(APP_LOW_NAME)) {
+  if (!url.isValid() || url.host().contains(QSL(APP_LOW_NAME))) {
     return;
   }
 
@@ -257,7 +260,7 @@ void WebBrowser::onLoadingFinished(bool success) {
   if (success) {
     auto url = m_webView->url();
 
-    if (url.isValid() && !url.host().contains(APP_LOW_NAME)) {
+    if (url.isValid() && !url.host().contains(QSL(APP_LOW_NAME))) {
       m_actionOpenInSystemBrowser->setEnabled(true);
     }
 

@@ -6,23 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>670</width>
+    <width>667</width>
     <height>394</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
     <widget class="QTabWidget" name="m_tabUi">
      <property name="currentIndex">
@@ -71,12 +65,6 @@
        </item>
        <item row="2" column="1">
         <widget class="QTreeWidget" name="m_treeSkins">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="indentation">
           <number>0</number>
          </property>

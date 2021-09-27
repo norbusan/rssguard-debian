@@ -27,7 +27,7 @@
 #include <QTimer>
 
 MessagesView::MessagesView(QWidget* parent)
-  : QTreeView(parent), m_contextMenu(nullptr), m_columnsAdjusted(false), m_processingMouse(false) {
+  : BaseTreeView(parent), m_contextMenu(nullptr), m_columnsAdjusted(false), m_processingMouse(false) {
   m_sourceModel = qApp->feedReader()->messagesModel();
   m_proxyModel = qApp->feedReader()->messagesProxyModel();
 
@@ -36,7 +36,7 @@ MessagesView::MessagesView(QWidget* parent)
   setModel(m_proxyModel);
   setupAppearance();
   header()->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
-  connect(header(), &QHeaderView::customContextMenuRequested, this, [=](const QPoint& point) {
+  connect(header(), &QHeaderView::customContextMenuRequested, this, [=](QPoint point) {
     TreeViewColumnsMenu mm(header());
     mm.exec(header()->mapToGlobal(point));
   });
@@ -227,10 +227,13 @@ void MessagesView::focusInEvent(QFocusEvent* event) {
 }
 
 void MessagesView::keyPressEvent(QKeyEvent* event) {
-  QTreeView::keyPressEvent(event);
+  BaseTreeView::keyPressEvent(event);
 
   if (event->key() == Qt::Key::Key_Delete) {
     deleteSelectedMessages();
+  }
+  else if (event->key() == Qt::Key::Key_Backspace) {
+    restoreSelectedMessages();
   }
 }
 
