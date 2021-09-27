@@ -19,6 +19,10 @@
 #include "gui/settings/settingsnotifications.h"
 #include "gui/settings/settingsshortcuts.h"
 
+#include <QPainter>
+#include <QScrollArea>
+#include <QScrollBar>
+
 FormSettings::FormSettings(QWidget& parent)
   : QDialog(&parent), m_settings(*qApp->settings()) {
   m_ui.setupUi(this);
@@ -45,7 +49,10 @@ FormSettings::FormSettings(QWidget& parent)
   addSettingsPanel(new SettingsDownloads(&m_settings, this));
   addSettingsPanel(new SettingsFeedsMessages(&m_settings, this));
 
+  m_ui.m_listSettings->setMaximumWidth(m_ui.m_listSettings->sizeHintForColumn(0) + 4 * m_ui.m_listSettings->frameWidth());
   m_ui.m_listSettings->setCurrentRow(0);
+
+  resize(qApp->settings()->value(GROUP(GUI), GUI::SettingsWindowInitialSize, size()).toSize());
 }
 
 FormSettings::~FormSettings() {
@@ -95,6 +102,8 @@ void FormSettings::applySettings() {
   }
 
   m_btnApply->setEnabled(false);
+
+  qApp->settings()->setValue(GROUP(GUI), GUI::SettingsWindowInitialSize, size());
 }
 
 void FormSettings::cancelSettings() {
@@ -130,8 +139,17 @@ void FormSettings::cancelSettings() {
 void FormSettings::addSettingsPanel(SettingsPanel* panel) {
   m_ui.m_listSettings->addItem(panel->title());
   m_panels.append(panel);
-  m_ui.m_stackedSettings->addWidget(panel);
+
+  QScrollArea* scr = new QScrollArea(m_ui.m_stackedSettings);
+
+  scr->setWidgetResizable(true);
+  scr->setFrameShape(QFrame::Shape::Box);
+  scr->setWidget(panel);
+
+  m_ui.m_stackedSettings->addWidget(scr);
+
   panel->loadSettings();
+
   connect(panel, &SettingsPanel::settingsChanged, this, [this]() {
     m_btnApply->setEnabled(true);
   });

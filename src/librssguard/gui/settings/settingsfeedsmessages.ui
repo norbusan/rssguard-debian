@@ -6,27 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>788</width>
+    <width>479</width>
     <height>433</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
     <widget class="QTabWidget" name="m_tabFeedsMessages">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="m_tabFeeds">
       <attribute name="title">
@@ -36,7 +24,7 @@
        <item row="0" column="0">
         <widget class="QCheckBox" name="m_checkUpdateAllFeedsOnStartup">
          <property name="text">
-          <string>Fetch articles for all feeds on application startup with initial delay of</string>
+          <string>Fetch all articles on startup with initial delay of</string>
          </property>
         </widget>
        </item>
@@ -44,6 +32,12 @@
         <widget class="TimeSpinBox" name="m_spinStartupUpdateDelay">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
          </property>
          <property name="readOnly">
           <bool>false</bool>
@@ -64,6 +58,12 @@
         <widget class="TimeSpinBox" name="m_spinAutoUpdateInterval">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
          </property>
          <property name="readOnly">
           <bool>false</bool>
@@ -124,6 +124,12 @@
        </item>
        <item row="4" column="1">
         <widget class="QSpinBox" name="m_spinFeedUpdateTimeout">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="toolTip">
           <string>Connection timeout is time interval which is reserved for downloading new messages for the feed. If this time interval elapses, then download process is aborted.</string>
          </property>
@@ -144,7 +150,7 @@
        <item row="5" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Height or rows in feed list (-1 = default height)</string>
+          <string>Feed list row height (-1 = default)</string>
          </property>
          <property name="buddy">
           <cstring>m_spinHeightRowsFeeds</cstring>
@@ -153,6 +159,12 @@
        </item>
        <item row="5" column="1">
         <widget class="QSpinBox" name="m_spinHeightRowsFeeds">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="minimum">
           <number>-1</number>
          </property>
@@ -173,6 +185,12 @@
        </item>
        <item row="6" column="1">
         <widget class="QComboBox" name="m_cmbCountsFeedList">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="toolTip">
           <string notr="true"/>
          </property>
@@ -206,14 +224,14 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
+       <item row="10" column="0" colspan="2">
         <widget class="QCheckBox" name="m_checkShowTooltips">
          <property name="text">
           <string>Display tooltips for feeds and articles</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
+       <item row="11" column="0" colspan="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -225,6 +243,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="9" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_cbListsRestrictedShortcuts">
+         <property name="text">
+          <string>Allow only basic keyboard shortcuts for feed/article list</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -278,7 +303,7 @@
        <item row="7" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Height or rows in article list (-1 = default height)</string>
+          <string>Article list row height (-1 = default)</string>
          </property>
          <property name="buddy">
           <cstring>m_spinHeightRowsMessages</cstring>
@@ -287,6 +312,12 @@
        </item>
        <item row="7" column="1">
         <widget class="QSpinBox" name="m_spinHeightRowsMessages">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="minimum">
           <number>-1</number>
          </property>
@@ -307,6 +338,12 @@
        </item>
        <item row="8" column="1">
         <widget class="QSpinBox" name="m_spinHeightImageAttachments">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="minimum">
           <number>22</number>
          </property>
@@ -318,7 +355,7 @@
        <item row="9" column="0">
         <widget class="QCheckBox" name="m_checkMessagesDateTimeFormat">
          <property name="text">
-          <string>Use custom date/time format (overrides format loaded from active localization)</string>
+          <string>Use custom date/time format</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -329,7 +366,14 @@
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="QComboBox" name="m_cmbMessagesDateTimeFormat"/>
+        <widget class="QComboBox" name="m_cmbMessagesDateTimeFormat">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
        </item>
        <item row="10" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -416,7 +460,7 @@
        <item row="1" column="0" colspan="2">
         <widget class="QCheckBox" name="m_cmbIgnoreContentsChanges">
          <property name="text">
-          <string>Ignore changes in article contents when determining if article is &quot;new&quot;</string>
+          <string>Ignore changes in article body (text) when article is updated upstream</string>
          </property>
         </widget>
        </item>
@@ -445,6 +489,7 @@
   <tabstop>m_spinHeightRowsFeeds</tabstop>
   <tabstop>m_cmbCountsFeedList</tabstop>
   <tabstop>m_cbHideCountsIfNoUnread</tabstop>
+  <tabstop>m_cbListsRestrictedShortcuts</tabstop>
   <tabstop>m_checkShowTooltips</tabstop>
   <tabstop>m_checkRemoveReadMessagesOnExit</tabstop>
   <tabstop>m_cmbIgnoreContentsChanges</tabstop>

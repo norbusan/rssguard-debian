@@ -2,30 +2,30 @@
 
 #include "services/standard/standardserviceentrypoint.h"
 
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
 #include "miscellaneous/application.h"
-#include "database/databasequeries.h"
 #include "services/standard/gui/formeditstandardaccount.h"
 #include "services/standard/standardserviceroot.h"
 
 QString StandardServiceEntryPoint::name() const {
-  return QObject::tr("Standard online feeds (RSS/ATOM/JSON)");
+  return QSL("RSS/RDF/ATOM/JSON");
 }
 
 QString StandardServiceEntryPoint::description() const {
-  return QObject::tr("This service offers integration with standard online RSS/RDF/ATOM feeds and podcasts.");
+  return QObject::tr("This service offers integration with standard online RSS/RDF/ATOM/JSON feeds and podcasts.");
 }
 
 QString StandardServiceEntryPoint::author() const {
-  return APP_AUTHOR;
+  return QSL(APP_AUTHOR);
 }
 
 QIcon StandardServiceEntryPoint::icon() const {
-  return QIcon(APP_ICON_PATH);
+  return qApp->icons()->fromTheme(QSL("application-rss+xml"));
 }
 
 QString StandardServiceEntryPoint::code() const {
-  return SERVICE_CODE_STD_RSS;
+  return QSL(SERVICE_CODE_STD_RSS);
 }
 
 ServiceRoot* StandardServiceEntryPoint::createNewRoot() const {

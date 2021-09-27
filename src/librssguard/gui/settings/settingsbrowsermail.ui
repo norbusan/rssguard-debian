@@ -6,23 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>481</width>
     <height>330</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
     <widget class="QTabWidget" name="m_tabBrowserProxy">
      <property name="currentIndex">
@@ -36,9 +24,22 @@
        <item row="1" column="0">
         <widget class="QCheckBox" name="m_checkOpenLinksInExternal">
          <property name="text">
-          <string>Always open links from simple internal text browser in external web browser</string>
+          <string>Always open hyperlinks in external web browser</string>
          </property>
         </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="0" column="0" colspan="2">
         <widget class="QGroupBox" name="m_grpCustomExternalBrowser">
@@ -68,7 +69,7 @@
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <item>
-             <widget class="QLineEdit" name="m_txtExternalBrowserExecutable">
+             <widget class="BaseLineEdit" name="m_txtExternalBrowserExecutable">
               <property name="placeholderText">
                <string>Executable file of web browser</string>
               </property>
@@ -94,7 +95,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="m_txtExternalBrowserArguments">
+           <widget class="BaseLineEdit" name="m_txtExternalBrowserArguments">
             <property name="placeholderText">
              <string>Parameters passed to executable</string>
             </property>
@@ -135,8 +136,15 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
-        <spacer name="verticalSpacer_3">
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>External e-mail client</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_22">
+       <item row="1" column="0" colspan="2">
+        <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -148,13 +156,6 @@
          </property>
         </spacer>
        </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>External e-mail client</string>
-      </attribute>
-      <layout class="QFormLayout" name="formLayout_22">
        <item row="0" column="0" colspan="2">
         <widget class="QGroupBox" name="m_grpCustomExternalEmail">
          <property name="toolTip">
@@ -183,7 +184,7 @@
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_15">
             <item>
-             <widget class="QLineEdit" name="m_txtExternalEmailExecutable">
+             <widget class="BaseLineEdit" name="m_txtExternalEmailExecutable">
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -212,7 +213,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="m_txtExternalEmailArguments">
+           <widget class="BaseLineEdit" name="m_txtExternalEmailArguments">
             <property name="placeholderText">
              <string>Parameters passed to executable</string>
             </property>
@@ -255,19 +256,6 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -275,13 +263,6 @@
        <string>External tools</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="m_lblToolInfo">
-         <property name="text">
-          <string>On this page, you can setup a list of external tools which can open URLs of selected messages.</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0" colspan="2">
         <widget class="QTreeWidget" name="m_listTools">
          <property name="showDropIndicator" stdset="0">
@@ -309,6 +290,37 @@
          </column>
         </widget>
        </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="m_btnAddTool">
+           <property name="text">
+            <string>&amp;Add tool</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="m_btnEditTool">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>&amp;Edit selected tool</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="m_btnDeleteTool">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>&amp;Delete selected tool</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item row="3" column="0" colspan="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
@@ -322,36 +334,12 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="m_btnAddTool">
-           <property name="text">
-            <string>&amp;Add new external tool</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="m_btnEditTool">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>&amp;Edit selected external tool</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="m_btnDeleteTool">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>&amp;Delete selected external tool</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="m_lblToolInfo">
+         <property name="text">
+          <string>On this page, you can setup a list of external tools which can open URLs of selected messages.</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -359,6 +347,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BaseLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>baselineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>m_tabBrowserProxy</tabstop>
   <tabstop>m_grpCustomExternalBrowser</tabstop>

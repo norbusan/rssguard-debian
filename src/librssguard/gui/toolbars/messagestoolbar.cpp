@@ -55,22 +55,22 @@ QList<QAction*> MessagesToolBar::convertActions(const QStringList& actions) {
       // Add existing standard action.
       spec_actions.append(matching_action);
     }
-    else if (action_name == SEPARATOR_ACTION_NAME) {
+    else if (action_name == QSL(SEPARATOR_ACTION_NAME)) {
       // Add new separator.
       auto* act = new QAction(this);
 
       act->setSeparator(true);
       spec_actions.append(act);
     }
-    else if (action_name == SEARCH_BOX_ACTION_NAME) {
+    else if (action_name == QSL(SEARCH_BOX_ACTION_NAME)) {
       // Add search box.
       spec_actions.append(m_actionSearchMessages);
     }
-    else if (action_name == HIGHLIGHTER_ACTION_NAME) {
+    else if (action_name == QSL(HIGHLIGHTER_ACTION_NAME)) {
       // Add filter button.
       spec_actions.append(m_actionMessageHighlighter);
     }
-    else if (action_name == SPACER_ACTION_NAME) {
+    else if (action_name == QSL(SPACER_ACTION_NAME)) {
       // Add new spacer.
       auto* spacer = new QWidget(this);
 
@@ -168,5 +168,5 @@ QStringList MessagesToolBar::savedActions() const {
 
 void MessagesToolBar::onSearchPatternChanged(const QString& search_pattern) {
   m_searchPattern = search_pattern;
-  m_tmrSearchPattern->start(700ms);
+  m_tmrSearchPattern->start(search_pattern.isEmpty() ? 0ms : 300ms);
 }

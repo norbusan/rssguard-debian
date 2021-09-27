@@ -123,7 +123,7 @@ Here is the reference of methods and properties of some types available in your 
 | `String url` | URL of the message. |
 | `String author` | Author of the message. |
 | `String contents` | Contents of the message. |
-| `String rawContents` | This is RAW contents of the message as it was obtained from remote service/feed. You can expect raw `XML` or `JSON` element data here. Note that this attribute has some value only if `alreadyStoredInDb` returns `false`. In other words, this attribute is not persistently stored inside RSS Guard's DB. Also, this attribute is artificially filled with ATOM-like data when testing the filter. |
+| `String rawContents` | This is RAW contents of the message as it was obtained from remote service/feed. You can expect raw `XML` or `JSON` element data here. Note that this attribute has some value only if `runningFilterWhenFetching` returns `true`. In other words, this attribute is not persistently stored inside RSS Guard's DB. Also, this attribute is artificially filled with ATOM-like data when testing the filter. |
 | `Number score` | Arbitrary number in range <0.0, 100.0>. You can use this number to sort messages in a custom fashion as this attribute also has its own column in messages list. |
 | `Date created` | Date/time of the message. |
 | `Boolean isRead` | Is message read? |
@@ -207,7 +207,7 @@ function filterMessage() {
 }
 ```
 
-Dump RAW data of each message to RSS Guard's [debug output](Documentation.md#generating-debug-log-file).
+Dump RAW data of each message to RSS Guard's [debug output](#reprt).
 ```js
 function filterMessage() {
   console.log(msg.rawContents);
@@ -453,6 +453,8 @@ You can select style and skin in settings category `User interface`.
 
 RSS Guard encapsulates styling capabilities via *skins* feature. Each skin is placed in its own folder and must contain several [files](https://github.com/martinrotter/rssguard/tree/master/resources/skins/vergilius). There are some [built-in](https://github.com/martinrotter/rssguard/tree/master/resources/skins) skins, but you can place your custom skins in your [user data folder](#userd). You can find exact path to your user data folder in `About` dialog. Note that there must be subfolder `skins`. Create it if it does not exist and place your custom skins inside.
 
+Also, there is "empty" [skin](https://github.com/martinrotter/rssguard/tree/master/resources/skins/plain) which can be used as a base for your custom skins. Look into its main [layout file](https://github.com/martinrotter/rssguard/tree/master/resources/skins/plain/html_wrapper.html) for some commentary.
+
 <img src="images/about-skins.png" width="600px">
 
 So for example if your new skin is called `greenland`, you must place it in folder
@@ -533,13 +535,14 @@ Note that RSS Guard can support loading of plugins from external libraries (dll,
 ### <a id="reprt"></a>Reporting Bugs or Feature Requests
 Please report all issues/bugs/ideas to [Issues](https://github.com/martinrotter/rssguard/issues) section. Describe your problem as precisely as possible, along with steps taken leading up to the issue occurring.
 
+If you report any bug, you must provide application debug log. So make sure to start RSS Guard from command line (`cmd.exe` on Windows) with `--log` switch and path where you want to store log file, for example `rssguard.exe --log '.\rssguard.log'` which will save log file into your RSS Guard folder. After you've started RSS Guard this way, then reproduce your problem and upload log file to the ticket.
+
 Also, for some broader questions or general ideas, use [discussions](https://github.com/martinrotter/rssguard/discussions) rather than [issues](https://github.com/martinrotter/rssguard/issues).
 
 ### <a id="locali"></a>Localization
 RSS Guard currently includes [many localizations](http://www.transifex.com/projects/p/rssguard).
 
 If you are interested in creating translations for RSS Guard, then do this:
-
 1. Go [here](http://www.transifex.com/projects/p/rssguard) and check status of currently supported localizations.
 2. [Login](http://www.transifex.com/signin) (you can use social networks to login) and work on existing translations. If no translation team for your country/language exists, then ask for creating of localization team via the website.
 
