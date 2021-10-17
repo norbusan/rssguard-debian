@@ -14,6 +14,8 @@ class MessageObject : public QObject {
   Q_PROPERTY(QList<Label*> availableLabels READ availableLabels)
   Q_PROPERTY(QString feedCustomId READ feedCustomId)
   Q_PROPERTY(int accountId READ accountId)
+  Q_PROPERTY(int id READ id)
+  Q_PROPERTY(QString customId READ customId)
   Q_PROPERTY(QString title READ title WRITE setTitle)
   Q_PROPERTY(QString url READ url WRITE setUrl)
   Q_PROPERTY(QString author READ author WRITE setAuthor)
@@ -56,7 +58,10 @@ class MessageObject : public QObject {
       // Compare with all messages from the account not only with messages from same feed.
       // Note that this value must be used via bitwise OR with other values,
       // for example 2 | 4 | 16.
-      AllFeedsSameAccount = 16
+      AllFeedsSameAccount = 16,
+
+      // Messages with same custom ID as provided by feed/service.
+      SameCustomId = 32
     };
 
     Q_ENUM(DuplicationAttributeCheck)
@@ -73,6 +78,7 @@ class MessageObject : public QObject {
     // Check if message is duplicate with another messages in DB.
     // Parameter "attribute_check" is DuplicationAttributeCheck enum
     // value casted to int.
+    Q_INVOKABLE bool isDuplicate(MessageObject::DuplicationAttributeCheck attribute_check) const;
     Q_INVOKABLE bool isDuplicateWithAttribute(MessageObject::DuplicationAttributeCheck attribute_check) const;
 
     // Adds given label to list of assigned labels to this message.
@@ -91,7 +97,12 @@ class MessageObject : public QObject {
 
     // Generic Message's properties bindings.
     QString feedCustomId() const;
+
     int accountId() const;
+
+    QString customId() const;
+
+    int id() const;
 
     QString title() const;
     void setTitle(const QString& title);
