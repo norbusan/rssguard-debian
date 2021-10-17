@@ -1,3 +1,9 @@
+rssguard (4.0.4+dfsg-1) unstable; urgency=medium
+
+  * New upstream version 4.0.4+dfsg
+
+ -- Norbert Preining <norbert@preining.info>  Sun, 17 Oct 2021 21:37:05 +0900
+
 rssguard (4.0.3+dfsg-1) unstable; urgency=medium
 
   [ Debian Janitor ]
