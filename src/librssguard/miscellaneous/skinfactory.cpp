@@ -2,6 +2,7 @@
 
 #include "miscellaneous/skinfactory.h"
 
+#include "exceptions/ioexception.h"
 #include "miscellaneous/application.h"
 
 #include <QDir>
@@ -108,9 +109,6 @@ Skin SkinFactory::skinInfo(const QString& skin_name, bool* ok) const {
       // Obtain author.
       skin.m_author = skin_node.namedItem(QSL("author")).namedItem(QSL("name")).toElement().text();
 
-      // Obtain email.
-      skin.m_email = skin_node.namedItem(QSL("author")).namedItem(QSL("email")).toElement().text();
-
       // Obtain version.
       skin.m_version = skin_node.attributes().namedItem(QSL("version")).toAttr().value();
 
@@ -146,9 +144,24 @@ Skin SkinFactory::skinInfo(const QString& skin_name, bool* ok) const {
       // So if one uses "%data%/images/border.png" in QSS then it is
       // replaced by fully absolute path and target file can
       // be safely loaded.
+      //
+      // %style% placeholder is used in main wrapper HTML file to be replaced with custom skin-wide CSS.
       skin.m_layoutMarkupWrapper = QString::fromUtf8(IOFactory::readFile(skin_folder + QL1S("html_wrapper.html")));
       skin.m_layoutMarkupWrapper = skin.m_layoutMarkupWrapper.replace(QSL(USER_DATA_PLACEHOLDER),
                                                                       skin_folder_no_sep);
+
+      try {
+        auto custom_css = IOFactory::readFile(skin_folder + QL1S("html_style.css"));
+
+        skin.m_layoutMarkupWrapper = skin.m_layoutMarkupWrapper.replace(QSL(SKIN_STYLE_PLACEHOLDER),
+                                                                        QString::fromUtf8(custom_css));
+      }
+      catch (...) {
+        qWarningNN << "Skin"
+                   << QUOTE_W_SPACE(skin_name)
+                   << "does not support separated custom CSS.";
+      }
+
       skin.m_enclosureImageMarkup = QString::fromUtf8(IOFactory::readFile(skin_folder + QL1S("html_enclosure_image.html")));
       skin.m_enclosureImageMarkup = skin.m_enclosureImageMarkup.replace(QSL(USER_DATA_PLACEHOLDER),
                                                                         skin_folder_no_sep);
@@ -167,7 +180,7 @@ Skin SkinFactory::skinInfo(const QString& skin_name, bool* ok) const {
 
       if (ok != nullptr) {
         *ok = !skin.m_author.isEmpty() && !skin.m_version.isEmpty() &&
-              !skin.m_baseName.isEmpty() && !skin.m_email.isEmpty() &&
+              !skin.m_baseName.isEmpty() &&
               !skin.m_layoutMarkup.isEmpty();
       }
 

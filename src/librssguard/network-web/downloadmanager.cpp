@@ -141,7 +141,7 @@ QString DownloadItem::saveFileName(const QString& directory) const {
 
   if (m_reply->hasRawHeader("Content-Disposition")) {
     QString value = QLatin1String(m_reply->rawHeader("Content-Disposition"));
-    QRegularExpression exp(QSL(".*filename=?\"([^\"]+)\"?"));
+    QRegularExpression exp(QSL(".*filename\\s*=\\s*\"?([^\"]+)\"?"));
     QRegularExpressionMatch match = exp.match(value);
 
     if (match.isValid()) {
@@ -320,7 +320,7 @@ void DownloadItem::downloadProgress(qint64 bytes_received, qint64 bytes_total) {
 }
 
 qint64 DownloadItem::bytesTotal() const {
-  return m_reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
+  return m_reply == nullptr ? 0 : m_reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
 }
 
 qint64 DownloadItem::bytesReceived() const {

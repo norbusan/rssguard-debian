@@ -147,6 +147,9 @@ void MessagesView::keyboardSearch(const QString& search) {
 void MessagesView::reloadSelections() {
   const QDateTime dt1 = QDateTime::currentDateTime();
   QModelIndex current_index = selectionModel()->currentIndex();
+  const bool is_current_selected = selectionModel()->selectedRows().contains(m_proxyModel->index(current_index.row(),
+                                                                                                 0,
+                                                                                                 current_index.parent()));
   const QModelIndex mapped_current_index = m_proxyModel->mapToSource(current_index);
   const Message selected_message = m_sourceModel->messageAt(mapped_current_index.row());
   const int col = header()->sortIndicatorSection();
@@ -157,7 +160,8 @@ void MessagesView::reloadSelections() {
 
   // Now, we must find the same previously focused message.
   if (selected_message.m_id > 0) {
-    if (m_proxyModel->rowCount() == 0) {
+    if (m_proxyModel->rowCount() == 0 ||
+        !is_current_selected) {
       current_index = QModelIndex();
     }
     else {
@@ -221,7 +225,14 @@ void MessagesView::setupAppearance() {
 void MessagesView::focusInEvent(QFocusEvent* event) {
   QTreeView::focusInEvent(event);
 
-  if (currentIndex().isValid()) {
+  qDebugNN << LOGSEC_GUI
+           << "Message list got focus with reason"
+           << QUOTE_W_SPACE_DOT(event->reason());
+
+  if ((event->reason()== Qt::FocusReason::TabFocusReason ||
+       event->reason()== Qt::FocusReason::BacktabFocusReason ||
+       event->reason()== Qt::FocusReason::ShortcutFocusReason) &&
+      currentIndex().isValid()) {
     selectionModel()->select(currentIndex(), QItemSelectionModel::SelectionFlag::Select | QItemSelectionModel::SelectionFlag::Rows);
   }
 }
@@ -399,7 +410,7 @@ void MessagesView::selectionChanged(const QItemSelection& selected, const QItemS
            << current_index << "', source '"
            << mapped_current_index << "'.";
 
-  if (mapped_current_index.isValid() && selected_rows.count() > 0) {
+  if (mapped_current_index.isValid() && selected_rows.size() == 1) {
     Message message = m_sourceModel->messageAt(m_proxyModel->mapToSource(current_index).row());
 
     // Set this message as read only if current item
@@ -411,6 +422,10 @@ void MessagesView::selectionChanged(const QItemSelection& selected, const QItemS
   }
   else {
     emit currentMessageRemoved();
+  }
+
+  if (selected_rows.isEmpty()) {
+    setCurrentIndex({});
   }
 
   if (!m_processingMouse &&
@@ -498,19 +513,18 @@ void MessagesView::markSelectedMessagesUnread() {
 }
 
 void MessagesView::setSelectedMessagesReadStatus(RootItem::ReadStatus read) {
-  QModelIndex current_index = selectionModel()->currentIndex();
+  const QModelIndexList selected_indexes = selectionModel()->selectedRows();
 
-  if (!current_index.isValid()) {
+  if (selected_indexes.isEmpty()) {
     return;
   }
 
-  QModelIndexList selected_indexes = selectionModel()->selectedRows();
   const QModelIndexList mapped_indexes = m_proxyModel->mapListToSource(selected_indexes);
 
   m_sourceModel->setBatchMessagesRead(mapped_indexes, read);
-  current_index = m_proxyModel->index(current_index.row(), current_index.column());
+  QModelIndex current_index = selectionModel()->currentIndex();
 
-  if (current_index.isValid()) {
+  if (current_index.isValid() && selected_indexes.size() == 1) {
     emit currentMessageChanged(m_sourceModel->messageAt(m_proxyModel->mapToSource(current_index).row()), m_sourceModel->loadedItem());
   }
   else {
@@ -519,19 +533,20 @@ void MessagesView::setSelectedMessagesReadStatus(RootItem::ReadStatus read) {
 }
 
 void MessagesView::deleteSelectedMessages() {
-  QModelIndex current_index = selectionModel()->currentIndex();
+  const QModelIndexList selected_indexes = selectionModel()->selectedRows();
 
-  if (!current_index.isValid()) {
+  if (selected_indexes.isEmpty()) {
     return;
   }
 
-  const QModelIndexList selected_indexes = selectionModel()->selectedRows();
   const QModelIndexList mapped_indexes = m_proxyModel->mapListToSource(selected_indexes);
 
   m_sourceModel->setBatchMessagesDeleted(mapped_indexes);
-  current_index = moveCursor(QAbstractItemView::MoveDown, Qt::NoModifier);
+  QModelIndex current_index = currentIndex().isValid()
+                              ? moveCursor(QAbstractItemView::CursorAction::MoveDown, Qt::KeyboardModifier::NoModifier)
+                              : currentIndex();
 
-  if (current_index.isValid()) {
+  if (current_index.isValid() && selected_indexes.size() == 1) {
     setCurrentIndex(current_index);
   }
   else {
@@ -561,19 +576,18 @@ void MessagesView::restoreSelectedMessages() {
 }
 
 void MessagesView::switchSelectedMessagesImportance() {
-  QModelIndex current_index = selectionModel()->currentIndex();
+  const QModelIndexList selected_indexes = selectionModel()->selectedRows();
 
-  if (!current_index.isValid()) {
+  if (selected_indexes.isEmpty()) {
     return;
   }
 
-  QModelIndexList selected_indexes = selectionModel()->selectedRows();
   const QModelIndexList mapped_indexes = m_proxyModel->mapListToSource(selected_indexes);
 
   m_sourceModel->switchBatchMessageImportance(mapped_indexes);
-  current_index = m_proxyModel->index(current_index.row(), current_index.column());
+  QModelIndex current_index = selectionModel()->currentIndex();
 
-  if (current_index.isValid()) {
+  if (current_index.isValid() && selected_indexes.size() == 1) {
     emit currentMessageChanged(m_sourceModel->messageAt(m_proxyModel->mapToSource(current_index).row()), m_sourceModel->loadedItem());
   }
   else {
@@ -722,10 +736,6 @@ void MessagesView::adjustColumns() {
     }
 
     header()->setSectionResizeMode(MSG_DB_TITLE_INDEX, QHeaderView::ResizeMode::Stretch);
-    header()->setSectionResizeMode(MSG_DB_READ_INDEX, QHeaderView::ResizeMode::ResizeToContents);
-    header()->setSectionResizeMode(MSG_DB_IMPORTANT_INDEX, QHeaderView::ResizeMode::ResizeToContents);
-    header()->setSectionResizeMode(MSG_DB_SCORE_INDEX, QHeaderView::ResizeMode::ResizeToContents);
-    header()->setSectionResizeMode(MSG_DB_HAS_ENCLOSURES, QHeaderView::ResizeMode::ResizeToContents);
 
     // Hide columns.
     hideColumn(MSG_DB_ID_INDEX);
