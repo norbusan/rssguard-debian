@@ -7,6 +7,7 @@ Build-Depends: cmake (>= 3.9.0~),
                qtdeclarative5-dev (>= 5.10.0~),
                qtmultimedia5-dev (>= 5.10.0~),
                qtbase5-dev (>= 5.10.0~),
+               qttools5-dev (>= 5.10.0~),
                qttools5-dev-tools (>= 5.10.0~),
                qtwebengine5-dev (>= 5.10.0~),
 Standards-Version: 4.5.1
