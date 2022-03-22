@@ -17,7 +17,9 @@
 #include "services/feedly/feedlyentrypoint.h"
 #include "services/gmail/gmailentrypoint.h"
 #include "services/greader/greaderentrypoint.h"
+#include "services/newsblur/newsblurentrypoint.h"
 #include "services/owncloud/owncloudserviceentrypoint.h"
+#include "services/reddit/redditentrypoint.h"
 #include "services/standard/standardserviceentrypoint.h"
 #include "services/tt-rss/ttrssserviceentrypoint.h"
 
@@ -60,6 +62,12 @@ QList<ServiceEntryPoint*> FeedReader::feedServices() {
     m_feedServices.append(new GmailEntryPoint());
     m_feedServices.append(new GreaderEntryPoint());
     m_feedServices.append(new OwnCloudServiceEntryPoint());
+
+#if !defined(NDEBUG)
+    m_feedServices.append(new NewsBlurEntryPoint());
+    m_feedServices.append(new RedditEntryPoint());
+#endif
+
     m_feedServices.append(new StandardServiceEntryPoint());
     m_feedServices.append(new TtRssServiceEntryPoint());
   }
@@ -68,18 +76,25 @@ QList<ServiceEntryPoint*> FeedReader::feedServices() {
 }
 
 void FeedReader::updateFeeds(const QList<Feed*>& feeds) {
+  auto my_feeds = feeds;
+
+  for (int i = 0; i < my_feeds.size(); i++) {
+    if (my_feeds.at(i)->isSwitchedOff()) {
+      my_feeds.removeAt(i--);
+    }
+  }
+
   if (!qApp->feedUpdateLock()->tryLock()) {
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Cannot fetch articles at this point"),
-                         tr("You cannot fetch new articles now because another critical operation is ongoing."),
-                         QSystemTrayIcon::MessageIcon::Warning,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot fetch articles at this point"),
+      tr("You cannot fetch new articles now because another critical operation is ongoing."),
+      QSystemTrayIcon::MessageIcon::Warning });
     return;
   }
 
   QMetaObject::invokeMethod(m_feedDownloader, "updateFeeds",
                             Qt::ConnectionType::QueuedConnection,
-                            Q_ARG(QList<Feed*>, feeds));
+                            Q_ARG(QList<Feed*>, my_feeds));
 }
 
 void FeedReader::synchronizeMessageData(const QList<CacheForServiceRoot*>& caches) {
@@ -315,10 +330,10 @@ void FeedReader::executeNextAutoUpdate() {
     updateFeeds(feeds_for_update);
 
     // NOTE: OSD/bubble informing about performing of scheduled update can be shown now.
-    qApp->showGuiMessage(Notification::Event::ArticlesFetchingStarted,
-                         tr("Starting auto-download of some feeds' articles"),
-                         tr("I will auto-download new articles for %n feed(s).", nullptr, feeds_for_update.size()),
-                         QSystemTrayIcon::MessageIcon::Information);
+    qApp->showGuiMessage(Notification::Event::ArticlesFetchingStarted, {
+      tr("Starting auto-download of some feeds' articles"),
+      tr("I will auto-download new articles for %n feed(s).", nullptr, feeds_for_update.size()),
+      QSystemTrayIcon::MessageIcon::Information });
   }
 }
 

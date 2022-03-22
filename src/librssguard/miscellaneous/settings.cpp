@@ -15,6 +15,30 @@
 DKEY WebEngineAttributes::ID = "web_engine_attributes";
 #endif
 
+// Node.js.
+DKEY Node::ID = "nodejs";
+
+DKEY Node::NodeJsExecutable = QSL("nodejs_executable_") + OS_ID;
+
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+DVALUE(QString) Node::NodeJsExecutableDef = "node.exe";
+#else
+DVALUE(QString) Node::NodeJsExecutableDef = "node";
+#endif
+
+DKEY Node::NpmExecutable = QSL("npm_executable_") + OS_ID;
+
+#if defined(Q_OS_WIN)
+DVALUE(QString) Node::NpmExecutableDef = "npm.cmd";
+#elif defined(Q_OS_OS2)
+DVALUE(QString) Node::NpmExecutableDef = "npm.exe";
+#else
+DVALUE(QString) Node::NpmExecutableDef = "npm";
+#endif
+
+DKEY Node::PackageFolder = QSL("package_folder") + OS_ID;
+DVALUE(QString) Node::PackageFolderDef = QSL(USER_DATA_PLACEHOLDER) + "/node-packages-" + QSL(OS_ID).toLower();
+
 // Cookies.
 DKEY Cookies::ID = "cookies";
 
@@ -27,7 +51,8 @@ DVALUE(bool) AdBlock::AdBlockEnabledDef = false;
 DKEY AdBlock::FilterLists = "filter_lists";
 DVALUE(QStringList) AdBlock::FilterListsDef = {
   QSL("https://easylist.to/easylist/easylist.txt"),
-  QSL("https://easylist.to/easylist/easyprivacy.txt")
+  QSL("https://easylist.to/easylist/easyprivacy.txt"),
+  QSL("https://easylist.to/easylist/fanboy-social.txt")
 };
 
 DKEY AdBlock::CustomFilters = "custom_filters";
@@ -62,6 +87,9 @@ DVALUE(double) Feeds::FeedsUpdateStartupDelayDef = STARTUP_UPDATE_DELAY;
 
 DKEY Feeds::ShowOnlyUnreadFeeds = "show_only_unread_feeds";
 DVALUE(bool) Feeds::ShowOnlyUnreadFeedsDef = false;
+
+DKEY Feeds::SortAlphabetically = "sort_alphabetically";
+DVALUE(bool) Feeds::SortAlphabeticallyDef = true;
 
 DKEY Feeds::ShowTreeBranches = "show_tree_branches";
 DVALUE(bool) Feeds::ShowTreeBranchesDef = true;
@@ -99,11 +127,29 @@ DVALUE(bool) Messages::DisplayImagePlaceholdersDef = false;
 DKEY Messages::Zoom = "zoom";
 DVALUE(qreal) Messages::ZoomDef = double(1.0f);
 
+DKEY Messages::FixupFutureArticleDateTimes = "fixup_future_datetimes";
+DVALUE(bool) Messages::FixupFutureArticleDateTimesDef = false;
+
 DKEY Messages::UseCustomDate = "use_custom_date";
 DVALUE(bool) Messages::UseCustomDateDef = false;
 
 DKEY Messages::CustomDateFormat = "custom_date_format";
 DVALUE(char*) Messages::CustomDateFormatDef = "";
+
+DKEY Messages::RelativeTimeForNewerArticles = "relative_time_for_new_articles";
+DVALUE(int) Messages::RelativeTimeForNewerArticlesDef = -1;
+
+DKEY Messages::ArticleListPadding = "article_list_padding";
+DVALUE(int) Messages::ArticleListPaddingDef = -1;
+
+DKEY Messages::MultilineArticleList = "multiline_article_list";
+DVALUE(bool) Messages::MultilineArticleListDef = false;
+
+DKEY Messages::UseCustomTime = "use_custom_time";
+DVALUE(bool) Messages::UseCustomTimeDef = false;
+
+DKEY Messages::CustomTimeFormat = "custom_time_format";
+DVALUE(QString) Messages::CustomTimeFormatDef = {};
 
 DKEY Messages::ClearReadOnExit = "clear_read_on_exit";
 DVALUE(bool) Messages::ClearReadOnExitDef = false;
@@ -124,9 +170,15 @@ DKEY Messages::ShowOnlyUnreadMessages = "show_only_unread_messages";
 DVALUE(bool) Messages::ShowOnlyUnreadMessagesDef = false;
 
 DKEY Messages::PreviewerFontStandard = "previewer_font_standard";
-NON_CONST_DVALUE(QString) Messages::PreviewerFontStandardDef = QFont(QFont().family(), 12).toString();
+NON_CONST_DVALUE(QString) Messages::PreviewerFontStandardDef = QString();
 
 DKEY Messages::ListFont = "list_font";
+
+// Custom skin colors.
+DKEY CustomSkinColors::ID = "custom_skin_colors";
+
+DKEY CustomSkinColors::Enabled = "enabled";
+DVALUE(bool) CustomSkinColors::EnabledDef = false;
 
 // GUI.
 DKEY GUI::ID = "gui";
@@ -145,6 +197,9 @@ DVALUE(QList<QVariant>) GUI::SplitterMessagesVerticalDef = {};
 
 DKEY GUI::SplitterMessagesHorizontal = "splitter_messages_horizontal";
 DVALUE(QList<QVariant>) GUI::SplitterMessagesHorizontalDef = {};
+
+DKEY GUI::ToolbarIconSize = "toolbar_icon_size";
+DVALUE(int) GUI::ToolbarIconSizeDef = 0;
 
 DKEY GUI::ToolbarStyle = "toolbar_style";
 DVALUE(Qt::ToolButtonStyle) GUI::ToolbarStyleDef = Qt::ToolButtonIconOnly;
@@ -205,8 +260,16 @@ DVALUE(bool) GUI::HideMainWindowWhenMinimizedDef = false;
 DKEY GUI::MonochromeTrayIcon = "monochrome_tray_icon";
 DVALUE(bool) GUI::MonochromeTrayIconDef = false;
 
+DKEY GUI::ForcedSkinColors = "forced_skin_colors";
+DVALUE(bool) GUI::ForcedSkinColorsDef = true;
+
 DKEY GUI::UnreadNumbersInTrayIcon = "show_unread_numbers_in_tray_icon";
 DVALUE(bool) GUI::UnreadNumbersInTrayIconDef = true;
+
+#if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)) || defined(Q_OS_WIN)
+DKEY GUI::UnreadNumbersOnTaskBar = "show_unread_numbers_on_task_bar";
+DVALUE(bool) GUI::UnreadNumbersOnTaskBarDef = true;
+#endif
 
 DKEY GUI::UseTrayIcon = "use_tray_icon";
 DVALUE(bool) GUI::UseTrayIconDef = true;
@@ -361,7 +424,9 @@ DVALUE(QStringList) Browser::ExternalToolsDef = QStringList();
 DKEY CategoriesExpandStates::ID = "categories_expand_states";
 
 Settings::Settings(const QString& file_name, Format format, SettingsProperties::SettingsType type, QObject* parent)
-  : QSettings(file_name, format, parent), m_initializationStatus(type) {}
+  : QSettings(file_name, format, parent), m_initializationStatus(type) {
+  Messages::PreviewerFontStandardDef = QFont(QApplication::font().family(), 12).toString();
+}
 
 Settings::~Settings() = default;
 
@@ -465,8 +530,8 @@ SettingsProperties Settings::determineProperties() {
   else {
     // We will use PORTABLE settings only and only if it is available and NON-PORTABLE
     // settings was not initialized before.
-#if defined(Q_OS_LINUX) || defined (Q_OS_ANDROID) || defined (Q_OS_MACOSOS)
-    // DO NOT use portable settings for Linux, it is really not used on that platform.
+#if defined(Q_OS_UNIX)
+    // DO NOT use portable settings for *nix, it is really not used on that platform.
     const bool will_we_use_portable_settings = false;
 #else
     const QString exe_path = qApp->applicationDirPath();

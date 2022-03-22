@@ -61,13 +61,13 @@ void AdBlockDialog::saveOnClose() {
                 << "Failed to enable AdBlock, error:"
                 << QUOTE_W_SPACE_DOT(ex.message());
 
-    MessageBox::show(this,
-                     QMessageBox::Icon::Critical,
-                     tr("Cannot enable AdBlock"),
-                     tr("There is some error in AdBlock component and it cannot be enabled. "
-                        "Check error message below (or application debug log) for more information."),
-                     {},
-                     ex.message());
+    MsgBox::show(this,
+                 QMessageBox::Icon::Critical,
+                 tr("Cannot enable AdBlock"),
+                 tr("There is some error in AdBlock component and it cannot be enabled. "
+                    "Check error message below (or application debug log) for more information."),
+                 {},
+                 ex.message());
   }
 }
 
@@ -112,7 +112,7 @@ void AdBlockDialog::onAdBlockProcessTerminated() {
   m_ui.m_cbEnable->setChecked(false);
   m_ui.m_lblTestResult->setStatus(WidgetWithStatus::StatusType::Error,
                                   tr("There is error, check application log for more details and "
-                                     "head to online documentation. Also make sure that Node.js is installed."),
+                                     "head to online documentation."),
                                   tr("ERROR!"));
 }
 

@@ -8,6 +8,7 @@
 #include "ui_formmain.h"
 
 class StatusBar;
+class QWidgetAction;
 
 class RSSGUARD_DLLSPEC FormMain : public QMainWindow {
   Q_OBJECT
@@ -49,6 +50,7 @@ class RSSGUARD_DLLSPEC FormMain : public QMainWindow {
     void updateRecycleBinMenu();
     void updateAccountsMenu();
 
+    void updateTabsButtonsAvailability(int index);
     void updateMessageButtonsAvailability();
     void updateFeedButtonsAvailability();
 
@@ -65,9 +67,13 @@ class RSSGUARD_DLLSPEC FormMain : public QMainWindow {
     void donate();
 
   protected:
+    virtual void resizeEvent(QResizeEvent* event);
     virtual void changeEvent(QEvent* event);
     virtual void closeEvent(QCloseEvent* event);
     virtual void hideEvent(QHideEvent* event);
+
+  signals:
+    void windowResized(const QSize& new_size);
 
   private:
     void prepareMenus();
@@ -76,6 +82,7 @@ class RSSGUARD_DLLSPEC FormMain : public QMainWindow {
 
     QScopedPointer<Ui::FormMain> m_ui;
     QMenu* m_trayMenu;
+    QWidgetAction* m_actionToolbarMainMenu;
     StatusBar* m_statusBar;
 };
 

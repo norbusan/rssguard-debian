@@ -21,6 +21,9 @@
 StandardFeedDetails::StandardFeedDetails(QWidget* parent) : QWidget(parent) {
   m_ui.setupUi(this);
 
+  m_ui.m_txtPostProcessScript->textEdit()->setTabChangesFocus(true);
+  m_ui.m_txtSource->textEdit()->setTabChangesFocus(true);
+
   m_ui.m_txtTitle->lineEdit()->setPlaceholderText(tr("Feed title"));
   m_ui.m_txtTitle->lineEdit()->setToolTip(tr("Set title for your feed."));
   m_ui.m_txtDescription->lineEdit()->setPlaceholderText(tr("Feed description"));
@@ -108,7 +111,13 @@ StandardFeedDetails::StandardFeedDetails(QWidget* parent) : QWidget(parent) {
   setTabOrder(m_ui.m_txtPostProcessScript->textEdit(), m_ui.m_btnFetchMetadata);
   setTabOrder(m_ui.m_btnFetchMetadata, m_ui.m_btnIcon);
 
-  GuiUtilities::setLabelAsNotice(*m_ui.m_lblScriptInfo, false);
+  m_ui.m_lblScriptInfo->setHelpText(tr("What is post-processing script?"),
+                                    tr("You can use URL as a source of your feed or you can produce your feed with "
+                                       "custom script.\n\n"
+                                       "Also, you can post-process generated feed data with yet "
+                                       "another script if you wish. These are advanced features and make sure to "
+                                       "read the documentation before your use them."),
+                                    true);
 
   onTitleChanged({});
   onDescriptionChanged({});
@@ -166,7 +175,7 @@ void StandardFeedDetails::guessFeed(StandardFeed::SourceType source_type, const 
 
     // Icon or whole feed was guessed.
     m_ui.m_btnIcon->setIcon(metadata->icon());
-    m_ui.m_txtTitle->lineEdit()->setText(metadata->title());
+    m_ui.m_txtTitle->lineEdit()->setText(metadata->sanitizedTitle());
     m_ui.m_txtDescription->lineEdit()->setText(metadata->description());
     m_ui.m_cmbType->setCurrentIndex(m_ui.m_cmbType->findData(QVariant::fromValue((int) metadata->type())));
     int encoding_index = m_ui.m_cmbEncoding->findText(metadata->encoding(), Qt::MatchFlag::MatchFixedString);
@@ -328,6 +337,7 @@ void StandardFeedDetails::prepareForNewFeed(RootItem* parent_to_select, const QS
   }
 
   m_ui.m_txtSource->setFocus();
+  m_ui.m_txtSource->textEdit()->selectAll();
 }
 
 void StandardFeedDetails::setExistingFeed(StandardFeed* feed) {

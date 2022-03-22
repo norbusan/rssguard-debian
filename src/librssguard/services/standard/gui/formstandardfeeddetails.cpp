@@ -43,7 +43,8 @@ void FormStandardFeedDetails::guessFeed() {
                                    m_standardFeedDetails->m_ui.m_txtSource->textEdit()->toPlainText(),
                                    m_standardFeedDetails->m_ui.m_txtPostProcessScript->textEdit()->toPlainText(),
                                    m_authDetails->m_txtUsername->lineEdit()->text(),
-                                   m_authDetails->m_txtPassword->lineEdit()->text());
+                                   m_authDetails->m_txtPassword->lineEdit()->text(),
+                                   m_serviceRoot->networkProxy());
 }
 
 void FormStandardFeedDetails::guessIconOnly() {
@@ -51,7 +52,8 @@ void FormStandardFeedDetails::guessIconOnly() {
                                        m_standardFeedDetails->m_ui.m_txtSource->textEdit()->toPlainText(),
                                        m_standardFeedDetails->m_ui.m_txtPostProcessScript->textEdit()->toPlainText(),
                                        m_authDetails->m_txtUsername->lineEdit()->text(),
-                                       m_authDetails->m_txtPassword->lineEdit()->text());
+                                       m_authDetails->m_txtPassword->lineEdit()->text(),
+                                       m_serviceRoot->networkProxy());
 }
 
 void FormStandardFeedDetails::onTitleChanged(const QString& title) {
@@ -70,7 +72,7 @@ void FormStandardFeedDetails::apply() {
     static_cast<StandardFeed::Type>(m_standardFeedDetails->m_ui.m_cmbType->itemData(m_standardFeedDetails->m_ui.m_cmbType->currentIndex()).value<int>());
 
   // Setup data for new_feed.
-  std_feed->setTitle(m_standardFeedDetails->m_ui.m_txtTitle->lineEdit()->text());
+  std_feed->setTitle(m_standardFeedDetails->m_ui.m_txtTitle->lineEdit()->text().simplified());
   std_feed->setCreationDate(QDateTime::currentDateTime());
   std_feed->setDescription(m_standardFeedDetails->m_ui.m_txtDescription->lineEdit()->text());
   std_feed->setIcon(m_standardFeedDetails->m_ui.m_btnIcon->icon());
@@ -89,20 +91,6 @@ void FormStandardFeedDetails::apply() {
 
   try {
     DatabaseQueries::createOverwriteFeed(database, std_feed, m_serviceRoot->accountId(), parent->id());
-
-    // Feed is added, save cookies.
-
-    /*if (std_feed->sourceType() == StandardFeed::SourceType::Url) {
-       auto cookies = qApp->web()->cookieJar()->extractCookiesFromUrl(std_feed->source());
-
-       if (!cookies.isEmpty()) {
-        qDebugNN << LOGSEC_NETWORK
-                 << "Detected some cookies in URL"
-                 << QUOTE_W_SPACE_DOT(std_feed->source());
-
-        qApp->web()->cookieJar()->insertCookies(cookies);
-       }
-       }*/
   }
   catch (const ApplicationException& ex) {
     qFatal("Cannot save feed: '%s'.", qPrintable(ex.message()));

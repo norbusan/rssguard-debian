@@ -51,7 +51,7 @@ class RSSGUARD_DLLSPEC FeedMessageViewer : public TabContent {
     void loadMessageViewerFonts();
 
     // Switches orientation horizontal/vertical.
-    void switchMessageSplitterOrientation(bool save_settings);
+    void switchMessageSplitterOrientation();
 
     // Enables/disables main toolbars or list headers.
     void setToolBarsEnabled(bool enable);
@@ -69,8 +69,11 @@ class RSSGUARD_DLLSPEC FeedMessageViewer : public TabContent {
     void toggleShowFeedTreeBranches();
     void toggleItemsAutoExpandingOnSelection();
     void alternateRowColorsInLists();
+    void respondToMainWindowResizes();
 
   private slots:
+    void onFeedSplitterResized();
+    void onMessageSplitterResized();
     void displayMessage(const Message& message, RootItem* root);
 
   protected:

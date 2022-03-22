@@ -108,24 +108,24 @@ class DatabaseQueries {
     static QList<ServiceRoot*> getAccounts(const QSqlDatabase& db, const QString& code, bool* ok = nullptr);
 
     template<typename Categ, typename Fee>
-    static void loadFromDatabase(ServiceRoot* root);
+    static void loadRootFromDatabase(ServiceRoot* root);
     static bool storeNewOauthTokens(const QSqlDatabase& db, const QString& refresh_token, int account_id);
     static void createOverwriteAccount(const QSqlDatabase& db, ServiceRoot* account);
 
     // Returns counts of updated messages <unread, all>.
     static QPair<int, int> updateMessages(QSqlDatabase db, QList<Message>& messages,
                                           Feed* feed, bool force_update, bool* ok = nullptr);
-    static bool deleteAccount(const QSqlDatabase& db, int account_id);
+    static bool deleteAccount(const QSqlDatabase& db, ServiceRoot* account);
     static bool deleteAccountData(const QSqlDatabase& db, int account_id, bool delete_messages_too, bool delete_labels_too);
     static bool cleanLabelledMessages(const QSqlDatabase& db, bool clean_read_only, Label* label);
     static bool cleanImportantMessages(const QSqlDatabase& db, bool clean_read_only, int account_id);
     static bool cleanUnreadMessages(const QSqlDatabase& db, int account_id);
     static bool cleanFeeds(const QSqlDatabase& db, const QStringList& ids, bool clean_read_only, int account_id);
-    static bool storeAccountTree(const QSqlDatabase& db, RootItem* tree_root, int account_id);
-    static void createOverwriteFeed(const QSqlDatabase& db, Feed* feed, int account_id, int parent_id);
-    static void createOverwriteCategory(const QSqlDatabase& db, Category* category, int account_id, int parent_id);
-    static bool deleteFeed(const QSqlDatabase& db, int feed_custom_id, int account_id);
-    static bool deleteCategory(const QSqlDatabase& db, int id);
+    static void storeAccountTree(const QSqlDatabase& db, RootItem* tree_root, int account_id);
+    static void createOverwriteFeed(const QSqlDatabase& db, Feed* feed, int account_id, int new_parent_id);
+    static void createOverwriteCategory(const QSqlDatabase& db, Category* category, int account_id, int new_parent_id);
+    static bool deleteFeed(const QSqlDatabase& db, Feed* feed, int account_id);
+    static bool deleteCategory(const QSqlDatabase& db, Category* category);
 
     template<typename T>
     static Assignment getCategories(const QSqlDatabase& db, int account_id, bool* ok = nullptr);
@@ -133,6 +133,9 @@ class DatabaseQueries {
     template<typename T>
     static Assignment getFeeds(const QSqlDatabase& db, const QList<MessageFilter*>& global_filters,
                                int account_id, bool* ok = nullptr);
+
+    // Item order methods.
+    static void moveItem(RootItem* item, bool move_top, bool move_bottom, int move_index, const QSqlDatabase& db);
 
     // Message filters operators.
     static bool purgeLeftoverMessageFilterAssignments(const QSqlDatabase& db, int account_id);
@@ -167,6 +170,7 @@ QList<ServiceRoot*> DatabaseQueries::getAccounts(const QSqlDatabase& db, const Q
 
       // Load common data.
       root->setAccountId(query.value(QSL("id")).toInt());
+      root->setSortOrder(query.value(QSL("ordr")).toInt());
 
       QNetworkProxy proxy(QNetworkProxy::ProxyType(query.value(QSL("proxy_type")).toInt()),
                           query.value(QSL("proxy_host")).toString(),
@@ -232,6 +236,7 @@ Assignment DatabaseQueries::getCategories(const QSqlDatabase& db, int account_id
     auto* cat = static_cast<Category*>(pair.second);
 
     cat->setId(query_categories.value(CAT_DB_ID_INDEX).toInt());
+    cat->setSortOrder(query_categories.value(CAT_DB_ORDER_INDEX).toInt());
     cat->setCustomId(query_categories.value(CAT_DB_CUSTOM_ID_INDEX).toString());
 
     if (cat->customId().isEmpty()) {
@@ -287,6 +292,7 @@ Assignment DatabaseQueries::getFeeds(const QSqlDatabase& db,
     // Load common data.
     feed->setTitle(query.value(FDS_DB_TITLE_INDEX).toString());
     feed->setId(query.value(FDS_DB_ID_INDEX).toInt());
+    feed->setSortOrder(query.value(FDS_DB_ORDER_INDEX).toInt());
     feed->setSource(query.value(FDS_DB_SOURCE_INDEX).toString());
     feed->setCustomId(query.value(FDS_DB_CUSTOM_ID_INDEX).toString());
 
@@ -299,13 +305,15 @@ Assignment DatabaseQueries::getFeeds(const QSqlDatabase& db,
     feed->setIcon(qApp->icons()->fromByteArray(query.value(FDS_DB_ICON_INDEX).toByteArray()));
     feed->setAutoUpdateType(static_cast<Feed::AutoUpdateType>(query.value(FDS_DB_UPDATE_TYPE_INDEX).toInt()));
     feed->setAutoUpdateInitialInterval(query.value(FDS_DB_UPDATE_INTERVAL_INDEX).toInt());
+    feed->setIsSwitchedOff(query.value(FDS_DB_IS_OFF_INDEX).toBool());
+    feed->setOpenArticlesDirectly(query.value(FDS_DB_OPEN_ARTICLES_INDEX).toBool());
 
     qDebugNN << LOGSEC_CORE
              << "Custom ID of feed when loading from DB is"
              << QUOTE_W_SPACE_DOT(feed->customId());
 
     // Load custom data.
-    feed->setCustomDatabaseData(deserializeCustomData(query.value(QSL("custom_data")).toString()));
+    feed->setCustomDatabaseData(deserializeCustomData(query.value(FDS_DB_CUSTOM_DATA_INDEX).toString()));
 
     if (filters_in_feeds.contains(feed->customId())) {
       auto all_filters_for_this_feed = filters_in_feeds.values(feed->customId());
@@ -326,7 +334,7 @@ Assignment DatabaseQueries::getFeeds(const QSqlDatabase& db,
 }
 
 template<typename Categ, typename Fee>
-void DatabaseQueries::loadFromDatabase(ServiceRoot* root) {
+void DatabaseQueries::loadRootFromDatabase(ServiceRoot* root) {
   QSqlDatabase database = qApp->database()->driver()->connection(root->metaObject()->className());
   Assignment categories = DatabaseQueries::getCategories<Categ>(database, root->accountId());
   Assignment feeds = DatabaseQueries::getFeeds<Fee>(database, qApp->feedReader()->messageFilters(), root->accountId());

@@ -39,11 +39,10 @@ bool StandardCategory::performDragDropChange(RootItem* target_item) {
     qCriticalNN << LOGSEC_DB
                 << "Cannot overwrite category:"
                 << QUOTE_W_SPACE_DOT(ex.message());
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Error"),
-                         tr("Cannot save data for category, detailed information was logged via debug log."),
-                         QSystemTrayIcon::MessageIcon::Critical,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot save category data"),
+      tr("Cannot save data for category, detailed information was logged via debug log."),
+      QSystemTrayIcon::MessageIcon::Critical });
     return false;
   }
 }
@@ -95,7 +94,7 @@ bool StandardCategory::removeItself() {
     // Children are removed, remove this standard category too.
     QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
 
-    return DatabaseQueries::deleteCategory(database, id());
+    return DatabaseQueries::deleteCategory(database, this);
   }
   else {
     return false;

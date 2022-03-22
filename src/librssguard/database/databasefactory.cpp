@@ -16,6 +16,7 @@
 #include <QSqlError>
 #include <QSqlField>
 #include <QSqlQuery>
+#include <QSqlResult>
 #include <QVariant>
 
 DatabaseFactory::DatabaseFactory(QObject* parent)
@@ -47,17 +48,17 @@ void DatabaseFactory::determineDriver() {
     qFatal("DB driver for '%s' was not found.", qPrintable(db_driver));
   }
 
-  if (m_dbDriver->driverType() != DatabaseDriver::DriverType::SQLite) {
-    // Try to setup connection and fallback to SQLite.
-    try {
-      m_dbDriver->connection(QSL("DatabaseFactory"));
-    }
-    catch (const ApplicationException& ex) {
-      qCriticalNN << LOGSEC_DB
-                  << "Failed to reach connection to DB source, let's fallback to SQLite:"
-                  << QUOTE_W_SPACE_DOT(ex.message());
+  // Try to setup connection and fallback to SQLite.
+  try {
+    m_dbDriver->connection(QSL("DatabaseFactory"));
+  }
+  catch (const ApplicationException& ex) {
+    qCriticalNN << LOGSEC_DB
+                << "Failed to reach connection to DB source:"
+                << QUOTE_W_SPACE_DOT(ex.message());
 
-      MessageBox::show(nullptr,
+    if (m_dbDriver->driverType() != DatabaseDriver::DriverType::SQLite) {
+      MsgBox::show(nullptr,
                        QMessageBox::Icon::Critical,
                        tr("Cannot connect to database"),
                        tr("Connection to your database was not established with error: '%1'. "
@@ -82,6 +83,8 @@ DatabaseDriver* DatabaseFactory::driverForType(DatabaseDriver::DriverType d) con
 
 QString DatabaseFactory::lastExecutedQuery(const QSqlQuery& query) {
   QString str = query.lastQuery();
+
+#if QT_VERSION_MAJOR == 5
   QMapIterator<QString, QVariant> it(query.boundValues());
 
   while (it.hasNext()) {
@@ -95,6 +98,7 @@ QString DatabaseFactory::lastExecutedQuery(const QSqlQuery& query) {
       str.replace(it.key(), it.value().toString());
     }
   }
+#endif
 
   return str;
 }

@@ -22,7 +22,7 @@
 Feed::Feed(RootItem* parent)
   : RootItem(parent), m_source(QString()), m_status(Status::Normal), m_statusString(QString()), m_autoUpdateType(AutoUpdateType::DefaultAutoUpdate),
   m_autoUpdateInitialInterval(DEFAULT_AUTO_UPDATE_INTERVAL), m_autoUpdateRemainingInterval(DEFAULT_AUTO_UPDATE_INTERVAL),
-  m_messageFilters(QList<QPointer<MessageFilter>>()) {
+  m_isSwitchedOff(false), m_openArticlesDirectly(false), m_messageFilters(QList<QPointer<MessageFilter>>()) {
   setKind(RootItem::Kind::Feed);
 }
 
@@ -43,6 +43,8 @@ Feed::Feed(const Feed& other) : RootItem(other) {
   setAutoUpdateInitialInterval(other.autoUpdateInitialInterval());
   setAutoUpdateRemainingInterval(other.autoUpdateRemainingInterval());
   setMessageFilters(other.messageFilters());
+  setOpenArticlesDirectly(other.openArticlesDirectly());
+  setIsSwitchedOff(other.isSwitchedOff());
 }
 
 QList<Message> Feed::undeletedMessages() const {
@@ -53,16 +55,31 @@ QList<Message> Feed::undeletedMessages() const {
 
 QVariant Feed::data(int column, int role) const {
   switch (role) {
-    case Qt::ItemDataRole::ForegroundRole:
+    case HIGHLIGHTED_FOREGROUND_TITLE_ROLE:
       switch (status()) {
         case Status::NewMessages:
-          return qApp->skins()->currentSkin().m_colorPalette[Skin::PaletteColors::Highlight];
+          return qApp->skins()->currentSkin().colorForModel(SkinEnums::PaletteColors::FgSelectedInteresting);
 
         case Status::NetworkError:
         case Status::ParsingError:
         case Status::AuthError:
         case Status::OtherError:
-          return qApp->skins()->currentSkin().m_colorPalette[Skin::PaletteColors::Error];
+          return qApp->skins()->currentSkin().colorForModel(SkinEnums::PaletteColors::FgSelectedError);
+
+        default:
+          return QVariant();
+      }
+
+    case Qt::ItemDataRole::ForegroundRole:
+      switch (status()) {
+        case Status::NewMessages:
+          return qApp->skins()->currentSkin().colorForModel(SkinEnums::PaletteColors::FgInteresting);
+
+        case Status::NetworkError:
+        case Status::ParsingError:
+        case Status::AuthError:
+        case Status::OtherError:
+          return qApp->skins()->currentSkin().colorForModel(SkinEnums::PaletteColors::FgError);
 
         default:
           return QVariant();
@@ -156,6 +173,14 @@ void Feed::setSource(const QString& source) {
   m_source = source;
 }
 
+bool Feed::openArticlesDirectly() const {
+  return m_openArticlesDirectly;
+}
+
+void Feed::setOpenArticlesDirectly(bool opn) {
+  m_openArticlesDirectly = opn;
+}
+
 void Feed::appendMessageFilter(MessageFilter* filter) {
   m_messageFilters.append(QPointer<MessageFilter>(filter));
 }
@@ -240,6 +265,14 @@ QString Feed::getStatusDescription() const {
     default:
       return tr("error");
   }
+}
+
+bool Feed::isSwitchedOff() const {
+  return m_isSwitchedOff;
+}
+
+void Feed::setIsSwitchedOff(bool switched_off) {
+  m_isSwitchedOff = switched_off;
 }
 
 QString Feed::statusString() const {

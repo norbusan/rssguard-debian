@@ -41,6 +41,7 @@ void TabWidget::setupMainMenuButton() {
   m_btnMainMenu->setToolTip(tr("Displays main menu."));
   m_btnMainMenu->setIcon(qApp->icons()->fromTheme(QSL("go-home")));
   m_btnMainMenu->setPopupMode(QToolButton::ToolButtonPopupMode::InstantPopup);
+
   connect(m_btnMainMenu, &PlainToolButton::clicked, this, &TabWidget::openMainMenu);
 }
 
@@ -123,8 +124,8 @@ void TabWidget::tabRemoved(int index) {
 
 void TabWidget::createConnections() {
   connect(tabBar(), &TabBar::tabCloseRequested, this, &TabWidget::closeTab);
-  connect(tabBar(), &TabBar::emptySpaceDoubleClicked, this, &TabWidget::addEmptyBrowser);
   connect(tabBar(), &TabBar::tabMoved, this, &TabWidget::fixContentsAfterMove);
+
   connect(feedMessageViewer()->messagesView(), &MessagesView::openMessagesInNewspaperView, this, &TabWidget::addNewspaperView);
   connect(feedMessageViewer()->feedsView(), &FeedsView::openMessagesInNewspaperView, this, &TabWidget::addNewspaperView);
 }
@@ -181,6 +182,10 @@ void TabWidget::closeAllTabs() {
   for (int i = count() - 1; i >= 0; i--) {
     closeTab(i);
   }
+}
+
+void TabWidget::closeCurrentTab() {
+  closeTab(currentIndex());
 }
 
 int TabWidget::addNewspaperView(RootItem* root, const QList<Message>& messages) {
@@ -284,8 +289,8 @@ void TabWidget::gotoPreviousTab() {
 }
 
 void TabWidget::indentTabText(int index) {
-#if defined(Q_OS_MACOSOS)
-  if (tabBar()->tabType(index) != TabBar::FeedReader && !tabIcon(index).isNull()) {
+#if defined(Q_OS_MACOS)
+  if (tabBar()->tabType(index) != TabBar::TabType::FeedReader && !tabIcon(index).isNull()) {
     // We have closable tab with some icon, fix the title.
     const QString text = tabText(index);
 
@@ -307,7 +312,7 @@ void TabWidget::removeTab(int index, bool clear_from_memory) {
 }
 
 int TabWidget::addTab(TabContent* widget, const QIcon& icon, const QString& label, TabBar::TabType type) {
-  const int index = QTabWidget::addTab(widget, icon, label);
+  const int index = QTabWidget::addTab(widget, icon, TextFactory::shorten(label));
 
   tabBar()->setTabType(index, type);
   indentTabText(index);
@@ -315,7 +320,7 @@ int TabWidget::addTab(TabContent* widget, const QIcon& icon, const QString& labe
 }
 
 int TabWidget::addTab(TabContent* widget, const QString& label, TabBar::TabType type) {
-  const int index = QTabWidget::addTab(widget, label);
+  const int index = QTabWidget::addTab(widget, TextFactory::shorten(label));
 
   tabBar()->setTabType(index, type);
   indentTabText(index);
@@ -345,7 +350,7 @@ void TabWidget::changeIcon(int index, const QIcon& new_icon) {
 
 void TabWidget::changeTitle(int index, const QString& new_title) {
   setTabText(index, TextFactory::shorten(new_title));
-  setTabToolTip(index, new_title);
+  setTabToolTip(index, TextFactory::shorten(new_title));
   indentTabText(index);
 }
 

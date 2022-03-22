@@ -242,6 +242,7 @@ bool DatabaseQueries::createLabel(const QSqlDatabase& db, Label* label, int acco
   q.bindValue(QSL(":color"), label->color().name());
   q.bindValue(QSL(":custom_id"), label->customId());
   q.bindValue(QSL(":account_id"), account_id);
+
   auto res = q.exec();
 
   if (res && q.lastInsertId().isValid()) {
@@ -431,7 +432,9 @@ bool DatabaseQueries::purgeReadMessages(const QSqlDatabase& db) {
 
 bool DatabaseQueries::purgeOldMessages(const QSqlDatabase& db, int older_than_days) {
   QSqlQuery q(db);
-  const qint64 since_epoch = QDateTime::currentDateTimeUtc().addDays(-older_than_days).toMSecsSinceEpoch();
+  const qint64 since_epoch = older_than_days == 0
+                             ? QDateTime::currentDateTimeUtc().addYears(10).toMSecsSinceEpoch()
+                             : QDateTime::currentDateTimeUtc().addDays(-older_than_days).toMSecsSinceEpoch();
 
   q.setForwardOnly(true);
   q.prepare(QSL("DELETE FROM Messages WHERE is_important = :is_important AND date_created < :date_created;"));
@@ -1066,19 +1069,19 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
 
   // When we have custom ID of the message which is service-specific (synchronized services).
   query_select_with_custom_id.setForwardOnly(true);
-  query_select_with_custom_id.prepare(QSL("SELECT id, date_created, is_read, is_important, contents, feed, title FROM Messages "
+  query_select_with_custom_id.prepare(QSL("SELECT id, date_created, is_read, is_important, contents, feed, title, author FROM Messages "
                                           "WHERE custom_id = :custom_id AND account_id = :account_id;"));
 
   // We have custom ID of message, but it is feed-specific not service-specific (standard RSS/ATOM/JSON).
   query_select_with_custom_id_for_feed.setForwardOnly(true);
-  query_select_with_custom_id_for_feed.prepare(QSL("SELECT id, date_created, is_read, is_important, contents, title FROM Messages "
+  query_select_with_custom_id_for_feed.prepare(QSL("SELECT id, date_created, is_read, is_important, contents, title, author FROM Messages "
                                                    "WHERE feed = :feed AND custom_id = :custom_id AND account_id = :account_id;"));
 
   // In some case, messages are already stored in the DB and they all have primary DB ID.
   // This is particularly the case when user runs some message filter manually on existing messages
   // of some feed.
   query_select_with_id.setForwardOnly(true);
-  query_select_with_id.prepare(QSL("SELECT date_created, is_read, is_important, contents, feed, title FROM Messages "
+  query_select_with_id.prepare(QSL("SELECT date_created, is_read, is_important, contents, feed, title, author FROM Messages "
                                    "WHERE id = :id AND account_id = :account_id;"));
 
   // Used to insert new messages.
@@ -1110,6 +1113,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
     QString contents_existing_message;
     QString feed_id_existing_message;
     QString title_existing_message;
+    QString author_existing_message;
 
     if (message.m_id > 0) {
       // We recognize directly existing message.
@@ -1130,6 +1134,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
         contents_existing_message = query_select_with_id.value(3).toString();
         feed_id_existing_message = query_select_with_id.value(4).toString();
         title_existing_message = query_select_with_id.value(5).toString();
+        author_existing_message = query_select_with_id.value(6).toString();
 
         qDebugNN << LOGSEC_DB
                  << "Message with direct DB ID is already present in DB and has DB ID"
@@ -1170,6 +1175,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
         contents_existing_message = query_select_with_url.value(4).toString();
         feed_id_existing_message = query_select_with_url.value(5).toString();
         title_existing_message = unnulifyString(message.m_title);
+        author_existing_message = unnulifyString(message.m_author);
 
         qDebugNN << LOGSEC_DB
                  << "Message with these attributes is already present in DB and has DB ID"
@@ -1204,6 +1210,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
           contents_existing_message = query_select_with_custom_id.value(4).toString();
           feed_id_existing_message = query_select_with_custom_id.value(5).toString();
           title_existing_message = query_select_with_custom_id.value(6).toString();
+          author_existing_message = query_select_with_custom_id.value(7).toString();
 
           qDebugNN << LOGSEC_DB
                    << "Message with custom ID"
@@ -1240,6 +1247,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
           contents_existing_message = query_select_with_custom_id_for_feed.value(4).toString();
           feed_id_existing_message = feed_custom_id;
           title_existing_message = query_select_with_custom_id_for_feed.value(5).toString();
+          author_existing_message = query_select_with_custom_id_for_feed.value(6).toString();
 
           qDebugNN << LOGSEC_DB
                    << "Message with custom ID"
@@ -1264,16 +1272,20 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
       // Message is already in the DB.
       //
       // Now, we update it if at least one of next conditions is true:
-      //   1) FOR SYNCHRONIZED SERVICES: Message has custom ID AND (its date OR read status OR starred status are changed
-      //      or message was moved from other feed to current feed - this can particularly happen in Gmail feeds).
+      //   1) FOR SYNCHRONIZED SERVICES:
+      //        Message has custom ID AND (its date OR read status OR starred status are changed
+      //        or message was moved from other feed to current feed - this can particularly happen in Gmail feeds).
       //
-      //   2) FOR NON-SYNCHRONIZED SERVICES (RSS/ATOM/JSON): Message has custom ID/GUID and its title or contents are changed.
+      //   2) FOR NON-SYNCHRONIZED SERVICES (RSS/ATOM/JSON):
+      //        Message has custom ID/GUID and its title or author or contents are changed.
       //
-      //   3) FOR ALL SERVICES: Message has its date fetched from feed AND its date is different
-      //      from date in DB or content is changed.
+      //   3) FOR ALL SERVICES:
+      //        Message has its date fetched from feed AND its date is different
+      //        from date in DB or content is changed.
       //
-      //   4) FOR ALL SERVICES: Message update is forced, we want to overwrite message as some arbitrary atribute was changed,
-      //      this particularly happens when manual message filter execution happens.
+      //   4) FOR ALL SERVICES:
+      //        Message update is forced, we want to overwrite message as some arbitrary atribute was changed,
+      //        this particularly happens when manual message filter execution happens.
       bool ignore_contents_changes = qApp->settings()->value(GROUP(Messages), SETTING(Messages::IgnoreContentsChanges)).toBool();
       bool cond_1 = !message.m_customId.isEmpty() && feed->getParentServiceRoot()->isSyncable() &&
                     (message.m_created.toMSecsSinceEpoch() != date_existing_message ||
@@ -1284,6 +1296,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
                      (!ignore_contents_changes && message.m_contents != contents_existing_message));
       bool cond_2 = !message.m_customId.isEmpty() && !feed->getParentServiceRoot()->isSyncable() &&
                     (message.m_title != title_existing_message ||
+                     message.m_author != author_existing_message ||
                      (!ignore_contents_changes && message.m_contents != contents_existing_message));
       bool cond_3 = (message.m_createdFromFeed && message.m_created.toMSecsSinceEpoch() != date_existing_message) ||
                     (!ignore_contents_changes && message.m_contents != contents_existing_message);
@@ -1292,7 +1305,9 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
         // Message exists and is changed, update it.
         query_update.bindValue(QSL(":title"), unnulifyString(message.m_title));
         query_update.bindValue(QSL(":is_read"), int(message.m_isRead));
-        query_update.bindValue(QSL(":is_important"), int(message.m_isImportant));
+        query_update.bindValue(QSL(":is_important"), (feed->getParentServiceRoot()->isSyncable() || message.m_isImportant)
+                               ? int(message.m_isImportant)
+                               : is_important_existing_message);
         query_update.bindValue(QSL(":is_deleted"), int(message.m_isDeleted));
         query_update.bindValue(QSL(":url"), unnulifyString(message.m_url));
         query_update.bindValue(QSL(":author"), unnulifyString(message.m_author));
@@ -1344,7 +1359,7 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
 
     for (int i = 0; i < msgs_to_insert.size(); i += 1000) {
       QStringList vals;
-      int batch_length = std::min(1000, msgs_to_insert.size() - i);
+      int batch_length = std::min(1000, int(msgs_to_insert.size()) - i);
 
       for (int l = i; l < (i + batch_length); l++) {
         Message* msg = msgs_to_insert[l];
@@ -1354,6 +1369,14 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
                       << "Message"
                       << QUOTE_W_SPACE(msg->m_customId)
                       << "will not be inserted to DB because it does not meet DB constraints.";
+
+          // Message is not inserted to DB at last,
+          // fix numbers.
+          if (!msg->m_isRead) {
+            updated_messages.first--;
+          }
+
+          updated_messages.second--;
           continue;
         }
 
@@ -1382,9 +1405,8 @@ QPair<int, int> DatabaseQueries::updateMessages(QSqlDatabase db,
         auto bulk_error = bulk_query.lastError();
 
         if (bulk_error.isValid()) {
-          QString txt = bulk_error.text() + bulk_error.databaseText();
+          QString txt = bulk_error.text() + bulk_error.databaseText() + bulk_error.driverText();
 
-          //IOFactory::writeFile("aa.sql", final_bulk.toUtf8());
           qCriticalNN << LOGSEC_DB
                       << "Failed bulk insert of articles:"
                       << QUOTE_W_SPACE_DOT(txt);
@@ -1469,7 +1491,9 @@ bool DatabaseQueries::purgeMessagesFromBin(const QSqlDatabase& db, bool clear_on
   return q.exec();
 }
 
-bool DatabaseQueries::deleteAccount(const QSqlDatabase& db, int account_id) {
+bool DatabaseQueries::deleteAccount(const QSqlDatabase& db, ServiceRoot* account) {
+  moveItem(account, false, true, {}, db);
+
   QSqlQuery query(db);
 
   query.setForwardOnly(true);
@@ -1485,7 +1509,7 @@ bool DatabaseQueries::deleteAccount(const QSqlDatabase& db, int account_id) {
 
   for (const QString& q : qAsConst(queries)) {
     query.prepare(q);
-    query.bindValue(QSL(":account_id"), account_id);
+    query.bindValue(QSL(":account_id"), account->accountId());
 
     if (!query.exec()) {
       qCriticalNN << LOGSEC_DB
@@ -1747,7 +1771,7 @@ bool DatabaseQueries::purgeLabelsAndLabelAssignments(const QSqlDatabase& db, int
   return succ;
 }
 
-bool DatabaseQueries::storeAccountTree(const QSqlDatabase& db, RootItem* tree_root, int account_id) {
+void DatabaseQueries::storeAccountTree(const QSqlDatabase& db, RootItem* tree_root, int account_id) {
   // Iterate all children.
   auto str = tree_root->getSubTree();
 
@@ -1765,14 +1789,10 @@ bool DatabaseQueries::storeAccountTree(const QSqlDatabase& db, RootItem* tree_ro
       for (RootItem* lbl : qAsConst(ch)) {
         Label* label = lbl->toLabel();
 
-        if (!createLabel(db, label, account_id)) {
-          return false;
-        }
+        createLabel(db, label, account_id);
       }
     }
   }
-
-  return true;
 }
 
 QStringList DatabaseQueries::customIdsOfMessagesFromAccount(const QSqlDatabase& db, int account_id, bool* ok) {
@@ -1916,14 +1936,32 @@ QStringList DatabaseQueries::customIdsOfMessagesFromFeed(const QSqlDatabase& db,
   return ids;
 }
 
-void DatabaseQueries::createOverwriteCategory(const QSqlDatabase& db, Category* category, int account_id, int parent_id) {
+void DatabaseQueries::createOverwriteCategory(const QSqlDatabase& db, Category* category, int account_id, int new_parent_id) {
   QSqlQuery q(db);
+  int next_sort_order;
+
+  if (category->id() <= 0 ||
+      (category->parent() != nullptr && category->parent()->id() != new_parent_id)) {
+    q.prepare(QSL("SELECT MAX(ordr) FROM Categories WHERE account_id = :account_id AND parent_id = :parent_id;"));
+    q.bindValue(QSL(":account_id"), account_id);
+    q.bindValue(QSL(":parent_id"), new_parent_id);
+
+    if (!q.exec() || !q.next()) {
+      throw ApplicationException(q.lastError().text());
+    }
+
+    next_sort_order = (q.value(0).isNull() ? -1 : q.value(0).toInt()) + 1;
+    q.finish();
+  }
+  else {
+    next_sort_order = category->sortOrder();
+  }
 
   if (category->id() <= 0) {
     // We need to insert category first.
     q.prepare(QSL("INSERT INTO "
-                  "Categories (parent_id, title, date_created, account_id) "
-                  "VALUES (0, 'new', 0, %1);").arg(QString::number(account_id)));
+                  "Categories (parent_id, ordr, title, date_created, account_id) "
+                  "VALUES (0, 0, 'new', 0, %1);").arg(QString::number(account_id)));
 
     if (!q.exec()) {
       throw ApplicationException(q.lastError().text());
@@ -1932,12 +1970,24 @@ void DatabaseQueries::createOverwriteCategory(const QSqlDatabase& db, Category* 
       category->setId(q.lastInsertId().toInt());
     }
   }
+  else if (category->parent() != nullptr && category->parent()->id() != new_parent_id) {
+    // Category is moving between parents.
+    // 1. Move category to bottom of current parent.
+    // 2. Assign proper new sort order.
+    //
+    // NOTE: The category will get reassigned to new parent usually after this method
+    // completes by the caller.
+    moveItem(category, false, true, {}, db);
+  }
+
+  // Restore to correct sort order.
+  category->setSortOrder(next_sort_order);
 
   q.prepare("UPDATE Categories "
-            "SET parent_id = :parent_id, title = :title, description = :description, date_created = :date_created, "
+            "SET parent_id = :parent_id, ordr = :ordr, title = :title, description = :description, date_created = :date_created, "
             "    icon = :icon, account_id = :account_id, custom_id = :custom_id "
             "WHERE id = :id;");
-  q.bindValue(QSL(":parent_id"), parent_id);
+  q.bindValue(QSL(":parent_id"), new_parent_id);
   q.bindValue(QSL(":title"), category->title());
   q.bindValue(QSL(":description"), category->description());
   q.bindValue(QSL(":date_created"), category->creationDate().toMSecsSinceEpoch());
@@ -1945,20 +1995,41 @@ void DatabaseQueries::createOverwriteCategory(const QSqlDatabase& db, Category* 
   q.bindValue(QSL(":account_id"), account_id);
   q.bindValue(QSL(":custom_id"), category->customId());
   q.bindValue(QSL(":id"), category->id());
+  q.bindValue(QSL(":ordr"), category->sortOrder());
 
   if (!q.exec()) {
     throw ApplicationException(q.lastError().text());
   }
 }
 
-void DatabaseQueries::createOverwriteFeed(const QSqlDatabase& db, Feed* feed, int account_id, int parent_id) {
+void DatabaseQueries::createOverwriteFeed(const QSqlDatabase& db, Feed* feed, int account_id, int new_parent_id) {
   QSqlQuery q(db);
+  int next_sort_order;
+
+  if (feed->id() <= 0 ||
+      (feed->parent() != nullptr && feed->parent()->id() != new_parent_id)) {
+    // We either insert completely new feed or we move feed
+    // to new parent. Get new viable sort order.
+    q.prepare(QSL("SELECT MAX(ordr) FROM Feeds WHERE account_id = :account_id AND category = :category;"));
+    q.bindValue(QSL(":account_id"), account_id);
+    q.bindValue(QSL(":category"), new_parent_id);
+
+    if (!q.exec() || !q.next()) {
+      throw ApplicationException(q.lastError().text());
+    }
+
+    next_sort_order = (q.value(0).isNull() ? -1 : q.value(0).toInt()) + 1;
+    q.finish();
+  }
+  else {
+    next_sort_order = feed->sortOrder();
+  }
 
   if (feed->id() <= 0) {
     // We need to insert feed first.
     q.prepare(QSL("INSERT INTO "
-                  "Feeds (title, date_created, category, update_type, update_interval, account_id, custom_id) "
-                  "VALUES ('new', 0, 0, 0, 1, %1, 'new');").arg(QString::number(account_id)));
+                  "Feeds (title, ordr, date_created, category, update_type, update_interval, account_id, custom_id) "
+                  "VALUES ('new', 0, 0, 0, 0, 1, %1, 'new');").arg(QString::number(account_id)));
 
     if (!q.exec()) {
       throw ApplicationException(q.lastError().text());
@@ -1971,24 +2042,39 @@ void DatabaseQueries::createOverwriteFeed(const QSqlDatabase& db, Feed* feed, in
       }
     }
   }
+  else if (feed->parent() != nullptr && feed->parent()->id() != new_parent_id) {
+    // Feed is moving between categories.
+    // 1. Move feed to bottom of current category.
+    // 2. Assign proper new sort order.
+    //
+    // NOTE: The feed will get reassigned to new parent usually after this method
+    // completes by the caller.
+    moveItem(feed, false, true, {}, db);
+  }
+
+  // Restore to correct sort order.
+  feed->setSortOrder(next_sort_order);
 
   q.prepare("UPDATE Feeds "
-            "SET title = :title, description = :description, date_created = :date_created, "
+            "SET title = :title, ordr = :ordr, description = :description, date_created = :date_created, "
             "    icon = :icon, category = :category, source = :source, update_type = :update_type, "
-            "    update_interval = :update_interval, account_id = :account_id, "
-            "    custom_id = :custom_id, custom_data = :custom_data "
+            "    update_interval = :update_interval, is_off = :is_off, open_articles = :open_articles, "
+            "    account_id = :account_id, custom_id = :custom_id, custom_data = :custom_data "
             "WHERE id = :id;");
   q.bindValue(QSL(":title"), feed->title());
   q.bindValue(QSL(":description"), feed->description());
   q.bindValue(QSL(":date_created"), feed->creationDate().toMSecsSinceEpoch());
   q.bindValue(QSL(":icon"), qApp->icons()->toByteArray(feed->icon()));
-  q.bindValue(QSL(":category"), parent_id);
+  q.bindValue(QSL(":category"), new_parent_id);
   q.bindValue(QSL(":source"), feed->source());
   q.bindValue(QSL(":update_type"), int(feed->autoUpdateType()));
   q.bindValue(QSL(":update_interval"), feed->autoUpdateInitialInterval());
   q.bindValue(QSL(":account_id"), account_id);
   q.bindValue(QSL(":custom_id"), feed->customId());
   q.bindValue(QSL(":id"), feed->id());
+  q.bindValue(QSL(":ordr"), feed->sortOrder());
+  q.bindValue(QSL(":is_off"), feed->isSwitchedOff());
+  q.bindValue(QSL(":open_articles"), feed->openArticlesDirectly());
 
   auto custom_data = feed->customDatabaseData();
   QString serialized_custom_data = serializeCustomData(custom_data);
@@ -2004,15 +2090,28 @@ void DatabaseQueries::createOverwriteAccount(const QSqlDatabase& db, ServiceRoot
   QSqlQuery q(db);
 
   if (account->accountId() <= 0) {
-    // We need to insert account first.
-    q.prepare(QSL("INSERT INTO Accounts (type) VALUES (:type);"));
+    // We need to insert account and generate sort order first.
+    if (account->sortOrder() < 0) {
+      if (!q.exec(QSL("SELECT MAX(ordr) FROM Accounts;"))) {
+        throw ApplicationException(q.lastError().text());
+      }
+
+      q.next();
+
+      int next_order = (q.value(0).isNull() ? -1 : q.value(0).toInt()) + 1;
+
+      account->setSortOrder(next_order);
+      q.finish();
+    }
+
+    q.prepare(QSL("INSERT INTO Accounts (ordr, type) "
+                  "VALUES (0, :type);"));
     q.bindValue(QSL(":type"), account->code());
 
     if (!q.exec()) {
       throw ApplicationException(q.lastError().text());
     }
     else {
-      //account->setId(q.lastInsertId().toInt());
       account->setAccountId(q.lastInsertId().toInt());
     }
   }
@@ -2022,7 +2121,7 @@ void DatabaseQueries::createOverwriteAccount(const QSqlDatabase& db, ServiceRoot
 
   q.prepare(QSL("UPDATE Accounts "
                 "SET proxy_type = :proxy_type, proxy_host = :proxy_host, proxy_port = :proxy_port, "
-                "    proxy_username = :proxy_username, proxy_password = :proxy_password, "
+                "    proxy_username = :proxy_username, proxy_password = :proxy_password, ordr = :ordr, "
                 "    custom_data = :custom_data "
                 "WHERE id = :id"));
   q.bindValue(QSL(":proxy_type"), proxy.type());
@@ -2031,6 +2130,7 @@ void DatabaseQueries::createOverwriteAccount(const QSqlDatabase& db, ServiceRoot
   q.bindValue(QSL(":proxy_username"), proxy.user());
   q.bindValue(QSL(":proxy_password"), TextFactory::encrypt(proxy.password()));
   q.bindValue(QSL(":id"), account->accountId());
+  q.bindValue(QSL(":ordr"), account->sortOrder());
 
   auto custom_data = account->customDatabaseData();
   QString serialized_custom_data = serializeCustomData(custom_data);
@@ -2042,11 +2142,13 @@ void DatabaseQueries::createOverwriteAccount(const QSqlDatabase& db, ServiceRoot
   }
 }
 
-bool DatabaseQueries::deleteFeed(const QSqlDatabase& db, int feed_custom_id, int account_id) {
+bool DatabaseQueries::deleteFeed(const QSqlDatabase& db, Feed* feed, int account_id) {
+  moveItem(feed, false, true, {}, db);
+
   QSqlQuery q(db);
 
   q.prepare(QSL("DELETE FROM Messages WHERE feed = :feed AND account_id = :account_id;"));
-  q.bindValue(QSL(":feed"), feed_custom_id);
+  q.bindValue(QSL(":feed"), feed->customId());
   q.bindValue(QSL(":account_id"), account_id);
 
   if (!q.exec()) {
@@ -2055,7 +2157,7 @@ bool DatabaseQueries::deleteFeed(const QSqlDatabase& db, int feed_custom_id, int
 
   // Remove feed itself.
   q.prepare(QSL("DELETE FROM Feeds WHERE custom_id = :feed AND account_id = :account_id;"));
-  q.bindValue(QSL(":feed"), feed_custom_id);
+  q.bindValue(QSL(":feed"), feed->customId());
   q.bindValue(QSL(":account_id"), account_id);
 
   return q.exec() &&
@@ -2063,14 +2165,126 @@ bool DatabaseQueries::deleteFeed(const QSqlDatabase& db, int feed_custom_id, int
          purgeLeftoverLabelAssignments(db, account_id);
 }
 
-bool DatabaseQueries::deleteCategory(const QSqlDatabase& db, int id) {
+bool DatabaseQueries::deleteCategory(const QSqlDatabase& db, Category* category) {
+  moveItem(category, false, true, {}, db);
+
   QSqlQuery q(db);
 
   // Remove this category from database.
   q.setForwardOnly(true);
   q.prepare(QSL("DELETE FROM Categories WHERE id = :category;"));
-  q.bindValue(QSL(":category"), id);
+  q.bindValue(QSL(":category"), category->id());
   return q.exec();
+}
+
+void DatabaseQueries::moveItem(RootItem* item, bool move_top, bool move_bottom, int move_index, const QSqlDatabase& db) {
+  if (item->kind() != RootItem::Kind::Feed &&
+      item->kind() != RootItem::Kind::Category &&
+      item->kind() != RootItem::Kind::ServiceRoot) {
+    return;
+  }
+
+  auto neighbors = item->parent()->childItems();
+  int max_sort_order = boolinq::from(neighbors).select([=](RootItem* it) {
+    return it->kind() == item->kind() ? it->sortOrder() : 0;
+  }).max();
+
+  if ((!move_top && !move_bottom && item->sortOrder() == move_index) || /* Item is already sorted OK. */
+      (!move_top && !move_bottom && move_index < 0 ) || /* Order cannot be smaller than 0 if we do not move to begin/end. */
+      (!move_top && !move_bottom && move_index > max_sort_order ) || /* Cannot move past biggest sort order. */
+      (move_top && item->sortOrder() == 0) || /* Item is already on top. */
+      (move_bottom && item->sortOrder() == max_sort_order) || /* Item is already on bottom. */
+      max_sort_order <= 0) { /* We only have 1 item, nothing to sort. */
+    return;
+  }
+
+  QSqlQuery q(db);
+
+  if (move_top) {
+    move_index = 0;
+  }
+  else if (move_bottom) {
+    move_index = max_sort_order;
+  }
+
+  int move_low = qMin(move_index, item->sortOrder());
+  int move_high = qMax(move_index, item->sortOrder());
+  QString parent_field, table_name;
+
+  switch (item->kind()) {
+    case RootItem::Kind::Feed:
+      parent_field = QSL("category");
+      table_name = QSL("Feeds");
+      break;
+
+    case RootItem::Kind::Category:
+      parent_field = QSL("parent_id");
+      table_name = QSL("Categories");
+      break;
+
+    case RootItem::Kind::ServiceRoot:
+      table_name = QSL("Accounts");
+      break;
+  }
+
+  if (item->kind() == RootItem::Kind::ServiceRoot) {
+    if (item->sortOrder() > move_index) {
+      q.prepare(QSL("UPDATE Accounts SET ordr = ordr + 1 "
+                    "WHERE ordr < :move_high AND ordr >= :move_low;"));
+    }
+    else {
+      q.prepare(QSL("UPDATE Accounts SET ordr = ordr - 1 "
+                    "WHERE ordr > :move_low AND ordr <= :move_high;"));
+    }
+  }
+  else {
+    if (item->sortOrder() > move_index) {
+      q.prepare(QSL("UPDATE %1 SET ordr = ordr + 1 "
+                    "WHERE account_id = :account_id AND %2 = :category AND ordr < :move_high AND ordr >= :move_low;")
+                .arg(table_name, parent_field));
+    }
+    else {
+      q.prepare(QSL("UPDATE %1 SET ordr = ordr - 1 "
+                    "WHERE account_id = :account_id AND %2 = :category AND ordr > :move_low AND ordr <= :move_high;")
+                .arg(table_name, parent_field));
+    }
+
+    q.bindValue(QSL(":account_id"), item->getParentServiceRoot()->accountId());
+    q.bindValue(QSL(":category"), item->parent()->id());
+  }
+
+  q.bindValue(QSL(":move_low"), move_low);
+  q.bindValue(QSL(":move_high"), move_high);
+
+  if (!q.exec()) {
+    throw ApplicationException(q.lastError().text());
+  }
+
+  q.prepare(QSL("UPDATE %1 SET ordr = :ordr WHERE id = :id;").arg(table_name));
+  q.bindValue(QSL(":id"), item->kind() == RootItem::Kind::ServiceRoot ? item->toServiceRoot()->accountId() : item->id());
+  q.bindValue(QSL(":ordr"), move_index);
+
+  if (!q.exec()) {
+    throw ApplicationException(q.lastError().text());
+  }
+
+  // Fix live sort orders.
+  if (item->sortOrder() > move_index) {
+    boolinq::from(neighbors).where([=](RootItem* it) {
+      return it->kind() == item->kind() && it->sortOrder() < move_high && it->sortOrder() >= move_low;
+    }).for_each([](RootItem* it) {
+      it->setSortOrder(it->sortOrder() + 1);
+    });
+  }
+  else {
+    boolinq::from(neighbors).where([=](RootItem* it) {
+      return it->kind() == item->kind() && it->sortOrder() > move_low && it->sortOrder() <= move_high;
+    }).for_each([](RootItem* it) {
+      it->setSortOrder(it->sortOrder() - 1);
+    });
+  }
+
+  item->setSortOrder(move_index);
 }
 
 MessageFilter* DatabaseQueries::addMessageFilter(const QSqlDatabase& db, const QString& title,
@@ -2327,5 +2541,5 @@ bool DatabaseQueries::storeNewOauthTokens(const QSqlDatabase& db,
 }
 
 QString DatabaseQueries::unnulifyString(const QString& str) {
-  return str.isNull() ? QL1S("") : str;
+  return str.isNull() ? QSL("") : str;
 }

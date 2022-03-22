@@ -15,9 +15,14 @@ class StyledItemDelegateWithoutFocus : public QStyledItemDelegate {
   Q_OBJECT
 
   public:
-    explicit StyledItemDelegateWithoutFocus(QObject* parent = nullptr);
+    explicit StyledItemDelegateWithoutFocus(int height_row, int padding_row, QObject* parent = nullptr);
 
     virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+    virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
+  private:
+    int m_rowHeight;
+    int m_rowPadding;
 };
 
 #endif // STYLEDITEMDELEGATEWITHOUTFOCUS_H

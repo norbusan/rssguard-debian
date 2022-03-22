@@ -44,8 +44,10 @@ QByteArray IconFactory::toByteArray(const QIcon& icon) {
   return array.toBase64();
 }
 
-QIcon IconFactory::fromTheme(const QString& name) {
-  return QIcon::fromTheme(name);
+QIcon IconFactory::fromTheme(const QString& name, const QString& fallback) {
+  QIcon original = QIcon::fromTheme(name);
+
+  return (original.isNull() && !fallback.isEmpty()) ? QIcon::fromTheme(fallback) : original;
 }
 
 QPixmap IconFactory::miscPixmap(const QString& name) {
@@ -60,6 +62,7 @@ void IconFactory::setupSearchPaths() {
   auto paths = QIcon::themeSearchPaths();
 
   paths << APP_THEME_PATH
+        << qApp->userDataFolder() + QDir::separator() + APP_LOCAL_THEME_FOLDER
         << qApp->applicationDirPath() + QDir::separator() + APP_LOCAL_THEME_FOLDER;
 
   QIcon::setThemeSearchPaths(paths);
@@ -77,7 +80,7 @@ void IconFactory::loadCurrentIconTheme() {
   const QString theme_name_from_settings = qApp->settings()->value(GROUP(GUI), SETTING(GUI::IconTheme)).toString();
 
   if (QIcon::themeName() == theme_name_from_settings) {
-    qDebugNN << LOGSEC_GUI << "Icon theme '" << theme_name_from_settings << "' already loaded.";
+    qDebugNN << LOGSEC_GUI << "Icon theme" << QUOTE_W_SPACE(theme_name_from_settings) << "already loaded.";
     return;
   }
 
@@ -89,7 +92,7 @@ void IconFactory::loadCurrentIconTheme() {
 
   if (installed_themes.contains(theme_name_from_settings)) {
     // Desired icon theme is installed and can be loaded.
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     if (theme_name_from_settings.isEmpty()) {
       qDebugNN << LOGSEC_GUI << "Loading default system icon theme.";
     }
@@ -105,7 +108,7 @@ void IconFactory::loadCurrentIconTheme() {
   else {
     // Desired icon theme is not currently available.
     // Activate "default" or "no" icon theme instead.
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
     qWarningNN << "Icon theme"
                << QUOTE_W_SPACE(theme_name_from_settings)
                << "cannot be loaded because it is not installed. Activating \"no\" icon theme.";

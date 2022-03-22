@@ -2,6 +2,7 @@
 
 #include "network-web/adblock/adblockmanager.h"
 
+#include "3rd-party/boolinq/boolinq.h"
 #include "exceptions/applicationexception.h"
 #include "exceptions/networkexception.h"
 #include "miscellaneous/application.h"
@@ -25,11 +26,14 @@
 #include <QWebEngineProfile>
 
 AdBlockManager::AdBlockManager(QObject* parent)
-  : QObject(parent), m_loaded(false), m_enabled(false), m_interceptor(new AdBlockUrlInterceptor(this)),
+  : QObject(parent), m_loaded(false), m_enabled(false), m_installing(false), m_interceptor(new AdBlockUrlInterceptor(this)),
   m_serverProcess(nullptr), m_cacheBlocks({}) {
   m_adblockIcon = new AdBlockIcon(this);
   m_adblockIcon->setObjectName(QSL("m_adblockIconAction"));
   m_unifiedFiltersFile = qApp->userDataFolder() + QDir::separator() + QSL("adblock-unified-filters.txt");
+
+  connect(qApp->nodejs(), &NodeJs::packageInstalledUpdated, this, &AdBlockManager::onPackageReady);
+  connect(qApp->nodejs(), &NodeJs::packageError, this, &AdBlockManager::onPackageError);
 }
 
 AdBlockManager::~AdBlockManager() {
@@ -98,16 +102,9 @@ void AdBlockManager::setEnabled(bool enabled) {
   emit enabledChanged(m_enabled);
 
   if (m_enabled) {
-    try {
-      updateUnifiedFiltersFileAndStartServer();
-    }
-    catch (const ApplicationException& ex) {
-      qCriticalNN << LOGSEC_ADBLOCK
-                  << "Failed to write unified filters to file or re-start server, error:"
-                  << QUOTE_W_SPACE_DOT(ex.message());
-
-      m_enabled = false;
-      emit enabledChanged(m_enabled);
+    if (!m_installing) {
+      m_installing = true;
+      qApp->nodejs()->installUpdatePackages({ { QSL(CLIQZ_ADBLOCKED_PACKAGE), QSL(CLIQZ_ADBLOCKED_VERSION) } });
     }
   }
   else {
@@ -179,6 +176,47 @@ void AdBlockManager::showDialog() {
   AdBlockDialog(qApp->mainFormWidget()).exec();
 }
 
+void AdBlockManager::onPackageReady(const QList<NodeJs::PackageMetadata>& pkgs, bool already_up_to_date) {
+  Q_UNUSED(already_up_to_date)
+
+  bool concerns_adblock = boolinq::from(pkgs).any([](const NodeJs::PackageMetadata& pkg) {
+    return pkg.m_name == QSL(CLIQZ_ADBLOCKED_PACKAGE);
+  });
+
+  if (concerns_adblock) {
+    m_installing = false;
+
+    if (m_enabled) {
+      try {
+        updateUnifiedFiltersFileAndStartServer();
+      }
+      catch (const ApplicationException& ex) {
+        qCriticalNN << LOGSEC_ADBLOCK
+                    << "Failed to setup filters and start server:"
+                    << QUOTE_W_SPACE_DOT(ex.message());
+
+        m_enabled = false;
+        emit enabledChanged(m_enabled);
+      }
+    }
+  }
+}
+
+void AdBlockManager::onPackageError(const QList<NodeJs::PackageMetadata>& pkgs, const QString& error) {
+  bool concerns_adblock = boolinq::from(pkgs).any([](const NodeJs::PackageMetadata& pkg) {
+    return pkg.m_name == QSL(CLIQZ_ADBLOCKED_PACKAGE);
+  });
+
+  if (concerns_adblock) {
+    m_installing = false;
+    m_enabled = false;
+
+    qCriticalNN << LOGSEC_ADBLOCK << "Needed Node.js packages were not installed:" << QUOTE_W_SPACE_DOT(error);
+
+    emit processTerminated();
+  }
+}
+
 void AdBlockManager::onServerProcessFinished(int exit_code, QProcess::ExitStatus exit_status) {
   Q_UNUSED(exit_status)
   killServer();
@@ -214,7 +252,7 @@ BlockingResult AdBlockManager::askServerIfBlocked(const QString& fp_url, const Q
                                                                QSL(HTTP_HEADERS_CONTENT_TYPE).toLocal8Bit(),
                                                                QSL("application/json").toLocal8Bit() } });
 
-  if (network_res.first == QNetworkReply::NetworkError::NoError) {
+  if (network_res.m_networkError == QNetworkReply::NetworkError::NoError) {
     qDebugNN << LOGSEC_ADBLOCK
              << "Query for blocking info to server took "
              << tmr.elapsed()
@@ -231,7 +269,7 @@ BlockingResult AdBlockManager::askServerIfBlocked(const QString& fp_url, const Q
     };
   }
   else {
-    throw NetworkException(network_res.first);
+    throw NetworkException(network_res.m_networkError);
   }
 }
 
@@ -255,7 +293,7 @@ QString AdBlockManager::askServerForCosmeticRules(const QString& url) const {
                                                                QSL(HTTP_HEADERS_CONTENT_TYPE).toLocal8Bit(),
                                                                QSL("application/json").toLocal8Bit() } });
 
-  if (network_res.first == QNetworkReply::NetworkError::NoError) {
+  if (network_res.m_networkError == QNetworkReply::NetworkError::NoError) {
     qDebugNN << LOGSEC_ADBLOCK
              << "Query for cosmetic rules to server took "
              << tmr.elapsed()
@@ -266,7 +304,7 @@ QString AdBlockManager::askServerForCosmeticRules(const QString& url) const {
     return out_obj[QSL("cosmetic")].toObject()[QSL("styles")].toString();
   }
   else {
-    throw NetworkException(network_res.first);
+    throw NetworkException(network_res.m_networkError);
   }
 }
 
@@ -281,42 +319,14 @@ QProcess* AdBlockManager::startServer(int port) {
 
   QProcess* proc = new QProcess(this);
 
-#if defined(Q_OS_WIN)
-  proc->setProgram(QSL("node.exe"));
-#else
-  proc->setProgram(QSL("node"));
-#endif
-
-  proc->setArguments({
-    QDir::toNativeSeparators(temp_server),
-    QString::number(port),
-    QDir::toNativeSeparators(m_unifiedFiltersFile)
-  });
-
-  proc->setProcessEnvironment(QProcessEnvironment::systemEnvironment());
-
-  auto pe = proc->processEnvironment();
-  QString default_node_path =
-#if defined(Q_OS_WIN)
-    pe.value(QSL("APPDATA")) + QDir::separator() + QSL("npm") + QDir::separator() + QSL("node_modules");
-#elif defined(Q_OS_LINUX)
-    QSL("/usr/lib/node_modules");
-#elif defined(Q_OS_MACOS)
-    QSL("/usr/local/lib/node_modules");
-#else
-    QSL("");
-#endif
-
-  if (!pe.contains(QSL("NODE_PATH")) && !default_node_path.isEmpty()) {
-    pe.insert(QSL("NODE_PATH"), default_node_path);
-  }
-
-  proc->setProcessEnvironment(pe);
   proc->setProcessChannelMode(QProcess::ProcessChannelMode::ForwardedErrorChannel);
 
   connect(proc, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &AdBlockManager::onServerProcessFinished);
 
-  proc->open();
+  qApp->nodejs()->runScript(proc, QDir::toNativeSeparators(temp_server), {
+    QString::number(port),
+    QDir::toNativeSeparators(m_unifiedFiltersFile)
+  });
 
   qDebugNN << LOGSEC_ADBLOCK << "Attempting to start AdBlock server.";
   return proc;
@@ -360,7 +370,7 @@ void AdBlockManager::updateUnifiedFiltersFileAndStartServer() {
                                                        out,
                                                        QNetworkAccessManager::Operation::GetOperation);
 
-    if (res.first == QNetworkReply::NetworkError::NoError) {
+    if (res.m_networkError == QNetworkReply::NetworkError::NoError) {
       unified_contents = unified_contents.append(QString::fromUtf8(out));
       unified_contents = unified_contents.append('\n');
 
@@ -369,7 +379,7 @@ void AdBlockManager::updateUnifiedFiltersFileAndStartServer() {
                << QUOTE_W_SPACE_DOT(filter_list_url);
     }
     else {
-      throw NetworkException(res.first, tr("failed to download filter list '%1'").arg(filter_list_url));
+      throw NetworkException(res.m_networkError, tr("failed to download filter list '%1'").arg(filter_list_url));
     }
   }
 

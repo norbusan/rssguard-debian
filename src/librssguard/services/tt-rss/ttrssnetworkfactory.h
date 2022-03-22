@@ -5,6 +5,8 @@
 
 #include "core/message.h"
 
+#include "services/tt-rss/ttrssnotetopublish.h"
+
 #include <QJsonObject>
 #include <QNetworkReply>
 #include <QPair>
@@ -48,6 +50,8 @@ class TtRssGetLabelsResponse : public TtRssResponse {
     QList<RootItem*> labels() const;
 };
 
+class TtRssNetworkFactory;
+
 class TtRssGetFeedsCategoriesResponse : public TtRssResponse {
   public:
     explicit TtRssGetFeedsCategoriesResponse(const QString& raw_content = QString());
@@ -56,7 +60,8 @@ class TtRssGetFeedsCategoriesResponse : public TtRssResponse {
     // Returns tree of feeds/categories.
     // Top-level root of the tree is not needed here.
     // Returned items do not have primary IDs assigned.
-    RootItem* feedsCategories(bool obtain_icons, const QNetworkProxy& proxy, const QString& base_address = QString()) const;
+    RootItem* feedsCategories(TtRssNetworkFactory* network, bool obtain_icons,
+                              const QNetworkProxy& proxy, const QString& base_address = QString()) const;
 };
 
 class ServiceRoot;
@@ -151,6 +156,9 @@ class TtRssNetworkFactory {
 
     // Gets list of labels from the server.
     TtRssGetLabelsResponse getLabels(const QNetworkProxy& proxy);
+
+    // Shares new item to "published" feed.
+    TtRssResponse shareToPublished(const TtRssNoteToPublish& note, const QNetworkProxy& proxy);
 
     // Gets feeds from the server.
     TtRssGetFeedsCategoriesResponse getFeedsCategories(const QNetworkProxy& proxy);

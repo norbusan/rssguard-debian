@@ -47,6 +47,8 @@ void FormFeedDetails::apply() {
   m_feed->setAutoUpdateType(static_cast<Feed::AutoUpdateType>(m_ui->m_cmbAutoUpdateType->itemData(
                                                                 m_ui->m_cmbAutoUpdateType->currentIndex()).toInt()));
   m_feed->setAutoUpdateInitialInterval(int(m_ui->m_spinAutoUpdateInterval->value()));
+  m_feed->setOpenArticlesDirectly(m_ui->m_cbOpenArticlesAutomatically->isChecked());
+  m_feed->setIsSwitchedOff(m_ui->m_cbDisableFeed->isChecked());
 
   if (!m_creatingNew) {
     // We need to make sure that common data are saved.
@@ -90,6 +92,8 @@ void FormFeedDetails::loadFeedData() {
 
   m_ui->m_cmbAutoUpdateType->setCurrentIndex(m_ui->m_cmbAutoUpdateType->findData(QVariant::fromValue(int(m_feed->autoUpdateType()))));
   m_ui->m_spinAutoUpdateInterval->setValue(m_feed->autoUpdateInitialInterval());
+  m_ui->m_cbOpenArticlesAutomatically->setChecked(m_feed->openArticlesDirectly());
+  m_ui->m_cbDisableFeed->setChecked(m_feed->isSwitchedOff());
 }
 
 void FormFeedDetails::acceptIfPossible() {
@@ -98,11 +102,11 @@ void FormFeedDetails::acceptIfPossible() {
     accept();
   }
   catch (const ApplicationException& ex) {
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Error"),
-                         tr("Cannot save changes: %1").arg(ex.message()),
-                         QSystemTrayIcon::MessageIcon::Critical,
-                         true,
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot save feed properties"),
+      tr("Cannot save changes: %1").arg(ex.message()),
+      QSystemTrayIcon::MessageIcon::Critical },
+                         {}, {},
                          this);
   }
 }

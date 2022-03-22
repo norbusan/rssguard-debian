@@ -36,8 +36,8 @@ FormMessageFiltersManager::FormMessageFiltersManager(FeedReader* reader, const Q
 
   m_ui.m_treeFeeds->setIndentation(FEEDS_VIEW_INDENTATION);
   m_ui.m_treeFeeds->setModel(m_feedsModel);
-  m_ui.m_btnCheckAll->setIcon(qApp->icons()->fromTheme(QSL("dialog-yes")));
-  m_ui.m_btnUncheckAll->setIcon(qApp->icons()->fromTheme(QSL("dialog-no")));
+  m_ui.m_btnCheckAll->setIcon(qApp->icons()->fromTheme(QSL("dialog-yes"), QSL("edit-select-all")));
+  m_ui.m_btnUncheckAll->setIcon(qApp->icons()->fromTheme(QSL("dialog-no"), QSL("edit-select-none")));
   m_ui.m_btnAddNew->setIcon(qApp->icons()->fromTheme(QSL("list-add")));
   m_ui.m_btnRemoveSelected->setIcon(qApp->icons()->fromTheme(QSL("list-remove")));
   m_ui.m_btnBeautify->setIcon(qApp->icons()->fromTheme(QSL("format-justify-fill")));
@@ -152,8 +152,14 @@ void FormMessageFiltersManager::removeSelectedFilter() {
     return;
   }
 
-  m_reader->removeMessageFilter(fltr);
-  delete m_ui.m_listFilters->currentItem();
+  if (MsgBox::show(this, QMessageBox::Icon::Question, tr("Are you sure?"),
+                       tr("Do you really want to remove selected filter?"),
+                       {}, fltr->name(),
+                       QMessageBox::StandardButton::Yes | QMessageBox::StandardButton::No,
+                       QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
+    m_reader->removeMessageFilter(fltr);
+    delete m_ui.m_listFilters->currentItem();
+  }
 }
 
 void FormMessageFiltersManager::loadFilters() {
@@ -180,7 +186,7 @@ void FormMessageFiltersManager::addNewFilter(const QString& filter_script) {
     m_ui.m_listFilters->setCurrentRow(m_ui.m_listFilters->count() - 1);
   }
   catch (const ApplicationException& ex) {
-    MessageBox::show(this, QMessageBox::Icon::Critical, tr("Error"),
+    MsgBox::show(this, QMessageBox::Icon::Critical, tr("Error"),
                      tr("Cannot save new filter, error: '%1'.").arg(ex.message()));
   }
 }
@@ -543,7 +549,7 @@ void FormMessageFiltersManager::beautifyScript() {
 #endif
 
   if (!proc_clang_format.open() || proc_clang_format.error() == QProcess::ProcessError::FailedToStart) {
-    MessageBox::show(this, QMessageBox::Icon::Critical,
+    MsgBox::show(this, QMessageBox::Icon::Critical,
                      tr("Cannot find 'clang-format'"),
                      tr("Script was not beautified, because 'clang-format' tool was not found."));
     return;
@@ -561,7 +567,7 @@ void FormMessageFiltersManager::beautifyScript() {
     else {
       auto err = proc_clang_format.readAllStandardError();
 
-      MessageBox::show(this, QMessageBox::Icon::Critical,
+      MsgBox::show(this, QMessageBox::Icon::Critical,
                        tr("Error"),
                        tr("Script was not beautified, because 'clang-format' tool thrown error."),
                        QString(),
@@ -570,7 +576,7 @@ void FormMessageFiltersManager::beautifyScript() {
   }
   else {
     proc_clang_format.kill();
-    MessageBox::show(this, QMessageBox::Icon::Critical,
+    MsgBox::show(this, QMessageBox::Icon::Critical,
                      tr("Beautifier was running for too long time"),
                      tr("Script was not beautified, is 'clang-format' installed?"));
   }
@@ -594,7 +600,7 @@ RootItem* FormMessageFiltersManager::selectedCategoryFeed() const {
 Message FormMessageFiltersManager::testingMessage() const {
   Message msg;
 
-  msg.m_feedId = NO_PARENT_CATEGORY;
+  msg.m_feedId = QString::number(NO_PARENT_CATEGORY);
   msg.m_url = m_ui.m_txtSampleUrl->text();
   msg.m_customId = m_ui.m_txtSampleUrl->text();
   msg.m_title = m_ui.m_txtSampleTitle->text();

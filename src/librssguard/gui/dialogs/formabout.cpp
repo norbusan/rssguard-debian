@@ -43,17 +43,17 @@ void FormAbout::loadSettingsAndPaths() {
 
 void FormAbout::loadLicenseAndInformation() {
   try {
-    m_ui.m_txtLicenseGnu->setText(IOFactory::readFile(APP_INFO_PATH + QL1S("/COPYING_GNU_GPL_HTML")));
+    m_ui.m_txtLicenseGnuGpl->setText(IOFactory::readFile(APP_INFO_PATH + QL1S("/COPYING_GNU_GPL_HTML")));
   }
   catch (...) {
-    m_ui.m_txtLicenseGnu->setText(tr("License not found."));
+    m_ui.m_txtLicenseGnuGpl->setText(tr("License not found."));
   }
 
   try {
-    m_ui.m_txtLicenseGnu->setText(IOFactory::readFile(APP_INFO_PATH + QL1S("/COPYING_GNU_GPL_HTML")));
+    m_ui.m_txtLicenseGnuLgpl->setText(IOFactory::readFile(APP_INFO_PATH + QL1S("/COPYING_GNU_LGPL")));
   }
   catch (...) {
-    m_ui.m_txtLicenseGnu->setText(tr("License not found."));
+    m_ui.m_txtLicenseGnuLgpl->setText(tr("License not found."));
   }
 
   try {
@@ -71,12 +71,16 @@ void FormAbout::loadLicenseAndInformation() {
   }
 
   // Set other informative texts.
-  m_ui.m_lblDesc->setText(tr("<b>%8</b><br>" "<b>Version:</b> %1 (built on %2/%3)<br>" "<b>Revision:</b> %4<br>" "<b>Build date:</b> %5<br>"
-                                                                                                                 "<b>Qt:</b> %6 (compiled against %7)<br>").arg(
+  m_ui.m_lblDesc->setText(tr("<b>%8</b><br>"
+                             "<b>Version:</b> %1 (built on %2/%3)<br>"
+                             "<b>Revision:</b> %4<br>"
+                             "<b>Build date:</b> %5<br>"
+                             "<b>Qt:</b> %6 (compiled against %7)<br>").arg(
                             qApp->applicationVersion(), QSL(APP_SYSTEM_NAME),
                             QSL(APP_SYSTEM_VERSION), QSL(APP_REVISION),
-                            QLocale().toString(TextFactory::parseDateTime(QSL("%1 %2").arg(__DATE__, __TIME__)),
-                                               QLocale::FormatType::ShortFormat),
+                            qApp->localization()->loadedLocale().toString(TextFactory::parseDateTime(QSL("%1 %2").arg(__DATE__,
+                                                                                                                      __TIME__)),
+                                                                          QLocale::FormatType::ShortFormat),
                             qVersion(), QSL(QT_VERSION_STR),
                             QSL(APP_NAME)));
   m_ui.m_txtInfo->setText(tr("<body>%5 is a (very) tiny feed reader."

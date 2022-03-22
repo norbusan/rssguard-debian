@@ -1,12 +1,11 @@
 CREATE TABLE Information (
-  inf_key         TEXT        NOT NULL UNIQUE CHECK (inf_key != ''),
+  inf_key         VARCHAR(128)    NOT NULL UNIQUE CHECK (inf_key != ''), /* Use VARCHAR as MariaDB 10.3 does no support UNIQUE TEXT columns. */
   inf_value       TEXT
 );
 -- !
-INSERT INTO Information VALUES ('schema_version', '1');
--- !
 CREATE TABLE Accounts (
   id              $$,
+  ordr            INTEGER     NOT NULL CHECK (ordr >= 0),
   type            TEXT        NOT NULL CHECK (type != ''), /* ID of the account type. Each account defines its own, for example 'ttrss'. */
   proxy_type      INTEGER     NOT NULL DEFAULT 0 CHECK (proxy_type >= 0),
   proxy_host      TEXT,
@@ -19,11 +18,12 @@ CREATE TABLE Accounts (
 -- !
 CREATE TABLE Categories (
   id              $$,
+  ordr            INTEGER     NOT NULL CHECK (ordr >= 0),
   parent_id       INTEGER     NOT NULL CHECK (parent_id >= -1), /* Root categories contain -1 here. */
   title           TEXT        NOT NULL CHECK (title != ''),
   description     TEXT,
   date_created    BIGINT,
-  icon            °°,
+  icon            ^^,
   account_id      INTEGER     NOT NULL,
   custom_id       TEXT,
   
@@ -32,14 +32,17 @@ CREATE TABLE Categories (
 -- !
 CREATE TABLE Feeds (
   id              $$,
+  ordr            INTEGER     NOT NULL CHECK (ordr >= 0),
   title           TEXT        NOT NULL CHECK (title != ''),
   description     TEXT,
   date_created    BIGINT,
-  icon            °°,
+  icon            ^^,
   category        INTEGER     NOT NULL CHECK (category >= -1), /* Physical category ID, also root feeds contain -1 here. */
   source          TEXT,
   update_type     INTEGER     NOT NULL CHECK (update_type >= 0),
   update_interval INTEGER     NOT NULL DEFAULT 15 CHECK (update_interval >= 1),
+  is_off          INTEGER     NOT NULL DEFAULT 0 CHECK (is_off >= 0 AND is_off <= 1),
+  open_articles   INTEGER     NOT NULL DEFAULT 0 CHECK (open_articles >= 0 AND open_articles <= 1),
   account_id      INTEGER     NOT NULL,
   custom_id       TEXT        NOT NULL CHECK (custom_id != ''), /* Custom ID cannot be empty, it must contain either service-specific ID, or Feeds/id. */
   /* Custom column for (serialized) custom account-specific data. */

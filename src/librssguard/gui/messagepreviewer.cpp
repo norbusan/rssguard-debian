@@ -107,6 +107,14 @@ void MessagePreviewer::hideToolbar() {
   m_toolBar->setVisible(false);
 }
 
+void MessagePreviewer::loadUrl(const QString& url) {
+#if defined(USE_WEBENGINE)
+  m_txtMessage->loadUrl(url);
+#else
+  m_txtMessage->loadUrl(url);
+#endif
+}
+
 void MessagePreviewer::loadMessage(const Message& message, RootItem* root) {
   bool same_message = message.m_id == m_message.m_id && m_root == root;
 
@@ -121,7 +129,23 @@ void MessagePreviewer::loadMessage(const Message& message, RootItem* root) {
 
     if (!same_message) {
       m_txtMessage->setVerticalScrollBarPosition(0.0);
+
+#if defined(USE_WEBENGINE)
+      const auto msg_feed_id = message.m_feedId;
+      const auto* feed = root->getParentServiceRoot()->getItemFromSubTree(
+        [msg_feed_id](const RootItem* it) {
+        return it->kind() == RootItem::Kind::Feed && it->customId() == msg_feed_id;
+      })->toFeed();
+
+      if (feed != nullptr && feed->openArticlesDirectly()) {
+        m_txtMessage->loadUrl(m_message.m_url);
+      }
+      else {
+        m_txtMessage->loadMessage(message, m_root);
+      }
+#else
       m_txtMessage->loadMessage(message, m_root);
+#endif
     }
   }
 }
@@ -230,7 +254,9 @@ void MessagePreviewer::updateLabels(bool only_clear) {
       btn_label->setIcon(Label::generateIcon(label->color()));
       btn_label->setAutoRaise(false);
       btn_label->setText(QSL(" ") + label->title());
-      btn_label->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextBesideIcon);
+      btn_label->setToolButtonStyle(Qt::ToolButtonStyle(qApp->settings()->value(GROUP(GUI),
+                                                                                SETTING(GUI::ToolbarStyle)).toInt()));
+      btn_label->setToolTip(label->title());
       btn_label->setChecked(DatabaseQueries::isLabelAssignedToMessage(database, label, m_message));
 
       QAction* act_label = m_toolBar->addWidget(btn_label);

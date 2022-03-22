@@ -56,6 +56,7 @@ void FormAddEditEmail::execForReply(Message* original_message) {
 
   addRecipientRow(m_originalMessage->m_author);
   m_ui.m_txtSubject->setText(QSL("Re: %1").arg(m_originalMessage->m_title));
+  m_ui.m_txtSubject->setEnabled(false);
   m_ui.m_txtMessage->setFocus();
   exec();
 }
@@ -129,10 +130,10 @@ void FormAddEditEmail::onOkClicked() {
     accept();
   }
   catch (const ApplicationException& ex) {
-    MessageBox::show(this, QMessageBox::Icon::Critical,
-                     tr("E-mail NOT sent"), tr("Your e-mail message wasn't sent."),
-                     QString(),
-                     ex.message());
+    MsgBox::show(this, QMessageBox::Icon::Critical,
+                 tr("E-mail NOT sent"), tr("Your e-mail message wasn't sent."),
+                 QString(),
+                 ex.message());
   }
 }
 

@@ -8,6 +8,11 @@
 
 #if !defined(Q_OS_OS2)
 #include <QMediaPlayer>
+#include <QSoundEffect>
+
+#if QT_VERSION_MAJOR == 6
+#include <QAudioOutput>
+#endif
 #endif
 
 Notification::Notification(Notification::Event event, bool balloon, const QString& sound_path, int volume)
@@ -32,26 +37,77 @@ void Notification::setSoundPath(const QString& sound_path) {
 void Notification::playSound(Application* app) const {
   if (!m_soundPath.isEmpty()) {
 #if !defined(Q_OS_OS2)
-    QMediaPlayer* play = new QMediaPlayer(app);
+    if (m_soundPath.endsWith(QSL(".wav"), Qt::CaseSensitivity::CaseInsensitive)) {
+      qDebugNN << LOGSEC_CORE << "Using QSoundEffect to play notification sound.";
 
-    QObject::connect(play, &QMediaPlayer::stateChanged, play, [play](QMediaPlayer::State state) {
-      if (state == QMediaPlayer::State::StoppedState) {
-        play->deleteLater();
+      QSoundEffect* play = new QSoundEffect(app);
+
+      QObject::connect(play, &QSoundEffect::playingChanged, play, [play]() {
+        if (!play->isPlaying()) {
+          play->deleteLater();
+        }
+      });
+
+      if (m_soundPath.startsWith(QSL(":"))) {
+        play->setSource(QUrl(QSL("qrc") + m_soundPath));
+
       }
-    });
+      else {
+        play->setSource(QUrl::fromLocalFile(
+                          QDir::toNativeSeparators(app->replaceDataUserDataFolderPlaceholder(m_soundPath))));
+      }
 
-    if (m_soundPath.startsWith(QSL(":"))) {
-      play->setMedia(QMediaContent(QUrl(QSL("qrc") + m_soundPath)));
-
+      play->setVolume(m_volume);
+      play->play();
     }
     else {
-      play->setMedia(QMediaContent(
-                       QUrl::fromLocalFile(
-                         QDir::toNativeSeparators(app->replaceDataUserDataFolderPlaceholder(m_soundPath)))));
-    }
+      qDebugNN << LOGSEC_CORE << "Using QMediaPlayer to play notification sound.";
 
-    play->setVolume(m_volume);
-    play->play();
+      QMediaPlayer* play = new QMediaPlayer(app);
+
+#if QT_VERSION_MAJOR == 6
+      QAudioOutput* out = new QAudioOutput(app);
+
+      play->setAudioOutput(out);
+
+      QObject::connect(play, &QMediaPlayer::playbackStateChanged, play, [play, out](QMediaPlayer::PlaybackState state) {
+        if (state == QMediaPlayer::PlaybackState::StoppedState) {
+          out->deleteLater();
+          play->deleteLater();
+        }
+      });
+
+      if (m_soundPath.startsWith(QSL(":"))) {
+        play->setSource(QUrl(QSL("qrc") + m_soundPath));
+
+      }
+      else {
+        play->setSource(QUrl::fromLocalFile(QDir::toNativeSeparators(app->replaceDataUserDataFolderPlaceholder(m_soundPath))));
+      }
+
+      play->audioOutput()->setVolume((m_volume * 1.0f) / 100.0f);
+      play->play();
+#else
+      QObject::connect(play, &QMediaPlayer::stateChanged, play, [play](QMediaPlayer::State state) {
+        if (state == QMediaPlayer::State::StoppedState) {
+          play->deleteLater();
+        }
+      });
+
+      if (m_soundPath.startsWith(QSL(":"))) {
+        play->setMedia(QMediaContent(QUrl(QSL("qrc") + m_soundPath)));
+
+      }
+      else {
+        play->setMedia(QMediaContent(
+                         QUrl::fromLocalFile(
+                           QDir::toNativeSeparators(app->replaceDataUserDataFolderPlaceholder(m_soundPath)))));
+      }
+
+      play->setVolume(m_volume);
+      play->play();
+#endif
+    }
 #endif
   }
 }
@@ -64,6 +120,8 @@ QList<Notification::Event> Notification::allEvents() {
     Event::LoginDataRefreshed,
     Event::LoginFailure,
     Event::NewAppVersionAvailable,
+    Event::NodePackageUpdated,
+    Event::NodePackageFailedToUpdate
   };
 }
 
@@ -86,6 +144,12 @@ QString Notification::nameForEvent(Notification::Event event) {
 
     case Notification::Event::GeneralEvent:
       return QObject::tr("Miscellaneous events");
+
+    case Notification::Event::NodePackageUpdated:
+      return QObject::tr("Node.js - package(s) updated");
+
+    case Notification::Event::NodePackageFailedToUpdate:
+      return QObject::tr("Node.js - package(s) failed to updated");
 
     default:
       return QObject::tr("Unknown event");

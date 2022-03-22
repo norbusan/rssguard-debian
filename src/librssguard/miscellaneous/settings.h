@@ -16,8 +16,8 @@
 #include <QNetworkProxy>
 #include <QStringList>
 
-#define KEY extern const char*
-#define DKEY const char*
+#define KEY extern const QString
+#define DKEY const QString
 #define VALUE(x) extern const x
 #define NON_CONST_VALUE(x) extern x
 #define DVALUE(x) const x
@@ -34,6 +34,19 @@ namespace WebEngineAttributes {
 
 namespace Cookies {
   KEY ID;
+}
+
+namespace Node {
+  KEY ID;
+
+  KEY NodeJsExecutable;
+  VALUE(QString) NodeJsExecutableDef;
+
+  KEY NpmExecutable;
+  VALUE(QString) NpmExecutableDef;
+
+  KEY PackageFolder;
+  VALUE(QString) PackageFolderDef;
 }
 
 namespace AdBlock {
@@ -80,6 +93,9 @@ namespace Feeds {
   KEY ShowOnlyUnreadFeeds;
   VALUE(bool) ShowOnlyUnreadFeedsDef;
 
+  KEY SortAlphabetically;
+  VALUE(bool) SortAlphabeticallyDef;
+
   KEY ShowTreeBranches;
   VALUE(bool) ShowTreeBranchesDef;
 
@@ -116,11 +132,29 @@ namespace Messages {
   KEY Zoom;
   VALUE(qreal) ZoomDef;
 
+  KEY FixupFutureArticleDateTimes;
+  VALUE(bool) FixupFutureArticleDateTimesDef;
+
   KEY UseCustomDate;
   VALUE(bool) UseCustomDateDef;
 
   KEY CustomDateFormat;
   VALUE(char*) CustomDateFormatDef;
+
+  KEY UseCustomTime;
+  VALUE(bool) UseCustomTimeDef;
+
+  KEY RelativeTimeForNewerArticles;
+  VALUE(int) RelativeTimeForNewerArticlesDef;
+
+  KEY ArticleListPadding;
+  VALUE(int) ArticleListPaddingDef;
+
+  KEY MultilineArticleList;
+  VALUE(bool) MultilineArticleListDef;
+
+  KEY CustomTimeFormat;
+  VALUE(QString) CustomTimeFormatDef;
 
   KEY ClearReadOnExit;
   VALUE(bool) ClearReadOnExitDef;
@@ -146,6 +180,16 @@ namespace Messages {
   KEY ListFont;
 }
 
+// Custom skin colors.
+namespace CustomSkinColors {
+  KEY ID;
+
+  KEY Enabled;
+  VALUE(bool) EnabledDef;
+
+  KEY CustomSkinColors;
+}
+
 // GUI.
 namespace GUI {
   KEY ID;
@@ -167,6 +211,9 @@ namespace GUI {
 
   KEY SplitterMessagesHorizontal;
   VALUE(QList<QVariant>) SplitterMessagesHorizontalDef;
+
+  KEY ToolbarIconSize;
+  VALUE(int) ToolbarIconSizeDef;
 
   KEY ToolbarStyle;
   VALUE(Qt::ToolButtonStyle) ToolbarStyleDef;
@@ -211,6 +258,9 @@ namespace GUI {
   KEY HideMainWindowWhenMinimized;
   VALUE(bool) HideMainWindowWhenMinimizedDef;
 
+  KEY ForcedSkinColors;
+  VALUE(bool) ForcedSkinColorsDef;
+
   KEY AlternateRowColorsInLists;
   VALUE(bool) AlternateRowColorsInListsDef;
 
@@ -222,6 +272,11 @@ namespace GUI {
 
   KEY UnreadNumbersInTrayIcon;
   VALUE(bool) UnreadNumbersInTrayIconDef;
+
+#if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)) || defined(Q_OS_WIN)
+  KEY UnreadNumbersOnTaskBar;
+  VALUE(bool) UnreadNumbersOnTaskBarDef;
+#endif
 
   KEY TabCloseMiddleClick;
   VALUE(bool) TabCloseMiddleClickDef;

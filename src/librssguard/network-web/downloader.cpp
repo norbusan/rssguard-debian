@@ -21,6 +21,7 @@ Downloader::Downloader(QObject* parent)
   m_lastOutputData(QByteArray()), m_lastOutputError(QNetworkReply::NoError) {
   m_timer->setInterval(DOWNLOAD_TIMEOUT);
   m_timer->setSingleShot(true);
+
   connect(m_timer, &QTimer::timeout, this, &Downloader::cancel);
 
   m_downloadManager->setCookieJar(qApp->web()->cookieJar());
@@ -170,6 +171,17 @@ void Downloader::finished() {
       m_lastOutputMultipartData = decodeMultipartAnswer(reply);
     }
 
+    QVariant set_cookies_header = reply->header(QNetworkRequest::SetCookieHeader);
+
+    if (set_cookies_header.isValid()) {
+      QList<QNetworkCookie> cookies = set_cookies_header.value<QList<QNetworkCookie>>();
+
+      m_lastCookies = cookies;
+    }
+    else {
+      m_lastCookies = {};
+    }
+
     m_lastContentType = reply->header(QNetworkRequest::ContentTypeHeader);
     m_lastOutputError = reply->error();
     m_activeReply->deleteLater();
@@ -289,6 +301,10 @@ void Downloader::runGetRequest(const QNetworkRequest& request) {
   setCustomPropsToReply(m_activeReply);
   connect(m_activeReply, &QNetworkReply::downloadProgress, this, &Downloader::progressInternal);
   connect(m_activeReply, &QNetworkReply::finished, this, &Downloader::finished);
+}
+
+QList<QNetworkCookie> Downloader::lastCookies() const {
+  return m_lastCookies;
 }
 
 QVariant Downloader::lastContentType() const {

@@ -13,6 +13,10 @@
 
 MariaDbDriver::MariaDbDriver(QObject* parent) : DatabaseDriver(parent), m_databaseInitialized(false) {}
 
+QString MariaDbDriver::ddlFilePrefix() const {
+  return QSL("mysql");
+}
+
 MariaDbDriver::MariaDbError MariaDbDriver::testConnection(const QString& hostname, int port,
                                                           const QString& w_database, const QString& username,
                                                           const QString& password) {
@@ -162,6 +166,7 @@ QSqlDatabase MariaDbDriver::initializeDatabase(const QString& connection_name) {
     QSqlQuery query_db(database);
 
     query_db.setForwardOnly(true);
+    setPragmas(query_db);
 
     if (!query_db.exec(QSL("USE %1").arg(database_name)) ||
         !query_db.exec(QSL("SELECT inf_value FROM Information WHERE inf_key = 'schema_version'"))) {
@@ -178,6 +183,8 @@ QSqlDatabase MariaDbDriver::initializeDatabase(const QString& connection_name) {
             throw ApplicationException(query_db.lastError().text());
           }
         }
+
+        setSchemaVersion(query_db, QSL(APP_DB_SCHEMA_VERSION).toInt(), true);
       }
       catch (const ApplicationException& ex) {
         qFatal("Error when running SQL scripts: %s.", qPrintable(ex.message()));
@@ -188,21 +195,20 @@ QSqlDatabase MariaDbDriver::initializeDatabase(const QString& connection_name) {
     else {
       // Database was previously initialized. Now just check the schema version.
       query_db.next();
-      const QString installed_db_schema = query_db.value(0).toString();
+      const int installed_db_schema = query_db.value(0).toString().toInt();
 
-      if (installed_db_schema.toInt() < QSL(APP_DB_SCHEMA_VERSION).toInt()) {
-        if (updateDatabaseSchema(database, installed_db_schema, database_name)) {
+      if (installed_db_schema < QSL(APP_DB_SCHEMA_VERSION).toInt()) {
+        try {
+          updateDatabaseSchema(query_db, installed_db_schema, database_name);
           qDebugNN << LOGSEC_DB
                    << "Database schema was updated from"
                    << QUOTE_W_SPACE(installed_db_schema)
                    << "to"
                    << QUOTE_W_SPACE(APP_DB_SCHEMA_VERSION)
-                   << "successully or it is already up to date.";
+                   << "successully.";
         }
-        else {
-          qFatal("Database schema was not updated from '%s' to '%s' successully.",
-                 qPrintable(installed_db_schema),
-                 APP_DB_SCHEMA_VERSION);
+        catch (const ApplicationException& ex) {
+          qFatal("Error when updating DB schema from %d: %s.", installed_db_schema, qPrintable(ex.message()));
         }
       }
     }
@@ -214,42 +220,9 @@ QSqlDatabase MariaDbDriver::initializeDatabase(const QString& connection_name) {
   return database;
 }
 
-bool MariaDbDriver::updateDatabaseSchema(const QSqlDatabase& database,
-                                         const QString& source_db_schema_version,
-                                         const QString& database_name) {
-  int working_version = QString(source_db_schema_version).remove('.').toInt();
-  const int current_version = QSL(APP_DB_SCHEMA_VERSION).remove('.').toInt();
-
-  while (working_version != current_version) {
-    try {
-      const QStringList statements = prepareScript(APP_SQL_PATH,
-                                                   QSL(APP_DB_UPDATE_FILE_PATTERN).arg(QSL("mysql"),
-                                                                                       QString::number(working_version),
-                                                                                       QString::number(working_version + 1)),
-                                                   database_name);
-
-      for (const QString& statement : statements) {
-        QSqlQuery query = database.exec(statement);
-
-        if (!query.exec(statement) && query.lastError().isValid()) {
-          throw ApplicationException(query.lastError().text());
-        }
-      }
-    }
-    catch (const ApplicationException& ex) {
-      qFatal("Error when running SQL scripts: %s.", qPrintable(ex.message()));
-    }
-
-    // Increment the version.
-    qDebugNN << LOGSEC_DB
-             << "Updating database schema "
-             << QUOTE_W_SPACE(working_version)
-             << "->"
-             << QUOTE_W_SPACE_DOT(working_version + 1);
-    working_version++;
-  }
-
-  return true;
+void MariaDbDriver::setPragmas(QSqlQuery& query) {
+  query.exec(QSL("SET NAMES 'utf8mb4';"));
+  query.exec(QSL("SET CHARACTER SET utf8mb4;"));
 }
 
 QSqlDatabase MariaDbDriver::connection(const QString& connection_name, DatabaseDriver::DesiredStorageType desired_type) {
@@ -295,6 +268,11 @@ QSqlDatabase MariaDbDriver::connection(const QString& connection_name, DatabaseD
                << QUOTE_W_SPACE(QDir::toNativeSeparators(database.databaseName()))
                << "seems to be established.";
     }
+
+    QSqlQuery query_db(database);
+
+    query_db.setForwardOnly(true);
+    setPragmas(query_db);
 
     return database;
   }

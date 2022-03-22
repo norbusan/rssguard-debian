@@ -2,6 +2,7 @@
 
 #include "services/tt-rss/ttrssserviceroot.h"
 
+#include "3rd-party/boolinq/boolinq.h"
 #include "database/databasequeries.h"
 #include "exceptions/feedfetchexception.h"
 #include "miscellaneous/application.h"
@@ -16,6 +17,7 @@
 #include "services/tt-rss/definitions.h"
 #include "services/tt-rss/gui/formeditttrssaccount.h"
 #include "services/tt-rss/gui/formttrssfeeddetails.h"
+#include "services/tt-rss/gui/formttrssnote.h"
 #include "services/tt-rss/ttrssfeed.h"
 #include "services/tt-rss/ttrssnetworkfactory.h"
 #include "services/tt-rss/ttrssserviceentrypoint.h"
@@ -39,8 +41,22 @@ ServiceRoot::LabelOperation TtRssServiceRoot::supportedLabelOperations() const {
 
 void TtRssServiceRoot::start(bool freshly_activated) {
   if (!freshly_activated) {
-    DatabaseQueries::loadFromDatabase<Category, TtRssFeed>(this);
+    DatabaseQueries::loadRootFromDatabase<Category, TtRssFeed>(this);
     loadCacheFromFile();
+
+    auto lbls = m_labelsNode->labels();
+
+    boolinq::from(lbls).for_each([](Label* lbl) {
+      if (lbl->customNumericId() == TTRSS_PUBLISHED_LABEL_ID) {
+        lbl->setKeepOnTop(true);
+      }
+    });
+
+    boolinq::from(childItems()).for_each([](RootItem* child) {
+      if (child->kind() == RootItem::Kind::Feed && child->customNumericId() == TTRSS_PUBLISHED_FEED_ID) {
+        child->setKeepOnTop(true);
+      }
+    });
   }
 
   updateTitle();
@@ -85,11 +101,10 @@ void TtRssServiceRoot::addNewFeed(RootItem* selected_item, const QString& url) {
     // Lock was not obtained because
     // it is used probably by feed updater or application
     // is quitting.
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Cannot add item"),
-                         tr("Cannot add feed because another critical operation is ongoing."),
-                         QSystemTrayIcon::MessageIcon::Warning,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot add item"),
+      tr("Cannot add feed because another critical operation is ongoing."),
+      QSystemTrayIcon::MessageIcon::Warning });
 
     return;
   }
@@ -160,7 +175,18 @@ void TtRssServiceRoot::saveAllCachedData(bool ignore_errors) {
     QStringList messages = k.value();
 
     if (!messages.isEmpty()) {
-      auto res = network()->setArticleLabel(messages, label_custom_id, true, networkProxy());
+      TtRssResponse res;
+
+      if (label_custom_id.toInt() == TTRSS_PUBLISHED_LABEL_ID) {
+        // "published" label must be added in other method.
+        res = network()->updateArticles(messages,
+                                        UpdateArticle::OperatingField::Published,
+                                        UpdateArticle::Mode::SetToTrue,
+                                        networkProxy());
+      }
+      else {
+        res = network()->setArticleLabel(messages, label_custom_id, true, networkProxy());
+      }
 
       if (!ignore_errors && (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError())) {
         addLabelsAssignmentsToCache(messages, label_custom_id, true);
@@ -177,7 +203,18 @@ void TtRssServiceRoot::saveAllCachedData(bool ignore_errors) {
     QStringList messages = l.value();
 
     if (!messages.isEmpty()) {
-      auto res = network()->setArticleLabel(messages, label_custom_id, false, networkProxy());
+      TtRssResponse res;
+
+      if (label_custom_id.toInt() == TTRSS_PUBLISHED_LABEL_ID) {
+        // "published" label must be removed in other method.
+        res = network()->updateArticles(messages,
+                                        UpdateArticle::OperatingField::Published,
+                                        UpdateArticle::Mode::SetToFalse,
+                                        networkProxy());
+      }
+      else {
+        res = network()->setArticleLabel(messages, label_custom_id, false, networkProxy());
+      }
 
       if (!ignore_errors && (network()->lastError() != QNetworkReply::NetworkError::NoError || res.hasError())) {
         addLabelsAssignmentsToCache(messages, label_custom_id, false);
@@ -261,6 +298,10 @@ TtRssNetworkFactory* TtRssServiceRoot::network() const {
   return m_network;
 }
 
+void TtRssServiceRoot::shareToPublished() {
+  FormTtRssNote(this).exec();
+}
+
 void TtRssServiceRoot::updateTitle() {
   QString host = QUrl(m_network->url()).host();
 
@@ -276,7 +317,7 @@ RootItem* TtRssServiceRoot::obtainNewTreeForSyncIn() const {
   TtRssGetLabelsResponse labels = m_network->getLabels(networkProxy());
 
   if (m_network->lastError() == QNetworkReply::NoError) {
-    auto* tree = feed_cats.feedsCategories(true, networkProxy(), m_network->url());
+    auto* tree = feed_cats.feedsCategories(m_network, true, networkProxy(), m_network->url());
     auto* lblroot = new LabelsNode(tree);
 
     lblroot->setChildItems(labels.labels());

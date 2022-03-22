@@ -9,27 +9,44 @@
 #include "services/abstract/label.h"
 
 #if defined(Q_OS_WIN)
+#if QT_VERSION_MAJOR == 5
 #include <QtPlatformHeaders/QWindowsWindowFunctions>
 #endif
+#endif
+
+#include <QTextCodec>
 
 #if defined(Q_OS_MACOS)
 extern void disableWindowTabbing();
-
 #endif
 
 int main(int argc, char* argv[]) {
   qSetMessagePattern(QSL("time=\"%{time process}\" type=\"%{type}\" -> %{message}"));
+
+  // High DPI stuff.
+#if QT_VERSION >= 0x050E00 // Qt >= 5.14.0
+  qputenv("QT_ENABLE_HIGHDPI_SCALING", "1");
+#else
+  qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+#endif
 
 #if QT_VERSION_MAJOR <= 5
   QApplication::setAttribute(Qt::ApplicationAttribute::AA_UseHighDpiPixmaps);
   QApplication::setAttribute(Qt::ApplicationAttribute::AA_EnableHighDpiScaling);
 #endif
 
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   QApplication::setDesktopFileName(APP_DESKTOP_ENTRY_FILE);
 #endif
 
-  // Ensure that ini format is used as application settings storage on Mac OS.
+#if defined(QT_STATIC)
+  // NOTE: Add all used resources here.
+  Q_INIT_RESOURCE(icons);
+  Q_INIT_RESOURCE(sql);
+  Q_INIT_RESOURCE(rssguard);
+#endif
+
+  // Ensure that ini format is used as application settings storage on macOS.
   QSettings::setDefaultFormat(QSettings::IniFormat);
 
 #if defined(Q_OS_MACOS)
@@ -37,8 +54,21 @@ int main(int argc, char* argv[]) {
   disableWindowTabbing();
 #endif
 
+  // We create our own "arguments" list as Qt strips something
+  // sometimes out.
+  char** const av = argv;
+  QStringList raw_cli_args;
+
+  for (int a = 0; a < argc; a++) {
+    raw_cli_args << QString::fromLocal8Bit(av[a]);
+  }
+
+#if QT_VERSION_MAJOR == 5
+  QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+#endif
+
   // Instantiate base application object.
-  Application application(QSL(APP_LOW_NAME), argc, argv);
+  Application application(QSL(APP_LOW_NAME), argc, argv, raw_cli_args);
 
   qDebugNN << LOGSEC_CORE << "Starting" << NONQUOTE_W_SPACE_DOT(APP_LONG_NAME);
   qDebugNN << LOGSEC_CORE << "Instantiated class " << QUOTE_W_SPACE_DOT(application.metaObject()->className());
@@ -59,12 +89,6 @@ int main(int argc, char* argv[]) {
   qRegisterMetaType<QList<Label*>>("QList<Label*>");
   qRegisterMetaType<Label*>("Label*");
 
-  // Add an extra path for non-system icon themes and set current icon theme
-  // and skin.
-  qApp->icons()->setupSearchPaths();
-  qApp->icons()->loadCurrentIconTheme();
-  qApp->skins()->loadCurrentSkin();
-
   // These settings needs to be set before any QSettings object.
   Application::setApplicationName(QSL(APP_NAME));
   Application::setApplicationVersion(QSL(APP_VERSION));
@@ -73,8 +97,10 @@ int main(int argc, char* argv[]) {
 
   qApp->reactOnForeignNotifications();
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
+#if QT_VERSION_MAJOR == 5
   QWindowsWindowFunctions::setWindowActivationBehavior(QWindowsWindowFunctions::AlwaysActivateWindow);
+#endif
 #endif
 
   FormMain main_window;
@@ -86,7 +112,10 @@ int main(int argc, char* argv[]) {
   qApp->showTrayIcon();
   qApp->offerChanges();
   qApp->showPolls();
-  qApp->mainForm()->tabWidget()->feedMessageViewer()->feedsView()->loadAllExpandStates();
+
+  main_window.tabWidget()->feedMessageViewer()->respondToMainWindowResizes();
+  main_window.tabWidget()->feedMessageViewer()->feedsView()->loadAllExpandStates();
+
   qApp->parseCmdArgumentsFromOtherInstance(qApp->cmdParser()->positionalArguments().join(QSL(ARGUMENTS_LIST_SEPARATOR)));
 
   return Application::exec();

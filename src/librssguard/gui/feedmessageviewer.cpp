@@ -86,27 +86,6 @@ FeedsToolBar* FeedMessageViewer::feedsToolBar() const {
 void FeedMessageViewer::saveSize() {
   Settings* settings = qApp->settings();
 
-  m_feedsView->saveAllExpandStates();
-
-  // Store offsets of splitters.
-  settings->setValue(GROUP(GUI), GUI::SplitterFeeds, toVariant(m_feedSplitter->sizes()));
-
-  // We need to display message previewer so that it "has" some dimensions
-  // so that they can be saved.
-  m_messagesBrowser->show();
-  qApp->processEvents();
-
-  if (!settings->value(GROUP(GUI), SETTING(GUI::SplitterMessagesIsVertical)).toBool()) {
-    settings->setValue(GROUP(GUI),
-                       GUI::SplitterMessagesHorizontal,
-                       toVariant(m_messageSplitter->sizes()));
-  }
-  else {
-    settings->setValue(GROUP(GUI),
-                       GUI::SplitterMessagesVertical,
-                       toVariant(m_messageSplitter->sizes()));
-  }
-
   settings->setValue(GROUP(GUI), GUI::MessageViewState, QString(m_messagesView->saveHeaderState().toBase64()));
 
   // Store "visibility" of toolbars and list headers.
@@ -126,7 +105,7 @@ void FeedMessageViewer::loadSize() {
                                                             SETTING(GUI::SplitterMessagesVertical))));
   }
   else {
-    switchMessageSplitterOrientation(false);
+    switchMessageSplitterOrientation();
   }
 
   QString settings_msg_header = settings->value(GROUP(GUI), SETTING(GUI::MessageViewState)).toString();
@@ -150,42 +129,37 @@ bool FeedMessageViewer::areListHeadersEnabled() const {
   return m_listHeadersEnabled;
 }
 
-void FeedMessageViewer::switchMessageSplitterOrientation(bool save_settings) {
-  bool preview_visible = m_messagesBrowser->isVisible();
+void FeedMessageViewer::onFeedSplitterResized() {
+  qDebugNN << LOGSEC_GUI << "Feed splitter moved.";
 
-  if (!preview_visible && save_settings) {
-    // Must be visible to get correct dimensions to be saved.
-    m_messagesBrowser->show();
-    qApp->processEvents();
-  }
+  qApp->settings()->setValue(GROUP(GUI), GUI::SplitterFeeds, toVariant(m_feedSplitter->sizes()));
+}
+
+void FeedMessageViewer::onMessageSplitterResized() {
+  qDebugNN << LOGSEC_GUI << "Message splitter moved.";
 
   if (m_messageSplitter->orientation() == Qt::Orientation::Vertical) {
-    if (save_settings) {
-      qApp->settings()->setValue(GROUP(GUI),
-                                 GUI::SplitterMessagesVertical,
-                                 toVariant(m_messageSplitter->sizes()));
-    }
+    qApp->settings()->setValue(GROUP(GUI),
+                               GUI::SplitterMessagesVertical,
+                               toVariant(m_messageSplitter->sizes()));
+  }
+  else {
+    qApp->settings()->setValue(GROUP(GUI),
+                               GUI::SplitterMessagesHorizontal,
+                               toVariant(m_messageSplitter->sizes()));
+  }
+}
 
+void FeedMessageViewer::switchMessageSplitterOrientation() {
+  if (m_messageSplitter->orientation() == Qt::Orientation::Vertical) {
     m_messageSplitter->setOrientation(Qt::Orientation::Horizontal);
     m_messageSplitter->setSizes(toList<int>(qApp->settings()->value(GROUP(GUI),
                                                                     SETTING(GUI::SplitterMessagesHorizontal))));
   }
   else {
-    if (save_settings) {
-      qApp->settings()->setValue(GROUP(GUI),
-                                 GUI::SplitterMessagesHorizontal,
-                                 toVariant(m_messageSplitter->sizes()));
-    }
-
     m_messageSplitter->setOrientation(Qt::Orientation::Vertical);
     m_messageSplitter->setSizes(toList<int>(qApp->settings()->value(GROUP(GUI),
                                                                     SETTING(GUI::SplitterMessagesVertical))));
-  }
-
-  if (!preview_visible && save_settings) {
-    // Must be visible to get correct dimensions to be saved.
-    m_messagesBrowser->hide();
-    qApp->processEvents();
   }
 
   qApp->settings()->setValue(GROUP(GUI),
@@ -231,10 +205,10 @@ void FeedMessageViewer::toggleShowOnlyUnreadFeeds() {
   const QAction* origin = qobject_cast<QAction*>(sender());
 
   if (origin == nullptr) {
-    m_feedsView->model()->invalidateReadFeedsFilter(true, false);
+    m_feedsView->invalidateReadFeedsFilter(true, false);
   }
   else {
-    m_feedsView->model()->invalidateReadFeedsFilter(true, origin->isChecked());
+    m_feedsView->invalidateReadFeedsFilter(true, origin->isChecked());
   }
 }
 
@@ -260,6 +234,10 @@ void FeedMessageViewer::alternateRowColorsInLists() {
   qApp->settings()->setValue(GROUP(GUI), GUI::AlternateRowColorsInLists, origin->isChecked());
 }
 
+void FeedMessageViewer::respondToMainWindowResizes() {
+  connect(qApp->mainForm(), &FormMain::windowResized, this, &FeedMessageViewer::onMessageSplitterResized);
+}
+
 void FeedMessageViewer::displayMessage(const Message& message, RootItem* root) {
   if (qApp->settings()->value(GROUP(Messages), SETTING(Messages::EnableMessagePreview)).toBool()) {
     m_messagesBrowser->loadMessage(message, root);
@@ -275,12 +253,16 @@ void FeedMessageViewer::createConnections() {
   connect(m_toolBarFeeds, &FeedsToolBar::feedsFilterPatternChanged, m_feedsView, &FeedsView::filterItems);
   connect(m_toolBarMessages, &MessagesToolBar::messageFilterChanged, m_messagesView, &MessagesView::filterMessages);
 
+  connect(m_feedSplitter, &QSplitter::splitterMoved, this, &FeedMessageViewer::onFeedSplitterResized);
+  connect(m_messageSplitter, &QSplitter::splitterMoved, this, &FeedMessageViewer::onMessageSplitterResized);
+
   connect(m_messagesView, &MessagesView::currentMessageRemoved, m_messagesBrowser, &MessagePreviewer::clear);
   connect(m_messagesBrowser, &MessagePreviewer::markMessageRead, m_messagesView->sourceModel(), &MessagesModel::setMessageReadById);
   connect(m_messagesBrowser, &MessagePreviewer::markMessageImportant,
           m_messagesView->sourceModel(), &MessagesModel::setMessageImportantById);
 
   connect(m_messagesView, &MessagesView::currentMessageChanged, this, &FeedMessageViewer::displayMessage);
+  connect(m_messagesView, &MessagesView::openLinkMiniBrowser, m_messagesBrowser, &MessagePreviewer::loadUrl);
 
   // If user selects feeds, load their messages.
   connect(m_feedsView, &FeedsView::itemSelected, m_messagesView, &MessagesView::loadItem);
@@ -334,9 +316,9 @@ void FeedMessageViewer::initializeViews() {
   m_messagesView->setFrameStyle(QFrame::Shape::NoFrame);
 
   // Setup message splitter.
-  m_messageSplitter->setObjectName(QSL("MessageSplitter"));
+  m_messageSplitter->setObjectName(QSL("m_messageSplitter"));
   m_messageSplitter->setHandleWidth(1);
-  m_messageSplitter->setOpaqueResize(false);
+  m_messageSplitter->setOpaqueResize(true);
   m_messageSplitter->setChildrenCollapsible(false);
   m_messageSplitter->addWidget(m_messagesView);
   m_messageSplitter->addWidget(m_messagesBrowser);
@@ -349,9 +331,9 @@ void FeedMessageViewer::initializeViews() {
   feed_layout->addWidget(m_toolBarFeeds);
   feed_layout->addWidget(m_feedsView);
 
-  // Assembler everything together.
+  // Assemble everything together.
   m_feedSplitter->setHandleWidth(1);
-  m_feedSplitter->setOpaqueResize(false);
+  m_feedSplitter->setOpaqueResize(true);
   m_feedSplitter->setChildrenCollapsible(false);
   m_feedSplitter->addWidget(m_feedsWidget);
   m_feedSplitter->addWidget(m_messagesWidget);
@@ -370,8 +352,21 @@ void FeedMessageViewer::initializeViews() {
 
 void FeedMessageViewer::refreshVisualProperties() {
   const Qt::ToolButtonStyle button_style =
-    static_cast<Qt::ToolButtonStyle>(qApp->settings()->value(GROUP(GUI), SETTING(GUI::ToolbarStyle)).toInt());
+    static_cast<Qt::ToolButtonStyle>(qApp->settings()->value(GROUP(GUI),
+                                                             SETTING(GUI::ToolbarStyle)).toInt());
 
   m_toolBarFeeds->setToolButtonStyle(button_style);
   m_toolBarMessages->setToolButtonStyle(button_style);
+
+  const int icon_size = qApp->settings()->value(GROUP(GUI), SETTING(GUI::ToolbarIconSize)).toInt();
+
+  if (icon_size > 0) {
+    m_toolBarFeeds->setIconSize({ icon_size, icon_size });
+  }
+  else {
+    m_toolBarFeeds->setIconSize({ qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize),
+                                  qApp->style()->pixelMetric(QStyle::PM_ToolBarIconSize) });
+  }
+
+  m_toolBarMessages->setIconSize(m_toolBarFeeds->iconSize());
 }

@@ -19,14 +19,14 @@
 #include "services/abstract/importantnode.h"
 #include "services/abstract/labelsnode.h"
 #include "services/abstract/recyclebin.h"
-#include "services/standard/atomparser.h"
 #include "services/standard/definitions.h"
 #include "services/standard/gui/formeditstandardaccount.h"
 #include "services/standard/gui/formstandardfeeddetails.h"
 #include "services/standard/gui/formstandardimportexport.h"
-#include "services/standard/jsonparser.h"
-#include "services/standard/rdfparser.h"
-#include "services/standard/rssparser.h"
+#include "services/standard/parsers/atomparser.h"
+#include "services/standard/parsers/jsonparser.h"
+#include "services/standard/parsers/rdfparser.h"
+#include "services/standard/parsers/rssparser.h"
 #include "services/standard/standardcategory.h"
 #include "services/standard/standardfeed.h"
 #include "services/standard/standardfeedsimportexportmodel.h"
@@ -50,14 +50,14 @@ StandardServiceRoot::~StandardServiceRoot() {
 }
 
 void StandardServiceRoot::start(bool freshly_activated) {
-  DatabaseQueries::loadFromDatabase<StandardCategory, StandardFeed>(this);
+  DatabaseQueries::loadRootFromDatabase<StandardCategory, StandardFeed>(this);
 
   if (freshly_activated && getSubTreeFeeds().isEmpty()) {
     // In other words, if there are no feeds or categories added.
-    if (MessageBox::show(qApp->mainFormWidget(), QMessageBox::Question, QObject::tr("Load initial set of feeds"),
-                         tr("This new account does not include any feeds. You can now add default set of feeds."),
-                         tr("Do you want to load initial set of feeds?"),
-                         QString(), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+    if (MsgBox::show(qApp->mainFormWidget(), QMessageBox::Question, QObject::tr("Load initial set of feeds"),
+                     tr("This new account does not include any feeds. You can now add default set of feeds."),
+                     tr("Do you want to load initial set of feeds?"),
+                     QString(), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
       QString target_opml_file = APP_INITIAL_FEEDS_PATH + QDir::separator() + FEED_INITIAL_OPML_PATTERN;
       QString current_locale = qApp->localization()->loadedLanguage();
       QString file_to_load;
@@ -81,7 +81,7 @@ void StandardServiceRoot::start(bool freshly_activated) {
         }
       }
       catch (ApplicationException& ex) {
-        MessageBox::show(qApp->mainFormWidget(), QMessageBox::Critical, tr("Error when loading initial feeds"), ex.message());
+        MsgBox::show(qApp->mainFormWidget(), QMessageBox::Critical, tr("Error when loading initial feeds"), ex.message());
       }
     }
     else {
@@ -122,11 +122,10 @@ void StandardServiceRoot::addNewFeed(RootItem* selected_item, const QString& url
     // Lock was not obtained because
     // it is used probably by feed updater or application
     // is quitting.
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Cannot add item"),
-                         tr("Cannot add feed because another critical operation is ongoing."),
-                         QSystemTrayIcon::MessageIcon::Warning,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot add item"),
+      tr("Cannot add feed because another critical operation is ongoing."),
+      QSystemTrayIcon::MessageIcon::Warning });
 
     return;
   }
@@ -174,7 +173,7 @@ QList<Message> StandardServiceRoot::obtainNewMessages(Feed* feed,
                                                                   false,
                                                                   {},
                                                                   {},
-                                                                  networkProxy()).first;
+                                                                  networkProxy()).m_networkError;
 
     if (network_result != QNetworkReply::NetworkError::NoError) {
       qWarningNN << LOGSEC_CORE
@@ -271,7 +270,7 @@ QList<Message> StandardServiceRoot::obtainNewMessages(Feed* feed,
 QList<QAction*> StandardServiceRoot::getContextMenuForFeed(StandardFeed* feed) {
   if (m_feedContextMenu.isEmpty()) {
     // Initialize.
-    auto* action_metadata = new QAction(qApp->icons()->fromTheme(QSL("emblem-downloads")),
+    auto* action_metadata = new QAction(qApp->icons()->fromTheme(QSL("download"), QSL("emblem-downloads")),
                                         tr("Fetch metadata"),
                                         this);
 
@@ -359,6 +358,15 @@ bool StandardServiceRoot::mergeImportExportModel(FeedsImportExportModel* model,
       }
       else if (source_item->kind() == RootItem::Kind::Feed) {
         auto* source_feed = qobject_cast<StandardFeed*>(source_item);
+        const auto* feed_with_same_url = target_root_node->getItemFromSubTree([source_feed](const RootItem* it) {
+          return it->kind() == RootItem::Kind::Feed &&
+          it->toFeed()->source().toLower() == source_feed->source().toLower();
+        });
+
+        if (feed_with_same_url != nullptr) {
+          continue;
+        }
+
         auto* new_feed = new StandardFeed(*source_feed);
         QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
 
@@ -394,11 +402,10 @@ void StandardServiceRoot::addNewCategory(RootItem* selected_item) {
     // Lock was not obtained because
     // it is used probably by feed updater or application
     // is quitting.
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Cannot add category"),
-                         tr("Cannot add category because another critical operation is ongoing."),
-                         QSystemTrayIcon::Warning,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot add category"),
+      tr("Cannot add category because another critical operation is ongoing."),
+      QSystemTrayIcon::MessageIcon::Warning });
 
     // Thus, cannot delete and quit the method.
     return;

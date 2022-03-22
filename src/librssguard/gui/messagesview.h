@@ -28,6 +28,8 @@ class MessagesView : public BaseTreeView {
     void restoreHeaderState(const QByteArray& dta);
 
   public slots:
+    void copyUrlOfSelectedArticles() const;
+
     void keyboardSearch(const QString& search);
 
     // Called after data got changed externally
@@ -40,6 +42,7 @@ class MessagesView : public BaseTreeView {
     // Message manipulators.
     void openSelectedSourceMessagesExternally();
     void openSelectedMessagesInternally();
+    void openSelectedMessageUrl();
     void sendSelectedMessageViaEmail();
 
     // Works with SELECTED messages only.
@@ -52,7 +55,10 @@ class MessagesView : public BaseTreeView {
 
     void selectNextItem();
     void selectPreviousItem();
+    void selectItemWithCursorAction(QAbstractItemView::CursorAction act);
+
     void selectNextUnreadItem();
+    void selectNextImportantItem();
 
     // Searchs the visible message according to given pattern.
     void searchMessages(const QString& pattern);
@@ -107,7 +113,8 @@ class MessagesView : public BaseTreeView {
     MessagesProxyModel* m_proxyModel;
     MessagesModel* m_sourceModel;
     bool m_columnsAdjusted;
-    bool m_processingMouse;
+    bool m_processingAnyMouseButton;
+    bool m_processingRightMouseButton;
 };
 
 inline MessagesProxyModel* MessagesView::model() const {

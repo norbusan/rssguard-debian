@@ -4,6 +4,7 @@
 
 #include "3rd-party/boolinq/boolinq.h"
 #include "database/databasefactory.h"
+#include "database/databasequeries.h"
 #include "definitions/definitions.h"
 #include "gui/dialogs/formmain.h"
 #include "miscellaneous/feedreader.h"
@@ -28,7 +29,7 @@
 
 using RootItemPtr = RootItem*;
 
-FeedsModel::FeedsModel(QObject* parent) : QAbstractItemModel(parent), m_itemHeight(-1) {
+FeedsModel::FeedsModel(QObject* parent) : QAbstractItemModel(parent) {
   setObjectName(QSL("FeedsModel"));
 
   // Create root item.
@@ -117,11 +118,10 @@ bool FeedsModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int 
 
       if (dragged_item_root != target_item_root) {
         // Transferring of items between different accounts is not possible.
-        qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                             tr("Cannot perform drag & drop operation"),
-                             tr("You can't transfer dragged item into different account, this is not supported."),
-                             QSystemTrayIcon::MessageIcon::Warning,
-                             true);
+        qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+          tr("Cannot perform drag & drop operation"),
+          tr("You can't transfer dragged item into different account, this is not supported."),
+          QSystemTrayIcon::MessageIcon::Critical });
         qDebugNN << LOGSEC_FEEDMODEL
                  << "Dragged item cannot be dragged into different account. Cancelling drag-drop action.";
         return false;
@@ -458,15 +458,15 @@ void FeedsModel::setupFonts() {
   fon.fromString(qApp->settings()->value(GROUP(Feeds), Feeds::ListFont, Application::font("FeedsView").toString()).toString());
 
   m_normalFont = fon;
+
   m_boldFont = m_normalFont;
   m_boldFont.setBold(true);
 
-  m_itemHeight = qApp->settings()->value(GROUP(GUI), SETTING(GUI::HeightRowFeeds)).toInt();
+  m_normalStrikedFont = m_normalFont;
+  m_normalStrikedFont.setStrikeOut(true);
 
-  if (m_itemHeight > 0) {
-    m_boldFont.setPixelSize(int(m_itemHeight * 0.6));
-    m_normalFont.setPixelSize(int(m_itemHeight * 0.6));
-  }
+  m_boldStrikedFont = m_boldFont;
+  m_boldStrikedFont.setStrikeOut(true);
 }
 
 void FeedsModel::reloadWholeLayout() {
@@ -524,6 +524,12 @@ bool FeedsModel::emptyAllBins() {
   return result;
 }
 
+void FeedsModel::changeSortOrder(RootItem* item, bool move_top, bool move_bottom, int new_sort_order) {
+  QSqlDatabase db = qApp->database()->driver()->connection(metaObject()->className());
+
+  DatabaseQueries::moveItem(item, move_top, move_bottom, new_sort_order, db);
+}
+
 void FeedsModel::loadActivatedServiceAccounts() {
   auto serv = qApp->feedReader()->feedServices();
 
@@ -557,17 +563,37 @@ QList<Feed*>FeedsModel::feedsForIndex(const QModelIndex& index) const {
 }
 
 bool FeedsModel::markItemRead(RootItem* item, RootItem::ReadStatus read) {
-  return item->markAsReadUnread(read);
+  if (item != nullptr) {
+    return item->markAsReadUnread(read);
+  }
+
+  return true;
 }
 
 bool FeedsModel::markItemCleared(RootItem* item, bool clean_read_only) {
-  return item->cleanMessages(clean_read_only);
+  if (item != nullptr) {
+    return item->cleanMessages(clean_read_only);
+  }
+
+  return true;
 }
 
 QVariant FeedsModel::data(const QModelIndex& index, int role) const {
   switch (role) {
-    case Qt::ItemDataRole::FontRole:
-      return itemForIndex(index)->countOfUnreadMessages() > 0 ? m_boldFont : m_normalFont;
+    case Qt::ItemDataRole::FontRole: {
+      RootItem* it = itemForIndex(index);
+      bool is_bold = it->countOfUnreadMessages() > 0;
+      bool is_striked = it->kind() == RootItem::Kind::Feed
+                        ? qobject_cast<Feed*>(it)->isSwitchedOff()
+                        : false;
+
+      if (is_bold) {
+        return is_striked ? m_boldStrikedFont : m_boldFont;
+      }
+      else {
+        return is_striked ? m_normalStrikedFont : m_normalFont;
+      }
+    }
 
     case Qt::ItemDataRole::ToolTipRole:
       if (!qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::EnableTooltipsFeedsMessages)).toBool()) {
