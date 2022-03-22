@@ -7,12 +7,20 @@
 
 #include <QCoreApplication>
 #include <QHttpPart>
+#include <QNetworkCookie>
 #include <QNetworkProxy>
 #include <QNetworkReply>
 #include <QPair>
 #include <QVariant>
 
-typedef QPair<QNetworkReply::NetworkError, QVariant> NetworkResult;
+struct NetworkResult {
+  QNetworkReply::NetworkError m_networkError;
+  QString m_contentType;
+  QList<QNetworkCookie> m_cookies;
+
+  explicit NetworkResult();
+  explicit NetworkResult(QNetworkReply::NetworkError err, const QString& ct, const QList<QNetworkCookie>& cook);
+};
 
 class Downloader;
 
@@ -35,6 +43,7 @@ class NetworkFactory {
     static QNetworkReply::NetworkError downloadIcon(const QList<QPair<QString, bool>>& urls,
                                                     int timeout,
                                                     QIcon& output,
+                                                    const QList<QPair<QByteArray, QByteArray>>& additional_headers,
                                                     const QNetworkProxy& custom_proxy = QNetworkProxy::ProxyType::DefaultProxy);
     static NetworkResult performNetworkOperation(const QString& url, int timeout,
                                                  const QByteArray& input_data,

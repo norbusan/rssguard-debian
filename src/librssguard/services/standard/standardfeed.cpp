@@ -17,14 +17,15 @@
 #include "miscellaneous/textfactory.h"
 #include "network-web/networkfactory.h"
 #include "services/abstract/recyclebin.h"
-#include "services/standard/atomparser.h"
 #include "services/standard/definitions.h"
 #include "services/standard/gui/formstandardfeeddetails.h"
-#include "services/standard/jsonparser.h"
-#include "services/standard/rdfparser.h"
-#include "services/standard/rssparser.h"
+#include "services/standard/parsers/atomparser.h"
+#include "services/standard/parsers/jsonparser.h"
+#include "services/standard/parsers/rdfparser.h"
+#include "services/standard/parsers/rssparser.h"
 #include "services/standard/standardserviceroot.h"
 
+#include <QCommandLineParser>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
@@ -195,6 +196,7 @@ void StandardFeed::fetchMetadataForItself() {
     setType(metadata->type());
     setEncoding(metadata->encoding());
     setIcon(metadata->icon());
+
     metadata->deleteLater();
 
     QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
@@ -206,11 +208,10 @@ void StandardFeed::fetchMetadataForItself() {
     qCriticalNN << LOGSEC_DB
                 << "Cannot overwrite feed:"
                 << QUOTE_W_SPACE_DOT(ex.message());
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Error"),
-                         tr("Cannot save data for feed: %1").arg(ex.message()),
-                         QSystemTrayIcon::MessageIcon::Critical,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot save feed data"),
+      tr("Cannot save data for feed: %1").arg(ex.message()),
+      QSystemTrayIcon::MessageIcon::Critical });
   }
 }
 
@@ -254,10 +255,10 @@ StandardFeed* StandardFeed::guessFeed(StandardFeed::SourceType source_type,
                                                                            {},
                                                                            custom_proxy);
 
-    content_type = network_result.second.toString();
+    content_type = network_result.m_contentType;
 
-    if (network_result.first != QNetworkReply::NetworkError::NoError) {
-      throw NetworkException(network_result.first);
+    if (network_result.m_networkError != QNetworkReply::NetworkError::NoError) {
+      throw NetworkException(network_result.m_networkError);
     }
   }
   else {
@@ -295,7 +296,12 @@ StandardFeed* StandardFeed::guessFeed(StandardFeed::SourceType source_type,
     feed->setEncoding(QSL(DEFAULT_FEED_ENCODING));
     feed->setType(Type::Json);
 
-    QJsonDocument json = QJsonDocument::fromJson(feed_contents);
+    QJsonParseError json_err;
+    QJsonDocument json = QJsonDocument::fromJson(feed_contents, &json_err);
+
+    if (json.isNull() && !json_err.errorString().isEmpty()) {
+      throw ApplicationException(tr("JSON error '%1'").arg(json_err.errorString()));
+    }
 
     feed->setTitle(json.object()[QSL("title")].toString());
     feed->setDescription(json.object()[QSL("description")].toString());
@@ -396,20 +402,21 @@ StandardFeed* StandardFeed::guessFeed(StandardFeed::SourceType source_type,
       feed->setTitle(channel_element.namedItem(QSL("title")).toElement().text());
       feed->setDescription(channel_element.namedItem(QSL("description")).toElement().text());
 
-      QString icon_link = channel_element.namedItem(QSL("image")).toElement().text();
-      QString icon_url_link = channel_element.namedItem(QSL("image")).toElement().attribute(QSL("url"));
+      QString icon_url_link = channel_element.namedItem(QSL("image")).namedItem(QSL("url")).toElement().text();
 
       if (!icon_url_link.isEmpty()) {
         icon_possible_locations.append({ icon_url_link, true });
       }
-      else if (!icon_link.isEmpty()) {
-        icon_possible_locations.append({ icon_link, true });
-      }
 
-      QString home_page = channel_element.namedItem(QSL("link")).toElement().text();
+      auto channel_links = channel_element.elementsByTagName(QSL("link"));
 
-      if (!home_page.isEmpty()) {
-        icon_possible_locations.prepend({ home_page, false });
+      for (int i = 0; i < channel_links.size(); i++) {
+        QString home_page = channel_links.at(i).toElement().text();
+
+        if (!home_page.isEmpty()) {
+          icon_possible_locations.prepend({ home_page, false });
+          break;
+        }
       }
     }
     else if (root_element.namespaceURI() == atom.atomNamespace()) {
@@ -449,6 +456,7 @@ StandardFeed* StandardFeed::guessFeed(StandardFeed::SourceType source_type,
   if (NetworkFactory::downloadIcon(icon_possible_locations,
                                    DOWNLOAD_TIMEOUT,
                                    icon_data,
+                                   {},
                                    custom_proxy) == QNetworkReply::NetworkError::NoError) {
     // Icon for feed was downloaded and is stored now in _icon_data.
     feed->setIcon(icon_data);
@@ -473,11 +481,11 @@ bool StandardFeed::performDragDropChange(RootItem* target_item) {
     qCriticalNN << LOGSEC_DB
                 << "Cannot overwrite feed:"
                 << QUOTE_W_SPACE_DOT(ex.message());
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Error"),
-                         tr("Cannot move feed, detailed information was logged via debug log."),
-                         QSystemTrayIcon::MessageIcon::Critical,
-                         true);
+
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot move feed"),
+      tr("Cannot move feed, detailed information was logged via debug log."),
+      QSystemTrayIcon::MessageIcon::Critical });
     return false;
   }
 }
@@ -485,7 +493,7 @@ bool StandardFeed::performDragDropChange(RootItem* target_item) {
 bool StandardFeed::removeItself() {
   QSqlDatabase database = qApp->database()->driver()->connection(metaObject()->className());
 
-  return DatabaseQueries::deleteFeed(database, customId().toInt(), getParentServiceRoot()->accountId());
+  return DatabaseQueries::deleteFeed(database, this, getParentServiceRoot()->accountId());
 }
 
 StandardFeed::Type StandardFeed::type() const {
@@ -505,14 +513,9 @@ void StandardFeed::setEncoding(const QString& encoding) {
 }
 
 QStringList StandardFeed::prepareExecutionLine(const QString& execution_line) {
-  auto split_exec = execution_line.split(QSL(EXECUTION_LINE_SEPARATOR),
-#if QT_VERSION >= 0x050F00 // Qt >= 5.15.0
-                                         Qt::SplitBehaviorFlags::SkipEmptyParts);
-#else
-                                         QString::SplitBehavior::SkipEmptyParts);
-#endif
+  auto args = TextFactory::tokenizeProcessArguments(execution_line);
 
-  return qApp->replaceDataUserDataFolderPlaceholder(split_exec);
+  return qApp->replaceDataUserDataFolderPlaceholder(args);
 }
 
 QString StandardFeed::runScriptProcess(const QStringList& cmd_args, const QString& working_directory,

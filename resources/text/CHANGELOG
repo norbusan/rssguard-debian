@@ -1,3 +1,83 @@
+4.2.0
+-----
+
+Added:
+* Items in feed list (accounts, categories, feeds) now can be manually sorted. Go to "Feeds -> Sort alphabetically" menu option to switch the feature. Then you can re-adjust sort order with context menu on each item. (#302)
+* Article list now can display full article titles with multiline layout. Switch the feature in "Settings -> Feeds & articles -> Articles list". (#570)
+* Date/time format of articles in article list is now VERY customizable, you can set to display e. g. time only for today's items, or show relative dates for recent items etc. (#608)
+* Taskbar item of RSS Guard on Windows now displays progress of feed downloading, also show number of unread articles in main window title and as a "bubble" icon in taskbar. (#622)
+* RSS Guard now builds with cmake. (#615)
+* "Add feed" and "Edit feed" dialogs were redesigned a bit for better UX. (#603)
+* New action "Open main menu" can now be added to toolbars. (#604)
+* If feed does not provide date/time for its articles, then current date/time is used and now this artificial date/time is iterated to achieve consistent sorting for those articles. (#621)
+* Individual feeds can now be turned off. Turning feed "off" disables it and it won't get any new articles. See "Edit feed" dialog, specifically "Miscellaneous" tab. (#393)
+* Gmail: Synchronization of e-mails is now MUCH faster, especially subsequent synchronizations. Also, some Gmail-related fixes were added.
+* TT-RSS: Added "share to published" feature which allows user to save custom notes to TT-RSS. Can be used with context menu on "[SYSTEM] User-published articles" feed list item. (#198)
+* Count of unread articles in taskbar is now switchable. (#649)
+* Documentation was updated. (#582)
+* All modal dialogs now should have "maximize" button. (#629)
+* Context menu of article list now offers action "Copy links". (#345)
+* Articles downloaded from single feed are now de-duplicated before they are processed and saved into RSS Guard DB. (#650)
+* Node.js integration was polished and generalized and will be used for more optional features in the future.
+* Firefox-inspired "reader mode" is now available in WebEngine version of RSS Guard. Check internal web browser toolbar for the relevant "Open in reader mode" button. (#638)
+* New action "Open in internal browser (no new tab)" which opens source website of article in article previewer. (#590)
+* Polishing of feed import feature. (#619)
+* Updated built-in "nudus-*" skins. Thanks to akinokonomi for this.
+* RSS Guard is now aware of "qt5/6-ct" style used by "qtct" tool.
+* Handling of skins, Qt stylesheets and Qt styles is now rewritten quite a lot to achieve more consistent UX and allow for much greater flexibility for skin creators.
+
+
+Fixed:
+* Feedly: HTML entities/code in article titles were not encoded and displayed correctly. (#576)
+* GUI separators were resetting their positions to middle, hopefully fixed. (#587)
+* Inaccurate reporting of new articles when there are no new articles, due to DB layer error. (#618)
+* "New messages" feed status is now more persistent. (#631)
+* Handling of character set in MariaDB backend is now improved, all UTF-8 characters should now work correctly. (#579)
+* Loading of skins/themes is now done more early to avoid some clashes with GUI initialization. (#611)
+* Fixed displaying of special characters in RSS/RDF/ATOM account name. (#657)
+* No separators in custom source specification are needed now.
+
+4.1.2
+-----
+
+Fixed:
+* Make webengine cookies synchronization one-way because it was crashing in some instances. This is likely temporary fix.
+* Fixed RSS Guard crashing when using MariaDB backend. Problem was in buggy runtime generation of DDL SQL scripts. (#573)
+* Expanding/collapsing of categories is now EVEN MORE properly persistent and behaves more correctly when filtering feed list in some way. (#546)
+
+4.1.0
+-----
+
+RSS Guard now has its own DISCORD: https://discord.gg/7xbVMPPNqH
+
+Special thanks to @akinokonomi who helped with this release and made world a better place to live our lives!
+
+Added:
+* Network communication of RSS Guard now shares cookies and user-agent with bundled WebEngine. You can thus access cookie-protected resources in RSS Guard, including feeds. (#556)
+* Confirmation dialog is displayed when removing article filter. (#562)
+* Use "QSoundPlayer" for better support when playing notification sounds, no GStreamer required now. (#551)
+* New default skins with light/dark variants, Nudus. Thanks to @akinokonomi for amazing job. Nudus is lightweight skin with maintainable code base. Note all other skins will be removed in next release as it is difficult to provide reasonable support for them. (#540)
+* Optionally display only time (without date) for today's articles. (#530)
+* Icon size of toolbars is now configurable.
+* More web attributes added to web viewer context menu.
+* Use more standard user-agent.
+* Tens of minor tweaks added.
+
+Fixed:
+* Expanding/collapsing of categories is now properly persistent and behaves more correctly when filtering feed list in some way. (#546)
+* No more crashing after "mark item as read" action. (#563)
+* Deal with spaces in feed URLs. (#542)
+* Fix crash in Greader plugin. (#539)
+* Fix cleaning up of database when clearing articles older than 0 days.
+* Finally solving issues with remembering article list/viewer splitter position. (#517)
+* Update some hyperlinks, use correct terminology. (#536, #537)
+* Make "article list row height" work as intended. (#528)
+* Localizations synced.
+* Application now closes correctly on Linux, if tray area is not available and tray icon is mistakenly still "enabled".
+* Server JavaScript file of Adblock is now copied to destination properly.
+* Regex filtering and "show unread only" features now work together in feed list.
+* Node.js "NODE_PATH" value is now determined in runtime, not hardcoded.
+
 4.0.4
 -----
 

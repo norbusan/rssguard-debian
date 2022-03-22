@@ -102,17 +102,17 @@ TtRssLoginResponse TtRssNetworkFactory::login(const QNetworkProxy& proxy) {
                                                                         proxy);
   TtRssLoginResponse login_response(QString::fromUtf8(result_raw));
 
-  if (network_reply.first == QNetworkReply::NoError) {
+  if (network_reply.m_networkError == QNetworkReply::NoError) {
     m_sessionId = login_response.sessionId();
     m_lastLoginTime = QDateTime::currentDateTime();
   }
   else {
     qWarningNN << LOGSEC_TTRSS
                << "Login failed with error:"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return login_response;
 }
 
@@ -141,7 +141,7 @@ TtRssResponse TtRssNetworkFactory::logout(const QNetworkProxy& proxy) {
                                                                           {},
                                                                           proxy);
 
-    m_lastError = network_reply.first;
+    m_lastError = network_reply.m_networkError;
 
     if (m_lastError == QNetworkReply::NoError) {
       m_sessionId.clear();
@@ -149,7 +149,7 @@ TtRssResponse TtRssNetworkFactory::logout(const QNetworkProxy& proxy) {
     else {
       qWarningNN << LOGSEC_TTRSS
                  << "Logout failed with error:"
-                 << QUOTE_W_SPACE_DOT(network_reply.first);
+                 << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
     }
 
     return TtRssResponse(QString::fromUtf8(result_raw));
@@ -199,13 +199,68 @@ TtRssGetLabelsResponse TtRssNetworkFactory::getLabels(const QNetworkProxy& proxy
     result = TtRssGetLabelsResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "getLabels failed with error:"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
+  return result;
+}
+
+TtRssResponse TtRssNetworkFactory::shareToPublished(const TtRssNoteToPublish& note, const QNetworkProxy& proxy) {
+  QJsonObject json;
+
+  json[QSL("op")] = QSL("shareToPublished");
+  json[QSL("sid")] = m_sessionId;
+  json[QSL("title")] = note.m_title;
+  json[QSL("url")] = note.m_url;
+  json[QSL("content")] = note.m_content;
+
+  const int timeout = qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt();
+  QByteArray result_raw;
+  QList<QPair<QByteArray, QByteArray>> headers;
+
+  headers << QPair<QByteArray, QByteArray>(HTTP_HEADERS_CONTENT_TYPE, TTRSS_CONTENT_TYPE_JSON);
+  headers << NetworkFactory::generateBasicAuthHeader(m_authUsername, m_authPassword);
+
+  NetworkResult network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                                        timeout,
+                                                                        QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
+                                                                        result_raw,
+                                                                        QNetworkAccessManager::Operation::PostOperation,
+                                                                        headers,
+                                                                        false,
+                                                                        {},
+                                                                        {},
+                                                                        proxy);
+  TtRssResponse result(QString::fromUtf8(result_raw));
+
+  if (result.isNotLoggedIn()) {
+    // We are not logged in.
+    login(proxy);
+    json[QSL("sid")] = m_sessionId;
+    network_reply = NetworkFactory::performNetworkOperation(m_fullUrl,
+                                                            timeout,
+                                                            QJsonDocument(json).toJson(QJsonDocument::JsonFormat::Compact),
+                                                            result_raw,
+                                                            QNetworkAccessManager::Operation::PostOperation,
+                                                            headers,
+                                                            false,
+                                                            {},
+                                                            {},
+                                                            proxy);
+    result = TtRssResponse(QString::fromUtf8(result_raw));
+  }
+
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
+    qWarningNN << LOGSEC_TTRSS
+               << "shareToPublished failed with error:"
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
+  }
+
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -250,13 +305,13 @@ TtRssGetFeedsCategoriesResponse TtRssNetworkFactory::getFeedsCategories(const QN
     result = TtRssGetFeedsCategoriesResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "getFeedTree failed with error:"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -276,6 +331,7 @@ TtRssGetHeadlinesResponse TtRssNetworkFactory::getHeadlines(int feed_id, int lim
   json[QSL("show_content")] = show_content;
   json[QSL("include_attachments")] = include_attachments;
   json[QSL("sanitize")] = sanitize;
+
   const int timeout = qApp->settings()->value(GROUP(Feeds), SETTING(Feeds::UpdateTimeout)).toInt();
   QByteArray result_raw;
   QList<QPair<QByteArray, QByteArray>> headers;
@@ -312,13 +368,13 @@ TtRssGetHeadlinesResponse TtRssNetworkFactory::getHeadlines(int feed_id, int lim
     result = TtRssGetHeadlinesResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "getHeadlines failed with error:"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -368,13 +424,13 @@ TtRssResponse TtRssNetworkFactory::setArticleLabel(const QStringList& article_id
     result = TtRssResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "setArticleLabel failed with error"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -426,13 +482,13 @@ TtRssUpdateArticleResponse TtRssNetworkFactory::updateArticles(const QStringList
     result = TtRssUpdateArticleResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "updateArticle failed with error"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -488,13 +544,13 @@ TtRssSubscribeToFeedResponse TtRssNetworkFactory::subscribeToFeed(const QString&
     result = TtRssSubscribeToFeedResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "updateArticle failed with error"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -540,13 +596,13 @@ TtRssUnsubscribeFeedResponse TtRssNetworkFactory::unsubscribeFeed(int feed_id, c
     result = TtRssUnsubscribeFeedResponse(QString::fromUtf8(result_raw));
   }
 
-  if (network_reply.first != QNetworkReply::NoError) {
+  if (network_reply.m_networkError != QNetworkReply::NoError) {
     qWarningNN << LOGSEC_TTRSS
                << "getFeeds failed with error"
-               << QUOTE_W_SPACE_DOT(network_reply.first);
+               << QUOTE_W_SPACE_DOT(network_reply.m_networkError);
   }
 
-  m_lastError = network_reply.first;
+  m_lastError = network_reply.m_networkError;
   return result;
 }
 
@@ -677,7 +733,10 @@ TtRssGetFeedsCategoriesResponse::TtRssGetFeedsCategoriesResponse(const QString& 
 
 TtRssGetFeedsCategoriesResponse::~TtRssGetFeedsCategoriesResponse() = default;
 
-RootItem* TtRssGetFeedsCategoriesResponse::feedsCategories(bool obtain_icons, const QNetworkProxy& proxy, const QString& base_address) const {
+RootItem* TtRssGetFeedsCategoriesResponse::feedsCategories(TtRssNetworkFactory* network,
+                                                           bool obtain_icons,
+                                                           const QNetworkProxy& proxy,
+                                                           const QString& base_address) const {
   auto* parent = new RootItem();
 
   // Chop the "api/" from the end of the address.
@@ -740,9 +799,17 @@ RootItem* TtRssGetFeedsCategoriesResponse::feedsCategories(bool obtain_icons, co
               // Chop the "api/" suffix out and append
               QString full_icon_address = base_address + QL1C('/') + icon_path;
               QIcon icon;
+              QList<QPair<QByteArray, QByteArray>> headers;
+
+              if (network->authIsUsed()) {
+                headers << NetworkFactory::generateBasicAuthHeader(network->authUsername(),
+                                                                   network->authPassword());
+              }
+
               auto res = NetworkFactory::downloadIcon({ { full_icon_address, true } },
                                                       DOWNLOAD_TIMEOUT,
                                                       icon,
+                                                      headers,
                                                       proxy);
 
               if (res == QNetworkReply::NoError) {
@@ -758,10 +825,23 @@ RootItem* TtRssGetFeedsCategoriesResponse::feedsCategories(bool obtain_icons, co
 
           feed->setTitle(item[QSL("name")].toString());
           feed->setCustomId(QString::number(item_id));
+
           act_parent->appendChild(feed);
         }
       }
     }
+
+    // Append special "published" feed to hold "notes" created by user
+    // via "shareToPublished" method. These "notes" are not normal articles
+    // because they do not belong to any feed.
+    // We have feed.
+    auto* published_feed = new TtRssFeed();
+
+    published_feed->setTitle(QSL("[SYSTEM] ") + QObject::tr("User-published articles"));
+    published_feed->setCustomId(QString::number(0));
+    published_feed->setKeepOnTop(true);
+
+    parent->appendChild(published_feed);
   }
 
   return parent;
@@ -775,6 +855,9 @@ QList<Message> TtRssGetHeadlinesResponse::messages(ServiceRoot* root) const {
   QList<Message> messages;
   auto active_labels = root->labelsNode() != nullptr ? root->labelsNode()->labels() : QList<Label*>();
   auto json_msgs = m_rawContent[QSL("content")].toArray();
+  auto* published_lbl = boolinq::from(active_labels).firstOrDefault([](const Label* lbl) {
+    return lbl->customNumericId() == TTRSS_PUBLISHED_LABEL_ID;
+  });
 
   for (const QJsonValue& item : qAsConst(json_msgs)) {
     QJsonObject mapped = item.toObject();
@@ -785,6 +868,11 @@ QList<Message> TtRssGetHeadlinesResponse::messages(ServiceRoot* root) const {
     message.m_isImportant = mapped[QSL("marked")].toBool();
     message.m_contents = mapped[QSL("content")].toString();
     message.m_rawContents = QJsonDocument(mapped).toJson(QJsonDocument::JsonFormat::Compact);
+
+    if (published_lbl != nullptr && mapped[QSL("published")].toBool()) {
+      // Article is published, set label.
+      message.m_assignedLabels.append(published_lbl);
+    }
 
     auto json_labels = mapped[QSL("labels")].toArray();
 
@@ -891,6 +979,22 @@ TtRssGetLabelsResponse::TtRssGetLabelsResponse(const QString& raw_content) : TtR
 QList<RootItem*> TtRssGetLabelsResponse::labels() const {
   QList<RootItem*> labels;
   auto json_labels = m_rawContent[QSL("content")].toArray();
+
+  // Add "Published" label.
+  //
+  // NOTE: In TT-RSS there is a problem with "published" feature:
+  //   1. If user has article in existing feed, he can mark it as "published" and in
+  // that case, the "published" behaves more like a label.
+  //   2. If user uses feature "shareToPublished", he essentially creates new textual
+  // note, which is then assigned to "Published feed" but can be also assigned label from 1).
+  //
+  // This label solves situation 1). 2) is solved in other way (creating static system feed).
+  QString published_caption = QSL("[SYSTEM] ") + QObject::tr("Published articles");
+  auto* published_lbl = new Label(published_caption, TextFactory::generateColorFromText(published_caption));
+
+  published_lbl->setKeepOnTop(true);
+  published_lbl->setCustomId(QString::number(TTRSS_PUBLISHED_LABEL_ID));
+  labels.append(published_lbl);
 
   for (const QJsonValue& lbl_val : qAsConst(json_labels)) {
     QJsonObject lbl_obj = lbl_val.toObject();

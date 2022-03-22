@@ -6,6 +6,7 @@
 #include "database/databasefactory.h"
 #include "database/databasequeries.h"
 #include "definitions/definitions.h"
+#include "gui/messagesview.h"
 #include "miscellaneous/application.h"
 #include "miscellaneous/iconfactory.h"
 #include "miscellaneous/skinfactory.h"
@@ -21,8 +22,10 @@
 #include <cmath>
 
 MessagesModel::MessagesModel(QObject* parent)
-  : QSqlQueryModel(parent), m_cache(new MessagesModelCache(this)), m_messageHighlighter(MessageHighlighter::NoHighlighting),
-  m_customDateFormat(QString()), m_selectedItem(nullptr), m_itemHeight(-1), m_displayFeedIcons(false) {
+  : QSqlQueryModel(parent), m_view(nullptr), m_cache(new MessagesModelCache(this)), m_messageHighlighter(MessageHighlighter::NoHighlighting),
+  m_customDateFormat(QString()), m_customTimeFormat(QString()), m_newerArticlesRelativeTime(-1),
+  m_selectedItem(nullptr), m_displayFeedIcons(false),
+  m_multilineListItems(qApp->settings()->value(GROUP(Messages), SETTING(Messages::MultilineArticleList)).toBool()) {
   setupFonts();
   setupIcons();
   setupHeaderData();
@@ -79,6 +82,14 @@ QIcon MessagesModel::generateIconForScore(double score) {
   return pix;
 }
 
+MessagesView* MessagesModel::view() const {
+  return m_view;
+}
+
+void MessagesModel::setView(MessagesView* newView) {
+  m_view = newView;
+}
+
 MessagesModelCache* MessagesModel::cache() const {
   return m_cache;
 }
@@ -119,15 +130,6 @@ void MessagesModel::setupFonts() {
   m_boldStrikedFont = m_boldFont;
   m_normalStrikedFont.setStrikeOut(true);
   m_boldStrikedFont.setStrikeOut(true);
-
-  m_itemHeight = qApp->settings()->value(GROUP(GUI), SETTING(GUI::HeightRowMessages)).toInt();
-
-  if (m_itemHeight > 0) {
-    m_boldFont.setPixelSize(int(m_itemHeight * 0.6));
-    m_normalFont.setPixelSize(int(m_itemHeight * 0.6));
-    m_boldStrikedFont.setPixelSize(int(m_itemHeight * 0.6));
-    m_normalStrikedFont.setPixelSize(int(m_itemHeight * 0.6));
-  }
 }
 
 void MessagesModel::loadMessages(RootItem* item) {
@@ -142,11 +144,10 @@ void MessagesModel::loadMessages(RootItem* item) {
       qCriticalNN << LOGSEC_MESSAGEMODEL
                   << "Loading of messages from item '"
                   << item->title() << "' failed.";
-      qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                           tr("Loading of articles from item '%1' failed.").arg(item->title()),
-                           tr("Loading of articles failed, maybe messages could not be downloaded."),
-                           QSystemTrayIcon::MessageIcon::Critical,
-                           true);
+      qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+        tr("Loading of articles from item '%1' failed").arg(item->title()),
+        tr("Loading of articles failed, maybe messages could not be downloaded."),
+        QSystemTrayIcon::MessageIcon::Critical });
     }
   }
 
@@ -196,6 +197,16 @@ void MessagesModel::updateDateFormat() {
   else {
     m_customDateFormat = QString();
   }
+
+  if (qApp->settings()->value(GROUP(Messages), SETTING(Messages::UseCustomTime)).toBool()) {
+    m_customTimeFormat = qApp->settings()->value(GROUP(Messages), SETTING(Messages::CustomTimeFormat)).toString();
+  }
+  else {
+    m_customTimeFormat = QString();
+  }
+
+  m_newerArticlesRelativeTime = qApp->settings()->value(GROUP(Messages),
+                                                        SETTING(Messages::RelativeTimeForNewerArticles)).toInt();
 }
 
 void MessagesModel::updateFeedIconsDisplay() {
@@ -265,7 +276,7 @@ void MessagesModel::setupHeaderData() {
     << tr("List of attachments.")
     << tr("Score of the article.")
     << tr("Account ID of the article.")
-    << tr("Custom ID of the article")
+    << tr("Custom ID of the article.")
     << tr("Custom hash of the article.")
     << tr("Custom ID of feed of the article.")
     << tr("Indication of enclosures presence within the article.");
@@ -298,18 +309,58 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
       int index_column = idx.column();
 
       if (index_column == MSG_DB_DCREATED_INDEX) {
-        QDateTime dt = TextFactory::parseDateTime(QSqlQueryModel::data(idx, role).value<qint64>()).toLocalTime();
+        QDateTime dt = TextFactory::parseDateTime(QSqlQueryModel::data(idx,
+                                                                       Qt::ItemDataRole::EditRole).value<qint64>()).toLocalTime();
 
-        if (m_customDateFormat.isEmpty()) {
+        if (dt.date() == QDate::currentDate() && !m_customTimeFormat.isEmpty()) {
+          return dt.toString(m_customTimeFormat);
+        }
+        else if (m_newerArticlesRelativeTime > 0 &&
+                 dt.daysTo(QDateTime::currentDateTime()) <= m_newerArticlesRelativeTime) {
+          auto secs_difference = dt.secsTo(QDateTime::currentDateTime());
+
+          if (secs_difference >= 2419200) {
+            // More than 1 week.
+            return tr("%n months ago", nullptr, secs_difference / 2419200);
+          }
+          else if (secs_difference >= 604800) {
+            // More than 1 week.
+            return tr("%n weeks ago", nullptr, secs_difference / 604800);
+          }
+          else if (secs_difference >= 172800) {
+            // At least 2 days.
+            return tr("%n days ago", nullptr, secs_difference / 86400);
+          }
+          else if (secs_difference >= 86400) {
+            // 1 day.
+            return tr("yesterday");
+          }
+          else if (secs_difference >= 3600) {
+            // Less than a day.
+            return tr("%n hours ago", nullptr, secs_difference / 3600);
+          }
+          else if (secs_difference >= 120) {
+            // Less then 1 hour ago.
+            return tr("%n minutes ago", nullptr, secs_difference / 60);
+          }
+          else {
+            return tr("just now");
+          }
+        }
+        else if (m_customDateFormat.isEmpty()) {
           return QLocale().toString(dt, QLocale::FormatType::ShortFormat);
         }
         else {
           return dt.toString(m_customDateFormat);
         }
       }
+      else if (index_column == MSG_DB_FEED_TITLE_INDEX) {
+        // Trim feed title.
+        return data(idx, Qt::ItemDataRole::EditRole).toString().simplified();
+      }
       else if (index_column == MSG_DB_CONTENTS_INDEX) {
         // Do not display full contents here.
-        QString contents = data(idx, Qt::EditRole).toString().mid(0, 64).simplified() + QL1S("...");
+        QString contents = data(idx, Qt::ItemDataRole::EditRole).toString().mid(0, 64).simplified() + QL1S("...");
 
         return contents;
       }
@@ -347,6 +398,16 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
         if (idx.column() == MSG_DB_SCORE_INDEX) {
           return data(idx, Qt::ItemDataRole::EditRole);
         }
+        else if (idx.column() == MSG_DB_URL_INDEX) {
+          return TextFactory::shorten(data(idx, Qt::ItemDataRole::DisplayRole).toString(),
+                                      TEXT_TOOLTIP_LIMIT);
+        }
+        else if (idx.column() == MSG_DB_DCREATED_INDEX) {
+          return qApp->localization()->loadedLocale().toString(
+            QDateTime::fromMSecsSinceEpoch(data(idx,
+                                                Qt::ItemDataRole::EditRole).value<qint64>()).toLocalTime(),
+            QLocale::FormatType::LongFormat);
+        }
         else {
           return data(idx, Qt::ItemDataRole::DisplayRole);
         }
@@ -381,25 +442,60 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
     }
 
     case Qt::ItemDataRole::ForegroundRole:
+    case HIGHLIGHTED_FOREGROUND_TITLE_ROLE:
       switch (m_messageHighlighter) {
         case MessageHighlighter::HighlightImportant: {
           QModelIndex idx_important = index(idx.row(), MSG_DB_IMPORTANT_INDEX);
           QVariant dta = m_cache->containsData(idx_important.row()) ? m_cache->data(idx_important) : QSqlQueryModel::data(idx_important);
 
-          return dta.toInt() == 1 ? qApp->skins()->currentSkin().m_colorPalette[Skin::PaletteColors::Highlight] : QVariant();
+          return dta.toInt() == 1
+              ? qApp->skins()->currentSkin().colorForModel(role == Qt::ItemDataRole::ForegroundRole
+              ? SkinEnums::PaletteColors::FgInteresting
+              : SkinEnums::PaletteColors::FgSelectedInteresting)
+              : QVariant();
         }
 
         case MessageHighlighter::HighlightUnread: {
           QModelIndex idx_read = index(idx.row(), MSG_DB_READ_INDEX);
           QVariant dta = m_cache->containsData(idx_read.row()) ? m_cache->data(idx_read) : QSqlQueryModel::data(idx_read);
 
-          return dta.toInt() == 0 ? qApp->skins()->currentSkin().m_colorPalette[Skin::PaletteColors::Highlight] : QVariant();
+          return dta.toInt() == 0
+              ? qApp->skins()->currentSkin().colorForModel(role == Qt::ItemDataRole::ForegroundRole
+              ? SkinEnums::PaletteColors::FgInteresting
+              : SkinEnums::PaletteColors::FgSelectedInteresting)
+              : QVariant();
         }
 
         case MessageHighlighter::NoHighlighting:
         default:
           return QVariant();
       }
+
+    case Qt::ItemDataRole::SizeHintRole: {
+      if (!m_multilineListItems ||
+          m_view == nullptr ||
+          m_view->isColumnHidden(idx.column()) ||
+          idx.column() != MSG_DB_TITLE_INDEX) {
+        return {};
+      }
+      else {
+        auto wd = m_view->columnWidth(idx.column());
+        QString str = data(idx, Qt::ItemDataRole::DisplayRole).toString();
+
+        if (str.simplified().isEmpty()) {
+          return {};
+        }
+
+        QFontMetrics fm(data(idx, Qt::ItemDataRole::FontRole).value<QFont>());
+        auto rct = fm.boundingRect(QRect(QPoint(0, 0), QPoint(wd - 5, 100000)),
+                                   Qt::TextFlag::TextWordWrap |
+                                   Qt::AlignmentFlag::AlignLeft |
+                                   Qt::AlignmentFlag::AlignVCenter,
+                                   str).size();
+
+        return rct;
+      }
+    }
 
     case Qt::ItemDataRole::DecorationRole: {
       const int index_column = idx.column();
@@ -408,8 +504,8 @@ QVariant MessagesModel::data(const QModelIndex& idx, int role) const {
         if (m_displayFeedIcons && m_selectedItem != nullptr) {
           QModelIndex idx_feedid = index(idx.row(), MSG_DB_FEED_CUSTOM_ID_INDEX);
           QVariant dta = m_cache->containsData(idx_feedid.row())
-                           ? m_cache->data(idx_feedid)
-                           : QSqlQueryModel::data(idx_feedid);
+                         ? m_cache->data(idx_feedid)
+                         : QSqlQueryModel::data(idx_feedid);
           QString feed_custom_id = dta.toString();
           auto acc = m_selectedItem->getParentServiceRoot()->feedIconForMessage(feed_custom_id);
 

@@ -34,7 +34,10 @@ void GmailServiceRoot::replyToEmail() {
 
 RootItem* GmailServiceRoot::obtainNewTreeForSyncIn() const {
   auto* root = new RootItem();
-  Feed* inbox = new Feed(tr("Inbox"), QSL(GMAIL_SYSTEM_LABEL_INBOX), qApp->icons()->fromTheme(QSL("mail-inbox")), root);
+  Feed* inbox = new Feed(tr("Inbox"),
+                         QSL(GMAIL_SYSTEM_LABEL_INBOX),
+                         qApp->icons()->fromTheme(QSL("mail-inbox"), QSL("mail-inbox-symbolic")),
+                         root);
 
   inbox->setKeepOnTop(true);
 
@@ -81,13 +84,17 @@ QList<Message> GmailServiceRoot::obtainNewMessages(Feed* feed,
   Q_UNUSED(tagged_messages)
 
   Feed::Status error = Feed::Status::Normal;
-  QList<Message> messages = network()->messages(feed->customId(), error, networkProxy());
+  QList<Message> messages = network()->messages(feed->customId(), stated_messages, error, networkProxy());
 
   if (error != Feed::Status::NewMessages && error != Feed::Status::Normal) {
     throw FeedFetchException(error);
   }
 
   return messages;
+}
+
+bool GmailServiceRoot::wantsBaggedIdsOfExistingMessages() const {
+  return true;
 }
 
 bool GmailServiceRoot::downloadAttachmentOnMyOwn(const QUrl& url) const {
@@ -114,7 +121,7 @@ QList<QAction*> GmailServiceRoot::contextMenuMessagesList(const QList<Message>& 
     m_replyToMessage = messages.at(0);
 
     if (m_actionReply == nullptr) {
-      m_actionReply = new QAction(qApp->icons()->fromTheme(QSL("mail-reply-sender")), tr("Reply to this message"), this);
+      m_actionReply = new QAction(qApp->icons()->fromTheme(QSL("mail-reply-sender")), tr("Reply to this e-mail message"), this);
       connect(m_actionReply, &QAction::triggered, this, &GmailServiceRoot::replyToEmail);
     }
 
@@ -163,7 +170,7 @@ bool GmailServiceRoot::supportsCategoryAdding() const {
 
 void GmailServiceRoot::start(bool freshly_activated) {
   if (!freshly_activated) {
-    DatabaseQueries::loadFromDatabase<Category, Feed>(this);
+    DatabaseQueries::loadRootFromDatabase<Category, Feed>(this);
     loadCacheFromFile();
   }
 

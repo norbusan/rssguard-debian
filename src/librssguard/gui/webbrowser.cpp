@@ -11,6 +11,7 @@
 #include "miscellaneous/application.h"
 #include "miscellaneous/iconfactory.h"
 #include "network-web/networkfactory.h"
+#include "network-web/readability.h"
 #include "network-web/webfactory.h"
 #include "services/abstract/serviceroot.h"
 
@@ -19,6 +20,7 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QToolTip>
+#include <QWebEngineProfile>
 #include <QWebEngineSettings>
 #include <QWidgetAction>
 
@@ -35,7 +37,10 @@ WebBrowser::WebBrowser(QWidget* parent) : TabContent(parent),
   m_actionStop(m_webView->pageAction(QWebEnginePage::WebAction::Stop)),
   m_actionOpenInSystemBrowser(new QAction(qApp->icons()->fromTheme(QSL("document-open")),
                                           tr("Open this website in system web browser"),
-                                          this)) {
+                                          this)),
+  m_actionReadabilePage(new QAction(qApp->icons()->fromTheme(QSL("text-html")),
+                                    tr("View website in reader mode"),
+                                    this)) {
   // Initialize the components and layout.
   initializeLayout();
   setFocusProxy(m_txtLocation);
@@ -63,6 +68,7 @@ void WebBrowser::createConnections() {
   });
 
   connect(m_actionOpenInSystemBrowser, &QAction::triggered, this, &WebBrowser::openCurrentSiteInSystemBrowser);
+  connect(m_actionReadabilePage, &QAction::triggered, this, &WebBrowser::readabilePage);
 
   connect(m_txtLocation, &LocationLineEdit::submitted,
           this, static_cast<void (WebBrowser::*)(const QString&)>(&WebBrowser::loadUrl));
@@ -78,6 +84,8 @@ void WebBrowser::createConnections() {
   connect(m_webView, &WebViewer::iconChanged, this, &WebBrowser::onIconChanged);
 
   connect(m_webView->page(), &WebPage::windowCloseRequested, this, &WebBrowser::closeRequested);
+  connect(qApp->web()->readability(), &Readability::htmlReadabled, this, &WebBrowser::setReadabledHtml);
+  connect(qApp->web()->readability(), &Readability::errorOnHtmlReadabiliting, this, &WebBrowser::readabilityFailed);
 }
 
 void WebBrowser::updateUrl(const QUrl& url) {
@@ -118,10 +126,12 @@ void WebBrowser::reloadFontSettings() {
   fon.fromString(qApp->settings()->value(GROUP(Messages),
                                          SETTING(Messages::PreviewerFontStandard)).toString());
 
-  QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::FontFamily::StandardFont, fon.family());
-  QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::FontFamily::SerifFont, fon.family());
-  QWebEngineSettings::defaultSettings()->setFontFamily(QWebEngineSettings::FontFamily::SansSerifFont, fon.family());
-  QWebEngineSettings::defaultSettings()->setFontSize(QWebEngineSettings::DefaultFontSize, fon.pointSize());
+  auto pixel_size = QFontMetrics(fon).ascent();
+
+  QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::FontFamily::StandardFont, fon.family());
+  QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::FontFamily::SerifFont, fon.family());
+  QWebEngineProfile::defaultProfile()->settings()->setFontFamily(QWebEngineSettings::FontFamily::SansSerifFont, fon.family());
+  QWebEngineProfile::defaultProfile()->settings()->setFontSize(QWebEngineSettings::DefaultFontSize, pixel_size);
 }
 
 void WebBrowser::increaseZoom() {
@@ -162,6 +172,13 @@ void WebBrowser::loadMessages(const QList<Message>& messages, RootItem* root) {
 
 void WebBrowser::loadMessage(const Message& message, RootItem* root) {
   loadMessages({ message }, root);
+}
+
+void WebBrowser::readabilePage() {
+  m_actionReadabilePage->setEnabled(false);
+  m_webView->page()->toHtml([this](const QString& htm) {
+    qApp->web()->readability()->makeHtmlReadable(htm, m_webView->url().toString());
+  });
 }
 
 bool WebBrowser::eventFilter(QObject* watched, QEvent* event) {
@@ -205,6 +222,20 @@ void WebBrowser::onIconChanged(const QIcon& icon) {
   emit iconChanged(m_index, icon);
 }
 
+void WebBrowser::setReadabledHtml(const QString& better_html) {
+  if (!better_html.isEmpty()) {
+    m_webView->setHtml(better_html, m_webView->url());
+  }
+}
+
+void WebBrowser::readabilityFailed(const QString& error) {
+  MsgBox::show({}, QMessageBox::Icon::Critical,
+               tr("Reader mode failed for this website"),
+               tr("Reader mode cannot be applied to current page."),
+               {},
+               error);
+}
+
 void WebBrowser::initializeLayout() {
   m_toolBar->setFloatable(false);
   m_toolBar->setMovable(false);
@@ -215,9 +246,17 @@ void WebBrowser::initializeLayout() {
   m_actionForward->setText(tr("Forward"));
   m_actionReload->setText(tr("Reload"));
   m_actionStop->setText(tr("Stop"));
+
+  m_actionBack->setIcon(qApp->icons()->fromTheme(QSL("go-previous")));
+  m_actionForward->setIcon(qApp->icons()->fromTheme(QSL("go-next")));
+  m_actionReload->setIcon(qApp->icons()->fromTheme(QSL("reload"), QSL("view-refresh")));
+  m_actionStop->setIcon(qApp->icons()->fromTheme(QSL("process-stop")));
+
   QWidgetAction* act_discover = new QWidgetAction(this);
 
   m_actionOpenInSystemBrowser->setEnabled(false);
+  m_actionReadabilePage->setEnabled(false);
+
   act_discover->setDefaultWidget(m_btnDiscoverFeeds);
 
   // Add needed actions into toolbar.
@@ -226,8 +265,10 @@ void WebBrowser::initializeLayout() {
   m_toolBar->addAction(m_actionReload);
   m_toolBar->addAction(m_actionStop);
   m_toolBar->addAction(m_actionOpenInSystemBrowser);
+  m_toolBar->addAction(m_actionReadabilePage);
   m_toolBar->addAction(act_discover);
   m_toolBar->addWidget(m_txtLocation);
+
   m_loadingProgress = new QProgressBar(this);
   m_loadingProgress->setFixedHeight(5);
   m_loadingProgress->setMinimum(0);
@@ -240,7 +281,7 @@ void WebBrowser::initializeLayout() {
   m_layout->addWidget(m_webView);
   m_layout->addWidget(m_loadingProgress);
   m_layout->addWidget(m_searchWidget);
-  m_layout->setMargin(0);
+  m_layout->setContentsMargins({ 0, 0, 0, 0 });
   m_layout->setSpacing(0);
 
   m_searchWidget->hide();
@@ -250,6 +291,7 @@ void WebBrowser::onLoadingStarted() {
   m_btnDiscoverFeeds->clearFeedAddresses();
   m_loadingProgress->show();
   m_actionOpenInSystemBrowser->setEnabled(false);
+  m_actionReadabilePage->setEnabled(false);
 }
 
 void WebBrowser::onLoadingProgress(int progress) {
@@ -260,8 +302,13 @@ void WebBrowser::onLoadingFinished(bool success) {
   if (success) {
     auto url = m_webView->url();
 
-    if (url.isValid() && !url.host().contains(QSL(APP_LOW_NAME))) {
+    if (url.isValid() && !url.host().isEmpty()) {
       m_actionOpenInSystemBrowser->setEnabled(true);
+      m_actionReadabilePage->setEnabled(true);
+    }
+    else {
+      m_actionOpenInSystemBrowser->setEnabled(false);
+      m_actionReadabilePage->setEnabled(false);
     }
 
     // Let's check if there are any feeds defined on the web and eventually

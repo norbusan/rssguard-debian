@@ -140,12 +140,15 @@ QString NetworkFactory::networkErrorText(QNetworkReply::NetworkError error_code)
 }
 
 QString NetworkFactory::sanitizeUrl(const QString& url) {
-  return QString(url).replace(QRegularExpression(QSL("[^\\w\\-.~:\\/?#\\[\\]@!$&'()*+,;=%]")),
-                              QString());
+  return QString(url).replace(QRegularExpression(QSL("[^\\w\\-.~:\\/?#\\[\\]@!$&'()*+,;=% \\|]")),
+                              {});
 }
 
-QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QPair<QString, bool>>& urls, int timeout,
-                                                         QIcon& output, const QNetworkProxy& custom_proxy) {
+QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QPair<QString, bool>>& urls,
+                                                         int timeout,
+                                                         QIcon& output,
+                                                         const QList<QPair<QByteArray, QByteArray>>& additional_headers,
+                                                         const QNetworkProxy& custom_proxy) {
   QNetworkReply::NetworkError network_result = QNetworkReply::NetworkError::UnknownNetworkError;
 
   for (const auto& url : urls) {
@@ -162,11 +165,11 @@ QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QPair<QStri
                                                {},
                                                icon_data,
                                                QNetworkAccessManager::Operation::GetOperation,
-                                               {},
+                                               additional_headers,
                                                false,
                                                {},
                                                {},
-                                               custom_proxy).first;
+                                               custom_proxy).m_networkError;
 
       if (network_result == QNetworkReply::NetworkError::NoError) {
         QPixmap icon_pixmap;
@@ -180,8 +183,9 @@ QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QPair<QStri
       }
     }
     else {
-      // Use favicon fetching service.
-      QString host = QUrl(url.first).host();
+      // Duck Duck Go.
+      QUrl url_full = QUrl(url.first);
+      QString host = url_full.host();
 
       if (host.startsWith(QSL("www."))) {
         host = host.mid(4);
@@ -189,25 +193,34 @@ QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QPair<QStri
 
       const QString ddg_icon_service = QSL("https://external-content.duckduckgo.com/ip3/%1.ico").arg(host);
 
-      network_result = performNetworkOperation(ddg_icon_service,
-                                               timeout,
-                                               QByteArray(),
-                                               icon_data,
-                                               QNetworkAccessManager::Operation::GetOperation,
-                                               {},
-                                               false,
-                                               {},
-                                               {},
-                                               custom_proxy).first;
+      // Google S2.
+      host = url_full.scheme() + QSL("://") + url_full.host();
 
-      if (network_result == QNetworkReply::NetworkError::NoError) {
-        QPixmap icon_pixmap;
+      const QString gs2_icon_service = QSL("https://t2.gstatic.com/faviconV2?"
+                                           "client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&"
+                                           "url=%1").arg(host);
 
-        icon_pixmap.loadFromData(icon_data);
-        output = QIcon(icon_pixmap);
+      for (const QString& service : { ddg_icon_service, gs2_icon_service }) {
+        network_result = performNetworkOperation(service,
+                                                 timeout,
+                                                 QByteArray(),
+                                                 icon_data,
+                                                 QNetworkAccessManager::Operation::GetOperation,
+                                                 {},
+                                                 false,
+                                                 {},
+                                                 {},
+                                                 custom_proxy).m_networkError;
 
-        if (!output.isNull()) {
-          break;
+        if (network_result == QNetworkReply::NetworkError::NoError) {
+          QPixmap icon_pixmap;
+
+          icon_pixmap.loadFromData(icon_data);
+          output = QIcon(icon_pixmap);
+
+          if (!output.isNull()) {
+            return network_result;
+          }
         }
       }
     }
@@ -216,11 +229,15 @@ QNetworkReply::NetworkError NetworkFactory::downloadIcon(const QList<QPair<QStri
   return network_result;
 }
 
-NetworkResult NetworkFactory::performNetworkOperation(const QString& url, int timeout, const QByteArray& input_data,
-                                                      QByteArray& output, QNetworkAccessManager::Operation operation,
+NetworkResult NetworkFactory::performNetworkOperation(const QString& url,
+                                                      int timeout,
+                                                      const QByteArray& input_data,
+                                                      QByteArray& output,
+                                                      QNetworkAccessManager::Operation operation,
                                                       const QList<QPair<QByteArray, QByteArray>>& additional_headers,
                                                       bool protected_contents,
-                                                      const QString& username, const QString& password,
+                                                      const QString& username,
+                                                      const QString& password,
                                                       const QNetworkProxy& custom_proxy) {
   Downloader downloader;
   QEventLoop loop;
@@ -243,8 +260,11 @@ NetworkResult NetworkFactory::performNetworkOperation(const QString& url, int ti
   loop.exec();
 
   output = downloader.lastOutputData();
-  result.first = downloader.lastOutputError();
-  result.second = downloader.lastContentType();
+
+  result.m_networkError = downloader.lastOutputError();
+  result.m_contentType = downloader.lastContentType().toString();
+  result.m_cookies = downloader.lastCookies();
+
   return result;
 }
 
@@ -279,7 +299,16 @@ NetworkResult NetworkFactory::performNetworkOperation(const QString& url,
   loop.exec();
 
   output = downloader.lastOutputMultipartData();
-  result.first = downloader.lastOutputError();
-  result.second = downloader.lastContentType();
+
+  result.m_networkError = downloader.lastOutputError();
+  result.m_contentType = downloader.lastContentType().toString();
+  result.m_cookies = downloader.lastCookies();
+
   return result;
 }
+
+NetworkResult::NetworkResult()
+  : m_networkError(QNetworkReply::NetworkError::NoError), m_contentType(QString()), m_cookies({}) {}
+
+NetworkResult::NetworkResult(QNetworkReply::NetworkError err, const QString& ct, const QList<QNetworkCookie>& cook)
+  : m_networkError(err), m_contentType(ct), m_cookies(cook) {}

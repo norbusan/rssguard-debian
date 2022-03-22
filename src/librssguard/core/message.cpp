@@ -73,12 +73,12 @@ Message::Message() {
   m_assignedLabels = QList<Label*>();
 }
 
-void Message::sanitize(const Feed* feed) {
+void Message::sanitize(const Feed* feed, bool fix_future_datetimes) {
   // Sanitize title.
   m_title = m_title
 
             // Remove non-breaking spaces.
-            .replace(QRegularExpression(QSL("[ \u202F\u00A0 ]")), QSL(" "))
+            .replace(QRegularExpression(QString::fromUtf8(QByteArray("[\xE2\x80\xAF]"))), QSL(" "))
 
             // Shrink consecutive whitespaces.
             .replace(QRegularExpression(QSL("[\\s]{2,}")), QSL(" "))
@@ -98,6 +98,17 @@ void Message::sanitize(const Feed* feed) {
 
       m_url = base.resolved(m_url).toString();
     }
+  }
+
+  // Fix datetimes in future.
+  if (fix_future_datetimes &&
+      m_createdFromFeed &&
+      m_created.toUTC() > QDateTime::currentDateTimeUtc()) {
+    qWarningNN << LOGSEC_CORE << "Fixing future date of article" << QUOTE_W_SPACE(m_title) << "from invalid date/time"
+               << QUOTE_W_SPACE_DOT(m_created);
+
+    m_createdFromFeed = false;
+    m_created = QDateTime::currentDateTimeUtc();
   }
 }
 

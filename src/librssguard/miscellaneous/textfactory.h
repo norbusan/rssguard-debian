@@ -28,9 +28,12 @@ class TextFactory {
     // Converts 1970-epoch miliseconds to date/time.
     // NOTE: This method tries to always return time in UTC.
     static QDateTime parseDateTime(qint64 milis_from_epoch);
+    static QStringList dateTimePatterns();
     static QString encrypt(const QString& text, quint64 key = 0);
     static QString decrypt(const QString& text, quint64 key = 0);
     static QString newline();
+    static QString capitalizeFirstLetter(const QString& sts);
+    static QStringList tokenizeProcessArguments(QStringView args);
 
     // Shortens input string according to given length limit.
     static QString shorten(const QString& input, int text_length_limit = TEXT_TITLE_LIMIT);

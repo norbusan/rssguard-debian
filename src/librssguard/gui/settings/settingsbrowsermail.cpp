@@ -21,9 +21,17 @@ SettingsBrowserMail::SettingsBrowserMail(Settings* settings, QWidget* parent)
 
   m_ui->m_tabBrowserProxy->addTab(m_proxyDetails, tr("Network proxy"));
 
-  GuiUtilities::setLabelAsNotice(*m_ui->label, false);
-  GuiUtilities::setLabelAsNotice(*m_ui->m_lblExternalEmailInfo, false);
-  GuiUtilities::setLabelAsNotice(*m_ui->m_lblToolInfo, false);
+  m_ui->m_lblExternalBrowserInfo->setHelpText(tr("Note that \"%1\" (without quotation marks) "
+                                                 "is placeholder for URL of selected message."),
+                                              false);
+
+  m_ui->m_lblExternalEmailInfo->setHelpText(tr("Placeholders:\n"
+                                               " • %1 - title of selected message,\n"
+                                               " • %2 - body of selected message."),
+                                            false);
+
+  m_ui->m_lblToolInfo->setHelpText(tr("On this page, you can setup a list of external tools which can open URLs."),
+                                   false);
 
   m_ui->m_btnAddTool->setIcon(qApp->icons()->fromTheme(QSL("list-add")));
   m_ui->m_btnEditTool->setIcon(qApp->icons()->fromTheme(QSL("document-edit")));
@@ -82,7 +90,7 @@ void SettingsBrowserMail::selectBrowserExecutable() {
                                                                qApp->homeFolder(),
 
                                                                //: File filter for external browser selection dialog.
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
                                                                tr("Executables (*)"));
 #else
                                                                tr("Executables (*.*)"));
@@ -126,7 +134,7 @@ void SettingsBrowserMail::selectEmailExecutable() {
                                                          qApp->homeFolder(),
 
                                                          //: File filter for external e-mail selection dialog.
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
                                                          tr("Executables (*)"));
 #else
                                                          tr("Executables (*.*)"));
@@ -241,7 +249,7 @@ ExternalTool SettingsBrowserMail::tweakExternalTool(const ExternalTool& tool) co
     bool ok;
     QString parameters = QInputDialog::getText(window(),
                                                tr("Enter parameters"),
-                                               tr("Enter (optional) parameters separated by \"%1\":").arg(QSL(EXECUTION_LINE_SEPARATOR)),
+                                               tr("Enter (optional) parameters:"),
                                                QLineEdit::EchoMode::Normal,
                                                tool.parameters(),
                                                &ok);
@@ -265,6 +273,7 @@ void SettingsBrowserMail::editSelectedExternalTool() {
 
   try {
     ext_tool = tweakExternalTool(ext_tool);
+
     m_ui->m_listTools->currentItem()->setText(0, ext_tool.executable());
     m_ui->m_listTools->currentItem()->setText(1, ext_tool.parameters());
     m_ui->m_listTools->currentItem()->setData(0, Qt::ItemDataRole::UserRole, QVariant::fromValue(ext_tool));

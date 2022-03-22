@@ -26,31 +26,18 @@ void GuiUtilities::setLabelAsNotice(QLabel& label, bool is_warning, bool set_mar
 }
 
 void GuiUtilities::applyDialogProperties(QWidget& widget, const QIcon& icon, const QString& title) {
-#if defined(Q_OS_WIN)
-  widget.setWindowFlags(Qt::WindowType::Dialog | Qt::WindowType::WindowTitleHint);
-#else
-  widget.setWindowFlags(Qt::WindowType::Dialog | Qt::WindowType::CustomizeWindowHint | Qt::WindowType::WindowCloseButtonHint);
-#endif
+
+  widget.setWindowFlags(
+    Qt::WindowType::Dialog |
+    Qt::WindowType::WindowTitleHint |
+    Qt::WindowType::WindowMaximizeButtonHint |
+    Qt::WindowType::WindowCloseButtonHint);
 
   widget.setWindowIcon(icon);
 
   if (!title.isEmpty()) {
     widget.setWindowTitle(title);
   }
-}
-
-void GuiUtilities::applyResponsiveDialogResize(QWidget& widget, double factor) {
-#if defined(Q_OS_ANDROID)
-  auto desktop_geom = QApplication::desktop()->screenGeometry();
-  auto ratio = double(widget.size().height()) / widget.size().width();
-  int widt = desktop_geom.width() * factor;
-  int heig = widt * ratio;
-
-  widget.resize(widt, heig);
-#else
-  Q_UNUSED(factor)
-  Q_UNUSED(widget)
-#endif
 }
 
 void GuiUtilities::restoreState(QWidget* wdg, QByteArray state) {

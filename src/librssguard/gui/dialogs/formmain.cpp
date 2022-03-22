@@ -45,6 +45,8 @@
 #include <QScopedPointer>
 #include <QThread>
 #include <QTimer>
+#include <QToolButton>
+#include <QWidgetAction>
 
 #if QT_VERSION >= 0x050E00 // Qt >= 5.14.0
 #include <QScreen>
@@ -54,13 +56,41 @@
 
 FormMain::FormMain(QWidget* parent, Qt::WindowFlags f)
   : QMainWindow(parent, f), m_ui(new Ui::FormMain), m_trayMenu(nullptr), m_statusBar(nullptr) {
-  qDebugNN << LOGSEC_GUI << "Creating main application form in thread: '" << QThread::currentThreadId() << "'.";
+  qDebugNN << LOGSEC_GUI << "Creating main application form in thread:" << QUOTE_W_SPACE_DOT(QThread::currentThreadId());
 
   m_ui->setupUi(this);
   qApp->setMainForm(this);
 
   setWindowIcon(qApp->desktopAwareIcon());
   setWindowTitle(QSL(APP_LONG_NAME));
+
+  QMenu* main_menu = new QMenu(tr("Main menu"), this);
+
+  main_menu->addMenu(m_ui->m_menuFile);
+  main_menu->addMenu(m_ui->m_menuView);
+  main_menu->addMenu(m_ui->m_menuAccounts);
+  main_menu->addMenu(m_ui->m_menuFeeds);
+  main_menu->addMenu(m_ui->m_menuMessages);
+  main_menu->addMenu(m_ui->m_menuWebBrowserTabs);
+  main_menu->addMenu(m_ui->m_menuTools);
+  main_menu->addMenu(m_ui->m_menuHelp);
+
+  QToolButton* btn_main_menu = new QToolButton(this);
+
+  btn_main_menu->setToolTip(tr("Open main menu"));
+  btn_main_menu->setMenu(main_menu);
+  btn_main_menu->setPopupMode(QToolButton::ToolButtonPopupMode::InstantPopup);
+  btn_main_menu->setIcon(qApp->icons()->fromTheme(QSL("go-home")));
+
+  m_actionToolbarMainMenu = new QWidgetAction(this);
+  m_actionToolbarMainMenu->setDefaultWidget(btn_main_menu);
+  m_actionToolbarMainMenu->setIcon(qApp->icons()->fromTheme(QSL("go-home")));
+  m_actionToolbarMainMenu->setText(tr("Open &main menu"));
+  m_actionToolbarMainMenu->setObjectName("m_actionToolbarMainMenu");
+
+  connect(m_actionToolbarMainMenu, &QWidgetAction::triggered, this, [this]() {
+    qobject_cast<QToolButton*>(m_actionToolbarMainMenu->defaultWidget())->menu()->exec();
+  });
 
 #if defined(USE_WEBENGINE)
   m_ui->m_menuWebBrowserTabs->addAction(qApp->web()->adBlock()->adBlockIcon());
@@ -84,6 +114,7 @@ FormMain::FormMain(QWidget* parent, Qt::WindowFlags f)
   createConnections();
   updateMessageButtonsAvailability();
   updateFeedButtonsAvailability();
+  updateTabsButtonsAvailability(tabWidget()->currentIndex());
 
   // Setup some appearance of the window.
   setupIcons();
@@ -119,11 +150,10 @@ void FormMain::showDbCleanupAssistant() {
     qApp->feedReader()->feedsModel()->reloadCountsOfWholeModel();
   }
   else {
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         tr("Cannot cleanup database"),
-                         tr("Cannot cleanup database, because another critical action is running."),
-                         QSystemTrayIcon::Warning,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Cannot cleanup database"),
+      tr("Cannot cleanup database, because another critical action is running."),
+      QSystemTrayIcon::MessageIcon::Warning });
   }
 }
 
@@ -157,6 +187,7 @@ QList<QAction*> FormMain::allActions() const {
   actions << m_ui->m_actionSendMessageViaEmail;
   actions << m_ui->m_actionOpenSelectedSourceArticlesExternally;
   actions << m_ui->m_actionOpenSelectedMessagesInternally;
+  actions << m_ui->m_actionOpenSelectedMessagesInternallyNoTab;
   actions << m_ui->m_actionAlternateColorsInLists;
   actions << m_ui->m_actionMessagePreviewEnabled;
   actions << m_ui->m_actionMarkAllItemsRead;
@@ -165,6 +196,7 @@ QList<QAction*> FormMain::allActions() const {
   actions << m_ui->m_actionClearSelectedItems;
   actions << m_ui->m_actionClearAllItems;
   actions << m_ui->m_actionShowOnlyUnreadItems;
+  actions << m_ui->m_actionSortFeedsAlphabetically;
   actions << m_ui->m_actionShowTreeBranches;
   actions << m_ui->m_actionAutoExpandItemsWhenSelected;
   actions << m_ui->m_actionShowOnlyUnreadMessages;
@@ -178,12 +210,17 @@ QList<QAction*> FormMain::allActions() const {
   actions << m_ui->m_actionStopRunningItemsUpdate;
   actions << m_ui->m_actionEditSelectedItem;
   actions << m_ui->m_actionCopyUrlSelectedFeed;
+  actions << m_ui->m_actionCopyUrlSelectedArticles;
   actions << m_ui->m_actionDeleteSelectedItem;
   actions << m_ui->m_actionServiceAdd;
   actions << m_ui->m_actionServiceEdit;
   actions << m_ui->m_actionServiceDelete;
   actions << m_ui->m_actionCleanupDatabase;
   actions << m_ui->m_actionAddFeedIntoSelectedItem;
+  actions << m_ui->m_actionFeedMoveUp;
+  actions << m_ui->m_actionFeedMoveDown;
+  actions << m_ui->m_actionFeedMoveTop;
+  actions << m_ui->m_actionFeedMoveBottom;
   actions << m_ui->m_actionAddCategoryIntoSelectedItem;
   actions << m_ui->m_actionViewSelectedItemsNewspaperMode;
   actions << m_ui->m_actionSelectNextItem;
@@ -199,8 +236,10 @@ QList<QAction*> FormMain::allActions() const {
   actions << m_ui->m_actionTabNewWebBrowser;
 #endif
 
+  actions << m_ui->m_actionTabsCloseCurrent;
   actions << m_ui->m_actionTabsCloseAll;
   actions << m_ui->m_actionTabsCloseAllExceptCurrent;
+  actions << m_actionToolbarMainMenu;
 
   return actions;
 }
@@ -221,7 +260,7 @@ void FormMain::prepareMenus() {
     m_trayMenu->addAction(m_ui->m_actionSettings);
     m_trayMenu->addAction(m_ui->m_actionQuit);
 
-    qDebugNN << LOGSEC_MESSAGEMODEL << "Creating tray icon menu.";
+    qDebugNN << LOGSEC_GUI << "Creating tray icon menu.";
   }
 
 #if !defined(USE_WEBENGINE)
@@ -393,6 +432,11 @@ void FormMain::updateAccountsMenu() {
   m_ui->m_menuAccounts->addAction(m_ui->m_actionServiceDelete);
 }
 
+void FormMain::updateTabsButtonsAvailability(int index) {
+  m_ui->m_actionTabsCloseCurrent->setEnabled(tabWidget()->tabBar()->tabType(index) == TabBar::TabType::Closable ||
+                                             tabWidget()->tabBar()->tabType(index) == TabBar::TabType::DownloadManager);
+}
+
 void FormMain::onFeedUpdatesFinished(const FeedDownloadResults& results) {
   Q_UNUSED(results)
 
@@ -407,9 +451,7 @@ void FormMain::onFeedUpdatesStarted() {
 
 void FormMain::onFeedUpdatesProgress(const Feed* feed, int current, int total) {
   statusBar()->showProgressFeeds(int((current * 100.0) / total),
-
-                                 //: Text display in status bar when particular feed is updated.
-                                 tr("Fetched '%1'").arg(TextFactory::shorten(feed->title())));
+                                 feed->sanitizedTitle());
 }
 
 void FormMain::updateMessageButtonsAvailability() {
@@ -422,8 +464,10 @@ void FormMain::updateMessageButtonsAvailability() {
   m_ui->m_actionRestoreSelectedMessages->setEnabled(atleast_one_message_selected && bin_loaded);
   m_ui->m_actionMarkSelectedMessagesAsRead->setEnabled(atleast_one_message_selected);
   m_ui->m_actionMarkSelectedMessagesAsUnread->setEnabled(atleast_one_message_selected);
+  m_ui->m_actionOpenSelectedMessagesInternallyNoTab->setEnabled(one_message_selected);
   m_ui->m_actionOpenSelectedMessagesInternally->setEnabled(atleast_one_message_selected);
   m_ui->m_actionOpenSelectedSourceArticlesExternally->setEnabled(atleast_one_message_selected);
+  m_ui->m_actionCopyUrlSelectedArticles->setEnabled(atleast_one_message_selected);
   m_ui->m_actionSendMessageViaEmail->setEnabled(one_message_selected);
   m_ui->m_actionSwitchImportanceOfSelectedMessages->setEnabled(atleast_one_message_selected);
 }
@@ -436,6 +480,7 @@ void FormMain::updateFeedButtonsAvailability() {
   const bool feed_selected = anything_selected && selected_item->kind() == RootItem::Kind::Feed;
   const bool category_selected = anything_selected && selected_item->kind() == RootItem::Kind::Category;
   const bool service_selected = anything_selected && selected_item->kind() == RootItem::Kind::ServiceRoot;
+  const bool manual_feed_sort = !m_ui->m_actionSortFeedsAlphabetically->isChecked();
 
   m_ui->m_actionStopRunningItemsUpdate->setEnabled(is_update_running);
   m_ui->m_actionBackupDatabaseSettings->setEnabled(!critical_action_running);
@@ -459,6 +504,11 @@ void FormMain::updateFeedButtonsAvailability() {
   m_ui->m_menuAddItem->setEnabled(!critical_action_running);
   m_ui->m_menuAccounts->setEnabled(!critical_action_running);
   m_ui->m_menuRecycleBin->setEnabled(!critical_action_running);
+
+  m_ui->m_actionFeedMoveUp->setEnabled(manual_feed_sort &&(feed_selected || category_selected || service_selected));
+  m_ui->m_actionFeedMoveDown->setEnabled(manual_feed_sort &&(feed_selected || category_selected || service_selected));
+  m_ui->m_actionFeedMoveTop->setEnabled(manual_feed_sort &&(feed_selected || category_selected || service_selected));
+  m_ui->m_actionFeedMoveBottom->setEnabled(manual_feed_sort &&(feed_selected || category_selected || service_selected));
 }
 
 void FormMain::switchVisibility(bool force_hide) {
@@ -466,10 +516,10 @@ void FormMain::switchVisibility(bool force_hide) {
     if (SystemTrayIcon::isSystemTrayDesired() && SystemTrayIcon::isSystemTrayAreaAvailable()) {
 
       if (QApplication::activeModalWidget() != nullptr) {
-        qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                             QSL(APP_LONG_NAME),
-                             tr("Close opened modal dialogs first."),
-                             QSystemTrayIcon::Warning, true);
+        qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+          tr("Close dialogs"),
+          tr("Close opened modal dialogs first."),
+          QSystemTrayIcon::MessageIcon::Warning });
       }
       else {
         hide();
@@ -503,7 +553,7 @@ void FormMain::setupIcons() {
 
   // Setup icons of this main window.
   m_ui->m_actionDownloadManager->setIcon(icon_theme_factory->fromTheme(QSL("emblem-downloads")));
-  m_ui->m_actionSettings->setIcon(icon_theme_factory->fromTheme(QSL("emblem-system")));
+  m_ui->m_actionSettings->setIcon(icon_theme_factory->fromTheme(QSL("emblem-system"), QSL("applications-system")));
   m_ui->m_actionQuit->setIcon(icon_theme_factory->fromTheme(QSL("application-exit")));
   m_ui->m_actionRestart->setIcon(icon_theme_factory->fromTheme(QSL("view-refresh")));
   m_ui->m_actionAboutGuard->setIcon(icon_theme_factory->fromTheme(QSL("help-about")));
@@ -539,6 +589,7 @@ void FormMain::setupIcons() {
   m_ui->m_actionDeleteSelectedMessages->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-junk")));
   m_ui->m_actionEditSelectedItem->setIcon(icon_theme_factory->fromTheme(QSL("document-edit")));
   m_ui->m_actionCopyUrlSelectedFeed->setIcon(icon_theme_factory->fromTheme(QSL("edit-copy")));
+  m_ui->m_actionCopyUrlSelectedArticles->setIcon(icon_theme_factory->fromTheme(QSL("edit-copy")));
   m_ui->m_actionMarkAllItemsRead->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-read")));
   m_ui->m_actionMarkSelectedItemsAsRead->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-read")));
   m_ui->m_actionMarkSelectedItemsAsUnread->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-unread")));
@@ -547,13 +598,15 @@ void FormMain::setupIcons() {
   m_ui->m_actionSwitchImportanceOfSelectedMessages->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-important")));
   m_ui->m_actionOpenSelectedSourceArticlesExternally->setIcon(icon_theme_factory->fromTheme(QSL("document-open")));
   m_ui->m_actionOpenSelectedMessagesInternally->setIcon(icon_theme_factory->fromTheme(QSL("document-open")));
+  m_ui->m_actionOpenSelectedMessagesInternallyNoTab->setIcon(icon_theme_factory->fromTheme(QSL("document-open")));
   m_ui->m_actionSendMessageViaEmail->setIcon(icon_theme_factory->fromTheme(QSL("mail-send")));
   m_ui->m_actionViewSelectedItemsNewspaperMode->setIcon(icon_theme_factory->fromTheme(QSL("format-justify-fill")));
-  m_ui->m_actionSelectNextItem->setIcon(icon_theme_factory->fromTheme(QSL("go-down")));
-  m_ui->m_actionSelectPreviousItem->setIcon(icon_theme_factory->fromTheme(QSL("go-up")));
-  m_ui->m_actionSelectNextMessage->setIcon(icon_theme_factory->fromTheme(QSL("go-down")));
-  m_ui->m_actionSelectPreviousMessage->setIcon(icon_theme_factory->fromTheme(QSL("go-up")));
+  m_ui->m_actionSelectNextItem->setIcon(icon_theme_factory->fromTheme(QSL("arrow-down")));
+  m_ui->m_actionSelectPreviousItem->setIcon(icon_theme_factory->fromTheme(QSL("arrow-up")));
+  m_ui->m_actionSelectNextMessage->setIcon(icon_theme_factory->fromTheme(QSL("arrow-down")));
+  m_ui->m_actionSelectPreviousMessage->setIcon(icon_theme_factory->fromTheme(QSL("arrow-up")));
   m_ui->m_actionSelectNextUnreadMessage->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-unread")));
+  m_ui->m_actionSortFeedsAlphabetically->setIcon(icon_theme_factory->fromTheme(QSL("format-text-bold")));
   m_ui->m_actionShowOnlyUnreadItems->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-unread")));
   m_ui->m_actionShowOnlyUnreadMessages->setIcon(icon_theme_factory->fromTheme(QSL("mail-mark-unread")));
   m_ui->m_actionExpandCollapseItem->setIcon(icon_theme_factory->fromTheme(QSL("format-indent-more")));
@@ -568,9 +621,15 @@ void FormMain::setupIcons() {
   m_ui->m_actionAddCategoryIntoSelectedItem->setIcon(icon_theme_factory->fromTheme(QSL("folder")));
   m_ui->m_actionMessageFilters->setIcon(icon_theme_factory->fromTheme(QSL("view-list-details")));
 
+  m_ui->m_actionFeedMoveUp->setIcon(icon_theme_factory->fromTheme(QSL("arrow-up"), QSL("go-up")));
+  m_ui->m_actionFeedMoveDown->setIcon(icon_theme_factory->fromTheme(QSL("arrow-down"), QSL("go-down")));
+  m_ui->m_actionFeedMoveTop->setIcon(icon_theme_factory->fromTheme(QSL("arrow-up-double"), QSL("go-up")));
+  m_ui->m_actionFeedMoveBottom->setIcon(icon_theme_factory->fromTheme(QSL("arrow-down-double"), QSL("go-down")));
+
   // Tabs & web browser.
   m_ui->m_actionTabNewWebBrowser->setIcon(icon_theme_factory->fromTheme(QSL("tab-new")));
   m_ui->m_actionTabsCloseAll->setIcon(icon_theme_factory->fromTheme(QSL("window-close")));
+  m_ui->m_actionTabsCloseCurrent->setIcon(icon_theme_factory->fromTheme(QSL("window-close")));
   m_ui->m_actionTabsCloseAllExceptCurrent->setIcon(icon_theme_factory->fromTheme(QSL("window-close")));
   m_ui->m_actionTabsNext->setIcon(icon_theme_factory->fromTheme(QSL("go-next")));
   m_ui->m_actionTabsPrevious->setIcon(icon_theme_factory->fromTheme(QSL("go-previous")));
@@ -625,6 +684,8 @@ void FormMain::loadSize() {
   m_ui->m_actionSwitchStatusBar->setChecked(settings->value(GROUP(GUI), SETTING(GUI::StatusBarVisible)).toBool());
 
   // Other startup GUI-related settings.
+  m_ui->m_actionSortFeedsAlphabetically->setChecked(settings->value(GROUP(Feeds),
+                                                                    SETTING(Feeds::SortAlphabetically)).toBool());
   m_ui->m_actionShowOnlyUnreadItems->setChecked(settings->value(GROUP(Feeds),
                                                                 SETTING(Feeds::ShowOnlyUnreadFeeds)).toBool());
   m_ui->m_actionShowTreeBranches->setChecked(settings->value(GROUP(Feeds),
@@ -666,6 +727,7 @@ void FormMain::saveSize() {
   settings->setValue(GROUP(GUI), GUI::MainWindowStartsMaximized, is_maximized);
   settings->setValue(GROUP(GUI), GUI::MainWindowStartsFullscreen, is_fullscreen);
   settings->setValue(GROUP(GUI), GUI::StatusBarVisible, m_ui->m_actionSwitchStatusBar->isChecked());
+
   m_ui->m_tabWidget->feedMessageViewer()->saveSize();
 }
 
@@ -718,6 +780,7 @@ void FormMain::createConnections() {
   connect(m_ui->m_actionTabsPrevious, &QAction::triggered, m_ui->m_tabWidget, &TabWidget::gotoPreviousTab);
   connect(m_ui->m_actionTabsCloseAllExceptCurrent, &QAction::triggered, m_ui->m_tabWidget, &TabWidget::closeAllTabsExceptCurrent);
   connect(m_ui->m_actionTabsCloseAll, &QAction::triggered, m_ui->m_tabWidget, &TabWidget::closeAllTabs);
+  connect(m_ui->m_actionTabsCloseCurrent, &QAction::triggered, m_ui->m_tabWidget, &TabWidget::closeCurrentTab);
   connect(m_ui->m_actionTabNewWebBrowser, &QAction::triggered, m_ui->m_tabWidget, &TabWidget::addEmptyBrowser);
   connect(tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::itemSelected, this, &FormMain::updateFeedButtonsAvailability);
   connect(qApp->feedUpdateLock(), &Mutex::locked, this, &FormMain::updateFeedButtonsAvailability);
@@ -726,6 +789,7 @@ void FormMain::createConnections() {
           this, &FormMain::updateMessageButtonsAvailability);
   connect(tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::currentMessageChanged,
           this, &FormMain::updateMessageButtonsAvailability);
+  connect(tabWidget(), &TabWidget::currentChanged, this, &FormMain::updateTabsButtonsAvailability);
   connect(qApp->feedReader(), &FeedReader::feedUpdatesStarted, this, &FormMain::onFeedUpdatesStarted);
   connect(qApp->feedReader(), &FeedReader::feedUpdatesProgress, this, &FormMain::onFeedUpdatesProgress);
   connect(qApp->feedReader(), &FeedReader::feedUpdatesFinished, this, &FormMain::onFeedUpdatesFinished);
@@ -747,6 +811,10 @@ void FormMain::createConnections() {
           &QAction::triggered, tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::openSelectedSourceMessagesExternally);
   connect(m_ui->m_actionOpenSelectedMessagesInternally,
           &QAction::triggered, tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::openSelectedMessagesInternally);
+
+  connect(m_ui->m_actionOpenSelectedMessagesInternallyNoTab,
+          &QAction::triggered, tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::openSelectedMessageUrl);
+
   connect(m_ui->m_actionSendMessageViaEmail,
           &QAction::triggered, tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::sendSelectedMessageViaEmail);
   connect(m_ui->m_actionMarkAllItemsRead,
@@ -781,6 +849,8 @@ void FormMain::createConnections() {
           &QAction::triggered, qApp->feedReader(), &FeedReader::stopRunningFeedUpdate);
   connect(m_ui->m_actionCopyUrlSelectedFeed,
           &QAction::triggered, tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::copyUrlOfSelectedFeeds);
+  connect(m_ui->m_actionCopyUrlSelectedArticles,
+          &QAction::triggered, tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::copyUrlOfSelectedArticles);
   connect(m_ui->m_actionEditSelectedItem,
           &QAction::triggered, tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::editSelectedItem);
   connect(m_ui->m_actionViewSelectedItemsNewspaperMode,
@@ -804,11 +874,11 @@ void FormMain::createConnections() {
   connect(m_ui->m_actionSelectPreviousMessage,
           &QAction::triggered, tabWidget()->feedMessageViewer()->messagesView(), &MessagesView::selectPreviousItem);
   connect(m_ui->m_actionSwitchMessageListOrientation, &QAction::triggered,
-          tabWidget()->feedMessageViewer(), [this]() {
-    tabWidget()->feedMessageViewer()->switchMessageSplitterOrientation(true);
-  });
+          tabWidget()->feedMessageViewer(), &FeedMessageViewer::switchMessageSplitterOrientation);
   connect(m_ui->m_actionShowOnlyUnreadItems, &QAction::toggled,
           tabWidget()->feedMessageViewer(), &FeedMessageViewer::toggleShowOnlyUnreadFeeds);
+  connect(m_ui->m_actionSortFeedsAlphabetically, &QAction::toggled,
+          tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::toggleFeedSortingMode);
   connect(m_ui->m_actionShowTreeBranches, &QAction::toggled,
           tabWidget()->feedMessageViewer(), &FeedMessageViewer::toggleShowFeedTreeBranches);
   connect(m_ui->m_actionAutoExpandItemsWhenSelected, &QAction::toggled,
@@ -827,6 +897,14 @@ void FormMain::createConnections() {
     qApp->feedReader()->showMessageFiltersManager();
     tabWidget()->feedMessageViewer()->messagesView()->reloadSelections();
   });
+  connect(m_ui->m_actionFeedMoveUp, &QAction::triggered,
+          tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::moveSelectedItemUp);
+  connect(m_ui->m_actionFeedMoveDown, &QAction::triggered,
+          tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::moveSelectedItemDown);
+  connect(m_ui->m_actionFeedMoveTop, &QAction::triggered,
+          tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::moveSelectedItemTop);
+  connect(m_ui->m_actionFeedMoveBottom, &QAction::triggered,
+          tabWidget()->feedMessageViewer()->feedsView(), &FeedsView::moveSelectedItemBottom);
 }
 
 void FormMain::backupDatabaseSettings() {
@@ -898,4 +976,10 @@ void FormMain::reportABug() {
 
 void FormMain::donate() {
   qApp->web()->openUrlInExternalBrowser(QSL(APP_DONATE_URL));
+}
+
+void FormMain::resizeEvent(QResizeEvent* event) {
+  QMainWindow::resizeEvent(event);
+
+  emit windowResized(event->size());
 }

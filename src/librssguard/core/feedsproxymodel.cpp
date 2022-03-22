@@ -4,6 +4,7 @@
 
 #include "core/feedsmodel.h"
 #include "definitions/definitions.h"
+#include "gui/feedsview.h"
 #include "miscellaneous/application.h"
 #include "miscellaneous/regexfactory.h"
 #include "services/abstract/rootitem.h"
@@ -11,7 +12,8 @@
 #include <QTimer>
 
 FeedsProxyModel::FeedsProxyModel(FeedsModel* source_model, QObject* parent)
-  : QSortFilterProxyModel(parent), m_sourceModel(source_model), m_selectedItem(nullptr), m_showUnreadOnly(false) {
+  : QSortFilterProxyModel(parent), m_sourceModel(source_model), m_view(nullptr),
+  m_selectedItem(nullptr), m_showUnreadOnly(false), m_sortAlphabetically(true) {
   setObjectName(QSL("FeedsProxyModel"));
 
   setSortRole(Qt::ItemDataRole::EditRole);
@@ -162,7 +164,6 @@ bool FeedsProxyModel::lessThan(const QModelIndex& left, const QModelIndex& right
     // feeds are queued one after another too.
     // Moreover, sort everything alphabetically or
     // by item counts, depending on the sort column.
-
     if (left_item->keepOnTop()) {
       return sortOrder() == Qt::SortOrder::AscendingOrder;
     }
@@ -170,14 +171,32 @@ bool FeedsProxyModel::lessThan(const QModelIndex& left, const QModelIndex& right
       return sortOrder() == Qt::SortOrder::DescendingOrder;
     }
     else if (left_item->kind() == right_item->kind()) {
-      // Both items are of the same type.
-      if (left.column() == FDS_MODEL_COUNTS_INDEX) {
-        // User wants to sort according to counts.
-        return left_item->countOfUnreadMessages() < right_item->countOfUnreadMessages();
+      if (m_sortAlphabetically) {
+        // Both items are of the same type.
+        if (left.column() == FDS_MODEL_COUNTS_INDEX) {
+          // User wants to sort according to counts.
+          return left_item->countOfUnreadMessages() < right_item->countOfUnreadMessages();
+        }
+        else {
+          // In other cases, sort by title.
+          return QString::localeAwareCompare(left_item->title().toLower(), right_item->title().toLower()) < 0;
+        }
       }
       else {
-        // In other cases, sort by title.
-        return QString::localeAwareCompare(left_item->title().toLower(), right_item->title().toLower()) < 0;
+        // We sort some types with sort order, other alphabetically.
+        switch (left_item->kind()) {
+          case RootItem::Kind::Feed:
+          case RootItem::Kind::Category:
+          case RootItem::Kind::ServiceRoot:
+            return sortOrder() == Qt::SortOrder::AscendingOrder
+                ? left_item->sortOrder() < right_item->sortOrder()
+                : left_item->sortOrder() > right_item->sortOrder();
+
+          default:
+            return sortOrder() == Qt::SortOrder::AscendingOrder
+                ? QString::localeAwareCompare(left_item->title().toLower(), right_item->title().toLower()) < 0
+                : QString::localeAwareCompare(left_item->title().toLower(), right_item->title().toLower()) > 0;
+        }
       }
     }
     else {
@@ -198,10 +217,26 @@ bool FeedsProxyModel::lessThan(const QModelIndex& left, const QModelIndex& right
 bool FeedsProxyModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const {
   bool should_show = filterAcceptsRowInternal(source_row, source_parent);
 
+  qDebugNN << LOGSEC_CORE
+           << "Filter accepts row"
+           << QUOTE_W_SPACE(m_sourceModel->itemForIndex(m_sourceModel->index(source_row, 0, source_parent))->title())
+           << "and filter result is:"
+           << QUOTE_W_SPACE_DOT(should_show);
+
+  /*
+     if (should_show && (!filterRegularExpression().pattern().isEmpty() ||
+                      m_showUnreadOnly)) {
+     emit expandAfterFilterIn(m_sourceModel->index(source_row, 0, source_parent));
+     }
+   */
+
   if (should_show && m_hiddenIndices.contains(QPair<int, QModelIndex>(source_row, source_parent))) {
+    qDebugNN << LOGSEC_CORE << "Item was previously hidden and now shows up, expand.";
+
     const_cast<FeedsProxyModel*>(this)->m_hiddenIndices.removeAll(QPair<int, QModelIndex>(source_row, source_parent));
 
-    // Load status.
+    // Now, item now should be displayed and previously it was not.
+    // Expand!
     emit expandAfterFilterIn(m_sourceModel->index(source_row, 0, source_parent));
   }
 
@@ -213,10 +248,6 @@ bool FeedsProxyModel::filterAcceptsRow(int source_row, const QModelIndex& source
 }
 
 bool FeedsProxyModel::filterAcceptsRowInternal(int source_row, const QModelIndex& source_parent) const {
-  if (!m_showUnreadOnly) {
-    return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
-  }
-
   const QModelIndex idx = m_sourceModel->index(source_row, 0, source_parent);
 
   if (!idx.isValid()) {
@@ -225,19 +256,38 @@ bool FeedsProxyModel::filterAcceptsRowInternal(int source_row, const QModelIndex
 
   const RootItem* item = m_sourceModel->itemForIndex(idx);
 
-  if (item->kind() != RootItem::Kind::Category && item->kind() != RootItem::Kind::Feed) {
+  if (item->kind() != RootItem::Kind::Category &&
+      item->kind() != RootItem::Kind::Feed &&
+      item->kind() != RootItem::Kind::Label) {
     // Some items are always visible.
     return true;
   }
-  else if (item->isParentOf(m_selectedItem) /* || item->isChildOf(m_selectedItem)*/ || m_selectedItem == item) {
-    // Currently selected item and all its parents and children must be displayed.
-    return true;
+
+  if (!m_showUnreadOnly) {
+    // Take only regexp filtering into account.
+    return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
   }
   else {
     // NOTE: If item has < 0 of unread message it may mean, that the count
     // of unread messages is not (yet) known, display that item too.
-    return item->countOfUnreadMessages() != 0;
+    //
+    // Also, the actual selected item should not be filtered out too.
+    // This is primarily to make sure that the selection does not "vanish", this
+    // particularly manifests itself if user uses "next unread item" action and
+    // "show unread only" is enabled too and user for example selects last unread
+    // article in a feed -> then the feed would disappear from list suddenly.
+    return
+      m_selectedItem == item || (item->countOfUnreadMessages() != 0 &&
+                                 QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent));
   }
+}
+
+void FeedsProxyModel::sort(int column, Qt::SortOrder order) {
+  QSortFilterProxyModel::sort(column, order);
+}
+
+void FeedsProxyModel::setView(FeedsView* newView) {
+  m_view = newView;
 }
 
 const RootItem* FeedsProxyModel::selectedItem() const {
@@ -263,6 +313,14 @@ void FeedsProxyModel::invalidateReadFeedsFilter(bool set_new_value, bool show_un
 void FeedsProxyModel::setShowUnreadOnly(bool show_unread_only) {
   m_showUnreadOnly = show_unread_only;
   qApp->settings()->setValue(GROUP(Feeds), Feeds::ShowOnlyUnreadFeeds, show_unread_only);
+}
+
+void FeedsProxyModel::setSortAlphabetically(bool sort_alphabetically) {
+  if (sort_alphabetically != m_sortAlphabetically) {
+    m_sortAlphabetically = sort_alphabetically;
+    qApp->settings()->setValue(GROUP(Feeds), Feeds::SortAlphabetically, sort_alphabetically);
+    invalidate();
+  }
 }
 
 QModelIndexList FeedsProxyModel::mapListToSource(const QModelIndexList& indexes) const {

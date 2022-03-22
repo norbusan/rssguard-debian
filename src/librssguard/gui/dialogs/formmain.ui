@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>1296</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="m_menuFile">
@@ -107,6 +107,16 @@
       <string>&amp;Add item</string>
      </property>
     </widget>
+    <widget class="QMenu" name="m_menuFeedsMove">
+     <property name="title">
+      <string>&amp;Move</string>
+     </property>
+     <addaction name="m_actionFeedMoveUp"/>
+     <addaction name="m_actionFeedMoveDown"/>
+     <addaction name="separator"/>
+     <addaction name="m_actionFeedMoveTop"/>
+     <addaction name="m_actionFeedMoveBottom"/>
+    </widget>
     <addaction name="m_actionUpdateAllItems"/>
     <addaction name="m_actionUpdateSelectedItems"/>
     <addaction name="m_actionUpdateSelectedItemsWithCustomTimers"/>
@@ -116,11 +126,13 @@
     <addaction name="m_actionEditSelectedItem"/>
     <addaction name="m_actionDeleteSelectedItem"/>
     <addaction name="separator"/>
+    <addaction name="m_actionSortFeedsAlphabetically"/>
     <addaction name="m_actionShowOnlyUnreadItems"/>
     <addaction name="m_actionAutoExpandItemsWhenSelected"/>
     <addaction name="m_actionShowTreeBranches"/>
     <addaction name="m_actionExpandCollapseItem"/>
     <addaction name="m_actionExpandCollapseItemRecursively"/>
+    <addaction name="m_menuFeedsMove"/>
     <addaction name="separator"/>
     <addaction name="m_actionSelectNextItem"/>
     <addaction name="m_actionSelectPreviousItem"/>
@@ -140,6 +152,7 @@
     </property>
     <addaction name="m_actionOpenSelectedSourceArticlesExternally"/>
     <addaction name="m_actionOpenSelectedMessagesInternally"/>
+    <addaction name="m_actionOpenSelectedMessagesInternallyNoTab"/>
     <addaction name="m_actionSendMessageViaEmail"/>
     <addaction name="m_actionMessagePreviewEnabled"/>
     <addaction name="m_actionShowOnlyUnreadMessages"/>
@@ -148,6 +161,7 @@
     <addaction name="m_actionSelectPreviousMessage"/>
     <addaction name="m_actionSelectNextUnreadMessage"/>
     <addaction name="separator"/>
+    <addaction name="m_actionCopyUrlSelectedArticles"/>
     <addaction name="m_actionMarkSelectedMessagesAsRead"/>
     <addaction name="m_actionMarkSelectedMessagesAsUnread"/>
     <addaction name="m_actionSwitchImportanceOfSelectedMessages"/>
@@ -177,6 +191,7 @@
     </property>
     <addaction name="m_actionTabNewWebBrowser"/>
     <addaction name="separator"/>
+    <addaction name="m_actionTabsCloseCurrent"/>
     <addaction name="m_actionTabsCloseAll"/>
     <addaction name="m_actionTabsCloseAllExceptCurrent"/>
     <addaction name="separator"/>
@@ -319,7 +334,7 @@
   </action>
   <action name="m_actionMarkSelectedItemsAsRead">
    <property name="text">
-    <string>&amp;Mark selected item read</string>
+    <string>Mark selected item &amp;read</string>
    </property>
    <property name="toolTip">
     <string>Mark all messages (without message filters) from selected items as read.</string>
@@ -330,7 +345,7 @@
   </action>
   <action name="m_actionMarkSelectedItemsAsUnread">
    <property name="text">
-    <string>&amp;Mark selected item unread</string>
+    <string>Mark selected item &amp;unread</string>
    </property>
    <property name="toolTip">
     <string>Mark all messages (without message filters) from selected items as unread.</string>
@@ -460,7 +475,7 @@
   </action>
   <action name="m_actionSelectNextItem">
    <property name="text">
-    <string>Select &amp;next item</string>
+    <string>&amp;Next item</string>
    </property>
    <property name="shortcut">
     <string notr="true">S</string>
@@ -468,7 +483,7 @@
   </action>
   <action name="m_actionSelectPreviousItem">
    <property name="text">
-    <string>Select &amp;previous item</string>
+    <string>&amp;Previous item</string>
    </property>
    <property name="shortcut">
     <string notr="true">A</string>
@@ -774,7 +789,7 @@
   </action>
   <action name="m_actionCopyUrlSelectedFeed">
    <property name="text">
-    <string>&amp;Copy URLs of selected item</string>
+    <string>&amp;Copy URL of selected item</string>
    </property>
   </action>
   <action name="m_actionShowOnlyUnreadMessages">
@@ -833,6 +848,52 @@
   <action name="m_actionExpandCollapseItemRecursively">
    <property name="text">
     <string>Expand/collapse selected item &amp;recursively</string>
+   </property>
+  </action>
+  <action name="m_actionTabsCloseCurrent">
+   <property name="text">
+    <string>Close &amp;current tab</string>
+   </property>
+  </action>
+  <action name="m_actionCopyUrlSelectedArticles">
+   <property name="text">
+    <string>&amp;Copy URLs of selected articles</string>
+   </property>
+  </action>
+  <action name="m_actionOpenSelectedMessagesInternallyNoTab">
+   <property name="text">
+    <string>Open in internal browser (no new tab)</string>
+   </property>
+  </action>
+  <action name="m_actionSortFeedsAlphabetically">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Sort alphabetically</string>
+   </property>
+  </action>
+  <action name="m_actionFeedMoveUp">
+   <property name="text">
+    <string>Move &amp;up</string>
+   </property>
+  </action>
+  <action name="m_actionFeedMoveTop">
+   <property name="text">
+    <string>Move to &amp;top</string>
+   </property>
+  </action>
+  <action name="m_actionFeedMoveDown">
+   <property name="text">
+    <string>Move &amp;down</string>
+   </property>
+  </action>
+  <action name="m_actionFeedMoveBottom">
+   <property name="text">
+    <string>Move to &amp;bottom</string>
    </property>
   </action>
  </widget>

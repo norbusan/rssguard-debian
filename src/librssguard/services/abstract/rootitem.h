@@ -90,12 +90,16 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
     virtual QList<Message> undeletedMessages() const;
 
     // This method should "clean" all messages it contains.
-    // What "clean" means? It means delete messages -> move them to recycle bin
+    //
+    // NOTE: What "clean" means? It means delete messages -> move them to recycle bin
     // or eventually remove them completely if there is no recycle bin functionality.
     //
     // If this method is called on "recycle bin" instance of your
     // service account, it should "empty" the recycle bin.
     virtual bool cleanMessages(bool clear_only_read);
+
+    // Reloads current counts of articles in this item from DB and
+    // sets.
     virtual void updateCounts(bool including_total_count);
     virtual int row() const;
     virtual QVariant data(int column, int role) const;
@@ -171,6 +175,7 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
 
     // Each item has its title.
     QString title() const;
+    QString sanitizedTitle() const;
     void setTitle(const QString& title);
 
     // This should be in UTC and should be converted to localtime when needed.
@@ -194,6 +199,20 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
     bool keepOnTop() const;
     void setKeepOnTop(bool keep_on_top);
 
+    // Sort order, when items in feeds list are sorted manually.
+    //
+    // NOTE: This is only used for "Account", "Category" and "Feed" classes
+    // which can be manually sorted. Other types like "Label" cannot be
+    // automatically sorted and are always sorted by title.
+    //
+    // Sort order number cannot be negative but order of list of items with same
+    // parent MUST form continuous series AND start with zero, for example:
+    //   0, 1, 2, 3, 4, ...
+    //
+    // NOTE: This is checked with DatabaseQueries::fixupOrders() method on app startup.
+    int sortOrder() const;
+    void setSortOrder(int sort_order);
+
   private:
     RootItem::Kind m_kind;
     int m_id;
@@ -203,6 +222,7 @@ class RSSGUARD_DLLSPEC RootItem : public QObject {
     QIcon m_icon;
     QDateTime m_creationDate;
     bool m_keepOnTop;
+    int m_sortOrder;
     QList<RootItem*> m_childItems;
     RootItem* m_parentItem;
 };

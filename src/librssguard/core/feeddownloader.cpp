@@ -65,6 +65,11 @@ void FeedDownloader::synchronizeAccountCaches(const QList<CacheForServiceRoot*>&
 void FeedDownloader::updateFeeds(const QList<Feed*>& feeds) {
   QMutexLocker locker(m_mutex);
 
+  m_results.clear();
+  m_feeds = feeds;
+  m_feedsOriginalCount = m_feeds.size();
+  m_feedsUpdated = 0;
+
   if (feeds.isEmpty()) {
     qDebugNN << LOGSEC_FEEDDOWNLOADER << "No feeds to update in worker thread, aborting update.";
   }
@@ -72,10 +77,6 @@ void FeedDownloader::updateFeeds(const QList<Feed*>& feeds) {
     qDebugNN << LOGSEC_FEEDDOWNLOADER
              << "Starting feed updates from worker in thread: '"
              << QThread::currentThreadId() << "'.";
-    m_feeds = feeds;
-    m_feedsOriginalCount = m_feeds.size();
-    m_results.clear();
-    m_feedsUpdated = 0;
 
     // Job starts now.
     emit updateStarted();
@@ -191,10 +192,13 @@ void FeedDownloader::updateOneFeed(ServiceRoot* acc,
              << feed->customId() << "' URL: '" << feed->source() << "' title: '" << feed->title() << "' in thread: '"
              << QThread::currentThreadId() << "'. Operation took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
 
+    bool fix_future_datetimes = qApp->settings()->value(GROUP(Messages),
+                                                        SETTING(Messages::FixupFutureArticleDateTimes)).toBool();
+
     // Now, sanitize messages (tweak encoding etc.).
     for (auto& msg : msgs) {
       msg.m_accountId = acc_id;
-      msg.sanitize(feed);
+      msg.sanitize(feed, fix_future_datetimes);
     }
 
     if (!feed->messageFilters().isEmpty()) {
@@ -347,6 +351,8 @@ void FeedDownloader::updateOneFeed(ServiceRoot* acc,
       }
     }
 
+    removeDuplicateMessages(msgs);
+
     // Now make sure, that messages are actually stored to SQL in a locked state.
     qDebugNN << LOGSEC_FEEDDOWNLOADER << "Saving messages of feed ID '"
              << feed->customId() << "' URL: '" << feed->source() << "' title: '" << feed->title() << "' in thread: '"
@@ -358,16 +364,18 @@ void FeedDownloader::updateOneFeed(ServiceRoot* acc,
     qDebugNN << LOGSEC_FEEDDOWNLOADER
              << "Updating messages in DB took " << tmr.nsecsElapsed() / 1000 << " microseconds.";
 
-    feed->setStatus(updated_messages.first > 0 || updated_messages.second > 0
+    if (feed->status() != Feed::Status::NewMessages) {
+      feed->setStatus(updated_messages.first > 0 || updated_messages.second > 0
                 ? Feed::Status::NewMessages
                 : Feed::Status::Normal);
+    }
 
     qDebugNN << LOGSEC_FEEDDOWNLOADER
              << updated_messages << " messages for feed "
              << feed->customId() << " stored in DB.";
 
     if (updated_messages.first > 0) {
-      m_results.appendUpdatedFeed(QPair<QString, int>(feed->title(), updated_messages.first));
+      m_results.appendUpdatedFeed({ feed->title(), updated_messages.first });
     }
   }
   catch (const FeedFetchException& feed_ex) {
@@ -379,7 +387,6 @@ void FeedDownloader::updateOneFeed(ServiceRoot* acc,
 
     feed->setStatus(feed_ex.feedStatus(), feed_ex.message());
   }
-
   catch (const ApplicationException& app_ex) {
     qCriticalNN << LOGSEC_NETWORK
                 << "Unknown error when fetching feed:"
@@ -411,9 +418,73 @@ void FeedDownloader::finalizeUpdate() {
   emit updateFinished(m_results);
 }
 
-bool FeedDownloader::isCacheSynchronizationRunning() const
-{
+bool FeedDownloader::isCacheSynchronizationRunning() const {
   return m_isCacheSynchronizationRunning;
+}
+
+void FeedDownloader::removeDuplicateMessages(QList<Message>& messages) {
+  auto idx = 0;
+
+  while (idx < messages.size()) {
+    Message& message = messages[idx];
+    std::function<bool(const Message& a, const Message& b)> is_duplicate;
+
+    if (message.m_id > 0) {
+      is_duplicate = [](const Message& a, const Message& b) {
+                       return a.m_id == b.m_id;
+                     };
+    }
+    else if (message.m_customId.isEmpty()) {
+      is_duplicate = [](const Message& a, const Message& b) {
+                       return std::tie(a.m_title, a.m_url, a.m_author) == std::tie(b.m_title, b.m_url, b.m_author);
+                     };
+    }
+    else {
+      is_duplicate = [](const Message& a, const Message& b) {
+                       return a.m_customId == b.m_customId;
+                     };
+    }
+
+    auto next_idx = idx + 1; // Index of next message to check after removing all duplicates.
+    auto last_idx = idx; // Index of the last kept duplicate.
+
+    idx = next_idx;
+
+    // Remove all duplicate messages, and keep the message with the latest created date.
+    // If the created date is identical for all duplicate messages then keep the last message in the list.
+    while (idx < messages.size()) {
+      auto& last_duplicate = messages[last_idx];
+
+      if (is_duplicate(last_duplicate, messages[idx])) {
+        if (last_duplicate.m_created <= messages[idx].m_created) {
+          // The last seen message was created earlier or at the same date -- keep the current, and remove the last.
+          qWarningNN << LOGSEC_CORE << "Removing article" << QUOTE_W_SPACE(last_duplicate.m_title)
+                     << "before saving articles to DB, because it is duplicate.";
+
+          messages.removeAt(last_idx);
+          if (last_idx + 1 == next_idx) {
+            // The `next_idx` was pointing to the message following the duplicate. With that duplicate removed the
+            // next index needs to be adjusted.
+            next_idx = last_idx;
+          }
+
+          last_idx = idx;
+          ++idx;
+        }
+        else {
+          qWarningNN << LOGSEC_CORE << "Removing article" << QUOTE_W_SPACE(messages[idx].m_title)
+                     << "before saving articles to DB, because it is duplicate.";
+
+          messages.removeAt(idx);
+        }
+      }
+      else {
+        ++idx;
+      }
+    }
+
+    idx = next_idx;
+  }
 }
 
 QString FeedDownloadResults::overview(int how_many_feeds) const {

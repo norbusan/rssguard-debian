@@ -17,11 +17,10 @@ TrayIconMenu::TrayIconMenu(const QString& title, QWidget* parent) : QMenu(title,
 bool TrayIconMenu::event(QEvent* event) {
   if (event->type() == QEvent::Type::Show && Application::activeModalWidget() != nullptr) {
     QTimer::singleShot(0, this, &TrayIconMenu::hide);
-    qApp->showGuiMessage(Notification::Event::GeneralEvent,
-                         QSL(APP_LONG_NAME),
-                         tr("Close opened modal dialogs first."),
-                         QSystemTrayIcon::Warning,
-                         true);
+    qApp->showGuiMessage(Notification::Event::GeneralEvent, {
+      tr("Close dialogs"),
+      tr("Close opened modal dialogs first."),
+      QSystemTrayIcon::MessageIcon::Warning });
   }
 
   return QMenu::event(event);
@@ -88,19 +87,13 @@ void SystemTrayIcon::showPrivate() {
 }
 
 void SystemTrayIcon::show() {
-#if defined(Q_OS_WIN)
   // Show immediately.
   qDebugNN << LOGSEC_GUI << "Showing tray icon immediately.";
   showPrivate();
-#else
-  // Delay avoids race conditions and tray icon is properly displayed.
-  qDebugNN << LOGSEC_GUI << "Showing tray icon with 3000 ms delay.";
-  QTimer::singleShot(3000, this, &SystemTrayIcon::showPrivate);
-#endif
 }
 
-void SystemTrayIcon::setNumber(int number, bool any_new_message) {
-  Q_UNUSED(any_new_message)
+void SystemTrayIcon::setNumber(int number, bool any_feed_has_new_unread_messages) {
+  Q_UNUSED(any_feed_has_new_unread_messages)
 
   if (number <= 0 || !qApp->settings()->value(GROUP(GUI), SETTING(GUI::UnreadNumbersInTrayIcon)).toBool()) {
     // Either no unread messages or numbers in tray icon are disabled.

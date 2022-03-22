@@ -23,6 +23,7 @@
 #include <QJsonObject>
 #include <QProcess>
 #include <QString>
+#include <QVersionNumber>
 
 using UpdateCheck = QPair<UpdateInfo, QNetworkReply::NetworkError>;
 
@@ -58,8 +59,8 @@ SystemFactory::AutoStartStatus SystemFactory::autoStartStatus() const {
   else {
     return AutoStartStatus::Disabled;
   }
-#elif defined(Q_OS_LINUX)
-  // Use proper freedesktop.org way to auto-start the application on Linux.
+#elif defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+  // Use proper freedesktop.org way to auto-start the application.
   // INFO: http://standards.freedesktop.org/autostart-spec/latest/
   const QString desktop_file_location = autostartDesktopFileLocation();
 
@@ -86,7 +87,7 @@ SystemFactory::AutoStartStatus SystemFactory::autoStartStatus() const {
 #endif
 }
 
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 QString SystemFactory::autostartDesktopFileLocation() const {
   const QString xdg_config_path(qgetenv("XDG_CONFIG_HOME"));
   QString desktop_file_location;
@@ -136,7 +137,7 @@ bool SystemFactory::setAutoStartStatus(AutoStartStatus new_status) {
     default:
       return false;
   }
-#elif defined(Q_OS_LINUX)
+#elif defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   // Note that we expect here that no other program uses
   // "rssguard.desktop" desktop file.
   const QString destination_file = autostartDesktopFileLocation();
@@ -171,10 +172,10 @@ bool SystemFactory::setAutoStartStatus(AutoStartStatus new_status) {
 }
 
 QString SystemFactory::loggedInUser() const {
-  QString name = qgetenv("USER");
+  QString name = qEnvironmentVariable("USER");
 
   if (name.isEmpty()) {
-    name = qgetenv("USERNAME");
+    name = qEnvironmentVariable("USERNAME");
   }
 
   if (name.isEmpty()) {
@@ -211,14 +212,14 @@ void SystemFactory::checkForUpdatesOnStartup() {
       if (!updates.first.isEmpty() &&
           updates.second == QNetworkReply::NetworkError::NoError &&
           SystemFactory::isVersionNewer(updates.first.at(0).m_availableVersion, QSL(APP_VERSION))) {
-        qApp->showGuiMessage(Notification::Event::NewAppVersionAvailable,
-                             QObject::tr("New version available"),
-                             QObject::tr("Click the bubble for more information."),
-                             QSystemTrayIcon::Information, {}, {},
-                             tr("See new version info"),
-                             [] {
-          FormUpdate(qApp->mainForm()).exec();
-        });
+        qApp->showGuiMessage(Notification::Event::NewAppVersionAvailable, {
+          QObject::tr("New version available"),
+          QObject::tr("Click the bubble for more information."),
+          QSystemTrayIcon::Information }, {}, {
+          tr("See new version info"),
+          [] {
+            FormUpdate(qApp->mainForm()).exec();
+          } });
       }
     });
     qApp->system()->checkForUpdates();
@@ -226,35 +227,10 @@ void SystemFactory::checkForUpdatesOnStartup() {
 }
 
 bool SystemFactory::isVersionNewer(const QString& new_version, const QString& base_version) {
-  QStringList base_version_tkn = base_version.split(QL1C('.'));
-  QStringList new_version_tkn = new_version.split(QL1C('.'));
+  QVersionNumber nw = QVersionNumber::fromString(new_version);
+  QVersionNumber bs = QVersionNumber::fromString(base_version);
 
-  while (!base_version_tkn.isEmpty() && !new_version_tkn.isEmpty()) {
-    const int base_number = base_version_tkn.takeFirst().toInt();
-    const int new_number = new_version_tkn.takeFirst().toInt();
-
-    if (new_number > base_number) {
-      // New version is indeed higher that current version.
-      return true;
-    }
-    else if (new_number < base_number) {
-      return false;
-    }
-  }
-
-  // Versions are either the same or they have unequal sizes.
-  if (base_version_tkn.isEmpty() && new_version_tkn.isEmpty()) {
-    // Versions are the same.
-    return false;
-  }
-  else {
-    if (new_version_tkn.isEmpty()) {
-      return false;
-    }
-    else {
-      return new_version_tkn.join(QString()).toInt() > 0;
-    }
-  }
+  return nw > bs;
 }
 
 bool SystemFactory::isVersionEqualOrNewer(const QString& new_version, const QString& base_version) {

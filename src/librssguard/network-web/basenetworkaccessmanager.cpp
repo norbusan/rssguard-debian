@@ -9,6 +9,10 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#if defined(USE_WEBENGINE)
+#include <QWebEngineProfile>
+#endif
+
 BaseNetworkAccessManager::BaseNetworkAccessManager(QObject* parent)
   : QNetworkAccessManager(parent) {
   connect(this, &BaseNetworkAccessManager::sslErrors, this, &BaseNetworkAccessManager::onSslErrors);
@@ -57,11 +61,14 @@ QNetworkReply* BaseNetworkAccessManager::createRequest(QNetworkAccessManager::Op
 
 #if defined(Q_OS_WIN)
   new_request.setAttribute(QNetworkRequest::Attribute::HttpPipeliningAllowedAttribute, true);
+
+#if QT_VERSION >= 0x050F00 // Qt >= 5.15.0
   new_request.setAttribute(QNetworkRequest::Attribute::Http2AllowedAttribute, true);
+#endif
 #endif
 
   new_request.setRawHeader(HTTP_HEADERS_COOKIE, QSL("JSESSIONID= ").toLocal8Bit());
-  new_request.setRawHeader(HTTP_HEADERS_USER_AGENT, QSL(APP_USERAGENT).toLocal8Bit());
+  new_request.setRawHeader(HTTP_HEADERS_USER_AGENT, HTTP_COMPLETE_USERAGENT);
 
   auto reply = QNetworkAccessManager::createRequest(op, new_request, outgoingData);
   return reply;

@@ -6,6 +6,7 @@
 #include "miscellaneous/application.h"
 #include "miscellaneous/iconfactory.h"
 #include "network-web/cookiejar.h"
+#include "network-web/readability.h"
 
 #include <QDesktopServices>
 #include <QProcess>
@@ -17,7 +18,11 @@
 #include "network-web/networkurlinterceptor.h"
 #include "network-web/urlinterceptor.h"
 
+#if QT_VERSION_MAJOR == 6
+#include <QWebEngineDownloadRequest>
+#else
 #include <QWebEngineDownloadItem>
+#endif
 #include <QWebEngineProfile>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
@@ -33,6 +38,7 @@ WebFactory::WebFactory(QObject* parent)
 #endif
 
   m_cookieJar = new CookieJar(nullptr);
+  m_readability = new Readability(this);
 
 #if defined(USE_WEBENGINE)
 #if QT_VERSION >= 0x050D00 // Qt >= 5.13.0
@@ -95,7 +101,7 @@ bool WebFactory::openUrlInExternalBrowser(const QString& url) const {
 
   if (!result) {
     // We display GUI information that browser was not probably opened.
-    MessageBox::show(qApp->mainFormWidget(),
+    MsgBox::show(qApp->mainFormWidget(),
                      QMessageBox::Icon::Critical,
                      tr("Navigate to website manually"),
                      tr("%1 was unable to launch your web browser with the given URL, you need to open the "
@@ -163,7 +169,7 @@ QString WebFactory::unescapeHtml(const QString& html) {
           }
           else {
             // Failed to convert to number, leave intact.
-            output.append(html.midRef(pos, pos_end - pos + 1));
+            output.append(html.mid(pos, pos_end - pos + 1));
           }
 
           pos = pos_end + 1;
@@ -302,13 +308,32 @@ void WebFactory::createMenu(QMenu* menu) {
   actions << createEngineSettingsAction(tr("Plugins enabled"), QWebEngineSettings::WebAttribute::PluginsEnabled);
   actions << createEngineSettingsAction(tr("Fullscreen enabled"), QWebEngineSettings::WebAttribute::FullScreenSupportEnabled);
 
-#if !defined(Q_OS_LINUX)
+#if !defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   actions << createEngineSettingsAction(tr("Screen capture enabled"), QWebEngineSettings::WebAttribute::ScreenCaptureEnabled);
   actions << createEngineSettingsAction(tr("WebGL enabled"), QWebEngineSettings::WebAttribute::WebGLEnabled);
   actions << createEngineSettingsAction(tr("Accelerate 2D canvas"), QWebEngineSettings::WebAttribute::Accelerated2dCanvasEnabled);
   actions << createEngineSettingsAction(tr("Print element backgrounds"), QWebEngineSettings::WebAttribute::PrintElementBackgrounds);
   actions << createEngineSettingsAction(tr("Allow running insecure content"), QWebEngineSettings::WebAttribute::AllowRunningInsecureContent);
   actions << createEngineSettingsAction(tr("Allow geolocation on insecure origins"), QWebEngineSettings::WebAttribute::AllowGeolocationOnInsecureOrigins);
+#endif
+
+#if QT_VERSION >= 0x050A00 // Qt >= 5.10.0
+  actions << createEngineSettingsAction(tr("JS can activate windows"), QWebEngineSettings::WebAttribute::AllowWindowActivationFromJavaScript);
+  actions << createEngineSettingsAction(tr("Show scrollbars"), QWebEngineSettings::WebAttribute::ShowScrollBars);
+#endif
+
+#if QT_VERSION >= 0x050B00 // Qt >= 5.11.0
+  actions << createEngineSettingsAction(tr("Media playback with gestures"), QWebEngineSettings::WebAttribute::PlaybackRequiresUserGesture);
+  actions << createEngineSettingsAction(tr("WebRTC uses only public interfaces"), QWebEngineSettings::WebAttribute::WebRTCPublicInterfacesOnly);
+  actions << createEngineSettingsAction(tr("JS can paste from clipboard"), QWebEngineSettings::WebAttribute::JavascriptCanPaste);
+#endif
+
+#if QT_VERSION >= 0x050C00 // Qt >= 5.12.0
+  actions << createEngineSettingsAction(tr("DNS prefetch enabled"), QWebEngineSettings::WebAttribute::DnsPrefetchEnabled);
+#endif
+
+#if QT_VERSION >= 0x050D00 // Qt >= 5.13.0
+  actions << createEngineSettingsAction(tr("PDF viewer enabled"), QWebEngineSettings::WebAttribute::PdfViewerEnabled);
 #endif
 
   menu->addActions(actions);
@@ -338,6 +363,10 @@ QAction* WebFactory::createEngineSettingsAction(const QString& title, QWebEngine
 
 CookieJar* WebFactory::cookieJar() const {
   return m_cookieJar;
+}
+
+Readability* WebFactory::readability() const {
+  return m_readability;
 }
 
 void WebFactory::generateUnescapes() {

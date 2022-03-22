@@ -10,6 +10,7 @@
 #include "miscellaneous/feedreader.h"
 #include "miscellaneous/iofactory.h"
 #include "miscellaneous/localization.h"
+#include "miscellaneous/nodejs.h"
 #include "miscellaneous/notification.h"
 #include "miscellaneous/settings.h"
 #include "miscellaneous/singleapplication.h"
@@ -33,15 +34,54 @@ class FormMain;
 class IconFactory;
 class QAction;
 class Mutex;
+
+#if QT_VERSION_MAJOR == 6
+class QWebEngineDownloadRequest;
+#else
 class QWebEngineDownloadItem;
+#endif
+
 class WebFactory;
 class NotificationFactory;
+
+#if defined(Q_OS_WIN)
+struct ITaskbarList4;
+#endif
+
+struct GuiMessage {
+  public:
+    GuiMessage(QString title, QString message, QSystemTrayIcon::MessageIcon type)
+      : m_title(std::move(title)), m_message(std::move(message)), m_type(type) {}
+
+    QString m_title;
+    QString m_message;
+    QSystemTrayIcon::MessageIcon m_type;
+};
+
+struct GuiMessageDestination {
+  public:
+    GuiMessageDestination(bool tray = true, bool message_box = false, bool status_bar = false)
+      : m_tray(tray), m_messageBox(message_box), m_statusBar(status_bar) {}
+
+    bool m_tray;
+    bool m_messageBox;
+    bool m_statusBar;
+};
+
+struct GuiAction {
+  public:
+    GuiAction(QString title = {}, const std::function<void()>& action = nullptr)
+      : m_title(std::move(title)), m_action(action) {}
+
+    QString m_title;
+    std::function<void()> m_action;
+};
 
 class RSSGUARD_DLLSPEC Application : public SingleApplication {
   Q_OBJECT
 
   public:
-    explicit Application(const QString& id, int& argc, char** argv);
+    explicit Application(const QString& id, int& argc, char** argv, const QStringList &raw_cli_args);
     virtual ~Application();
 
     void reactOnForeignNotifications();
@@ -80,6 +120,7 @@ class RSSGUARD_DLLSPEC Application : public SingleApplication {
     QWidget* mainFormWidget();
     SystemTrayIcon* trayIcon();
     NotificationFactory* notifications() const;
+    NodeJs* nodejs() const;
 
     QIcon desktopAwareIcon() const;
 
@@ -113,10 +154,11 @@ class RSSGUARD_DLLSPEC Application : public SingleApplication {
 
     // Displays given simple message in tray icon bubble or OSD
     // or in message box if tray icon is disabled.
-    void showGuiMessage(Notification::Event event, const QString& title, const QString& message,
-                        QSystemTrayIcon::MessageIcon message_type, bool show_at_least_msgbox = false,
-                        QWidget* parent = nullptr, const QString& functor_heading = {},
-                        std::function<void()> functor = nullptr);
+    void showGuiMessage(Notification::Event event,
+                        const GuiMessage& msg,
+                        const GuiMessageDestination& dest = {},
+                        const GuiAction& action = {},
+                        QWidget* parent = nullptr);
 
     // Returns pointer to "GOD" application singleton.
     static Application* instance();
@@ -131,19 +173,32 @@ class RSSGUARD_DLLSPEC Application : public SingleApplication {
 
     // Processes incoming message from another RSS Guard instance.
     void parseCmdArgumentsFromOtherInstance(const QString& message);
-    void parseCmdArgumentsFromMyInstance();
+    void parseCmdArgumentsFromMyInstance(const QStringList &raw_cli_args);
 
   private slots:
+    void onNodeJsPackageUpdateError(const QList<NodeJs::PackageMetadata>& pkgs, const QString& error);
+    void onNodeJsPackageInstalled(const QList<NodeJs::PackageMetadata>& pkgs, bool already_up_to_date);
     void onCommitData(QSessionManager& manager);
     void onSaveState(QSessionManager& manager);
     void onAboutToQuit();
-    void showMessagesNumber(int unread_messages, bool any_feed_has_unread_messages);
+    void showMessagesNumber(int unread_messages, bool any_feed_has_new_unread_messages);
 
 #if defined(USE_WEBENGINE)
+#if QT_VERSION_MAJOR == 6
+    void downloadRequested(QWebEngineDownloadRequest* download_item);
+#else
     void downloadRequested(QWebEngineDownloadItem* download_item);
+#endif
+
     void onAdBlockFailure();
 #endif
 
+#if defined(Q_OS_WIN)
+    QImage generateOverlayIcon(int number) const;
+#endif
+
+    void onFeedUpdatesStarted();
+    void onFeedUpdatesProgress(const Feed* feed, int current, int total);
     void onFeedUpdatesFinished(const FeedDownloadResults& results);
 
   private:
@@ -183,11 +238,16 @@ class RSSGUARD_DLLSPEC Application : public SingleApplication {
     DatabaseFactory* m_database;
     DownloadManager* m_downloadManager;
     NotificationFactory* m_notifications;
+    NodeJs* m_nodejs;
     bool m_shouldRestart;
     bool m_firstRunEver;
     bool m_firstRunCurrentVersion;
     QString m_customDataFolder;
     bool m_allowMultipleInstances;
+
+#if defined(Q_OS_WIN)
+    ITaskbarList4* m_windowsTaskBar;
+#endif
 };
 
 inline Application* Application::instance() {

@@ -4,6 +4,7 @@
 
 #include "definitions/definitions.h"
 #include "exceptions/ioexception.h"
+#include "exceptions/processexception.h"
 
 #include <QDataStream>
 #include <QDir>
@@ -93,6 +94,61 @@ bool IOFactory::startProcessDetached(const QString& program, const QStringList& 
   return process.startDetached(nullptr);
 }
 
+void IOFactory::startProcess(QProcess* const proc,
+                             const QString& executable,
+                             const QStringList& arguments,
+                             const QProcessEnvironment& pe,
+                             const QString& working_directory) {
+  proc->setProgram(executable);
+  proc->setArguments(arguments);
+
+  QProcessEnvironment system_pe = QProcessEnvironment::systemEnvironment();
+
+  system_pe.insert(pe);
+  proc->setProcessEnvironment(system_pe);
+
+  if (!working_directory.isEmpty()) {
+    proc->setWorkingDirectory(working_directory);
+  }
+
+  proc->start();
+}
+
+QString IOFactory::startProcessGetOutput(const QString& executable,
+                                         const QStringList& arguments,
+                                         const QProcessEnvironment& pe,
+                                         const QString& working_directory) {
+  QProcess proc;
+
+  proc.setProgram(executable);
+  proc.setArguments(arguments);
+
+  QProcessEnvironment system_pe = QProcessEnvironment::systemEnvironment();
+
+  system_pe.insert(pe);
+  proc.setProcessEnvironment(system_pe);
+
+  if (!working_directory.isEmpty()) {
+    proc.setWorkingDirectory(working_directory);
+  }
+
+  proc.start();
+
+  if (proc.waitForFinished() &&
+      proc.exitStatus() == QProcess::ExitStatus::NormalExit &&
+      proc.exitCode() == EXIT_SUCCESS) {
+    return proc.readAllStandardOutput();
+  }
+  else {
+    QString err_output = proc.readAllStandardError().simplified();
+
+    throw ProcessException(proc.exitCode(),
+                           proc.exitStatus(),
+                           proc.error(),
+                           err_output.isEmpty() ? proc.errorString() : err_output);
+  }
+}
+
 QByteArray IOFactory::readFile(const QString& file_path) {
   QFile input_file(file_path);
   QByteArray input_data;
@@ -121,6 +177,14 @@ void IOFactory::writeFile(const QString& file_path, const QByteArray& data) {
 
 bool IOFactory::copyFile(const QString& source, const QString& destination) {
   if (QFile::exists(destination)) {
+    QFile file(destination);
+
+    file.setPermissions(file.permissions() |
+                        QFileDevice::WriteOwner |
+                        QFileDevice::WriteUser |
+                        QFileDevice::WriteGroup |
+                        QFileDevice::WriteOther);
+
     if (!QFile::remove(destination)) {
       return false;
     }

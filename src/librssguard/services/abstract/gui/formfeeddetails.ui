@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>563</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
      </property>
      <widget class="QWidget" name="tabUpdating">
       <attribute name="title">
-       <string>Auto-downloading of articles</string>
+       <string>Articles</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
@@ -51,6 +51,27 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_cbOpenArticlesAutomatically">
+         <property name="text">
+          <string>Open articles via their URL automatically</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabMisc">
+      <attribute name="title">
+       <string>Miscellaneous</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_cbDisableFeed">
+         <property name="text">
+          <string>Disable this feed</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -87,8 +108,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>342</y>
+     <x>331</x>
+     <y>556</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

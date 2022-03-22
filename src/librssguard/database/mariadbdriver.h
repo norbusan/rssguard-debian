@@ -27,6 +27,7 @@ class MariaDbDriver : public DatabaseDriver {
     virtual QString location() const;
     virtual QString humanDriverType() const;
     virtual QString qtDriverCode() const;
+    virtual QString ddlFilePrefix() const;
     virtual DriverType driverType() const;
     virtual bool vacuumDatabase();
     virtual bool saveDatabase();
@@ -42,10 +43,9 @@ class MariaDbDriver : public DatabaseDriver {
     QString interpretErrorCode(MariaDbError error_code) const;
 
   private:
-    bool updateDatabaseSchema(const QSqlDatabase& database,
-                              const QString& source_db_schema_version,
-                              const QString& database_name);
     QSqlDatabase initializeDatabase(const QString& connection_name);
+
+    void setPragmas(QSqlQuery& query);
 
   private:
     bool m_databaseInitialized;

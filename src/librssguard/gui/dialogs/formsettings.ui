@@ -16,6 +16,12 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QListWidget" name="m_listSettings">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="showDropIndicator" stdset="0">
       <bool>false</bool>
      </property>
@@ -56,22 +62,5 @@
   <tabstop>m_listSettings</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>m_listSettings</sender>
-   <signal>currentRowChanged(int)</signal>
-   <receiver>m_stackedSettings</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>83</x>
-     <y>162</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>370</x>
-     <y>162</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

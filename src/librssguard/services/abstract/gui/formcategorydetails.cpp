@@ -88,6 +88,8 @@ void FormCategoryDetails::loadCategoryData() {
   m_ui->m_txtTitle->lineEdit()->setText(m_category->title());
   m_ui->m_txtDescription->lineEdit()->setText(m_category->description());
   m_ui->m_btnIcon->setIcon(m_category->icon());
+
+  m_ui->m_txtTitle->lineEdit()->setFocus();
 }
 
 void FormCategoryDetails::apply() {
@@ -108,6 +110,11 @@ void FormCategoryDetails::apply() {
 
   m_serviceRoot->requestItemReassignment(m_category, parent);
   m_serviceRoot->itemChanged({ m_category });
+
+  if (m_creatingNew) {
+    m_serviceRoot->requestItemExpand({ parent }, true);
+  }
+
   accept();
 }
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>460</height>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,30 +51,24 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QComboBox" name="m_cmbType">
-     <property name="toolTip">
-      <string>Select type of the standard feed.</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="m_cmbType">
+       <property name="toolTip">
+        <string>Select type of the standard feed.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="m_cmbEncoding">
+       <property name="toolTip">
+        <string>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Encoding</string>
-     </property>
-     <property name="buddy">
-      <cstring>m_cmbEncoding</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QComboBox" name="m_cmbEncoding">
-     <property name="toolTip">
-      <string>Select encoding of the standard feed. If you are unsure about the encoding, then select &quot;UTF-8&quot; encoding.</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
     <widget class="QLabel" name="m_lblTitle">
      <property name="text">
       <string>Title</string>
@@ -84,10 +78,10 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="2" column="1">
     <widget class="LineEditWithStatus" name="m_txtTitle" native="true"/>
    </item>
-   <item row="4" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="m_lblDescription">
      <property name="text">
       <string>Description</string>
@@ -97,10 +91,10 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="3" column="1">
     <widget class="LineEditWithStatus" name="m_txtDescription" native="true"/>
    </item>
-   <item row="5" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Source</string>
@@ -110,10 +104,10 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="4" column="1">
     <widget class="QComboBox" name="m_cmbSourceType"/>
    </item>
-   <item row="6" column="1">
+   <item row="5" column="0" colspan="2">
     <widget class="TextEditWithStatus" name="m_txtSource" native="true">
      <property name="minimumSize">
       <size>
@@ -124,19 +118,22 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>50</height>
+       <height>100</height>
       </size>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="6" column="0" colspan="2">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Post-process script</string>
+      <string>Post-processing script</string>
+     </property>
+     <property name="buddy">
+      <cstring>m_txtPostProcessScript</cstring>
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="7" column="0" colspan="2">
     <widget class="TextEditWithStatus" name="m_txtPostProcessScript" native="true">
      <property name="minimumSize">
       <size>
@@ -147,23 +144,13 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>50</height>
+       <height>100</height>
       </size>
      </property>
     </widget>
    </item>
    <item row="8" column="0" colspan="2">
-    <widget class="QLabel" name="m_lblScriptInfo">
-     <property name="text">
-      <string>You can use URL as a source of your feed or you can produce your feed with custom script. Also, you can post-process generated feed data with yet another script if you wish. These are advanced features and make sure to read the documentation before your use them.</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <widget class="HelpSpoiler" name="m_lblScriptInfo" native="true"/>
    </item>
    <item row="9" column="0">
     <widget class="QLabel" name="label_7">
@@ -262,6 +249,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>HelpSpoiler</class>
+   <extends>QWidget</extends>
+   <header>helpspoiler.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>LabelWithStatus</class>
    <extends>QWidget</extends>
