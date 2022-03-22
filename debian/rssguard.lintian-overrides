@@ -1,6 +1,9 @@
 # This is strange: nothing in the source references pcre, nothing in the build
 # log lists pcre, and still it seems these strings end up in the shared library.
 # No particular idea why, but there is for sure no embedded library in the source code.
-rssguard: embedded-library usr/lib/rssguard/librssguard.so: pcre3
+rssguard: embedded-library usr/lib/*/librssguard.so: pcre3
+rssguard: lacks-ldconfig-trigger usr/lib/*/librssguard.so
 # For now I don't see how this should be fixed
 rssguard: icon-size-and-directory-name-mismatch usr/share/icons/hicolor/512x512/apps/rssguard.png 256x246
+# yes it is a private lib
+rssguard: shared-library-lacks-version usr/lib/*/librssguard.so librssguard.so
